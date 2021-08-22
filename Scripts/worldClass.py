@@ -34,13 +34,13 @@ class WorldMap():
         for y in range(0, self.MAP_SIZE):
             temp = ""
             for x in range(0, self.MAP_SIZE):
-                temp += "⬜"
+                temp += str(self.tileArray[x][y].tileHeight) + "/"
             print(temp)
 
     def GenerateMap(self):
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
-                self.tileArray[x][y].tileHeight = random.randint(0, 1)
+                self.tileArray[x][y].tileHeight = round(random.random(), 1)
 
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
@@ -50,7 +50,8 @@ class WorldMap():
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
                 value = self.tileArray[x][y].tileHeight
-                pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.MAP_SIZE * self.TILE_WIDTH), (y * self.MAP_SIZE * self.TILE_WIDTH), self.TILE_WIDTH, self.TILE_WIDTH))
+                #print(value, x * self.MAP_SIZE * self.TILE_WIDTH, y * self.MAP_SIZE * self.TILE_WIDTH)
+                pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH), (y * self.TILE_WIDTH), self.TILE_WIDTH, self.TILE_WIDTH))
                 pass
 
     def DrawMap(self, window):

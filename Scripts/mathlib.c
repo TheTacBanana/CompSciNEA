@@ -1314,18 +1314,8 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 #define __Pyx_HAS_GCC_DIAGNOSTIC
 #endif
 
-/* Print.proto */
-static int __Pyx_Print(PyObject*, PyObject *, int);
-#if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
-static PyObject* __pyx_print = 0;
-static PyObject* __pyx_print_kwargs = 0;
-#endif
-
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
-
-/* PrintOne.proto */
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
@@ -1385,22 +1375,20 @@ static const char __pyx_k_col[] = "col";
 static const char __pyx_k_cos[] = "cos";
 static const char __pyx_k_det[] = "det";
 static const char __pyx_k_doc[] = "__doc__";
-static const char __pyx_k_end[] = "end";
 static const char __pyx_k_row[] = "row";
 static const char __pyx_k_sin[] = "sin";
 static const char __pyx_k_tan[] = "tan";
 static const char __pyx_k_val[] = "val";
 static const char __pyx_k_cols[] = "cols";
 static const char __pyx_k_dims[] = "dims";
-static const char __pyx_k_file[] = "file";
 static const char __pyx_k_init[] = "__init__";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_math[] = "math";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_self[] = "self";
 static const char __pyx_k_test[] = "__test__";
-static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
+static const char __pyx_k_root2[] = "root2";
 static const char __pyx_k_total[] = "total";
 static const char __pyx_k_Matrix[] = "Matrix";
 static const char __pyx_k_Values[] = "Values";
@@ -1536,8 +1524,6 @@ static PyObject *__pyx_n_s_det;
 static PyObject *__pyx_n_s_dims;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_e;
-static PyObject *__pyx_n_s_end;
-static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_height;
 static PyObject *__pyx_n_s_i;
@@ -1562,11 +1548,11 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_newMat;
 static PyObject *__pyx_n_s_pi;
 static PyObject *__pyx_n_s_prepare;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_randint;
 static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
+static PyObject *__pyx_n_s_root2;
 static PyObject *__pyx_n_s_row;
 static PyObject *__pyx_n_s_rowList;
 static PyObject *__pyx_n_s_self;
@@ -1614,6 +1600,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_Sigmoid(CYTHON_UNUSED PyObject *
 static PyObject *__pyx_pf_7mathlib_10GraphStuff_2Sin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_pf_7mathlib_10GraphStuff_4Cos(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_pf_7mathlib_10GraphStuff_6Tan(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_float_1_414213562373095;
 static PyObject *__pyx_float_2_718281828459045;
 static PyObject *__pyx_float_3_141592653589793;
 static PyObject *__pyx_int_0;
@@ -6293,7 +6280,7 @@ static PyObject *__pyx_pf_7mathlib_6Matrix_22MatrixMultiply(CYTHON_UNUSED PyObje
  *                 for col in range(0, m2Dims[1]):
  *                     subCol = []             # <<<<<<<<<<<<<<
  *                     for i in range(0, m1Dims[0]):
- *                         print(i)
+ *                         #print(i)
  */
         __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
@@ -6304,7 +6291,7 @@ static PyObject *__pyx_pf_7mathlib_6Matrix_22MatrixMultiply(CYTHON_UNUSED PyObje
  *                 for col in range(0, m2Dims[1]):
  *                     subCol = []
  *                     for i in range(0, m1Dims[0]):             # <<<<<<<<<<<<<<
- *                         print(i)
+ *                         #print(i)
  *                         subCol.append(m2.Val()[i][col])
  */
         __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_m1Dims, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
@@ -6363,18 +6350,9 @@ static PyObject *__pyx_pf_7mathlib_6Matrix_22MatrixMultiply(CYTHON_UNUSED PyObje
           __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_5);
           __pyx_t_5 = 0;
 
-          /* "mathlib.pyx":142
- *                     subCol = []
- *                     for i in range(0, m1Dims[0]):
- *                         print(i)             # <<<<<<<<<<<<<<
- *                         subCol.append(m2.Val()[i][col])
- *                     total = 0
- */
-          if (__Pyx_PrintOne(0, __pyx_v_i) < 0) __PYX_ERR(0, 142, __pyx_L1_error)
-
           /* "mathlib.pyx":143
  *                     for i in range(0, m1Dims[0]):
- *                         print(i)
+ *                         #print(i)
  *                         subCol.append(m2.Val()[i][col])             # <<<<<<<<<<<<<<
  *                     total = 0
  *                     for x in range(0, len(subRow)):
@@ -6409,14 +6387,14 @@ static PyObject *__pyx_pf_7mathlib_6Matrix_22MatrixMultiply(CYTHON_UNUSED PyObje
  *                 for col in range(0, m2Dims[1]):
  *                     subCol = []
  *                     for i in range(0, m1Dims[0]):             # <<<<<<<<<<<<<<
- *                         print(i)
+ *                         #print(i)
  *                         subCol.append(m2.Val()[i][col])
  */
         }
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
         /* "mathlib.pyx":144
- *                         print(i)
+ *                         #print(i)
  *                         subCol.append(m2.Val()[i][col])
  *                     total = 0             # <<<<<<<<<<<<<<
  *                     for x in range(0, len(subRow)):
@@ -7266,7 +7244,7 @@ static PyObject *__pyx_pf_7mathlib_6Vector_4DotProduct(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "mathlib.pyx":179
+/* "mathlib.pyx":180
  * 
  *     @staticmethod   # Squishy function
  *     def Sigmoid(x):             # <<<<<<<<<<<<<<
@@ -7299,7 +7277,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_Sigmoid(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Sigmoid", 0);
 
-  /* "mathlib.pyx":180
+  /* "mathlib.pyx":181
  *     @staticmethod   # Squishy function
  *     def Sigmoid(x):
  *         return 1/(1 + (GraphStuff().e) ** (-x))             # <<<<<<<<<<<<<<
@@ -7307,7 +7285,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_Sigmoid(CYTHON_UNUSED PyObject *
  *     #Sin Tan Cos
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_GraphStuff); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_GraphStuff); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -7321,29 +7299,29 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_Sigmoid(CYTHON_UNUSED PyObject *
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_e); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_e); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Negative(__pyx_v_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Negative(__pyx_v_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Power(__pyx_t_2, __pyx_t_1, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Power(__pyx_t_2, __pyx_t_1, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_AddCObj(__pyx_int_1, __pyx_t_3, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_AddCObj(__pyx_int_1, __pyx_t_3, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "mathlib.pyx":179
+  /* "mathlib.pyx":180
  * 
  *     @staticmethod   # Squishy function
  *     def Sigmoid(x):             # <<<<<<<<<<<<<<
@@ -7364,7 +7342,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_Sigmoid(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "mathlib.pyx":184
+/* "mathlib.pyx":185
  *     #Sin Tan Cos
  *     @staticmethod
  *     def Sin(x):             # <<<<<<<<<<<<<<
@@ -7397,7 +7375,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_2Sin(CYTHON_UNUSED PyObject *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Sin", 0);
 
-  /* "mathlib.pyx":185
+  /* "mathlib.pyx":186
  *     @staticmethod
  *     def Sin(x):
  *         return math.sin(x)             # <<<<<<<<<<<<<<
@@ -7405,9 +7383,9 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_2Sin(CYTHON_UNUSED PyObject *__p
  *     def Cos(x):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sin); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_sin); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7422,14 +7400,14 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_2Sin(CYTHON_UNUSED PyObject *__p
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_x) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_x);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mathlib.pyx":184
+  /* "mathlib.pyx":185
  *     #Sin Tan Cos
  *     @staticmethod
  *     def Sin(x):             # <<<<<<<<<<<<<<
@@ -7450,7 +7428,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_2Sin(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "mathlib.pyx":187
+/* "mathlib.pyx":188
  *         return math.sin(x)
  *     @staticmethod
  *     def Cos(x):             # <<<<<<<<<<<<<<
@@ -7483,7 +7461,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_4Cos(CYTHON_UNUSED PyObject *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Cos", 0);
 
-  /* "mathlib.pyx":188
+  /* "mathlib.pyx":189
  *     @staticmethod
  *     def Cos(x):
  *         return math.cos(x)             # <<<<<<<<<<<<<<
@@ -7491,9 +7469,9 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_4Cos(CYTHON_UNUSED PyObject *__p
  *     def Tan(x):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_cos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_cos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7508,14 +7486,14 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_4Cos(CYTHON_UNUSED PyObject *__p
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_x) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_x);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mathlib.pyx":187
+  /* "mathlib.pyx":188
  *         return math.sin(x)
  *     @staticmethod
  *     def Cos(x):             # <<<<<<<<<<<<<<
@@ -7536,7 +7514,7 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_4Cos(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "mathlib.pyx":190
+/* "mathlib.pyx":191
  *         return math.cos(x)
  *     @staticmethod
  *     def Tan(x):             # <<<<<<<<<<<<<<
@@ -7568,15 +7546,15 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_6Tan(CYTHON_UNUSED PyObject *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Tan", 0);
 
-  /* "mathlib.pyx":191
+  /* "mathlib.pyx":192
  *     @staticmethod
  *     def Tan(x):
  *         return math.tan(x)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_math); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_tan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_tan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7591,14 +7569,14 @@ static PyObject *__pyx_pf_7mathlib_10GraphStuff_6Tan(CYTHON_UNUSED PyObject *__p
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_x) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_x);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mathlib.pyx":190
+  /* "mathlib.pyx":191
  *         return math.cos(x)
  *     @staticmethod
  *     def Tan(x):             # <<<<<<<<<<<<<<
@@ -7722,8 +7700,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dims, __pyx_k_dims, sizeof(__pyx_k_dims), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
-  {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
-  {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_height, __pyx_k_height, sizeof(__pyx_k_height), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
@@ -7748,11 +7724,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_newMat, __pyx_k_newMat, sizeof(__pyx_k_newMat), 0, 0, 1, 1},
   {&__pyx_n_s_pi, __pyx_k_pi, sizeof(__pyx_k_pi), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_randint, __pyx_k_randint, sizeof(__pyx_k_randint), 0, 0, 1, 1},
   {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
+  {&__pyx_n_s_root2, __pyx_k_root2, sizeof(__pyx_k_root2), 0, 0, 1, 1},
   {&__pyx_n_s_row, __pyx_k_row, sizeof(__pyx_k_row), 0, 0, 1, 1},
   {&__pyx_n_s_rowList, __pyx_k_rowList, sizeof(__pyx_k_rowList), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
@@ -8069,52 +8045,52 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__39);
   __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_DotProduct, 164, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 164, __pyx_L1_error)
 
-  /* "mathlib.pyx":179
+  /* "mathlib.pyx":180
  * 
  *     @staticmethod   # Squishy function
  *     def Sigmoid(x):             # <<<<<<<<<<<<<<
  *         return 1/(1 + (GraphStuff().e) ** (-x))
  * 
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Sigmoid, 179, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Sigmoid, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 180, __pyx_L1_error)
 
-  /* "mathlib.pyx":184
+  /* "mathlib.pyx":185
  *     #Sin Tan Cos
  *     @staticmethod
  *     def Sin(x):             # <<<<<<<<<<<<<<
  *         return math.sin(x)
  *     @staticmethod
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Sin, 184, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Sin, 185, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 185, __pyx_L1_error)
 
-  /* "mathlib.pyx":187
+  /* "mathlib.pyx":188
  *         return math.sin(x)
  *     @staticmethod
  *     def Cos(x):             # <<<<<<<<<<<<<<
  *         return math.cos(x)
  *     @staticmethod
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Cos, 187, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Cos, 188, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 188, __pyx_L1_error)
 
-  /* "mathlib.pyx":190
+  /* "mathlib.pyx":191
  *         return math.cos(x)
  *     @staticmethod
  *     def Tan(x):             # <<<<<<<<<<<<<<
  *         return math.tan(x)
  */
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_n_s_x); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
-  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Tan, 190, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Scripts_mathlib_pyx, __pyx_n_s_Tan, 191, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8124,6 +8100,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_float_1_414213562373095 = PyFloat_FromDouble(1.414213562373095); if (unlikely(!__pyx_float_1_414213562373095)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_2_718281828459045 = PyFloat_FromDouble(2.718281828459045); if (unlikely(!__pyx_float_2_718281828459045)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_3_141592653589793 = PyFloat_FromDouble(3.141592653589793); if (unlikely(!__pyx_float_3_141592653589793)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -8713,7 +8690,7 @@ if (!__Pyx_RefNanny) {
  *     # Constants
  *     pi = 3.141592653589793             # <<<<<<<<<<<<<<
  *     e = 2.718281828459045
- * 
+ *     root2 =  1.414213562373095
  */
   if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_pi, __pyx_float_3_141592653589793) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
 
@@ -8721,100 +8698,109 @@ if (!__Pyx_RefNanny) {
  *     # Constants
  *     pi = 3.141592653589793
  *     e = 2.718281828459045             # <<<<<<<<<<<<<<
+ *     root2 =  1.414213562373095
  * 
- *     @staticmethod   # Squishy function
  */
   if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_e, __pyx_float_2_718281828459045) < 0) __PYX_ERR(0, 176, __pyx_L1_error)
 
-  /* "mathlib.pyx":179
+  /* "mathlib.pyx":177
+ *     pi = 3.141592653589793
+ *     e = 2.718281828459045
+ *     root2 =  1.414213562373095             # <<<<<<<<<<<<<<
+ * 
+ *     @staticmethod   # Squishy function
+ */
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_root2, __pyx_float_1_414213562373095) < 0) __PYX_ERR(0, 177, __pyx_L1_error)
+
+  /* "mathlib.pyx":180
  * 
  *     @staticmethod   # Squishy function
  *     def Sigmoid(x):             # <<<<<<<<<<<<<<
  *         return 1/(1 + (GraphStuff().e) ** (-x))
  * 
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_1Sigmoid, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Sigmoid, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_1Sigmoid, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Sigmoid, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "mathlib.pyx":178
- *     e = 2.718281828459045
+  /* "mathlib.pyx":179
+ *     root2 =  1.414213562373095
  * 
  *     @staticmethod   # Squishy function             # <<<<<<<<<<<<<<
  *     def Sigmoid(x):
  *         return 1/(1 + (GraphStuff().e) ** (-x))
  */
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Sigmoid, __pyx_t_2) < 0) __PYX_ERR(0, 179, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Sigmoid, __pyx_t_2) < 0) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mathlib.pyx":184
+  /* "mathlib.pyx":185
  *     #Sin Tan Cos
  *     @staticmethod
  *     def Sin(x):             # <<<<<<<<<<<<<<
  *         return math.sin(x)
  *     @staticmethod
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_3Sin, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Sin, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_3Sin, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Sin, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "mathlib.pyx":183
+  /* "mathlib.pyx":184
  * 
  *     #Sin Tan Cos
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def Sin(x):
  *         return math.sin(x)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Sin, __pyx_t_1) < 0) __PYX_ERR(0, 184, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Sin, __pyx_t_1) < 0) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mathlib.pyx":187
+  /* "mathlib.pyx":188
  *         return math.sin(x)
  *     @staticmethod
  *     def Cos(x):             # <<<<<<<<<<<<<<
  *         return math.cos(x)
  *     @staticmethod
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_5Cos, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Cos, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_5Cos, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Cos, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__46)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "mathlib.pyx":186
+  /* "mathlib.pyx":187
  *     def Sin(x):
  *         return math.sin(x)
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def Cos(x):
  *         return math.cos(x)
  */
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Cos, __pyx_t_2) < 0) __PYX_ERR(0, 187, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Cos, __pyx_t_2) < 0) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mathlib.pyx":190
+  /* "mathlib.pyx":191
  *         return math.cos(x)
  *     @staticmethod
  *     def Tan(x):             # <<<<<<<<<<<<<<
  *         return math.tan(x)
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_7Tan, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Tan, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_7mathlib_10GraphStuff_7Tan, __Pyx_CYFUNCTION_STATICMETHOD, __pyx_n_s_GraphStuff_Tan, NULL, __pyx_n_s_mathlib, __pyx_d, ((PyObject *)__pyx_codeobj__48)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "mathlib.pyx":189
+  /* "mathlib.pyx":190
  *     def Cos(x):
  *         return math.cos(x)
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def Tan(x):
  *         return math.tan(x)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_staticmethod, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Tan, __pyx_t_1) < 0) __PYX_ERR(0, 190, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_3, __pyx_n_s_Tan, __pyx_t_1) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mathlib.pyx":173
@@ -11450,112 +11436,6 @@ bad:
     Py_XDECREF(py_frame);
 }
 
-/* Print */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static PyObject *__Pyx_GetStdout(void) {
-    PyObject *f = PySys_GetObject((char *)"stdout");
-    if (!f) {
-        PyErr_SetString(PyExc_RuntimeError, "lost sys.stdout");
-    }
-    return f;
-}
-static int __Pyx_Print(PyObject* f, PyObject *arg_tuple, int newline) {
-    int i;
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    for (i=0; i < PyTuple_GET_SIZE(arg_tuple); i++) {
-        PyObject* v;
-        if (PyFile_SoftSpace(f, 1)) {
-            if (PyFile_WriteString(" ", f) < 0)
-                goto error;
-        }
-        v = PyTuple_GET_ITEM(arg_tuple, i);
-        if (PyFile_WriteObject(v, f, Py_PRINT_RAW) < 0)
-            goto error;
-        if (PyString_Check(v)) {
-            char *s = PyString_AsString(v);
-            Py_ssize_t len = PyString_Size(v);
-            if (len > 0) {
-                switch (s[len-1]) {
-                    case ' ': break;
-                    case '\f': case '\r': case '\n': case '\t': case '\v':
-                        PyFile_SoftSpace(f, 0);
-                        break;
-                    default:  break;
-                }
-            }
-        }
-    }
-    if (newline) {
-        if (PyFile_WriteString("\n", f) < 0)
-            goto error;
-        PyFile_SoftSpace(f, 0);
-    }
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-}
-#else
-static int __Pyx_Print(PyObject* stream, PyObject *arg_tuple, int newline) {
-    PyObject* kwargs = 0;
-    PyObject* result = 0;
-    PyObject* end_string;
-    if (unlikely(!__pyx_print)) {
-        __pyx_print = PyObject_GetAttr(__pyx_b, __pyx_n_s_print);
-        if (!__pyx_print)
-            return -1;
-    }
-    if (stream) {
-        kwargs = PyDict_New();
-        if (unlikely(!kwargs))
-            return -1;
-        if (unlikely(PyDict_SetItem(kwargs, __pyx_n_s_file, stream) < 0))
-            goto bad;
-        if (!newline) {
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                goto bad;
-            if (PyDict_SetItem(kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                goto bad;
-            }
-            Py_DECREF(end_string);
-        }
-    } else if (!newline) {
-        if (unlikely(!__pyx_print_kwargs)) {
-            __pyx_print_kwargs = PyDict_New();
-            if (unlikely(!__pyx_print_kwargs))
-                return -1;
-            end_string = PyUnicode_FromStringAndSize(" ", 1);
-            if (unlikely(!end_string))
-                return -1;
-            if (PyDict_SetItem(__pyx_print_kwargs, __pyx_n_s_end, end_string) < 0) {
-                Py_DECREF(end_string);
-                return -1;
-            }
-            Py_DECREF(end_string);
-        }
-        kwargs = __pyx_print_kwargs;
-    }
-    result = PyObject_Call(__pyx_print, arg_tuple, kwargs);
-    if (unlikely(kwargs) && (kwargs != __pyx_print_kwargs))
-        Py_DECREF(kwargs);
-    if (!result)
-        return -1;
-    Py_DECREF(result);
-    return 0;
-bad:
-    if (kwargs != __pyx_print_kwargs)
-        Py_XDECREF(kwargs);
-    return -1;
-}
-#endif
-
 /* CIntFromPyVerify */
 #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
@@ -11615,43 +11495,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
                                      little, !is_unsigned);
     }
 }
-
-/* PrintOne */
-#if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
-static int __Pyx_PrintOne(PyObject* f, PyObject *o) {
-    if (!f) {
-        if (!(f = __Pyx_GetStdout()))
-            return -1;
-    }
-    Py_INCREF(f);
-    if (PyFile_SoftSpace(f, 0)) {
-        if (PyFile_WriteString(" ", f) < 0)
-            goto error;
-    }
-    if (PyFile_WriteObject(o, f, Py_PRINT_RAW) < 0)
-        goto error;
-    if (PyFile_WriteString("\n", f) < 0)
-        goto error;
-    Py_DECREF(f);
-    return 0;
-error:
-    Py_DECREF(f);
-    return -1;
-    /* the line below is just to avoid C compiler
-     * warnings about unused functions */
-    return __Pyx_Print(f, NULL, 0);
-}
-#else
-static int __Pyx_PrintOne(PyObject* stream, PyObject *o) {
-    int res;
-    PyObject* arg_tuple = PyTuple_Pack(1, o);
-    if (unlikely(!arg_tuple))
-        return -1;
-    res = __Pyx_Print(stream, arg_tuple, 1);
-    Py_DECREF(arg_tuple);
-    return res;
-}
-#endif
 
 /* CIntFromPy */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {

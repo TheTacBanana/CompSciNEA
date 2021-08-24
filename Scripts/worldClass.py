@@ -1,4 +1,4 @@
-import pygame, json, random
+import pygame, json, random, perlinNoise
 
 class Tile():
     def __init__(self):
@@ -9,10 +9,11 @@ class Tile():
         self.tileHeight = height
 
 class WorldMap():
-    def __init__(self, size, tileWidth, seed):
+    def __init__(self, size, tileWidth, tileBorder, seed):
         self.MAP_SIZE = size
         self.TILE_WIDTH = tileWidth
         self.MAP_SEED = seed
+        self.TILE_BORDER = tileBorder
 
         self.tileArray = [[Tile() for i in range(size)] for j in range(size)]
 
@@ -51,7 +52,8 @@ class WorldMap():
             for x in range(0, self.MAP_SIZE):
                 value = self.tileArray[x][y].tileHeight
                 #print(value, x * self.MAP_SIZE * self.TILE_WIDTH, y * self.MAP_SIZE * self.TILE_WIDTH)
-                pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH), (y * self.TILE_WIDTH), self.TILE_WIDTH, self.TILE_WIDTH))
+                pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
+                (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
                 pass
 
     def DrawMap(self, window):

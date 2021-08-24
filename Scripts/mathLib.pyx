@@ -139,7 +139,7 @@ class Matrix():
                 for col in range(0, m2Dims[1]):
                     subCol = []
                     for i in range(0, m1Dims[0]):
-                        print(i)
+                        #print(i)
                         subCol.append(m2.Val()[i][col])
                     total = 0
                     for x in range(0, len(subRow)):
@@ -174,6 +174,7 @@ class GraphStuff():
     # Constants
     pi = 3.141592653589793
     e = 2.718281828459045
+    root2 =  1.414213562373095
 
     @staticmethod   # Squishy function
     def Sigmoid(x): 

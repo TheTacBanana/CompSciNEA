@@ -2,5 +2,6 @@ from setuptools import setup
 from Cython.Build import cythonize
 
 setup(
-    ext_modules = cythonize("Scripts\\mathlib.pyx")
+    name="mathlib",
+    ext_modules = cythonize("Scripts\\mathlib.pyx", annotate=True)
 )

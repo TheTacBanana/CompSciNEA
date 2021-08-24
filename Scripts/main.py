@@ -2,22 +2,22 @@ import pygame
 from worldClass import *
 import mathlib
 
-WORLD_SIZE = 50
+# Constant variables
+WORLD_SIZE = 100
 TILE_WIDTH = 10
+TILE_BORDER = 1
 WORLD_SEED = 0
-worldMap = WorldMap(WORLD_SIZE, TILE_WIDTH, WORLD_SEED)
 
-window = pygame.display.set_mode((WORLD_SIZE * TILE_WIDTH, WORLD_SIZE * TILE_WIDTH))
+worldMap = WorldMap(WORLD_SIZE, TILE_WIDTH, TILE_BORDER, WORLD_SEED)
 
+worldResolution = WORLD_SIZE * TILE_WIDTH
+window = pygame.display.set_mode((worldResolution, worldResolution))
 
+# Generates and renders the map to a single surface for optimisation
 worldMap.GenerateMap()
 worldMap.RenderMap()
-worldMap.DrawMap(window)
-#worldMap.ConsoleOut()
 
-matrix1 = mathlib.Matrix([[1, 2],[3, 4]])
-print(matrix1.Val())
-
+# Constant loop running
 running = True
 while running == True:
     worldMap.DrawMap(window)

@@ -1,5 +1,5 @@
 import math, random
-class Matrix():
+class Matrix(): # Matrix Class
     def __init__ (self, Values, cols = 0, identity = False):
         if type(Values) == list: # Predefined Values
             self.matrixArr = Values
@@ -18,26 +18,26 @@ class Matrix():
         else: # Error Creating Matrix
             raise Exception("Error Creating Matrix")
 
-    def Val(self):
+    def Val(self): # Returns List of Lists Containing matrix numerical data
         return self.matrixArr
 
-    def Dimensions(self):
+    def Dimensions(self): # Returns a list containing the Row and Column order data
         return [len(self.matrixArr), len(self.matrixArr[0])] # Rows - Columns
 
-    def ScalarMultiply(self, multiplier):
+    def ScalarMultiply(self, multiplier): # Multiplies matrix by multiplier
         for y in range(0, len(self.matrixArr)):
             for x in range(0, len(self.matrixArr[0])):
                 self.matrixArr[y][x] = self.matrixArr[y][x] * multiplier
 
-    def SubMatrixList(self, rowList, colList):
-        newMat = Matrix(self.Dimensions()[0] - len(rowList),self.Dimensions()[1] - len(colList))
+    def SubMatrixList(self, rowList, colList): # Removes a set of rows and columns specified
+        newMat = Matrix(self.Dimensions()[0] - len(rowList),self.Dimensions()[1] - len(colList)) # Creates blank matrix of same size
         xoffset = 0
         yoffset = 0
         yRowList = []
 
-        for y in range(0, self.Dimensions()[0]):
+        for y in range(0, self.Dimensions()[0]): # Double for loop
             for x in range(0, self.Dimensions()[1]):
-                if x in colList and y in rowList:
+                if x in colList and y in rowList: # Branching if statement
                     xoffset += 1
                     yoffset += 1
                     continue
@@ -61,14 +61,15 @@ class Matrix():
                 subMat.matrixArr[y][x] = self.matrixArr[y][x]
         return subMat
 
-    def RandomVal(self):
+    def RandomVal(self): # Randomnly fills matrix with values from 1 to 100
         self.matrixArr = [[random.randint(1, 100) for i in range(self.Dimensions()[1])] for j in range(self.Dimensions()[0])]
 
-    def ConvertToVector(self):
+    def ConvertToVector(self): # Converts matrix to vector
         return Vector(self.matrixArr)
 
+    # Static Methods
     @staticmethod
-    def Determinant(m):
+    def Determinant(m): # Returns determinant of specified matrix
         dims = m.Dimensions()
         if dims[1] <= 2:
             det = (m.matrixArr[0][0] * m.matrixArr[1][1]) - (m.matrixArr[0][1] * m.matrixArr[1][0])
@@ -88,23 +89,24 @@ class Matrix():
                     subtract = False
             return det
 
-    def det(m):
-        top_length = len(m[0])
-        height = top_length - 1
-        submats = []
+    # Depreciated code - not working
+    #def det(m):
+    #    top_length = len(m[0])
+    #    height = top_length - 1
+    #    submats = []
+    #
+    #    for i in range(0, top_length):
+    #        submat = [[] for i in range(height)]
+    #        for j in range(0, top_length):
+    #            if i != j:
+    #                for k in range(height):
+    #                    submat[k].append(m[k+1][j])
+    #        submats.append(submat)
+    #    return submats
 
-        for i in range(0, top_length):
-            submat = [[] for i in range(height)]
-            for j in range(0, top_length):
-                if i != j:
-                    for k in range(height):
-                        submat[k].append(m[k+1][j])
-            submats.append(submat)
-        return submats
 
-    # Static Methods
     @staticmethod
-    def MatrixAddSubtract(m1, m2, subtract = False): # Dont know how else i would make this more efficient lol
+    def MatrixAddSubtract(m1, m2, subtract = False): # Add/Subtract Function
         m1Dims = m1.Dimensions()
         m2Dims = m2.Dimensions()
         if m1Dims[0] != m2Dims[0]:
@@ -124,7 +126,7 @@ class Matrix():
             return newMat
 
     @staticmethod
-    def MatrixMultiply(m1, m2): # Not that efficient, needs optimisation
+    def MatrixMultiply(m1, m2): # Multiply two matrices together
         m1Dims = m1.Dimensions()
         m2Dims = m2.Dimensions()
         if m1Dims[1] != m2Dims[0]:
@@ -147,7 +149,7 @@ class Matrix():
                     newMat.matrixArr[row][col] = total
             return newMat
 
-class Vector(Matrix):
+class Vector(Matrix): # Vector Class, inherited from Matrix
     def __init__(self, val):
         if type(val) == list:
             if len(val[0]) != 1:
@@ -157,11 +159,11 @@ class Vector(Matrix):
         else:
             self.matrixArr = [[0 for i in range(1)] for j in range(val)]
 
-    def ConvertToMatrix(self):
+    def ConvertToMatrix(self): # Convert Vector to Matrix
         return Matrix(self.matrixArr)
 
     @staticmethod
-    def DotProduct(v1,v2):
+    def DotProduct(v1,v2): # Calculate the dot product of two vectors
         if type(v1) != Vector or type(v2) != Vector:
             raise Exception("Wront Types:{},{} passed into Dot Product".format(type(v1),type(v2)))
         else:

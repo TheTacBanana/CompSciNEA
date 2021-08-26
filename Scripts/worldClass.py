@@ -1,4 +1,4 @@
-import pygame, json, random, perlinNoise
+import pygame, json, random
 
 class Tile():
     def __init__(self):
@@ -9,18 +9,19 @@ class Tile():
         self.tileHeight = height
 
 class WorldMap():
-    def __init__(self, size, tileWidth, tileBorder, seed):
-        self.MAP_SIZE = size
-        self.TILE_WIDTH = tileWidth
+    def __init__(self, seed, params):
+        self.MAP_SIZE = params["WorldSize"]
+        self.TILE_WIDTH = params["TileWidth"]
         self.MAP_SEED = seed
-        self.TILE_BORDER = tileBorder
+        self.TILE_BORDER = params["TileBorder"]
 
         self.tileArray = [[Tile() for i in range(size)] for j in range(size)]
 
-        self.paramDictionary = self.LoadParameters("Default.param")
+        self.paramDictionary = params
         
+    @staticmethod
     def LoadParameters(self, fname): # Load Parameters from file and store them in a dictionary
-        file = open("Parameters\\{}".format(fname), "r")
+        file = open("Parameters\\{}.param".format(fname), "r")
         params = json.loads(file.read())
         file.close()
         return params

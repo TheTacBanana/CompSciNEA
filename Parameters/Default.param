@@ -1,1 +1,5 @@
-{"Noise":1}
+{
+    "WorldSize": 100, 
+    "TileWidth": 10,
+    "TileBorder": 1
+}

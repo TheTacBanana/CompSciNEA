@@ -1,0 +1,45 @@
+def UpNeutralDownGen(self):
+        dupMap = self.heightArray
+        for y in range(0, self.arraySize):
+            for x in range(0, self.arraySize):
+                up = 0
+                down = 0
+                neutral = 0
+                pointArr = []
+
+                if x != 0 and y != 0:
+                    pointArr.append(self.heightArray[x - 1][y - 1])
+                if x != 0 and y != self.arraySize - 1:
+                    pointArr.append(self.heightArray[x - 1][y + 1])
+                if x != self.arraySize - 1 and y != self.arraySize - 1:
+                    pointArr.append(self.heightArray[x + 1][y + 1])
+                if x != self.arraySize - 1 and y != 0:
+                    pointArr.append(self.heightArray[x + 1][y - 1])
+                if x != 0:
+                    pointArr.append(self.heightArray[x - 1][y])
+                if y != 0:
+                    pointArr.append(self.heightArray[x][y - 1])
+                if x != self.arraySize - 1:
+                    pointArr.append(self.heightArray[x + 1][y])
+                if y != self.arraySize - 1:
+                    pointArr.append(self.heightArray[x][y + 1])
+
+                for i in range(len(pointArr)):
+                    if pointArr[i] >= self.heightArray[x][y] + 0.1:
+                        up += 1
+                    elif pointArr[i] <= self.heightArray[x][y] - 0.1:
+                        down += 1
+                    else:
+                        neutral += 1
+
+                if (up > down) and (up > neutral): # Up
+                    value = 0.09 * up
+                elif (down > up) and (down > neutral): # Down
+                    value = -0.08 * down
+                else: # Neutral
+                    value = 0
+
+                dupMap[x][y] += value
+                dupMap[x][y] = self.Clamp(dupMap[x][y], 0, 1)
+
+        self.heightArray = dupMap

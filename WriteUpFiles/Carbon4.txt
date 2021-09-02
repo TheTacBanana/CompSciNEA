@@ -1,0 +1,10 @@
+class Matrix():
+    def __init__ (self, Values, cols):
+        if type(Values) == list:
+            self.matrixArr = Values
+            
+        elif Values > 0 and cols > 0:
+            self.matrixArr = [[0 for i in range(cols)] for j in range(Values)]
+            
+    def Dimensions(self):
+        return [len(self.matrixArr), len(self.matrixArr[0])]

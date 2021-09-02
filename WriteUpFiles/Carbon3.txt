@@ -1,0 +1,30 @@
+      def AverageGen(self):
+        dupMap = self.heightArray
+        for y in range(0, self.arraySize):
+            for x in range(0, self.arraySize):        
+                total = 0
+                count = 0
+                if x != 0 and y != 0:
+                    total += self.heightArray[x - 1][y - 1]
+                    count += 1
+                if x != 0 and y != self.arraySize - 1:
+                    total += self.heightArray[x - 1][y + 1]
+                    count += 1
+                if x != self.arraySize - 1 and y != self.arraySize - 1:
+                    total += self.heightArray[x + 1][y + 1]
+                    count += 1
+                if x != self.arraySize - 1 and y != 0:
+                    total += self.heightArray[x + 1][y - 1]
+                    count += 1
+                if x != 0:
+                    total += self.heightArray[x - 1][y]
+                    count += 1
+                if y != 0:
+                    total += self.heightArray[x][y - 1]
+                    count += 1
+                if x != self.arraySize - 1:
+                    total += self.heightArray[x + 1][y]
+                    count += 1
+                if y != self.arraySize - 1:
+                    total += self.heightArray[x][y + 1]
+                    count += 1

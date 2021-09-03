@@ -1,4 +1,5 @@
 import pygame, json, random
+import perlinNoise
 
 class Tile():
     def __init__(self):
@@ -15,12 +16,12 @@ class WorldMap():
         self.MAP_SEED = seed
         self.TILE_BORDER = params["TileBorder"]
 
-        self.tileArray = [[Tile() for i in range(size)] for j in range(size)]
+        self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
         self.paramDictionary = params
         
     @staticmethod
-    def LoadParameters(self, fname): # Load Parameters from file and store them in a dictionary
+    def LoadParameters(fname): # Load Parameters from file and store them in a dictionary
         file = open("Parameters\\{}.param".format(fname), "r")
         params = json.loads(file.read())
         file.close()
@@ -42,7 +43,12 @@ class WorldMap():
     def GenerateMap(self):
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
-                self.tileArray[x][y].tileHeight = round(random.random(), 1)
+                #self.tileArray[x][y].tileHeight = round(random.random(), 1)
+
+                xCoord = self.MAP_SEED + x / self.MAP_SIZE * 4
+                yCoord = self.MAP_SEED + y / self.MAP_SIZE * 4
+
+                self.tileArray[x][y].tileHeight = perlinNoise.Noise(xCoord, yCoord)
 
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
@@ -52,6 +58,8 @@ class WorldMap():
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
                 value = self.tileArray[x][y].tileHeight
+                value = (value / 2) + 0.5
+                value = Clamp(value, 0.0, 1.0)
                 #print(value, x * self.MAP_SIZE * self.TILE_WIDTH, y * self.MAP_SIZE * self.TILE_WIDTH)
                 pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                 (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
@@ -59,3 +67,7 @@ class WorldMap():
 
     def DrawMap(self, window):
         window.blit(self.RenderedMap, (0,0))
+
+    
+def Clamp(val, low, high):
+    return low if val < low else high if val > high else val

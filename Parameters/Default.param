@@ -1,5 +1,5 @@
 {
-    "WorldSize": 100, 
-    "TileWidth": 10,
-    "TileBorder": 1
+    "WorldSize": 256, 
+    "TileWidth": 2,
+    "TileBorder": 0
 }

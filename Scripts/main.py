@@ -3,7 +3,8 @@ from worldClass import *
 import mathlib
 
 # Constant variables
-worldSeed = 0
+worldSeed = random.randint(10000, 99999)
+print(worldSeed)
 worldMap = WorldMap(worldSeed, WorldMap.LoadParameters("Default"))
 
 worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH

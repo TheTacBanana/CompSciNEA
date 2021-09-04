@@ -1,16 +1,7 @@
-from mathlib import Vector, GraphStuff
-import random
+from mathlib import Vector
+import random, math
 
-gradientVectors = [Vector([[1],[1]]), 
-                    Vector([[-1],[1]]),
-                    Vector([[1],[-1]]),
-                    Vector([[-1],[-1]]),
-                    Vector([[GraphStuff.root2],[0]]),
-                    Vector([[0],[GraphStuff.root2]]),
-                    Vector([[-GraphStuff.root2],[0]]),
-                    Vector([[0],[-GraphStuff.root2]])]
-
-permutationTable = [151,160,137,91,90,15,                 
+p = [151,160,137,91,90,15,                 
     131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,    
     190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
     88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
@@ -24,54 +15,49 @@ permutationTable = [151,160,137,91,90,15,
     49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180]
 
-#p = [] * 512
-#for x in range(512):
-#    p[x] = permutationTable[x%256]
-
-repeat = 1
-
 def Noise(x, y):
     #print(x)
-    x0 = int(x)
-    x1 = x0 + 1
-    y0 = int(y)
-    y1 = y0 + 1
+    xi = math.floor(x) % 255
+    yi = math.floor(y) % 255
 
-    sx = x - x0
-    sy = y - y0
+    g1 = p[p[xi] + yi]
+    g2 = p[p[xi + 1] + yi]
+    g3 = p[p[xi] + yi + 1]
+    g4 = p[p[xi + 1] + yi + 1]
 
-    n0 = dotGridGradient(x0, y0, x, y)
-    n1 = dotGridGradient(x1, y0, x, y)
-    ix0 = lerp(n0, n1, sx)
+    xf = x - math.floor(x)
+    yf = y - math.floor(y)
 
-    n0 = dotGridGradient(x0, y1, x, y)
-    n0 = dotGridGradient(x1, y1, x, y)
-    ix1 = lerp(n0, n1, sx)
+    d1 = grad(g1, xf, yf)
+    d2 = grad(g2, xf - 1, yf)
+    d3 = grad(g3, xf, yf - 1)
+    d4 = grad(g4, xf - 1, yf - 1)
 
-    value = lerp(ix0, ix1, sy)
-    #print(value)
-    return value
+    u = fade(xf)
+    v = fade(yf)
 
-#                 gradient , distance 
-def dotGridGradient(ix, iy, x, y):
-    gradientVals = randomGradient().Val()
-    #print(gradientVals)
+    x1Inter = lerp(u, d1, d2)
+    x2Inter = lerp(u, d3, d4)
+    yInter = lerp(v, x1Inter, x2Inter)
 
-    dx = x - ix
-    dy = y - iy
+    return yInter
 
-    value = (dx*gradientVals[0][0] + dy*gradientVals[1][0])
-    #print(value)
-    return value
+def grad(hash, x, y):
+    temp = hash & 3
+    if temp == 0:
+        return x + y
+    elif temp == 1:
+        return -x + y
+    elif temp == 2:
+        return x - y
+    elif temp == 3:
+        return -x - y
+    else:
+        return 0
 
-def randomGradient():
-    return Vector([[random.random()],[random.random()]])
-    #return gradientVectors[random.randint(0, 7)]
 
-def lerp(a0, a1, w):
-    value = (a1 - a0) * w + a0
-    #print(value)
-    return value
+def lerp(ammount, left, right):
+    return ((1 - ammount) * left + ammount * right)
 
-def Fade(t):
-    t * t * t * (t * (t * 6 - 15) + 10)
+def fade(t):
+    return t * t * t * (t * (t * 6 - 15) + 10)

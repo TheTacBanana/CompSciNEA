@@ -45,10 +45,11 @@ class WorldMap():
             for x in range(0, self.MAP_SIZE):
                 #self.tileArray[x][y].tileHeight = round(random.random(), 1)
 
-                xCoord = self.MAP_SEED + x / self.MAP_SIZE * 4
-                yCoord = self.MAP_SEED + y / self.MAP_SIZE * 4
+                xCoord = x / self.MAP_SIZE
+                yCoord = y / self.MAP_SIZE
+                frequency = 16
 
-                self.tileArray[x][y].tileHeight = perlinNoise.Noise(xCoord, yCoord)
+                self.tileArray[x][y].tileHeight = perlinNoise.Noise(xCoord * frequency, yCoord * frequency)
 
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH

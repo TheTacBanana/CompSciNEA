@@ -15,6 +15,7 @@ def Generate():
     global worldMap
     worldMap.MAP_SEED = random.randint(100000, 999999)
     worldMap.GenerateThreadedParent()
+    worldMap.RenderInteractables()
 
 Generate()
 #tick = 0

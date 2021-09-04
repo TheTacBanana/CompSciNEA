@@ -1,6 +1,6 @@
 {
-    "WorldSize": 512, 
-    "TileWidth": 1,
+    "WorldSize": 128, 
+    "TileWidth": 4,
     "TileBorder": 0,
 
     "Octaves": 7,

@@ -9,6 +9,11 @@ class Tile():
         self.tileType = tileType
         self.tileHeight = height
 
+class InteractableObject():
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position
+
 class WorldMap():
     def __init__(self, seed, params):
         self.MAP_SIZE = params["WorldSize"]
@@ -17,6 +22,9 @@ class WorldMap():
         self.TILE_BORDER = params["TileBorder"]
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+        self.interactables = []
+
+        #self.interactables.append( InteractableObject("Tree", (1,1)))
 
         self.paramDictionary = params
 
@@ -31,9 +39,6 @@ class WorldMap():
 
     def GetTile(self, xpos, ypos): # Return tile at specified position
         return self.tileArray[xpos][ypos]
-
-    def GetParameter(self, param):
-        return self.paramDictionary[param]
 
     def ConsoleOut(self): # Print grid of characters to console, representing the grid of tiles
         for y in range(0, self.MAP_SIZE):
@@ -79,8 +84,6 @@ class WorldMap():
 
         self.RenderMap()
 
-        #print(threading.activeCount())
-
 
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
@@ -120,9 +123,19 @@ class WorldMap():
                     pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                     (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
+    def RenderInteractables(self):
+        resolution = self.MAP_SIZE * self.TILE_WIDTH
+        self.RenderedInteractables = pygame.Surface((resolution, resolution))
+        self.RenderedInteractables.set_colorkey((0,0,0))
+
+        for i in self.interactables:
+            pygame.draw.rect(self.RenderedInteractables, (1,1,1), ((i.position[0] * self.TILE_WIDTH + self.TILE_BORDER), 
+                    (i.position[1] * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+
 
     def DrawMap(self, window):
         window.blit(self.RenderedMap, (0,0))
+        window.blit(self.RenderedInteractables, (0,0))
 
     
 def Clamp(val, low, high):

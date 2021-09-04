@@ -19,6 +19,8 @@ class WorldMap():
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
         self.paramDictionary = params
+
+        self.time = 0
         
     @staticmethod
     def LoadParameters(fname): # Load Parameters from file and store them in a dictionary
@@ -43,28 +45,51 @@ class WorldMap():
     def GenerateMap(self):
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
-                #self.tileArray[x][y].tileHeight = round(random.random(), 1)
-
                 xCoord = x / self.MAP_SIZE
                 yCoord = y / self.MAP_SIZE
-                frequency = 16
 
-                self.tileArray[x][y].tileHeight = perlinNoise.Noise(xCoord * frequency, yCoord * frequency)
+                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, self.paramDictionary["Octaves"], self.paramDictionary["Persistence"])
+
+        self.time += (1 / self.MAP_SIZE)
 
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
         self.RenderedMap = pygame.Surface((resolution, resolution))
         self.RenderedMap.set_colorkey((0,0,0))
 
-        for y in range(0, self.MAP_SIZE):
-            for x in range(0, self.MAP_SIZE):
-                value = self.tileArray[x][y].tileHeight
-                value = (value / 2) + 0.5
-                value = Clamp(value, 0.0, 1.0)
-                #print(value, x * self.MAP_SIZE * self.TILE_WIDTH, y * self.MAP_SIZE * self.TILE_WIDTH)
-                pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
-                (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
-                pass
+        if self.paramDictionary["Grayscale"] == 1:
+            for y in range(0, self.MAP_SIZE):
+                for x in range(0, self.MAP_SIZE):
+                    value = self.tileArray[x][y].tileHeight
+                    value = (value / 2) + 0.5
+                    value = Clamp(value, 0.0, 1.0)
+                    #print(value, x * self.MAP_SIZE * self.TILE_WIDTH, y * self.MAP_SIZE * self.TILE_WIDTH)
+                    pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
+                    (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+
+        else:
+            for y in range(0, self.MAP_SIZE):
+                for x in range(0, self.MAP_SIZE):
+                    value = self.tileArray[x][y].tileHeight
+                    value = (value / 2) + 0.5
+                    value = Clamp(value, 0.0, 1.0)
+                    
+                    colour = None
+
+                    if value < self.paramDictionary["Water"]:
+                        colour = (18, 89, 144)
+                    elif value < self.paramDictionary["Coast"]:
+                        colour = (245, 234, 146)
+                    elif value < self.paramDictionary["Grass"]:
+                        colour = (26, 148, 49)
+                    elif value < self.paramDictionary["TallGrass"]:
+                        colour = (136, 140, 141)
+                    
+                    
+                    
+                    pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
+                    (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+
 
     def DrawMap(self, window):
         window.blit(self.RenderedMap, (0,0))

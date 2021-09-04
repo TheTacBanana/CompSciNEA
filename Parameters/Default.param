@@ -1,5 +1,14 @@
 {
-    "WorldSize": 400, 
-    "TileWidth": 2,
-    "TileBorder": 0
+    "WorldSize": 128, 
+    "TileWidth": 6,
+    "TileBorder": 0,
+
+    "Octaves": 7,
+    "Persistence": 0.6,
+
+    "Grayscale": 0,
+    "Water": 0.46,
+    "Coast": 0.48,
+    "Grass": 0.65,
+    "TallGrass": 1.0
 }

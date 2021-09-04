@@ -15,7 +15,25 @@ p = [151,160,137,91,90,15,
     49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180]
 
-def Noise(x, y):
+p = p + p
+
+def octaveNoise(x, y, octaves, persistence):
+    total = 0
+    frequency = 1
+    amplitude = 1
+    maxValue = 0
+
+    for i in range(octaves):
+        total += ((noise(x * frequency, y * frequency)) * amplitude)
+
+        maxValue += amplitude
+
+        amplitude *= persistence
+        frequency *= 2
+
+    return total / maxValue
+
+def noise(x, y):
     #print(x)
     xi = math.floor(x) % 255
     yi = math.floor(y) % 255
@@ -23,6 +41,7 @@ def Noise(x, y):
     g1 = p[p[xi] + yi]
     g2 = p[p[xi + 1] + yi]
     g3 = p[p[xi] + yi + 1]
+    #print(xi + 1, yi + 1, p[xi + 1] + yi + 1)
     g4 = p[p[xi + 1] + yi + 1]
 
     xf = x - math.floor(x)

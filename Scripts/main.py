@@ -1,6 +1,6 @@
 import pygame
 from worldClass import *
-import mathlib
+import mathlib, threading
 
 # Constant variables
 worldSeed = random.randint(10000, 99999)
@@ -13,21 +13,16 @@ window = pygame.display.set_mode((worldResolution, worldResolution))
 # Generates and renders the map to a single surface for optimisation
 def Generate():
     global worldMap
-    #worldMap.MAP_SEED = random.randint(100000, 999999)
-    worldMap.GenerateMap()
-    worldMap.RenderMap()
+    worldMap.MAP_SEED = random.randint(100000, 999999)
+    worldMap.GenerateThreadedParent()
 
 Generate()
-tick = 0
+#tick = 0
 
 # Constant loop running
 running = True
 while running == True:
     worldMap.DrawMap(window)
-
-    Generate()
-    pygame.image.save(window,"GifFolder\\img{}.png".format(tick))
-    tick += 1
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

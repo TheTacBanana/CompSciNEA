@@ -1,9 +1,9 @@
 import pygame, json, random
-import perlinNoise
+import perlinNoise, threading
 
 class Tile():
     def __init__(self):
-        pass
+        self.tileHeight = -1
 
     def InitValues(self, tileType, height):
         self.tileType = tileType
@@ -50,7 +50,37 @@ class WorldMap():
 
                 self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, self.paramDictionary["Octaves"], self.paramDictionary["Persistence"])
 
-        self.time += (1 / self.MAP_SIZE)
+        #self.time += (1 / self.MAP_SIZE)
+
+    def ThreadedChild(self, x1, x2, y1, y2):
+        for y in range(y1, y2):
+            for x in range(x1, x2):
+                xCoord = x / self.MAP_SIZE
+                yCoord = y / self.MAP_SIZE
+
+                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, self.paramDictionary["Octaves"], self.paramDictionary["Persistence"])
+
+    def GenerateThreadedParent(self):
+        threads = []
+
+        halfMap = int(self.MAP_SIZE / 2)
+        fullMap = self.MAP_SIZE
+
+        threads.append(threading.Thread(target=self.ThreadedChild, args=(0, halfMap, 0, halfMap)))
+        threads.append(threading.Thread(target=self.ThreadedChild, args=(halfMap, fullMap, 0, halfMap)))
+        threads.append(threading.Thread(target=self.ThreadedChild, args=(0, halfMap, halfMap, fullMap)))
+        threads.append(threading.Thread(target=self.ThreadedChild, args=(halfMap, fullMap, halfMap, fullMap)))
+            
+        for t in threads:
+            t.start()
+
+        while threading.activeCount() > 1:
+            pass
+
+        self.RenderMap()
+
+        #print(threading.activeCount())
+
 
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
@@ -63,7 +93,7 @@ class WorldMap():
                     value = self.tileArray[x][y].tileHeight
                     value = (value / 2) + 0.5
                     value = Clamp(value, 0.0, 1.0)
-                    #print(value, x * self.MAP_SIZE * self.TILE_WIDTH, y * self.MAP_SIZE * self.TILE_WIDTH)
+                    
                     pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                     (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
@@ -76,7 +106,9 @@ class WorldMap():
                     
                     colour = None
 
-                    if value < self.paramDictionary["Water"]:
+                    if value == 0:
+                        colour = (0,0,0)
+                    elif value < self.paramDictionary["Water"]:
                         colour = (18, 89, 144)
                     elif value < self.paramDictionary["Coast"]:
                         colour = (245, 234, 146)
@@ -84,8 +116,6 @@ class WorldMap():
                         colour = (26, 148, 49)
                     elif value < self.paramDictionary["TallGrass"]:
                         colour = (136, 140, 141)
-                    
-                    
                     
                     pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                     (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))

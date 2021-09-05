@@ -19,7 +19,7 @@ def Generate():
     worldMap.GenerateTreeArea()
 
     worldMap.RenderMap()
-    worldMap.RenderInteractables(False)
+    worldMap.RenderInteractables()
 
 Generate()
 #tick = 0
@@ -27,6 +27,7 @@ Generate()
 # Constant loop running
 running = True
 while running == True:
+    worldMap.RenderMap()
     worldMap.DrawMap(window)
 
     for event in pygame.event.get():

@@ -1,19 +1,22 @@
 {
-    "WorldSize": 256, 
-    "TileWidth": 2,
+    "WorldSize": 128, 
+    "TileWidth": 8,
     "TileBorder": 0,
 
     "OctavesTerrain": 7,
     "PersistenceTerrain": 0.6,
 
-    "OctavesTrees": 3,
-    "PersistenceTrees": 2,
+    "OctavesTrees": 4,
+    "PersistenceTrees": 0.9,
+    "PoissonRVal": 1.75,
     "TreeSeedOffset": 1000,
-    "TreeHeight": 0.5,
+    "TreeHeight": 0.15,
+    "TreeTileBorder": 0,
+    "TreeBeachOffset": 0.05,
 
     "Grayscale": 0,
     "Water": 0.46,
     "Coast": 0.48,
-    "Grass": 0.65,
+    "Grass": 0.63,
     "TallGrass": 1.0
 }

@@ -22,7 +22,9 @@ class WorldMap():
         self.TILE_BORDER = params["TileBorder"]
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
-        self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+        #self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+
+        self.interactableTileListTemp = []
         self.interactables = []
 
         #self.interactables.append( InteractableObject("Tree", (1,1)))
@@ -51,7 +53,10 @@ class WorldMap():
     def GenerateTreeArea(self):
         TSO = self.paramDictionary["TreeSeedOffset"]
 
-        self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+        #self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+
+        self.interactableTileListTemp = []
+        self.interactables = []
 
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
@@ -63,10 +68,40 @@ class WorldMap():
 
                 tileValue = Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0)
 
-                if temp > 0 and tileValue > self.paramDictionary["Coast"]:
-                    self.interactableTempTileArray[x][y].tileHeight = 1
+                if temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]:
+                    #self.interactableTempTileArray[x][y].tileHeight = 1
 
+                    self.interactableTileListTemp.append([x, y])
+        
+        #print(self.interactableTileListTemp)
+        poissonCoords = self.PoissonDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"])
 
+        for coord in poissonCoords:
+            self.interactables.append(InteractableObject("Tree", coord))
+
+    def PoissonDiscSampling(self, listIn, r):
+        random.shuffle(listIn)
+        newList = []
+
+        flag = False
+
+        for coord in listIn:
+            if len(newList) == 0:
+                newList.append(coord)
+            else:
+                for newCoord in newList:
+                    if self.NormalisedDistance(coord, newCoord) < r:
+                        flag = True
+                if flag:
+                    flag = False
+                    continue
+                else:
+                    newList.append(coord)
+
+        return newList # List of coords with Trees
+
+    def NormalisedDistance(self, v1, v2):
+        return ((v1[0]-v2[0]) ** 2 + (v1[1]-v2[1]) ** 2) ** 0.5
 
     def GenerateMap(self): # V1 - Not threaded
         for y in range(0, self.MAP_SIZE):
@@ -150,10 +185,12 @@ class WorldMap():
         self.RenderedInteractables = pygame.Surface((resolution, resolution))
         self.RenderedInteractables.set_colorkey((0,0,0))
 
+        TTB = self.paramDictionary["TreeTileBorder"]
+
         if isList:
             for i in self.interactables:
-                pygame.draw.rect(self.RenderedInteractables, (1,1,1), ((i.position[0] * self.TILE_WIDTH + self.TILE_BORDER), 
-                        (i.position[1] * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+                pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((i.position[0] * self.TILE_WIDTH + TTB), 
+                        (i.position[1] * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
         else:
             for y in range(0, self.MAP_SIZE):
                 for x in range(0, self.MAP_SIZE):
@@ -161,8 +198,9 @@ class WorldMap():
                     value = (value / 2) + 0.5
                     value = Clamp(value, 0.0, 1.0)
                     
-                    pygame.draw.rect(self.RenderedInteractables, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
-                            (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+                    if value > 0.1:
+                        pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((x * self.TILE_WIDTH + TTB),
+                                (y * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
 
     def DrawMap(self, window):
         window.blit(self.RenderedMap, (0,0))

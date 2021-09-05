@@ -22,6 +22,7 @@ class WorldMap():
         self.TILE_BORDER = params["TileBorder"]
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+        self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
         self.interactables = []
 
         #self.interactables.append( InteractableObject("Tree", (1,1)))
@@ -47,23 +48,45 @@ class WorldMap():
                 temp += str(self.tileArray[x][y].tileHeight) + "/"
             print(temp)
 
-    def GenerateMap(self):
+    def GenerateTreeArea(self):
+        TSO = self.paramDictionary["TreeSeedOffset"]
+
+        self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
                 xCoord = x / self.MAP_SIZE
                 yCoord = y / self.MAP_SIZE
 
-                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, self.paramDictionary["Octaves"], self.paramDictionary["Persistence"])
+                temp = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + TSO, self.MAP_SEED + yCoord + TSO, 
+                                                            self.paramDictionary["OctavesTrees"], self.paramDictionary["PersistenceTrees"])
+
+                tileValue = Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0)
+
+                if temp > 0 and tileValue > self.paramDictionary["Coast"]:
+                    self.interactableTempTileArray[x][y].tileHeight = 1
+
+
+
+    def GenerateMap(self): # V1 - Not threaded
+        for y in range(0, self.MAP_SIZE):
+            for x in range(0, self.MAP_SIZE):
+                xCoord = x / self.MAP_SIZE
+                yCoord = y / self.MAP_SIZE
+
+                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
+                                                            self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"])
 
         #self.time += (1 / self.MAP_SIZE)
 
-    def ThreadedChild(self, x1, x2, y1, y2):
+    def ThreadedChild(self, x1, x2, y1, y2): # V2 - Uses 4 threads to generate quicker
         for y in range(y1, y2):
             for x in range(x1, x2):
                 xCoord = x / self.MAP_SIZE
                 yCoord = y / self.MAP_SIZE
 
-                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, self.paramDictionary["Octaves"], self.paramDictionary["Persistence"])
+                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
+                                                            self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"])
 
     def GenerateThreadedParent(self):
         threads = []
@@ -84,7 +107,6 @@ class WorldMap():
 
         self.RenderMap()
 
-
     def RenderMap(self):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
         self.RenderedMap = pygame.Surface((resolution, resolution))
@@ -98,7 +120,7 @@ class WorldMap():
                     value = Clamp(value, 0.0, 1.0)
                     
                     pygame.draw.rect(self.RenderedMap, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
-                    (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+                            (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
         else:
             for y in range(0, self.MAP_SIZE):
@@ -121,22 +143,30 @@ class WorldMap():
                         colour = (136, 140, 141)
                     
                     pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
-                    (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+                            (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
-    def RenderInteractables(self):
+    def RenderInteractables(self, isList = True):
         resolution = self.MAP_SIZE * self.TILE_WIDTH
         self.RenderedInteractables = pygame.Surface((resolution, resolution))
         self.RenderedInteractables.set_colorkey((0,0,0))
 
-        for i in self.interactables:
-            pygame.draw.rect(self.RenderedInteractables, (1,1,1), ((i.position[0] * self.TILE_WIDTH + self.TILE_BORDER), 
-                    (i.position[1] * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
-
+        if isList:
+            for i in self.interactables:
+                pygame.draw.rect(self.RenderedInteractables, (1,1,1), ((i.position[0] * self.TILE_WIDTH + self.TILE_BORDER), 
+                        (i.position[1] * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
+        else:
+            for y in range(0, self.MAP_SIZE):
+                for x in range(0, self.MAP_SIZE):
+                    value = self.interactableTempTileArray[x][y].tileHeight
+                    value = (value / 2) + 0.5
+                    value = Clamp(value, 0.0, 1.0)
+                    
+                    pygame.draw.rect(self.RenderedInteractables, (255 * value, 255 * value, 255 * value), ((x * self.TILE_WIDTH + self.TILE_BORDER), 
+                            (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
     def DrawMap(self, window):
         window.blit(self.RenderedMap, (0,0))
         window.blit(self.RenderedInteractables, (0,0))
 
-    
 def Clamp(val, low, high):
     return low if val < low else high if val > high else val

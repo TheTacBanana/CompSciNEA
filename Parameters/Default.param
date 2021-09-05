@@ -1,10 +1,15 @@
 {
-    "WorldSize": 128, 
-    "TileWidth": 4,
+    "WorldSize": 256, 
+    "TileWidth": 2,
     "TileBorder": 0,
 
-    "Octaves": 7,
-    "Persistence": 0.6,
+    "OctavesTerrain": 7,
+    "PersistenceTerrain": 0.6,
+
+    "OctavesTrees": 3,
+    "PersistenceTrees": 2,
+    "TreeSeedOffset": 1000,
+    "TreeHeight": 0.5,
 
     "Grayscale": 0,
     "Water": 0.46,

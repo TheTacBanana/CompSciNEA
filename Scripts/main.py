@@ -14,8 +14,12 @@ window = pygame.display.set_mode((worldResolution, worldResolution))
 def Generate():
     global worldMap
     worldMap.MAP_SEED = random.randint(100000, 999999)
+    
     worldMap.GenerateThreadedParent()
-    worldMap.RenderInteractables()
+    worldMap.GenerateTreeArea()
+
+    worldMap.RenderMap()
+    worldMap.RenderInteractables(False)
 
 Generate()
 #tick = 0

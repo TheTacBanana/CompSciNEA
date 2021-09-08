@@ -68,12 +68,12 @@ class WorldMap():
                 if temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]:
                     self.interactableTileListTemp.append([x, y])
         
-        poissonCoords = self.PoissonDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"])
+        poissonCoords = self.PoissonDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"], self.paramDictionary["PoissonKVal"])
 
         for coord in poissonCoords:
             self.interactables.append(InteractableObject("Tree", coord))
 
-    def PoissonDiscSampling(self, listIn, r): # An algorithm for spacing objects in a given area
+    def ShuffledDiscSampling(self, listIn, r, k): # An algorithm for spacing objects in a given area - Inneficient and high complexity
         random.seed(self.MAP_SEED)
         random.shuffle(listIn)
         newList = []
@@ -94,6 +94,57 @@ class WorldMap():
                     newList.append(coord)
 
         return newList # List of coords with Trees
+
+    def PoissonDiscSampling(self, listIn, r, k):
+        if len(listIn) == 0:
+            return []
+
+        treeMap = [[0 for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+
+        listCount = 0
+        i = 0
+        flag = False
+
+        #print(len(listIn))
+
+        # First point
+        c = listIn[random.randint(0, len(listIn) - 1)]
+        treeMap[c[0]][c[1]] = 1
+
+        c = listIn[random.randint(0, len(listIn) - 1)]
+        
+        while i < k and listCount < len(listIn) - 1:
+            listCount += 1
+
+            for y in range(c[1] - r, c[1] + r + 1):
+                for x in range(c[0] - r, c[0] + r + 1):
+                    if x > 0 and x < self.MAP_SIZE and y > 0 and y < self.MAP_SIZE:
+                        if treeMap[x][y] == 1:
+                            flag == True
+
+            if flag == False:
+                i = 0
+                treeMap[c[0]][c[1]] = 1
+            else:   
+                print(i, "first")
+                i += 1
+                print(i)
+                flag = False
+
+            c = listIn[random.randint(0, len(listIn) - 1)]
+
+        treeList = []
+        for y in range(0, self.MAP_SIZE):
+            for x in range(0, self.MAP_SIZE):
+                if x > 0 and x < self.MAP_SIZE and y > 0 and y < self.MAP_SIZE:
+                    if treeMap[x][y] == 1:
+                        treeList.append([x,y])
+        
+        treeMap = None
+
+        print(treeList)
+
+        return treeList       
 
     def NormalisedDistance(self, v1, v2): # Normalised distance between two points - used for Poisson Disc Sampling
         return ((v1[0]-v2[0]) ** 2 + (v1[1]-v2[1]) ** 2) ** 0.5

@@ -1,14 +1,17 @@
 {
-    "WorldSize": 128, 
-    "TileWidth": 4,
+    "Headless": 0,
+
+    "WorldSize": 64, 
+    "TileWidth": 8,
     "TileBorder": 0,
 
     "OctavesTerrain": 7,
     "PersistenceTerrain": 0.6,
 
     "OctavesTrees": 4,
-    "PersistenceTrees": 0.9,
-    "PoissonRVal": 1.75,
+    "PersistenceTrees": 0.95,
+    "PoissonRVal": 2,
+    "PoissonKVal": 20,
     "TreeSeedOffset": 1000,
     "TreeHeight": 0.15,
     "TreeTileBorder": 0,

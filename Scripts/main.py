@@ -1,4 +1,3 @@
-import pygame
 from worldClass import *
 import mathlib, threading
 
@@ -7,8 +6,11 @@ worldSeed = 0
 print(worldSeed)
 worldMap = WorldMap(worldSeed, WorldMap.LoadParameters("Default"))
 
-worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH
-window = pygame.display.set_mode((worldResolution, worldResolution))
+headless = worldMap.paramDictionary["Headless"]
+if not headless:
+    import pygame
+    worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH
+    window = pygame.display.set_mode((worldResolution, worldResolution))
 
 # Generates and renders the map to a single surface for optimisation
 def Generate():
@@ -18,8 +20,9 @@ def Generate():
     worldMap.GenerateThreadedParent()
     worldMap.GenerateTreeArea()
 
-    worldMap.RenderMap()
-    worldMap.RenderInteractables()
+    if not headless:
+        worldMap.RenderMap()
+        worldMap.RenderInteractables()
 
 Generate()
 #tick = 0
@@ -27,9 +30,6 @@ Generate()
 # Constant loop running
 running = True
 while running == True:
-    worldMap.RenderMap()
-    worldMap.DrawMap(window)
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print(client.close())
@@ -39,4 +39,7 @@ while running == True:
             if event.key == pygame.K_F1:
                 Generate()
     
-    pygame.display.update()
+    if not headless:
+        worldMap.RenderMap()
+        worldMap.DrawMap(window)
+        pygame.display.update()

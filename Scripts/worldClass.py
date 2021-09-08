@@ -1,7 +1,7 @@
 import pygame, json, random
 import perlinNoise, threading
 
-class Tile():
+class Tile(): # Class to store tile data in
     def __init__(self):
         self.tileHeight = -1
 
@@ -9,25 +9,24 @@ class Tile():
         self.tileType = tileType
         self.tileHeight = height
 
-class InteractableObject():
+class InteractableObject(): # Class to store interactable data in
     def __init__(self, name, position):
         self.name = name
         self.position = position
 
 class WorldMap():
-    def __init__(self, seed, params):
+    def __init__(self, seed, params): # Initialise method for creating an instance of the world
+        # Constants
         self.MAP_SIZE = params["WorldSize"]
         self.TILE_WIDTH = params["TileWidth"]
         self.MAP_SEED = seed
         self.TILE_BORDER = params["TileBorder"]
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
-        #self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
         self.interactableTileListTemp = []
         self.interactables = []
 
-        #self.interactables.append( InteractableObject("Tree", (1,1)))
 
         self.paramDictionary = params
 
@@ -50,10 +49,8 @@ class WorldMap():
                 temp += str(self.tileArray[x][y].tileHeight) + "/"
             print(temp)
 
-    def GenerateTreeArea(self):
+    def GenerateTreeArea(self): # Uses perlin noise to generate the areas for trees to spawn in
         TSO = self.paramDictionary["TreeSeedOffset"]
-
-        #self.interactableTempTileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
         self.interactableTileListTemp = []
         self.interactables = []
@@ -69,17 +66,15 @@ class WorldMap():
                 tileValue = Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0)
 
                 if temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]:
-                    #self.interactableTempTileArray[x][y].tileHeight = 1
-
                     self.interactableTileListTemp.append([x, y])
         
-        #print(self.interactableTileListTemp)
         poissonCoords = self.PoissonDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"])
 
         for coord in poissonCoords:
             self.interactables.append(InteractableObject("Tree", coord))
 
-    def PoissonDiscSampling(self, listIn, r):
+    def PoissonDiscSampling(self, listIn, r): # An algorithm for spacing objects in a given area
+        random.seed(self.MAP_SEED)
         random.shuffle(listIn)
         newList = []
 
@@ -100,7 +95,7 @@ class WorldMap():
 
         return newList # List of coords with Trees
 
-    def NormalisedDistance(self, v1, v2):
+    def NormalisedDistance(self, v1, v2): # Normalised distance between two points - used for Poisson Disc Sampling
         return ((v1[0]-v2[0]) ** 2 + (v1[1]-v2[1]) ** 2) ** 0.5
 
     def GenerateMap(self): # V1 - Not threaded
@@ -123,7 +118,7 @@ class WorldMap():
                 self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
                                                             self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"])
 
-    def GenerateThreadedParent(self):
+    def GenerateThreadedParent(self): # Parent to Threaded Child method
         threads = []
 
         halfMap = int(self.MAP_SIZE / 2)
@@ -142,7 +137,7 @@ class WorldMap():
 
         self.RenderMap()
 
-    def RenderMap(self):
+    def RenderMap(self): # Renders terrain onto Pygame surface
         resolution = self.MAP_SIZE * self.TILE_WIDTH
         self.RenderedMap = pygame.Surface((resolution, resolution))
         self.RenderedMap.set_colorkey((0,0,0))
@@ -180,7 +175,7 @@ class WorldMap():
                     pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                             (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
-    def RenderInteractables(self, isList = True):
+    def RenderInteractables(self, isList = True): # Renders list of interactables onto surface
         resolution = self.MAP_SIZE * self.TILE_WIDTH
         self.RenderedInteractables = pygame.Surface((resolution, resolution))
         self.RenderedInteractables.set_colorkey((0,0,0))
@@ -202,9 +197,9 @@ class WorldMap():
                         pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((x * self.TILE_WIDTH + TTB),
                                 (y * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
 
-    def DrawMap(self, window):
+    def DrawMap(self, window): # Blits the rendered frames onto the passed through window
         window.blit(self.RenderedMap, (0,0))
         window.blit(self.RenderedInteractables, (0,0))
 
-def Clamp(val, low, high):
+def Clamp(val, low, high): # Simple function to clamp a value between two numbers - Used to make sure number doesnt go out of bounds
     return low if val < low else high if val > high else val

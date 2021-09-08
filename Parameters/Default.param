@@ -1,6 +1,6 @@
 {
     "WorldSize": 128, 
-    "TileWidth": 8,
+    "TileWidth": 4,
     "TileBorder": 0,
 
     "OctavesTerrain": 7,

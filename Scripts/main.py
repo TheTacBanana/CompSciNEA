@@ -3,7 +3,7 @@ from worldClass import *
 import mathlib, threading
 
 # Constant variables
-worldSeed = random.randint(10000, 99999)
+worldSeed = 0
 print(worldSeed)
 worldMap = WorldMap(worldSeed, WorldMap.LoadParameters("Default"))
 

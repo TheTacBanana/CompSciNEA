@@ -14,7 +14,7 @@
     "PoissonKVal": 20,
     "TreeSeedOffset": 1000,
     "TreeHeight": 0.15,
-    "TreeTileBorder": 0,
+    "TreeTileBorder": 1,
     "TreeBeachOffset": 0.05,
 
     "Grayscale": 0,

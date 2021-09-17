@@ -1,4 +1,4 @@
-import pygame, json, random
+import json, random
 import perlinNoise, threading
 
 class Tile(): # Class to store tile data in
@@ -21,6 +21,10 @@ class WorldMap():
         self.TILE_WIDTH = params["TileWidth"]
         self.MAP_SEED = seed
         self.TILE_BORDER = params["TileBorder"]
+
+        if not params["Headless"]:
+            pass
+        import pygame
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
@@ -126,9 +130,9 @@ class WorldMap():
                 i = 0
                 treeMap[c[0]][c[1]] = 1
             else:   
-                print(i, "first")
+                #print(i, "first")
                 i += 1
-                print(i)
+                #print(i)
                 flag = False
 
             c = listIn[random.randint(0, len(listIn) - 1)]
@@ -142,7 +146,7 @@ class WorldMap():
         
         treeMap = None
 
-        print(treeList)
+        #print(treeList)
 
         return treeList       
 
@@ -186,7 +190,8 @@ class WorldMap():
         while threading.activeCount() > 1:
             pass
 
-        self.RenderMap()
+        if not self.paramDictionary["Headless"]:
+            self.RenderMap()
 
     def RenderMap(self): # Renders terrain onto Pygame surface
         resolution = self.MAP_SIZE * self.TILE_WIDTH

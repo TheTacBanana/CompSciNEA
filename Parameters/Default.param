@@ -1,7 +1,7 @@
 {
-    "Headless": 0,
+    "Headless": 1,
 
-    "WorldSize": 64, 
+    "WorldSize": 10, 
     "TileWidth": 8,
     "TileBorder": 0,
 

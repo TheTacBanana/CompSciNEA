@@ -1,14 +1,16 @@
 from worldClass import *
-import mathlib, threading
+from mathLib import Vector
+import threading, pygame
 
 # Constant variables
 worldSeed = 0
-print(worldSeed)
+#print(worldSeed)
 worldMap = WorldMap(worldSeed, WorldMap.LoadParameters("Default"))
 
 headless = worldMap.paramDictionary["Headless"]
 if not headless:
-    import pygame
+    #import pygame
+    print(pygame)
     worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH
     window = pygame.display.set_mode((worldResolution, worldResolution))
 
@@ -25,21 +27,24 @@ def Generate():
         worldMap.RenderInteractables()
 
 Generate()
+print(worldMap.ConsoleOut())
 #tick = 0
 
 # Constant loop running
 running = True
 while running == True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            print(client.close())
-            running = False
-
-        if event.type == pygame.KEYDOWN: # Key Down
-            if event.key == pygame.K_F1:
-                Generate()
-    
     if not headless:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                print(client.close())
+                running = False
+
+            if event.type == pygame.KEYDOWN: # Key Down
+                if event.key == pygame.K_F1:
+                    Generate()
+
         worldMap.RenderMap()
         worldMap.DrawMap(window)
         pygame.display.update()
+    else:
+        pass

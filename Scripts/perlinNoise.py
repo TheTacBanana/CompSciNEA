@@ -1,4 +1,4 @@
-from mathlib import Vector
+from mathLib import Vector
 import random, math
 
 p = [151,160,137,91,90,15,                 

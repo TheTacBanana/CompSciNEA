@@ -22,4 +22,6 @@
     "Coast": 0.48,
     "Grass": 0.63,
     "TallGrass": 1.0
+
+    "QLearningMaxSteps": 10000
 }

@@ -1,7 +1,7 @@
 {
     "Headless": 0,
 
-    "WorldSize": 128, 
+    "WorldSize": 7, 
     "TileWidth": 4,
     "TileBorder": 0,
 
@@ -14,14 +14,17 @@
     "PoissonKVal": 20,
     "TreeSeedOffset": 1000,
     "TreeHeight": 0.15,
-    "TreeTileBorder": 1,
+    "TreeTileBorder": 0,
     "TreeBeachOffset": 0.05,
 
     "Grayscale": 0,
     "Water": 0.46,
     "Coast": 0.48,
     "Grass": 0.63,
-    "TallGrass": 1.0
+    "TallGrass": 1.0,
 
-    "QLearningMaxSteps": 10000
+    "QLearningMaxSteps": 10000,
+    "Offset": 3,
+    "LearningRate": 0.5,
+    "Gamma": 0.8
 }

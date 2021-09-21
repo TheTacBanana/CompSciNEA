@@ -220,12 +220,16 @@ class WorldMap():
                         colour = (0,0,0)
                     elif value < self.paramDictionary["Water"]:
                         colour = (18, 89, 144)
+                        self.tileArray[x][y].tileType = 0
                     elif value < self.paramDictionary["Coast"]:
                         colour = (245, 234, 146)
+                        self.tileArray[x][y].tileType = 1
                     elif value < self.paramDictionary["Grass"]:
                         colour = (26, 148, 49)
+                        self.tileArray[x][y].tileType = 2
                     elif value < self.paramDictionary["TallGrass"]:
                         colour = (136, 140, 141)
+                        self.tileArray[x][y].tileType = 3
                     
                     pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                             (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))

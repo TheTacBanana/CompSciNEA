@@ -1,4 +1,4 @@
-from worldClass import InteractableObject, Tile
+from worldClass import *
 
 class Agent():
     def __init__(self, location, params):
@@ -7,9 +7,28 @@ class Agent():
 
         self.inventory = {}
 
+    def GetState(self, worldMap):
+        world = worldMap.tileArray
+        offset = self.paramDictionary["Offset"]
+
+        temp = [[0 for i in range(self.location[0] - offset, self.location[0] + offset + 1)] for j in range(self.location[1] - offset, self.location[1] + offset + 1)]
+
+        print(temp)
+
+        x1, y1 = 0, 0
+        for y in range(self.location[0] - offset, self.location[0] + offset + 1):
+            
+            for x in range(self.location[1] - offset, self.location[1] + offset + 1):
+                temp[x1][y1] = world[x][y].tileType
+                x1 += 1
+            x1 = 0
+            y1 += 1
+
+        return temp
+
     @staticmethod
     def SpawnPosition(worldMap):
-        return [32,32]
+        return [3,3]
 
     def Action(self, action, worldMap):
         if action == 0:

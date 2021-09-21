@@ -1,20 +1,13 @@
 from worldClass import *
-<<<<<<< Updated upstream
-from mathLib import Vector
-import threading, pygame
-=======
 from agent import *
 import mathlib, threading
->>>>>>> Stashed changes
 
 # Constant variables
 worldSeed = 0
-#print(worldSeed)
-worldMap = WorldMap(worldSeed, WorldMap.LoadParameters("Default"))
+params = WorldMap.LoadParameters("Default")
+worldMap = WorldMap(worldSeed, params)
 
-#agent = Agent(agent.SpawnPosition(worldMap), params)
-
-headless = worldMap.paramDictionary["Headless"]
+headless = params["Headless"]
 if not headless:
     #import pygame
     print(pygame)
@@ -35,6 +28,11 @@ def Generate():
         worldMap.RenderInteractables()
 
 Generate()
+
+agent = Agent(Agent.SpawnPosition(worldMap), params)
+print(agent.GetState(worldMap))
+
+
 #print(worldMap.ConsoleOut())
 #tick = 0
 

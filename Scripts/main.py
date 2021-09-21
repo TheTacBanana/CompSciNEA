@@ -17,6 +17,7 @@ if not headless:
 # Generates and renders the map to a single surface for optimisation
 def Generate():
     global worldMap
+    
     worldMap.MAP_SEED = random.randint(100000, 999999)
     
     worldMap.GenerateThreadedParent()

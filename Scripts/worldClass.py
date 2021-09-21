@@ -1,5 +1,6 @@
 import json, random
 import perlinNoise, threading
+import pygame
 
 class Tile(): # Class to store tile data in
     def __init__(self):
@@ -21,10 +22,6 @@ class WorldMap():
         self.TILE_WIDTH = params["TileWidth"]
         self.MAP_SEED = seed
         self.TILE_BORDER = params["TileBorder"]
-
-        if not params["Headless"]:
-            pass
-        import pygame
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
@@ -72,7 +69,7 @@ class WorldMap():
                 if temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]:
                     self.interactableTileListTemp.append([x, y])
         
-        poissonCoords = self.PoissonDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"], self.paramDictionary["PoissonKVal"])
+        poissonCoords = self.ShuffledDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"], self.paramDictionary["PoissonKVal"])
 
         for coord in poissonCoords:
             self.interactables.append(InteractableObject("Tree", coord))
@@ -120,13 +117,15 @@ class WorldMap():
         while i < k and listCount < len(listIn) - 1:
             listCount += 1
 
-            for y in range(c[1] - r, c[1] + r + 1):
-                for x in range(c[0] - r, c[0] + r + 1):
+            for y in range(c[1] - r, c[1] + r ):
+                for x in range(c[0] - r, c[0] + r):
                     if x > 0 and x < self.MAP_SIZE and y > 0 and y < self.MAP_SIZE:
                         if treeMap[x][y] == 1:
+                            print(treeMap[x][y])
                             flag == True
 
             if flag == False:
+                #print(i)
                 i = 0
                 treeMap[c[0]][c[1]] = 1
             else:   

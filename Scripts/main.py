@@ -27,7 +27,7 @@ def Generate():
         worldMap.RenderInteractables()
 
 Generate()
-print(worldMap.ConsoleOut())
+#print(worldMap.ConsoleOut())
 #tick = 0
 
 # Constant loop running
@@ -36,7 +36,6 @@ while running == True:
     if not headless:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                print(client.close())
                 running = False
 
             if event.type == pygame.KEYDOWN: # Key Down

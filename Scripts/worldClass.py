@@ -43,6 +43,15 @@ class WorldMap():
     def GetTile(self, xpos, ypos): # Return tile at specified position
         return self.tileArray[xpos][ypos]
 
+    def CheckIfOcean(self, x, y):
+        if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
+            if self.tileArray[x][y].tileType == 0:
+                return None
+            else:
+                return True
+        else:
+            return None
+
     def ConsoleOut(self): # Print grid of characters to console, representing the grid of tiles
         for y in range(0, self.MAP_SIZE):
             temp = ""

@@ -23,9 +23,12 @@
     "Grass": 0.63,
     "TallGrass": 1.0,
 
-    "QLearningMaxSteps": 10000,
+    "QLearningMaxSteps": 1000000,
     "Offset": 3,
-    "Epsilon": 1.1,
+    "Epsilon": 0.5,
     "LearningRate": 0.5,
-    "Gamma": 0.8
+    "Gamma": 0.8,
+
+    "MoveReward": -1,
+    "TreeReward": 100
 }

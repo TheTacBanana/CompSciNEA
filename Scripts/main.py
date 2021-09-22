@@ -1,6 +1,7 @@
 from worldClass import *
-from agent import *
-import mathlib, threading
+from qlearning import *
+import mathLib, threading
+import pygame
 
 # Constant variables
 worldSeed = 0
@@ -9,8 +10,6 @@ worldMap = WorldMap(worldSeed, params)
 
 headless = params["Headless"]
 if not headless:
-    #import pygame
-    print(pygame)
     worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH
     window = pygame.display.set_mode((worldResolution, worldResolution))
 
@@ -29,12 +28,8 @@ def Generate():
 
 Generate()
 
-agent = Agent(Agent.SpawnPosition(worldMap), params)
-print(agent.GetState(worldMap))
-
-
-#print(worldMap.ConsoleOut())
-#tick = 0
+QNetwork = QLearning(params)
+QNetwork.CreateAgent(worldMap)
 
 # Constant loop running
 running = True
@@ -48,8 +43,16 @@ while running == True:
                 if event.key == pygame.K_F1:
                     Generate()
 
-        worldMap.RenderMap()
+        #worldMap.RenderMap()
+        QNetwork.NextStep(worldMap)
+
         worldMap.DrawMap(window)
+
+        agent = QNetwork.agent
+        TW = params["TileWidth"]
+        pygame.draw.rect(window, (233, 182, 14), ((agent.location[0] * TW),
+                                (agent.location[1] * TW), TW, TW))
+
         pygame.display.update()
     else:
         pass

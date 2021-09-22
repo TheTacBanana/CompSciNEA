@@ -13,7 +13,7 @@ class Agent():
 
         temp = [[0 for i in range(self.location[0] - offset, self.location[0] + offset + 1)] for j in range(self.location[1] - offset, self.location[1] + offset + 1)]
 
-        print(temp)
+        #print(temp)
 
         x1, y1 = 0, 0
         for y in range(self.location[0] - offset, self.location[0] + offset + 1):
@@ -28,27 +28,30 @@ class Agent():
 
     @staticmethod
     def SpawnPosition(worldMap):
-        return [3,3]
+        return [64,64]
 
     def Action(self, action, worldMap):
         if action == 0:
             self.Move(0, worldMap)
         elif action == 1:
-            self.Move(0, worldMap)
+            self.Move(1, worldMap)
         elif action == 2:
-            self.Move(0, worldMap)
+            self.Move(2, worldMap)
         elif action == 3:
-            self.Move(0, worldMap)
+            self.Move(3, worldMap)
+        elif action == 4:
+            self.PickupItem(worldMap.interactables)
 
     def Move(self, direction, worldMap): # 0 - Up 1 - Right 2 - Down 3 - Left
         if direction == 0:
-            location = [location[0], location[1] - 1]
+            self.location = [self.location[0], self.location[1] - 1]
         elif direction == 1:
-            location = [location[0] + 1, location[1]]
+            self.location = [self.location[0] + 1, self.location[1]]
         elif direction == 2:
-            location = [location[0], location[1] + 1]
+            self.location = [self.location[0], self.location[1] + 1]
         elif direction == 3:
-            location = [location[0] - 1, location[1]]
+            self.location = [self.location[0] - 1, self.location[1]]
         
     def PickupItem(self, interactableList):
         pass
+        #print("pickup lol")

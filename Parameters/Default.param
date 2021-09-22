@@ -1,7 +1,7 @@
 {
     "Headless": 0,
 
-    "WorldSize": 7, 
+    "WorldSize": 128, 
     "TileWidth": 4,
     "TileBorder": 0,
 
@@ -25,6 +25,7 @@
 
     "QLearningMaxSteps": 10000,
     "Offset": 3,
+    "Epsilon": 1.1,
     "LearningRate": 0.5,
     "Gamma": 0.8
 }

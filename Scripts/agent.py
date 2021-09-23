@@ -31,42 +31,52 @@ class Agent():
     def SpawnPosition(worldMap):
         return [64,64]
 
-    def CalcReward(self, action, step):
-        totalReward = 0
-        if action >= 0 and action <= 3: 
-            totalReward += self.paramDictionary["MoveReward"]
+    #def CalcReward(self, action, step):
+    #    totalReward = 0
+    #    if action >= 0 and action <= 3: 
+    #        totalReward += self.paramDictionary["MoveReward"]
 
-        if action == 4:
-            totalReward += self.paramDictionary["TreeReward"]
+    #    if action == 4:
+    #        totalReward += self.paramDictionary["TreeReward"]
 
-        return totalReward
+    #    return totalReward
 
-    def Action(self, action, worldMap):
+    def Action(self, action, worldMap, maxQ = False):
         if action == 0:
-            self.Move(0, worldMap)
+            return self.Move(0, worldMap, maxQ)
         elif action == 1:
-            self.Move(1, worldMap)
+            return self.Move(1, worldMap, maxQ)
         elif action == 2:
-            self.Move(2, worldMap)
+            return self.Move(2, worldMap, maxQ)
         elif action == 3:
-            self.Move(3, worldMap)
+            return self.Move(3, worldMap, maxQ)
         elif action == 4:
-            self.PickupItem(worldMap.interactables)
+            return self.PickupItem(worldMap, maxQ)
 
-    def Move(self, direction, worldMap): # 0 - Up 1 - Right 2 - Down 3 - Left
+    def Move(self, direction, worldMap, maxQ): # 0 - Up 1 - Right 2 - Down 3 - Left
         if direction == 0 and worldMap.CheckIfOcean(self.location[0], self.location[1] - 1) != None:          #worldMap.tileArray[self.location[0]][self.location[1] - 1].tileType != 0:
-            self.location = [self.location[0], self.location[1] - 1]
-
+            if not maxQ:
+                self.location = [self.location[0], self.location[1] - 1]
+            return self.paramDictionary["MoveReward"]
         elif direction == 1 and worldMap.CheckIfOcean(self.location[0] + 1, self.location[1]) != None: #worldMap.tileArray[self.location[0] + 1][self.location[1]].tileType != 0:
-            self.location = [self.location[0] + 1, self.location[1]]
-
+            if not maxQ:
+                self.location = [self.location[0] + 1, self.location[1]]
+            return self.paramDictionary["MoveReward"]
         elif direction == 2 and worldMap.CheckIfOcean(self.location[0], self.location[1] + 1) != None: #and worldMap.tileArray[self.location[0]][self.location[1] + 1].tileType != 0:
-            self.location = [self.location[0], self.location[1] + 1]
-
+            if not maxQ:
+                self.location = [self.location[0], self.location[1] + 1]
+            return self.paramDictionary["MoveReward"]
         elif direction == 3 and worldMap.CheckIfOcean(self.location[0] - 1, self.location[1]) != None: #and worldMap.tileArray[self.location[0] - 1][self.location[1]].tileType != 0:
-            self.location = [self.location[0] - 1, self.location[1]]
+            if not maxQ:
+                self.location = [self.location[0] - 1, self.location[1]]
+            return self.paramDictionary["MoveReward"]
+        else:
+            return self.paramDictionary["TimeWasteReward"]
 
         
-    def PickupItem(self, interactableList):
-        pass
-        #print("pickup lol")
+    def PickupItem(self, worldMap, maxQ):
+        for i in worldMap.interactables:
+            if i.position == self.location:
+                #print("tree lol")
+                return self.paramDictionary["TreeReward"]
+        return self.paramDictionary["TimeWasteReward"]

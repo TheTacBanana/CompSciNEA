@@ -14,15 +14,19 @@ class QLearning():
         self.QTable = []
 
         self.step = 0
+        self.cumReward = 0
         
     def CreateAgent(self, worldMap):
         spawnPos = Agent.SpawnPosition(worldMap)
         self.agent = Agent(spawnPos, self.paramDictionary)
+        self.step = 0
+        self.cumReward = 0
 
     def NextStep(self, worldMap):
         state = self.agent.GetState(worldMap)
 
         frame = self.SearchForState(state)
+        reward = 0
 
         if frame == None:
             self.AddState(state)
@@ -30,7 +34,7 @@ class QLearning():
             frame = self.QTable[-1]
 
             i = self.ChooseRandom(frame.actionValues)
-            self.agent.Action(i, worldMap)
+            reward = self.agent.Action(i, worldMap)
         else:
             ep = self.paramDictionary["Epsilon"]
             
@@ -39,32 +43,35 @@ class QLearning():
             else:
                 i = self.ChooseMax(frame.actionValues)
 
-            self.agent.Action(i, worldMap)
+            reward = self.agent.Action(i, worldMap)
 
         self.step += 1
+        self.cumReward += reward
+        #print(self.cumReward)
+        print(self.step)
 
         tempFrame = StateFrame(self.agent.GetState(worldMap), 0)
-        newQSA = self.BellmanEquation(frame, i, tempFrame, self.step)
+        newQSA = self.BellmanEquation(frame, i, tempFrame, reward, self.step, worldMap)
         #frame.actionValues[i] = newQSA
 
         #print(self.step, frame.index, i, newQSA)
         self.QTable[frame.index].actionValues[i] = newQSA 
 
-    def BellmanEquation(self, frame, action, newFrame, step): # New Q(s,a) = Q(s,a) + Lr * [R(s,a) + y * maxQ(s, a) - Q(s,a)]
+    def BellmanEquation(self, frame, action, newFrame, reward, step, worldMap): # New Q(s,a) = Q(s,a) + Lr * [R(s,a) + y * maxQ(s, a) - Q(s,a)]
         qsa = frame.actionValues[action]
         lr = self.paramDictionary["LearningRate"]
         y = self.paramDictionary["Gamma"]
-        r = self.agent.CalcReward(action, step)
-        maxQ = self.MaxQ(newFrame)
+        r = reward
+        maxQ = self.MaxQ(newFrame, worldMap)
 
         newQSA = qsa + lr * (r + y * maxQ - qsa)
         return newQSA
 
-    def MaxQ(self, state):
+    def MaxQ(self, state, worldMap):
         bestAction = None
         bestReward = 0
         for i in range(len(state.actionValues)):
-            reward = self.agent.CalcReward(i, self.step)
+            reward = self.agent.Action(i, worldMap, True)
             if reward > bestReward:
                 bestAction = i
                 bestReward = reward
@@ -91,11 +98,11 @@ class QLearning():
         return maxIndex
 
     def SaveQTable(self):
-        with open(input("Input File Name: "), "wb") as f:
-            pickle.dumps(self.QTable, f)
+        with open("QLearningData\\{}.qd".format(input("Input File Name: ")), "wb") as f:
+            pickle.dump(self.QTable, f)
 
-    def LoadQTable(self, filename):
-        with open(input("Input File Name: "), "rb") as f:
+    def LoadQTable(self):
+        with open("QLearningData\\{}.qd".format(input("Input File Name: ")), "rb") as f:
             x = pickle.load(f)
 
         self.QTable = x

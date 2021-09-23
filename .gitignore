@@ -116,3 +116,6 @@ dmypy.json
 # HTML Analysis File
 *.html
 *.png
+
+# QData Files
+*.qd

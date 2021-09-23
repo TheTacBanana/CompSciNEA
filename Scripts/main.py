@@ -30,6 +30,12 @@ Generate()
 
 QNetwork = QLearning(params)
 QNetwork.CreateAgent(worldMap)
+agent = QNetwork.agent
+TW = params["TileWidth"]
+MS = params["QLearningMaxSteps"]
+
+curCycle = 0
+cycles = 2
 
 # Constant loop running
 running = True
@@ -44,12 +50,20 @@ while running == True:
                     Generate()
 
         #worldMap.RenderMap()
+        
         QNetwork.NextStep(worldMap)
-
         worldMap.DrawMap(window)
 
-        agent = QNetwork.agent
-        TW = params["TileWidth"]
+        if QNetwork.step > MS:
+            Generate()
+            QNetwork.CreateAgent(worldMap)
+            agent = QNetwork.agent
+            curCycle += 1
+
+        if curCycle > cycles:
+            QNetwork.SaveQTable()
+            running = False
+        
         pygame.draw.rect(window, (233, 182, 14), ((agent.location[0] * TW),
                                 (agent.location[1] * TW), TW, TW))
 

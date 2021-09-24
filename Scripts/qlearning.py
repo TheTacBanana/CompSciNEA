@@ -48,11 +48,11 @@ class QLearning():
         self.step += 1
         self.cumReward += reward
         #print(self.cumReward)
-        print(self.step)
+        if self.step % 1000 == 0:
+            print(self.step, self.cumReward)
 
         tempFrame = StateFrame(self.agent.GetState(worldMap), 0)
         newQSA = self.BellmanEquation(frame, i, tempFrame, reward, self.step, worldMap)
-        #frame.actionValues[i] = newQSA
 
         #print(self.step, frame.index, i, newQSA)
         self.QTable[frame.index].actionValues[i] = newQSA 
@@ -85,7 +85,7 @@ class QLearning():
 
     def AddState(self, state):
         self.QTable.append(StateFrame(state, len(self.QTable)))
-        #print("Added State")
+        #print(state)
     
     def ChooseRandom(self, values):
         return random.randint(0, len(values) - 1)
@@ -98,11 +98,19 @@ class QLearning():
         return maxIndex
 
     def SaveQTable(self):
-        with open("QLearningData\\{}.qd".format(input("Input File Name: ")), "wb") as f:
-            pickle.dump(self.QTable, f)
+        inputStr = input("Input File Name: ")
+        if inputStr != "":
+            with open("QLearningData\\{}.qd".format(inputStr), "wb") as f:
+                pickle.dump(self.QTable, f)
+        else:
+            print("Data Not Saved")
 
     def LoadQTable(self):
-        with open("QLearningData\\{}.qd".format(input("Input File Name: ")), "rb") as f:
-            x = pickle.load(f)
+        inputStr = input("Input File Name: ")
+        if inputStr != "":
+            with open("QLearningData\\{}.qd".format(input("Input File Name: ")), "rb") as f:
+                x = pickle.load(f)
 
-        self.QTable = x
+            self.QTable = x
+        else:
+            print("Data Not Loaded")

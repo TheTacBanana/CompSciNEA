@@ -25,12 +25,12 @@
 
     "QLearningMaxSteps": 10000,
     "Offset": 3,
-    "Epsilon": 1,
-    "LearningRate": 0.5,
+    "Epsilon": 0.2,
+    "LearningRate": 0.75,
     "Gamma": 0.8,
 
     "MoveReward": 1,
     "TreeReward": 40,
-    "TimeWasteReward": -10000,
+    "TimeWasteReward": -1000,
     "DeathReward": -1000000
 }

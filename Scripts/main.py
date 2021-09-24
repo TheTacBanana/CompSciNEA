@@ -35,7 +35,9 @@ TW = params["TileWidth"]
 MS = params["QLearningMaxSteps"]
 
 curCycle = 0
-cycles = 2
+cycles = 9
+
+QNetwork.LoadQTable()
 
 # Constant loop running
 running = True
@@ -64,8 +66,7 @@ while running == True:
             QNetwork.SaveQTable()
             running = False
         
-        pygame.draw.rect(window, (233, 182, 14), ((agent.location[0] * TW),
-                                (agent.location[1] * TW), TW, TW))
+        pygame.draw.rect(window, (233, 182, 14), ((agent.location[0] * TW), (agent.location[1] * TW), TW, TW))
 
         pygame.display.update()
     else:

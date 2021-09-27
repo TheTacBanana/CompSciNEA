@@ -254,16 +254,16 @@ class WorldMap():
             for i in self.interactables:
                 pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((i.position[0] * self.TILE_WIDTH + TTB), 
                         (i.position[1] * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
-        else:
-            for y in range(0, self.MAP_SIZE):
-                for x in range(0, self.MAP_SIZE):
-                    value = self.interactableTempTileArray[x][y].tileHeight
-                    value = (value / 2) + 0.5
-                    value = Clamp(value, 0.0, 1.0)
-                    
-                    if value > 0.1:
-                        pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((x * self.TILE_WIDTH + TTB),
-                                (y * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
+        #else:
+        #    for y in range(0, self.MAP_SIZE):
+        #        for x in range(0, self.MAP_SIZE):
+        #            value = self.interactableTempTileArray[x][y].tileHeight
+        #            value = (value / 2) + 0.5
+        #            value = Clamp(value, 0.0, 1.0)
+        #            
+        #            if value > 0.1:
+        #                pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((x * self.TILE_WIDTH + TTB),
+        #                        (y * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
 
     def DrawMap(self, window): # Blits the rendered frames onto the passed through window
         window.blit(self.RenderedMap, (0,0))

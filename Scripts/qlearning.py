@@ -28,6 +28,8 @@ class QLearning():
         frame = self.SearchForState(state)
         reward = 0
 
+        
+
         if frame == None:
             self.AddState(state)
 
@@ -44,6 +46,8 @@ class QLearning():
                 i = self.ChooseMax(frame.actionValues)
 
             reward = self.agent.Action(i, worldMap)
+
+            print(frame.actionValues)
 
         self.step += 1
         self.cumReward += reward
@@ -68,12 +72,10 @@ class QLearning():
         return newQSA
 
     def MaxQ(self, state, worldMap):
-        bestAction = None
         bestReward = 0
         for i in range(len(state.actionValues)):
             reward = self.agent.Action(i, worldMap, True)
             if reward > bestReward:
-                bestAction = i
                 bestReward = reward
         return bestReward
 
@@ -108,9 +110,11 @@ class QLearning():
     def LoadQTable(self):
         inputStr = input("Input File Name: ")
         if inputStr != "":
-            with open("QLearningData\\{}.qd".format(input("Input File Name: ")), "rb") as f:
+            with open("QLearningData\\{}.qd".format(inputStr), "rb") as f:
                 x = pickle.load(f)
 
             self.QTable = x
         else:
             print("Data Not Loaded")
+
+        #print(len(self.QTable))

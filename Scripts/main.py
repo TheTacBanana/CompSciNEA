@@ -35,7 +35,7 @@ TW = params["TileWidth"]
 MS = params["QLearningMaxSteps"]
 
 curCycle = 0
-cycles = 9
+cycles = 10
 
 QNetwork.LoadQTable()
 
@@ -61,6 +61,7 @@ while running == True:
             QNetwork.CreateAgent(worldMap)
             agent = QNetwork.agent
             curCycle += 1
+            print(curCycle)
 
         if curCycle > cycles:
             QNetwork.SaveQTable()

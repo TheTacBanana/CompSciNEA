@@ -25,11 +25,9 @@ class Agent():
                         if i.position == [x,y]:
                             #temp2 += 1
                             temp[x1][y1] = "T"
-
                 x1 += 1
             x1 = 0
             y1 += 1
-
 
         #print(temp2)
         return temp

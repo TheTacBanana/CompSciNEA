@@ -1,6 +1,5 @@
 from worldClass import *
 from qlearning import *
-import mathLib, threading
 import pygame
 
 # Constant variables

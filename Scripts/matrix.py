@@ -1,11 +1,9 @@
 class MatExcepts():
     mismatchOrders = Exception("Orders of Matrices do not match")
 
-
-
 class Matrix():
     # Init Function
-    def __init__(self, arg1):
+    def __init__(self, arg1, **kargs):
         if type(arg1) == list: # Passed in existing values
             self.matrixVals = arg1
             self.order = (len(self.matrixVals), len(self.matrixVals[0]))
@@ -14,9 +12,12 @@ class Matrix():
             self.matrixVals = [[0 for i in range(arg1[1])] for j in range(arg1[0])]
             self.order = (len(self.matrixVals), len(self.matrixVals[0]))
 
+        #Key Arguments
+
     # Overloading Addition Operator
     def __add__(self, m2):
         if self.order != m2.order:
+            print("error")
             raise MatExcepts.mismatchOrders
 
         tempMatrix = Matrix(self.order)
@@ -42,7 +43,24 @@ class Matrix():
 
     # Overloading Multiplication Operator
     def __mul__(self, m2):
-        pass
+        if type(m2) == float or type(m2) == int:
+            for row in range(self.order[0]):
+                for col in range(self.order[1]):
+                    self.matrixVals[row][col] = self.matrixVals[row][col] * m2
+        elif type(m2) == Matrix:
+            if self.order[0] != m2.order[1]:
+                raise MatExcepts.mismatchOrders
+            tempMatrix = Matrix((self.order[0], m2.order[1]))
+
+            cumProduct = 0
+            for row in range(self.order[0]): # For row in M1
+                for col in range(m2.order[1]): # For column in M2
+                    for subColRow in range(self.order[1]): # For element in column in M2
+                        cumProduct += self.matrixVals[row][subColRow] * m2.matrixVals[subColRow][col]
+                    tempMatrix.matrixVals[row][col] = cumProduct
+                    cumProduct = 0
+        return tempMatrix
+                    
 
     # Overloading convert to string method
     def __str__(self):
@@ -56,9 +74,10 @@ class Matrix():
 
 class MatrixTest():
     m1 = Matrix([[1, 2],[3, 4]])
+    m2 = Matrix([[1, 2]])
 
-    m2 = m1 + m1
-    print(m2)
+    m4 = m1 * m1
+    print(m4)
 
-    m3 = m1 - m2
-    print(m3)
+    m3 = m2 - m2
+    #print(m3)

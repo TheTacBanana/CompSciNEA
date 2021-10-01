@@ -1,9 +1,10 @@
 class MatExcepts():
     mismatchOrders = Exception("Orders of Matrices do not match")
+    unableToCreateIdentityMat = Exception("Unable to create identity Matrix from given arguments")
 
 class Matrix():
     # Init Function
-    def __init__(self, arg1, **kargs):
+    def __init__(self, arg1, identity=False, random=False):
         if type(arg1) == list: # Passed in existing values
             self.matrixVals = arg1
             self.order = (len(self.matrixVals), len(self.matrixVals[0]))
@@ -13,11 +14,16 @@ class Matrix():
             self.order = (len(self.matrixVals), len(self.matrixVals[0]))
 
         #Key Arguments
+        if identity == True:
+            if self.order[0] == self.order[1] and type(arg1) == tuple:
+                for i in range(self.order[0]):
+                    self.matrixVals[i][i] = 1
+            else:
+                raise MatExcepts.unableToCreateIdentityMat
 
     # Overloading Addition Operator
     def __add__(self, m2):
         if self.order != m2.order:
-            print("error")
             raise MatExcepts.mismatchOrders
 
         tempMatrix = Matrix(self.order)
@@ -43,11 +49,13 @@ class Matrix():
 
     # Overloading Multiplication Operator
     def __mul__(self, m2):
-        if type(m2) == float or type(m2) == int:
+        if type(m2) == float or type(m2) == int: # Scalar Multiply
             for row in range(self.order[0]):
                 for col in range(self.order[1]):
                     self.matrixVals[row][col] = self.matrixVals[row][col] * m2
-        elif type(m2) == Matrix:
+            return self
+
+        elif type(m2) == Matrix: # Matrix Multiplication
             if self.order[0] != m2.order[1]:
                 raise MatExcepts.mismatchOrders
             tempMatrix = Matrix((self.order[0], m2.order[1]))
@@ -59,8 +67,7 @@ class Matrix():
                         cumProduct += self.matrixVals[row][subColRow] * m2.matrixVals[subColRow][col]
                     tempMatrix.matrixVals[row][col] = cumProduct
                     cumProduct = 0
-        return tempMatrix
-                    
+            return tempMatrix        
 
     # Overloading convert to string method
     def __str__(self):

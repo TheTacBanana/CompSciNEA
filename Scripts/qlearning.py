@@ -28,8 +28,6 @@ class QLearning():
         frame = self.SearchForState(state)
         reward = 0
 
-        
-
         if frame == None:
             self.AddState(state)
 

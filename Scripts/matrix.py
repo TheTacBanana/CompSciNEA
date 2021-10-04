@@ -84,7 +84,7 @@ class MatrixTest():
     m2 = Matrix([[1, 2]])
 
     m4 = m1 * m1
-    print(m4)
+    #print(m4)
 
     m3 = m2 - m2
     #print(m3)

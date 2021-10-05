@@ -20,6 +20,10 @@ class Matrix():
                     self.matrixVals[i][i] = 1
             else:
                 raise MatExcepts.unableToCreateIdentityMat
+        if random == True:
+            for row in range(self.order[0]):
+                for col in range(self.order[1]):
+                    self.matrixVals[row][col] = (random.random() - 0.5) * 2
 
     # Overloading Addition Operator
     def __add__(self, m2):
@@ -80,6 +84,7 @@ class Matrix():
         return strOut
 
 class MatrixTest():
+    pass
     m1 = Matrix([[1, 2],[3, 4]])
     m2 = Matrix([[1, 2]])
 

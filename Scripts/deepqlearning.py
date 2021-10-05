@@ -25,7 +25,6 @@ class NeuralNet():
     def LoadNeuralNet(file): # Returns stores Neural Network data
         with open(file, "rb") as f:
             temp = pickle.load(f)
-
         return temp
 
     def SaveNeuralNet(self, file): # Saves Neural Network Data
@@ -50,9 +49,6 @@ class Layer():
             output[i][0] = max(0, output[i][0]) # ReLU Activation Function
 
         self.output = output
-
-class PriorityDeque(): # Double Ended Priority Queue
-    pass
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):
@@ -79,13 +75,4 @@ class Deque(): # Double Ended Queue
 
     def Sample(self, n):
         temp = self.queue
-        return random.sample(temp, n)
-
-dq = Deque(10)
-
-for i in range(100):
-    dq.PushFront(i)
-
-print(dq.Sample(2))
-
-        
+        return random.sample(temp, n)     

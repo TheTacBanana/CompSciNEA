@@ -45,7 +45,7 @@ class QLearning():
 
             reward = self.agent.Action(i, worldMap)
 
-            print(frame.actionValues)
+            #print(frame.actionValues)
 
         self.step += 1
         self.cumReward += reward
@@ -114,5 +114,3 @@ class QLearning():
             self.QTable = x
         else:
             print("Data Not Loaded")
-
-        #print(len(self.QTable))

@@ -1,5 +1,6 @@
 from worldClass import *
 from random import shuffle
+from matrix import Matrix
 
 class Agent():
     def __init__(self, location, params):
@@ -14,7 +15,6 @@ class Agent():
 
         temp = [[0 for i in range(self.location[0] - offset, self.location[0] + offset + 1)] for j in range(self.location[1] - offset, self.location[1] + offset + 1)]
 
-        temp2 = 0
         x1, y1 = 0, 0
         for y in range(self.location[0] - offset, self.location[0] + offset + 1):
             for x in range(self.location[1] - offset, self.location[1] + offset + 1):
@@ -23,13 +23,41 @@ class Agent():
 
                     for i in worldMap.interactables:
                         if i.position == [x,y]:
-                            #temp2 += 1
                             temp[x1][y1] = "T"
                 x1 += 1
             x1 = 0
             y1 += 1
 
         #print(temp2)
+        return temp
+
+    def GetStateVector(self, worldMap): # Neural Network Input
+        world = worldMap.tileArray
+        offset = self.paramDictionary["Offset"]
+
+        sideLength = 2 * offset + 1
+        temp = Matrix((sideLength * sideLength, 1))
+        n = 0
+
+        x1, y1 = 0, 0
+        for y in range(self.location[0] - offset, self.location[0] + offset + 1):
+            for x in range(self.location[1] - offset, self.location[1] + offset + 1):
+                if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
+                    flag = False
+                    print(n)
+                    for i in worldMap.interactables:
+                        if i.position == [x,y]:
+                            flag = True
+                            temp.matrixVals[n][0] = 5
+                            n += 1
+
+                    if flag == False:
+                        temp.matrixVals[n][0] = world[x][y].tileType
+                        n += 1
+
+                x1 += 1
+            x1 = 0
+            y1 += 1
         return temp
 
     @staticmethod
@@ -43,16 +71,6 @@ class Agent():
 
         shuffle(spawnList)
         return spawnList[0]
-
-    #def CalcReward(self, action, step):
-    #    totalReward = 0
-    #    if action >= 0 and action <= 3: 
-    #        totalReward += self.paramDictionary["MoveReward"]
-
-    #    if action == 4:
-    #        totalReward += self.paramDictionary["TreeReward"]
-
-    #    return totalReward
 
     def Action(self, action, worldMap, maxQ = False):
         if action == 0:

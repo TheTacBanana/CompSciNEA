@@ -1,5 +1,32 @@
 import random, pickle
 from matrix import Matrix
+from collections import namedtuple
+
+StateTuple = namedtuple("StateTuple", ["State", "Action", "Reward", "StateNew"])
+
+class DoubleNeuralNet():
+    def __init__(self, layers, params):
+        self.paramDictionary = params
+
+        self.MainNetwork = NeuralNet(layers, params)
+        self.TargetNetwork = NeuralNet(layers, params)
+
+        self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
+
+        self.step = 0
+
+    def TakeStep(self, agent):
+        self.step += 1
+        if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
+            self.TargetNetwork.layers = self.MainNetwork.layers
+
+        if self.step % self.paramDictionary["ERSampleRate"] == 0: # Sample Experience Replay Buffer
+            self.SampleExperienceReplay()
+
+        
+
+    def SampleExperienceReplay(self):
+        pass
 
 class NeuralNet():
     def __init__(self, layers, params):
@@ -13,7 +40,6 @@ class NeuralNet():
             else:
                 self.layers.append(Layer(layers[i - 1], layers[i]))
             
-
     def ForwardPropagation(self, inputVector):
         self.layers[0].outputVector = inputVector
 
@@ -22,7 +48,7 @@ class NeuralNet():
 
     # Using Pickle to Save/Load
     @classmethod
-    def LoadNeuralNet(file): # Returns stores Neural Network data
+    def LoadNeuralNet(file): # Returns stored Neural Network data
         with open(file, "rb") as f:
             temp = pickle.load(f)
         return temp

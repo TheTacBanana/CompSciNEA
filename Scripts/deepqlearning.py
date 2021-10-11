@@ -4,6 +4,7 @@ from collections import namedtuple
 
 StateTuple = namedtuple("StateTuple", ["State", "Action", "Reward", "StateNew"])
 
+
 class DoubleNeuralNet():
     def __init__(self, layers, params):
         self.paramDictionary = params
@@ -25,7 +26,7 @@ class DoubleNeuralNet():
         self.MainNetwork.ForwardPropagation(netInput)
         self.TargetNetwork.ForwardPropagation(netInput)
 
-        #self.MainNetwork.BestOut()
+        #self.MainNetwork.SoftMax()
 
         #Back Propagation
         #cost = self.MainNetwork.BellmanEquation()
@@ -34,18 +35,16 @@ class DoubleNeuralNet():
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
 
-        if self.ERBFull == False:
+        if not self.ERBFull:
             self.ERBFull = self.ExperienceReplay.Full()
 
-        if self.step % self.paramDictionary["ERSampleRate"] == 0: # Sample Experience Replay Buffer
+        if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ERBFull: # Sample Experience Replay Buffer
             self.SampleExperienceReplay()
-
 
     def SampleExperienceReplay(self):
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"]) # Samples Experience Replay Buffer
 
         for sample in samples:
-            
             self.MainNetwork.BackPropagation(sample)
 
 class NeuralNet():
@@ -59,24 +58,30 @@ class NeuralNet():
                 self.layers.append(Layer(0, layers[0]))
             else:
                 self.layers.append(Layer(layers[i - 1], layers[i]))
-    
+
     def ForwardPropagation(self, inputVector):
         self.layers[0].outputVector = inputVector
 
         for i in range(1, len(self.layers)):
             self.layers[i].ForwardPropagation(self.layers[i-1])
 
-    @staticmethod
-    # New Q(s,a) = Q(s,a) + Lr * [R(s,a) + y * maxQ(s, a) - Q(s,a)]
-    def BellmanEquation(output):
-        qsa = frame.actionValues[action]
-        lr = self.paramDictionary["DQLLearningRate"]
-        y = self.paramDictionary["DQLGamma"]
-        r = reward
-        maxQ = self.MaxQ(newFrame, worldMap)
+    def SoftMax(self): # Implementation of a Soft Max Function
+        z = self.layers[-1].outputVector
+        sumToK = 0
+        maxIndex = 0
 
-        newQSA = qsa + lr * (r + y * maxQ - qsa)
-        return newQSA
+        for i in range(z.order[0]):
+            sumToK += z.matrixVals[i][0]
+
+            if z.matrixVals[i][0] > z.matrixVals[maxIndex][0]:
+                maxIndex = i
+
+        outVector = Matrix(z.order)
+
+        for i in range(z.order[0]):
+            outVector.matrixVals[i][0] = z.matrixVals[i][0] / sumToK
+
+        return outVector, maxIndex
 
     # Using Pickle to Save/Load
     @classmethod

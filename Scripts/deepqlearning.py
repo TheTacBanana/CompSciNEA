@@ -1,9 +1,16 @@
 import random, pickle
 from matrix import Matrix
 from collections import namedtuple
+from copy import copy
 
 StateTuple = namedtuple("StateTuple", ["State", "Action", "Reward", "StateNew"])
 
+class Experience():
+    def __init__(self, state = None, action = None, reward = None, stateNew = None):
+        self.state = state
+        self.action = action
+        self.reward = reward
+        self.stateNew = stateNew
 
 class DoubleNeuralNet():
     def __init__(self, layers, params):
@@ -19,17 +26,28 @@ class DoubleNeuralNet():
 
     def TakeStep(self, agent, worldMap):
         self.step += 1
-
-        netInput = agent.StateVector(worldMap)
+        tempExp = Experience()
 
         # Forward Propagation
-        self.MainNetwork.ForwardPropagation(netInput)
+        netInput = agent.StateVector(worldMap) # Retrieve Vector of State info from Agent
+        
+        self.MainNetwork.ForwardPropagation(netInput) # Forward Prop both the Main and Target Networks
         self.TargetNetwork.ForwardPropagation(netInput)
 
-        #self.MainNetwork.SoftMax()
+        output = self.MainNetwork.SoftMax()      
+
+        agent.ActionNew(output) # Take Action
+        reward = agent.RewardNew(output[1]) # Get reward given action
+
+        tempExp.state = netInput # Assigning values to tempExperience
+        tempExp.action = output[1]
+        tempExp.reward = reward
+        tempExp.stateNew = agent.StateVector()
+
+        self.ExperienceReplay.PushFront(copy(tempExp))
 
         #Back Propagation
-        #cost = self.MainNetwork.BellmanEquation()
+
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network

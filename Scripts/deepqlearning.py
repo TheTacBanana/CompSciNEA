@@ -12,21 +12,41 @@ class DoubleNeuralNet():
         self.TargetNetwork = NeuralNet(layers, params)
 
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
+        self.ERBFull = False
 
         self.step = 0
 
-    def TakeStep(self, agent):
+    def TakeStep(self, agent, worldMap):
         self.step += 1
+
+        netInput = agent.StateVector(worldMap)
+
+        # Forward Propagation
+        self.MainNetwork.ForwardPropagation(netInput)
+        self.TargetNetwork.ForwardPropagation(netInput)
+
+        #self.MainNetwork.BestOut()
+
+        #Back Propagation
+        #cost = self.MainNetwork.BellmanEquation()
+
+        # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
+
+        if self.ERBFull == False:
+            self.ERBFull = self.ExperienceReplay.Full()
 
         if self.step % self.paramDictionary["ERSampleRate"] == 0: # Sample Experience Replay Buffer
             self.SampleExperienceReplay()
 
-        
 
     def SampleExperienceReplay(self):
-        pass
+        samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"]) # Samples Experience Replay Buffer
+
+        for sample in samples:
+            
+            self.MainNetwork.BackPropagation(sample)
 
 class NeuralNet():
     def __init__(self, layers, params):
@@ -39,12 +59,24 @@ class NeuralNet():
                 self.layers.append(Layer(0, layers[0]))
             else:
                 self.layers.append(Layer(layers[i - 1], layers[i]))
-            
+    
     def ForwardPropagation(self, inputVector):
         self.layers[0].outputVector = inputVector
 
         for i in range(1, len(self.layers)):
             self.layers[i].ForwardPropagation(self.layers[i-1])
+
+    @staticmethod
+    # New Q(s,a) = Q(s,a) + Lr * [R(s,a) + y * maxQ(s, a) - Q(s,a)]
+    def BellmanEquation(output):
+        qsa = frame.actionValues[action]
+        lr = self.paramDictionary["DQLLearningRate"]
+        y = self.paramDictionary["DQLGamma"]
+        r = reward
+        maxQ = self.MaxQ(newFrame, worldMap)
+
+        newQSA = qsa + lr * (r + y * maxQ - qsa)
+        return newQSA
 
     # Using Pickle to Save/Load
     @classmethod
@@ -93,12 +125,17 @@ class Deque(): # Double Ended Queue
 
         self.queue[self.frontP] = item
 
+    def Full(self):
+        if self.queue[self.length - 1] != None:
+            return True
+        return False
+
     def First(self):
         return self.queue[self.frontP]
 
     def Last(self):
         return self.queue[self.backP]
 
-    def Sample(self, n):
+    def Sample(self, n): # Samples N number of samples from the deque
         temp = self.queue
-        return random.sample(temp, n)     
+        return random.sample(temp, n) 

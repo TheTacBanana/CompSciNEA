@@ -33,7 +33,7 @@ class Agent():
 
     def GetStateVector(self, worldMap): # Neural Network Input
         world = worldMap.tileArray
-        offset = self.paramDictionary["Offset"]
+        offset = self.paramDictionary["DQLOffset"]
 
         sideLength = 2 * offset + 1
         temp = Matrix((sideLength * sideLength, 1))

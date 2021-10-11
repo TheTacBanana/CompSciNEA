@@ -61,8 +61,8 @@ class QLearning():
 
     def BellmanEquation(self, frame, action, newFrame, reward, step, worldMap): # New Q(s,a) = Q(s,a) + Lr * [R(s,a) + y * maxQ(s, a) - Q(s,a)]
         qsa = frame.actionValues[action]
-        lr = self.paramDictionary["LearningRate"]
-        y = self.paramDictionary["Gamma"]
+        lr = self.paramDictionary["DQLLearningRate"]
+        y = self.paramDictionary["DQLGamma"]
         r = reward
         maxQ = self.MaxQ(newFrame, worldMap)
 

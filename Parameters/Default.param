@@ -38,5 +38,10 @@
     "TargetReplaceRate": 100,
     "ERBuffer": 10000,
     "ERSampleRate": 4,
-    "ERSampleSize": 100
+    "ERSampleSize": 100,
+    "DQLearningMaxSteps": 10000,
+    "DQLOffset": 4,
+    "DQLEpsilon": 0.2,
+    "DQLLearningRate": 0.75,
+    "DQLGamma": 0.8
 }

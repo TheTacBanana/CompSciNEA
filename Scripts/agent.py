@@ -44,7 +44,7 @@ class Agent():
             for x in range(self.location[1] - offset, self.location[1] + offset + 1):
                 if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
                     flag = False
-                    print(n)
+                    #print(n)
                     for i in worldMap.interactables:
                         if i.position == [x,y]:
                             flag = True
@@ -104,10 +104,25 @@ class Agent():
         else:
             return self.paramDictionary["TimeWasteReward"]
 
-        
     def PickupItem(self, worldMap, maxQ):
         for i in worldMap.interactables:
             if i.position == self.location:
                 #print("tree lol")
                 return self.paramDictionary["TreeReward"]
         return self.paramDictionary["TimeWasteReward"]
+
+# ---------------------------------------------------------------------------------------------------------------
+    def ActionNew(self, action, worldMap):
+        if action == 0:
+            return self.Move(0, worldMap, maxQ)
+        elif action == 1:
+            return self.Move(1, worldMap, maxQ)
+        elif action == 2:
+            return self.Move(2, worldMap, maxQ)
+        elif action == 3:
+            return self.Move(3, worldMap, maxQ)
+        elif action == 4:
+            return self.PickupItem(worldMap, maxQ)
+
+    def RewardNew(self):
+        pass

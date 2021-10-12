@@ -1,6 +1,8 @@
 from worldClass import *
 from qlearning import *
 import pygame
+from deepqlearning import *
+from agent import *
 
 # Constant variables
 worldSeed = 0
@@ -27,16 +29,20 @@ def Generate():
 
 Generate()
 
-QNetwork = QLearning(params)
-QNetwork.CreateAgent(worldMap)
-agent = QNetwork.agent
+#QNetwork = QLearning(params)
+#QNetwork.CreateAgent(worldMap)
+#agent = QNetwork.agent
+
+DQNetwork = DoubleNeuralNet(params["DeepQLearningLayers"], params)
+agent = Agent(Agent.SpawnPosition(worldMap), params)
+
 TW = params["TileWidth"]
 MS = params["QLearningMaxSteps"]
 
 curCycle = 0
 cycles = 10
 
-QNetwork.LoadQTable()
+#QNetwork.LoadQTable()
 
 # Constant loop running
 running = True
@@ -52,19 +58,20 @@ while running == True:
 
         #worldMap.RenderMap()
         
-        QNetwork.NextStep(worldMap)
+        #QNetwork.NextStep(worldMap)
+        DQNetwork.TakeStep(agent, worldMap)
         worldMap.DrawMap(window)
 
-        if QNetwork.step > MS:
-            Generate()
-            QNetwork.CreateAgent(worldMap)
-            agent = QNetwork.agent
-            curCycle += 1
-            print(curCycle)
+        #if QNetwork.step > MS:
+        #    Generate()
+        #    QNetwork.CreateAgent(worldMap)
+        #    agent = QNetwork.agent
+        #    curCycle += 1
+        #    print(curCycle)
 
-        if curCycle > cycles:
-            QNetwork.SaveQTable()
-            running = False
+        #if curCycle > cycles:
+        #    QNetwork.SaveQTable()
+        #    running = False
         
         pygame.draw.rect(window, (233, 182, 14), ((agent.location[0] * TW), (agent.location[1] * TW), TW, TW))
 

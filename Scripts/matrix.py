@@ -1,3 +1,4 @@
+import random as rnd
 class MatExcepts():
     mismatchOrders = Exception("Orders of Matrices do not match")
     unableToCreateIdentityMat = Exception("Unable to create identity Matrix from given arguments")
@@ -11,6 +12,7 @@ class Matrix():
 
         elif type(arg1) == tuple: # Passed in order of Matrix, creates a blank Matrix
             self.matrixVals = [[0 for i in range(arg1[1])] for j in range(arg1[0])]
+            #print(arg1)
             self.order = (len(self.matrixVals), len(self.matrixVals[0]))
 
         #Key Arguments
@@ -23,7 +25,7 @@ class Matrix():
         if random == True:
             for row in range(self.order[0]):
                 for col in range(self.order[1]):
-                    self.matrixVals[row][col] = (random.random() - 0.5) * 2
+                    self.matrixVals[row][col] = (rnd.random() - 0.5) * 2
 
     # Overloading Addition Operator
     def __add__(self, m2):
@@ -60,14 +62,17 @@ class Matrix():
             return self
 
         elif type(m2) == Matrix: # Matrix Multiplication
-            if self.order[0] != m2.order[1]:
-                raise MatExcepts.mismatchOrders
+            print(self.order, m2.order)
+            if self.order[1] != m2.order[0]:
+                pass
+                #raise MatExcepts.mismatchOrders
             tempMatrix = Matrix((self.order[0], m2.order[1]))
 
             cumProduct = 0
             for row in range(self.order[0]): # For row in M1
                 for col in range(m2.order[1]): # For column in M2
                     for subColRow in range(self.order[1]): # For element in column in M2
+                        #print(self.order, m2.order, subColRow)
                         cumProduct += self.matrixVals[row][subColRow] * m2.matrixVals[subColRow][col]
                     tempMatrix.matrixVals[row][col] = cumProduct
                     cumProduct = 0
@@ -82,14 +87,3 @@ class Matrix():
             else:
                 strOut += str(self.matrixVals[row])
         return strOut
-
-class MatrixTest():
-    pass
-    m1 = Matrix([[1, 2],[3, 4]])
-    m2 = Matrix([[1, 2]])
-
-    m4 = m1 * m1
-    #print(m4)
-
-    m3 = m2 - m2
-    #print(m3)

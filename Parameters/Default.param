@@ -41,7 +41,8 @@
     "ERSampleSize": 100,
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 4,
-    "DQLEpsilon": 0.2,
+    "DQLEpsilon": 1,
+    "DQLEpisonRegression": 0.995,
     "DQLLearningRate": 0.75,
     "DQLGamma": 0.8
 }

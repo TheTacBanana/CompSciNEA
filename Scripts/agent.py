@@ -73,6 +73,7 @@ class Agent():
         return spawnList[0]
 
     def Action(self, action, worldMap, maxQ = False):
+        
         if action == 0:
             return self.Move(0, worldMap, maxQ)
         elif action == 1:
@@ -113,6 +114,7 @@ class Agent():
 
 # ---------------------------------------------------------------------------------------------------------------
     def ActionNew(self, action, worldMap):
+        maxQ = False
         if action == 0:
             return self.Move(0, worldMap, maxQ)
         elif action == 1:

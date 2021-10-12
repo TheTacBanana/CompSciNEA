@@ -34,11 +34,12 @@
     "TimeWasteReward": -1000,
     "DeathReward": -1000000,
 
-    "DeepQLearningLayers" : [81, 128, 128, 64, 5],
     "TargetReplaceRate": 100,
     "ERBuffer": 10000,
     "ERSampleRate": 4,
     "ERSampleSize": 100,
+
+    "DeepQLearningLayers" : [81, 128, 128, 64, 5],
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 4,
     "DQLEpsilon": 1,

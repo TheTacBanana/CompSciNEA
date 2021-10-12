@@ -59,6 +59,7 @@ while running == True:
         #worldMap.RenderMap()
         
         #QNetwork.NextStep(worldMap)
+
         DQNetwork.TakeStep(agent, worldMap)
         worldMap.DrawMap(window)
 
@@ -74,7 +75,6 @@ while running == True:
         #    running = False
         
         pygame.draw.rect(window, (233, 182, 14), ((agent.location[0] * TW), (agent.location[1] * TW), TW, TW))
-
         pygame.display.update()
     else:
         pass

@@ -62,7 +62,7 @@ class Matrix():
             return self
 
         elif type(m2) == Matrix: # Matrix Multiplication
-            print(self.order, m2.order)
+            #print(self.order, m2.order)
             if self.order[1] != m2.order[0]:
                 pass
                 #raise MatExcepts.mismatchOrders

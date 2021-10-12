@@ -2,6 +2,7 @@ import random, pickle
 from matrix import Matrix
 from collections import namedtuple
 from copy import copy
+import math
 
 StateTuple = namedtuple("StateTuple", ["State", "Action", "Reward", "StateNew"])
 
@@ -28,25 +29,32 @@ class DoubleNeuralNet():
 
     def TakeStep(self, agent, worldMap):
         self.step += 1
+        if self.step % 1000 == 0:
+            print(self.step)
+
         tempExp = Experience()
 
         # Forward Propagation
         netInput = agent.GetStateVector(worldMap) # Retrieve Vector of State info from Agent
         
         self.MainNetwork.ForwardPropagation(netInput) # Forward Prop the Main Network
-        print(self.MainNetwork.layers[4].outputVector)
+        #print(self.MainNetwork.layers[4].outputVector)
 
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
                                             # Returns a probability distribution of the outputs of the network
 
         # Epsilon Regression - Taking actions
+        #print(output[0])
         if random.random() > self.epsilon:
-            val = random.random
+            val = random.random()
             totalled = 0
-            for i in range(output.order()[0]):
+            for i in range(output[0].order[0]):
+                #print(totalled, val)
                 totalled += output[0].matrixVals[i][0]
-                if totalled <= val:
+                if totalled >= val:
                     action = i
+                    #print("setaction")
+                    break
         else:
             action = output[1]
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"]
@@ -58,7 +66,7 @@ class DoubleNeuralNet():
         tempExp.state = netInput 
         tempExp.action = output[1]
         tempExp.reward = reward
-        tempExp.stateNew = agent.StateVector()
+        tempExp.stateNew = agent.GetStateVector(worldMap)
 
         self.ExperienceReplay.PushFront(copy(tempExp))
 
@@ -68,7 +76,7 @@ class DoubleNeuralNet():
         self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
         TQSA = self.TargetNetwork.SoftMax()
 
-        cost = (output[0] - (reward + g * TQSA[0])) ** 2
+        cost = (output[2]- (reward + g * TQSA[2])) ** 2
         #print(cost)
 
         # Back Propagation
@@ -109,12 +117,12 @@ class NeuralNet():
 
     def SoftMax(self): # Implementation of a Soft Max Function
         z = self.layers[4].outputVector
-        print(z)
+
         sumToK = 0
         maxIndex = 0
 
         for i in range(z.order[0]):
-            sumToK += z.matrixVals[i][0]
+            sumToK += math.exp(z.matrixVals[i][0])
 
             if z.matrixVals[i][0] > z.matrixVals[maxIndex][0]:
                 maxIndex = i
@@ -122,9 +130,11 @@ class NeuralNet():
         outVector = Matrix(z.order)
 
         for i in range(z.order[0]):
-            outVector.matrixVals[i][0] = z.matrixVals[i][0] / sumToK
+            outVector.matrixVals[i][0] = (math.exp(z.matrixVals[i][0])) / sumToK
 
-        return outVector, maxIndex # Returns vector and best index
+        maxVal = outVector.matrixVals[maxIndex][0]
+
+        return outVector, maxIndex, maxVal # Returns vector and best index
 
     def Cost(self):
         pass
@@ -152,14 +162,12 @@ class Layer():
     def ForwardPropagation(self, prevLayer):
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
 
-        self.outputVector = weightValueProduct + self.biasVector
-        print(self.outputVector)
+        output = weightValueProduct + self.biasVector
 
-        #for i in range(output.order[0]):
-        #    output.matrixVals[i][0] = max(0, output.matrixVals[i][0]) # ReLU Activation Function
-        #print(output.order)
+        for i in range(output.order[0]):
+            output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # ReLU Activation Function combined with Tanh 
 
-        #self.output = output
+        self.outputVector = output
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):

@@ -62,24 +62,21 @@ class Matrix():
             return self
 
         elif type(m2) == Matrix: # Matrix Multiplication
-            #print(self.order, m2.order)
             if self.order[1] != m2.order[0]:
-                pass
-                #raise MatExcepts.mismatchOrders
+                raise MatExcepts.mismatchOrders
             tempMatrix = Matrix((self.order[0], m2.order[1]))
 
             cumProduct = 0
             for row in range(self.order[0]): # For row in M1
                 for col in range(m2.order[1]): # For column in M2
                     for subColRow in range(self.order[1]): # For element in column in M2
-                        #print(self.order, m2.order, subColRow)
                         cumProduct += self.matrixVals[row][subColRow] * m2.matrixVals[subColRow][col]
                     tempMatrix.matrixVals[row][col] = cumProduct
                     cumProduct = 0
             return tempMatrix        
 
     # Overloading convert to string method
-    def __str__(self):
+    def __str__(self): # Printing to console nicely and easily
         strOut = ""
         for row in range(self.order[0]):
             if row != self.order[0] - 1:

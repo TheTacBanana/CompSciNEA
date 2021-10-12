@@ -4,9 +4,7 @@ from collections import namedtuple
 from copy import copy
 import math
 
-StateTuple = namedtuple("StateTuple", ["State", "Action", "Reward", "StateNew"])
-
-class Experience():
+class Experience(): 
     def __init__(self, state = None, action = None, reward = None, stateNew = None):
         self.state = state
         self.action = action
@@ -14,7 +12,7 @@ class Experience():
         self.stateNew = stateNew
 
 class DoubleNeuralNet():
-    def __init__(self, layers, params):
+    def __init__(self, layers, params): # Constructor for a Double Neural Network
         self.paramDictionary = params
 
         self.MainNetwork = NeuralNet(layers, params)
@@ -32,37 +30,34 @@ class DoubleNeuralNet():
         if self.step % 1000 == 0:
             print(self.step)
 
-        tempExp = Experience()
-
         # Forward Propagation
         netInput = agent.GetStateVector(worldMap) # Retrieve Vector of State info from Agent
         
         self.MainNetwork.ForwardPropagation(netInput) # Forward Prop the Main Network
-        #print(self.MainNetwork.layers[4].outputVector)
 
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
                                             # Returns a probability distribution of the outputs of the network
 
-        # Epsilon Regression - Taking actions
-        #print(output[0])
-        if random.random() > self.epsilon:
+        # Action Taking and Reward
+        if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a ranom action to be explored
             val = random.random()
             totalled = 0
             for i in range(output[0].order[0]):
-                #print(totalled, val)
                 totalled += output[0].matrixVals[i][0]
                 if totalled >= val:
                     action = i
-                    #print("setaction")
                     break
         else:
             action = output[1]
-        self.epsilon *= self.paramDictionary["DQLEpisonRegression"]
 
         reward = agent.ActionNew(action, worldMap) # Take Action
         #reward = agent.RewardNew(action) # Get reward given action
 
+        # Epsilon Regression
+        self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
+
         # Assigning values to tempExperience
+        tempExp = Experience()
         tempExp.state = netInput 
         tempExp.action = output[1]
         tempExp.reward = reward
@@ -70,17 +65,10 @@ class DoubleNeuralNet():
 
         self.ExperienceReplay.PushFront(copy(tempExp))
 
-        #Cost Function
-        # Cost = [QSA(Main) - (Reward(SA) + Gamma * SoftMax(QS'A(Target)))]^2
-        g = self.paramDictionary["DQLGamma"]
-        self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
-        TQSA = self.TargetNetwork.SoftMax()
-
-        cost = (output[2]- (reward + g * TQSA[2])) ** 2
-        #print(cost)
-
         # Back Propagation
+        cost = self.Cost(output, tempExp)
 
+        # Do da thing
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -96,6 +84,14 @@ class DoubleNeuralNet():
 
         for sample in samples:
             self.MainNetwork.BackPropagation(sample)
+
+    def Cost(self, output, tempExp): # Cost function for the double network 
+        # Cost = [QSA(Main) - (Reward(SA) + Gamma * SoftMax(QS'A(Target)))]^2
+        g = self.paramDictionary["DQLGamma"]
+        self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
+        TQSA = self.TargetNetwork.SoftMax()
+
+        return (output[2]- (tempExp.reward + g * TQSA[2])) ** 2
 
 class NeuralNet():
     def __init__(self, layers, params):

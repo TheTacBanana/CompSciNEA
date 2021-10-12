@@ -30,9 +30,9 @@
     "Gamma": 0.8,
 
     "MoveReward": 1,
-    "TreeReward": 40,
-    "TimeWasteReward": -1000,
-    "DeathReward": -1000000,
+    "TreeReward": 10,
+    "TimeWasteReward": -1,
+    "DeathReward": -10,
 
     "TargetReplaceRate": 100,
     "ERBuffer": 10000,

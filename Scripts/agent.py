@@ -9,6 +9,8 @@ class Agent():
 
         self.inventory = {}
 
+        self.explored = self.tileArray = [[Tile() for i in range(params["WorldSize"])] for j in range(params["WorldSize"])]
+
     def GetState(self, worldMap):
         world = worldMap.tileArray
         offset = self.paramDictionary["Offset"]
@@ -113,10 +115,13 @@ class Agent():
         return self.paramDictionary["TimeWasteReward"]
 
 # ---------------------------------------------------------------------------------------------------------------
-    def ActionNew(self, action, worldMap):
+    def NewMove(self, dir):
+        pass
+
+    def TakeAction(self, action, worldMap):
         maxQ = False
         if action == 0:
-            return self.Move(0, worldMap, maxQ)
+            return  self.Move(0, worldMap, maxQ)
         elif action == 1:
             return self.Move(1, worldMap, maxQ)
         elif action == 2:
@@ -126,5 +131,39 @@ class Agent():
         elif action == 4:
             return self.PickupItem(worldMap, maxQ)
 
-    def RewardNew(self):
+    def GetReward(self, action, worldMap):
+        cumReward = 0
+        #print(action)
+        if action == 0 and worldMap.CheckIfOcean(self.location[0], self.location[1] - 1) != None:          #worldMap.tileArray[self.location[0]][self.location[1] - 1].tileType != 0:
+            if self.explored[self.location[0]][self.location[1] - 1] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0]][self.location[1] - 1] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        elif action == 1 and worldMap.CheckIfOcean(self.location[0] + 1, self.location[1]) != None: #worldMap.tileArray[self.location[0] + 1][self.location[1]].tileType != 0:
+            if self.explored[self.location[0] + 1][self.location[1]] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0] + 1][self.location[1]] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        elif action == 2 and worldMap.CheckIfOcean(self.location[0], self.location[1] + 1) != None: #and worldMap.tileArray[self.location[0]][self.location[1] + 1].tileType != 0:
+            if self.explored[self.location[0]][self.location[1] + 1] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0]][self.location[1] + 1] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        elif action == 3 and worldMap.CheckIfOcean(self.location[0] - 1, self.location[1]) != None: #and worldMap.tileArray[self.location[0] - 1][self.location[1]].tileType != 0:
+            if self.explored[self.location[0] - 1][self.location[1]] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0] - 1][self.location[1]] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        #elif action == 4 and worldMap.GetTile(self.location[0], self.location[1]).
+
+        else:
+            cumReward += self.paramDictionary["TimeWasteReward"]
+
+        return cumReward
+
+    def GetRewardVector(self, state):
         pass

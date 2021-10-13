@@ -33,6 +33,7 @@
     "TreeReward": 10,
     "TimeWasteReward": -1,
     "DeathReward": -10,
+    "ExploreReward": 0.2,
 
     "TargetReplaceRate": 100,
     "ERBuffer": 10000,
@@ -43,7 +44,7 @@
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 4,
     "DQLEpsilon": 1,
-    "DQLEpisonRegression": 0.995,
+    "DQLEpisonRegression": 0.9998,
     "DQLLearningRate": 0.75,
     "DQLGamma": 0.8
 }

@@ -50,11 +50,12 @@ class DoubleNeuralNet():
         else:
             action = output[1]
 
-        reward = agent.ActionNew(action, worldMap) # Take Action
-        #reward = agent.RewardNew(action) # Get reward given action
+        agent.TakeAction(action, worldMap) # Take Action
+        reward = agent.GetReward(action, worldMap) # Get reward given action
 
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
+        print(self.epsilon)
 
         # Assigning values to tempExperience
         tempExp = Experience()
@@ -131,9 +132,6 @@ class NeuralNet():
         maxVal = outVector.matrixVals[maxIndex][0]
 
         return outVector, maxIndex, maxVal # Returns vector and best index
-
-    def Cost(self):
-        pass
 
     # Using Pickle to Save/Load
     @classmethod

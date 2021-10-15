@@ -1,8 +1,10 @@
+import pygame
 from worldClass import *
 from qlearning import *
-import pygame
 from deepqlearning import *
 from agent import *
+
+#https://towardsdatascience.com/creating-deep-neural-networks-from-scratch-an-introduction-to-reinforcement-learning-6bba874019db
 
 # Constant variables
 worldSeed = 0

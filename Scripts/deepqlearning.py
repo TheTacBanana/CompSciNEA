@@ -18,6 +18,8 @@ class DoubleNeuralNet():
         self.MainNetwork = NeuralNet(layers, params)
         self.TargetNetwork = NeuralNet(layers, params)
 
+        self.TempNetwork = NeuralNet(layers, params)
+
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
         self.ERBFull = False
 
@@ -85,6 +87,15 @@ class DoubleNeuralNet():
 
         for sample in samples:
             self.MainNetwork.BackPropagation(sample)
+
+    def LossFunction(output, tempExp, prevWeights, worldMap):
+        # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
+
+        g = self.paramDictionary["DQLGamma"]
+        self.TempNetwork.layers = prevWeights
+        oldWeightFeedForward = agent.GetReward(self.TempNetwork.ForwardPropagation(tempExp.stateNew).SoftMax()[1], worldMap)
+
+        Loss = ((tempExp.reward + g * oldWeightFeedForward) - agent.GetReward(output[1], worldMap) ** 2 # Rewrite agent function to use vector
 
     def Cost(self, output, tempExp): # Cost function for the double network 
         # Cost = [QSA(Main) - (Reward(SA) + Gamma * SoftMax(QS'A(Target)))]^2

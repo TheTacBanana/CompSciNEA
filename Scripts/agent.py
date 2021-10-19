@@ -165,5 +165,38 @@ class Agent():
 
         return cumReward
 
-    def GetRewardVector(self, state):
-        pass
+    def GetRewardWithVector(self, action, vector):
+        cumReward = 0
+        offset = self.paramDictionary["DQLOffset"] 
+        sideLength = (offset * 2) + 1
+
+        if action == 0 and vector.matrixVals[sideLength * 3 + offset][0] >= 1: # Move Up
+            if self.explored[self.location[0]][self.location[1] - 1] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0]][self.location[1] - 1] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        elif action == 1 and vector.matrixVals[sideLength * 4 + offset - 1][0] >= 1: # Move Right
+            if self.explored[self.location[0] + 1][self.location[1]] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0] + 1][self.location[1]] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        elif action == 2 and vector.matrixVals[sideLength * 4 + offset + 1][0] >= 1: # Move Down
+            if self.explored[self.location[0]][self.location[1] + 1] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0]][self.location[1] + 1] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        elif action == 3 and vector.matrixVals[sideLength * 5 + offset][0] >= 1: # Move Left
+            if self.explored[self.location[0] - 1][self.location[1]] == False:
+                cumReward += self.paramDictionary["ExploreReward"]
+                self.explored[self.location[0] - 1][self.location[1]] = True
+            cumReward += self.paramDictionary["MoveReward"]
+
+        #elif action == 4 and worldMap.GetTile(self.location[0], self.location[1]).
+
+        else:
+            cumReward += self.paramDictionary["TimeWasteReward"]
+
+        return cumReward

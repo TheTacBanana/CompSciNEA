@@ -18,8 +18,6 @@ class DoubleNeuralNet():
         self.MainNetwork = NeuralNet(layers, params)
         self.TargetNetwork = NeuralNet(layers, params)
 
-        self.TempNetwork = NeuralNet(layers, params)
-
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
         self.ERBFull = False
 
@@ -41,7 +39,7 @@ class DoubleNeuralNet():
                                             # Returns a probability distribution of the outputs of the network
 
         # Action Taking and Reward
-        if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a ranom action to be explored
+        if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             val = random.random()
             totalled = 0
             for i in range(output[0].order[0]):
@@ -53,7 +51,7 @@ class DoubleNeuralNet():
             action = output[1]
 
         agent.TakeAction(action, worldMap) # Take Action
-        reward = agent.GetReward(action, worldMap) # Get reward given action
+        reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
 
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
@@ -69,9 +67,10 @@ class DoubleNeuralNet():
         self.ExperienceReplay.PushFront(copy(tempExp))
 
         # Back Propagation
-        loss = self.Loss(output, tempExp, )
+        Loss = self.LossFunction(output, tempExp, self.MainNetwork.layers, agent)
+        print(Loss)
 
-        # Do da thing
+        #self.MainNetwork.BackPropagation
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -88,14 +87,16 @@ class DoubleNeuralNet():
         for sample in samples:
             self.MainNetwork.BackPropagation(sample)
 
-    def LossFunction(self, output, tempExp, prevWeights, worldMap):
-        # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
+    def LossFunction(self, output, tempExp, prevWeights, agent):
+        # L^i(W^i) = (Q(s,a,W) - (r + y*maxQ(s',a';W^i-1)) ** 2
 
         g = self.paramDictionary["DQLGamma"]
-        self.TempNetwork.layers = prevWeights
-        oldWeightFeedForward = agent.GetReward(self.TempNetwork.ForwardPropagation(tempExp.stateNew).SoftMax()[1], worldMap)
 
-        Loss = (agent.GetReward(output[1], worldMap) - (tempExp.reward + g * oldWeightFeedForward)) ** 2 # Rewrite agent function to use vector
+        self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
+        targetFeedForward = agent.GetRewardWithVector(self.TargetNetwork.SoftMax()[1], tempExp.stateNew)
+
+        Loss = (agent.GetRewardWithVector(output[1], tempExp.state) - (tempExp.reward + g * targetFeedForward)) ** 2
+        return Loss
 
     def Cost(self, output, tempExp): # Cost function for the double network 
         # Cost = [QSA(Main) - (Reward(SA) + Gamma * SoftMax(QS'A(Target)))]^2
@@ -146,7 +147,8 @@ class NeuralNet():
 
     def BackPropagation(self, loss):
         for i in range(len(layers) - 1, 1, -1):
-
+            pass
+            #self.
 
 
     # Using Pickle to Save/Load
@@ -169,7 +171,7 @@ class Layer():
         
         self.outputVector = Matrix((size, 1))
 
-        #self.weightDeltamatrix = Matrix((size, prevSize))
+        self.errSignal = Matrix((size, 1))
 
     def ForwardPropagation(self, prevLayer):
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
@@ -177,15 +179,24 @@ class Layer():
         output = weightValueProduct + self.biasVector
 
         for i in range(output.order[0]):
-            output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # ReLU Activation Function combined with Tanh 
-
+            output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # ReLU Activation Function combined with Tanh  
         self.outputVector = output
 
     def BackPropagation(self, nextLayer, lr):
-        for i in range(nextLayer.outputVector.order[0]) # Might not be the right matrice to take order of 
-            errSignal = 
+        weightUpdates = Matrix(nextLayer.weightMatrix.order)
 
-        weightiTokList = []
+        weightErrSigProduct = nextLayer.weightMatrix * nextLayer.errSignal
+
+        for i in range(weightUpdates.order[0]): # For every neuron in layer
+            z = self.outputVector.matrixVals[i][0]
+            zProduct = z * (1 - z)
+
+            self.errSignal.matrixVals[i][0] = zProduct * weightErrSigProduct.matrixVals[i][0]
+
+            for k in range(weightUpdates.order[1]):
+                weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
+
+        self.nextLayer.weightMatrix += weightUpdates
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):
@@ -217,4 +228,4 @@ class Deque(): # Double Ended Queue
 
     def Sample(self, n): # Samples N number of samples from the deque
         temp = self.queue
-        return random.sample(temp, n) 
+        return random.sample(temp, n)

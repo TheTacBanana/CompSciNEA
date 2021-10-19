@@ -73,7 +73,7 @@ class Matrix():
                         cumProduct += self.matrixVals[row][subColRow] * m2.matrixVals[subColRow][col]
                     tempMatrix.matrixVals[row][col] = cumProduct
                     cumProduct = 0
-            return tempMatrix        
+            return tempMatrix
 
     # Overloading convert to string method
     def __str__(self): # Printing to console nicely and easily

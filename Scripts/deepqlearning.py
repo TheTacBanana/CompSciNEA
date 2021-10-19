@@ -69,7 +69,7 @@ class DoubleNeuralNet():
         self.ExperienceReplay.PushFront(copy(tempExp))
 
         # Back Propagation
-        cost = self.Cost(output, tempExp)
+        loss = self.Loss(output, tempExp, )
 
         # Do da thing
 
@@ -88,14 +88,14 @@ class DoubleNeuralNet():
         for sample in samples:
             self.MainNetwork.BackPropagation(sample)
 
-    def LossFunction(output, tempExp, prevWeights, worldMap):
+    def LossFunction(self, output, tempExp, prevWeights, worldMap):
         # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
 
         g = self.paramDictionary["DQLGamma"]
         self.TempNetwork.layers = prevWeights
         oldWeightFeedForward = agent.GetReward(self.TempNetwork.ForwardPropagation(tempExp.stateNew).SoftMax()[1], worldMap)
 
-        Loss = ((tempExp.reward + g * oldWeightFeedForward) - agent.GetReward(output[1], worldMap) ** 2 # Rewrite agent function to use vector
+        Loss = (agent.GetReward(output[1], worldMap) - (tempExp.reward + g * oldWeightFeedForward)) ** 2 # Rewrite agent function to use vector
 
     def Cost(self, output, tempExp): # Cost function for the double network 
         # Cost = [QSA(Main) - (Reward(SA) + Gamma * SoftMax(QS'A(Target)))]^2
@@ -144,6 +144,11 @@ class NeuralNet():
 
         return outVector, maxIndex, maxVal # Returns vector and best index
 
+    def BackPropagation(self, loss):
+        for i in range(len(layers) - 1, 1, -1):
+
+
+
     # Using Pickle to Save/Load
     @classmethod
     def LoadNeuralNet(file): # Returns stored Neural Network data
@@ -164,6 +169,8 @@ class Layer():
         
         self.outputVector = Matrix((size, 1))
 
+        #self.weightDeltamatrix = Matrix((size, prevSize))
+
     def ForwardPropagation(self, prevLayer):
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
 
@@ -173,6 +180,12 @@ class Layer():
             output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # ReLU Activation Function combined with Tanh 
 
         self.outputVector = output
+
+    def BackPropagation(self, nextLayer, lr):
+        for i in range(nextLayer.outputVector.order[0]) # Might not be the right matrice to take order of 
+            errSignal = 
+
+        weightiTokList = []
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):

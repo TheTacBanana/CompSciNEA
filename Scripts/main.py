@@ -5,6 +5,7 @@ from deepqlearning import *
 from agent import *
 
 #https://towardsdatascience.com/creating-deep-neural-networks-from-scratch-an-introduction-to-reinforcement-learning-6bba874019db
+#http://www.briandolhansky.com/blog/2013/9/27/artificial-neural-networks-backpropagation-part-4
 
 # Constant variables
 worldSeed = 0

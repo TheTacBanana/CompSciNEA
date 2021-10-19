@@ -24,6 +24,7 @@ class DoubleNeuralNet():
         self.epsilon = self.paramDictionary["DQLEpsilon"]
 
         self.step = 0
+        self.cumReward = 0.0
 
     def TakeStep(self, agent, worldMap):
         self.step += 1
@@ -53,9 +54,12 @@ class DoubleNeuralNet():
         agent.TakeAction(action, worldMap) # Take Action
         reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
 
+        print(reward)
+        self.cumReward += reward
+
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
-        print(self.epsilon)
+        #print(self.epsilon)
 
         # Assigning values to tempExperience
         tempExp = Experience()
@@ -68,9 +72,13 @@ class DoubleNeuralNet():
 
         # Back Propagation
         Loss = self.LossFunction(output, tempExp, self.MainNetwork.layers, agent)
-        print(Loss)
 
-        #self.MainNetwork.BackPropagation
+        for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
+            self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
+
+        self.MainNetwork.BackPropagation(self.MainNetwork)
+
+        print(self.MainNetwork.layers[3].weightMatrix.matrixVals[0][0], self.cumReward)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -145,11 +153,10 @@ class NeuralNet():
 
         return outVector, maxIndex, maxVal # Returns vector and best index
 
-    def BackPropagation(self, loss):
-        for i in range(len(layers) - 1, 1, -1):
-            pass
-            #self.
-
+    def BackPropagation(self, mainNet):
+        for i in range(len(mainNet.layers) - 2, 1, -1):
+            #print(i)
+            self.layers[i].BackPropagation(mainNet.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
     # Using Pickle to Save/Load
     @classmethod
@@ -168,10 +175,10 @@ class Layer():
             self.weightMatrix = Matrix((size, prevSize), random=True)
 
             self.biasVector = Matrix((size, 1), random=True)
+
+            self.errSignal = Matrix((prevSize, 1))
         
         self.outputVector = Matrix((size, 1))
-
-        self.errSignal = Matrix((size, 1))
 
     def ForwardPropagation(self, prevLayer):
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
@@ -185,6 +192,7 @@ class Layer():
     def BackPropagation(self, nextLayer, lr):
         weightUpdates = Matrix(nextLayer.weightMatrix.order)
 
+        #print(nextLayer.weightMatrix.order, nextLayer.outputVector.order)
         weightErrSigProduct = nextLayer.weightMatrix * nextLayer.errSignal
 
         for i in range(weightUpdates.order[0]): # For every neuron in layer
@@ -196,7 +204,7 @@ class Layer():
             for k in range(weightUpdates.order[1]):
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
 
-        self.nextLayer.weightMatrix += weightUpdates
+        nextLayer.weightMatrix += weightUpdates
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):

@@ -31,7 +31,7 @@
 
     "MoveReward": 1,
     "TreeReward": 10,
-    "TimeWasteReward": -1,
+    "TimeWasteReward": -5,
     "DeathReward": -10,
     "ExploreReward": 0.2,
 
@@ -40,9 +40,9 @@
     "ERSampleRate": 4,
     "ERSampleSize": 100,
 
-    "DeepQLearningLayers" : [81, 128, 128, 64, 5],
+    "DeepQLearningLayers" : [9, 64, 32, 16, 5],
     "DQLearningMaxSteps": 10000,
-    "DQLOffset": 4,
+    "DQLOffset": 1,
     "DQLEpsilon": 1,
     "DQLEpisonRegression": 0.9998,
     "DQLLearningRate": 0.75,

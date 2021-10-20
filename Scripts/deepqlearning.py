@@ -54,7 +54,7 @@ class DoubleNeuralNet():
         agent.TakeAction(action, worldMap) # Take Action
         reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
 
-        print(reward)
+        #print(reward)
         self.cumReward += reward
 
         # Epsilon Regression
@@ -76,13 +76,21 @@ class DoubleNeuralNet():
         for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
             self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
 
-        self.MainNetwork.BackPropagation(self.MainNetwork)
+        print(self.MainNetwork.layers[-1].errSignal)
 
-        print(self.MainNetwork.layers[3].weightMatrix.matrixVals[0][0], self.cumReward)
+        self.MainNetwork.BackPropagation()
+
+        #print(round(self.MainNetwork.layers[3].weightMatrix.matrixVals[0][0], 5), 
+                                        #self.cumReward, reward, output[1], output[0])
+        #print(self.MainNetwork.layers[1].weightMatrix.matrixVals[0][0],
+            #self.MainNetwork.layers[2].weightMatrix.matrixVals[0][0],
+            #self.MainNetwork.layers[3].weightMatrix.matrixVals[0][0],
+            #self.MainNetwork.layers[4].weightMatrix.matrixVals[0][0])
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
+            print("Replaced Weights")
 
         if not self.ERBFull: # Sample Experience Replay Buffer
             self.ERBFull = self.ExperienceReplay.Full()
@@ -105,14 +113,6 @@ class DoubleNeuralNet():
 
         Loss = (agent.GetRewardWithVector(output[1], tempExp.state) - (tempExp.reward + g * targetFeedForward)) ** 2
         return Loss
-
-    def Cost(self, output, tempExp): # Cost function for the double network 
-        # Cost = [QSA(Main) - (Reward(SA) + Gamma * SoftMax(QS'A(Target)))]^2
-        g = self.paramDictionary["DQLGamma"]
-        self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
-        TQSA = self.TargetNetwork.SoftMax()
-
-        return (output[2]- (tempExp.reward + g * TQSA[2])) ** 2
 
 class NeuralNet():
     def __init__(self, layers, params):
@@ -153,10 +153,10 @@ class NeuralNet():
 
         return outVector, maxIndex, maxVal # Returns vector and best index
 
-    def BackPropagation(self, mainNet):
-        for i in range(len(mainNet.layers) - 2, 1, -1):
-            #print(i)
-            self.layers[i].BackPropagation(mainNet.layers[i+1], self.paramDictionary["DQLLearningRate"])
+    def BackPropagation(self):
+        for i in range(len(self.layers) - 2, 0, -1):
+            print(i)
+            self.layers[i].BackPropagation(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
     # Using Pickle to Save/Load
     @classmethod
@@ -176,7 +176,7 @@ class Layer():
 
             self.biasVector = Matrix((size, 1), random=True)
 
-            self.errSignal = Matrix((prevSize, 1))
+            self.errSignal = Matrix((size, 1))
         
         self.outputVector = Matrix((size, 1))
 
@@ -194,15 +194,19 @@ class Layer():
 
         #print(nextLayer.weightMatrix.order, nextLayer.outputVector.order)
         weightErrSigProduct = nextLayer.weightMatrix * nextLayer.errSignal
+        print(nextLayer.errSignal)
+        #print(weightErrSigProduct)
 
         for i in range(weightUpdates.order[0]): # For every neuron in layer
             z = self.outputVector.matrixVals[i][0]
             zProduct = z * (1 - z)
 
+            print(i, self.errSignal.order, weightErrSigProduct.order)
             self.errSignal.matrixVals[i][0] = zProduct * weightErrSigProduct.matrixVals[i][0]
 
             for k in range(weightUpdates.order[1]):
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
+        print(self.errSignal)
 
         nextLayer.weightMatrix += weightUpdates
 

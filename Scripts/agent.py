@@ -170,31 +170,20 @@ class Agent():
         offset = self.paramDictionary["DQLOffset"] 
         sideLength = (offset * 2) + 1
 
-        if action == 0 and vector.matrixVals[sideLength * 3 + offset][0] >= 1: # Move Up
-            if self.explored[self.location[0]][self.location[1] - 1] == False:
-                cumReward += self.paramDictionary["ExploreReward"]
-                self.explored[self.location[0]][self.location[1] - 1] = True
+        if action == 0 and vector.matrixVals[(sideLength * (offset - 1)) + offset][0] >= 1: # Move Up
             cumReward += self.paramDictionary["MoveReward"]
 
-        elif action == 1 and vector.matrixVals[sideLength * 4 + offset - 1][0] >= 1: # Move Right
-            if self.explored[self.location[0] + 1][self.location[1]] == False:
-                cumReward += self.paramDictionary["ExploreReward"]
-                self.explored[self.location[0] + 1][self.location[1]] = True
+        elif action == 1 and vector.matrixVals[(sideLength * offset) + offset - 1][0] >= 1: # Move Right
             cumReward += self.paramDictionary["MoveReward"]
 
-        elif action == 2 and vector.matrixVals[sideLength * 4 + offset + 1][0] >= 1: # Move Down
-            if self.explored[self.location[0]][self.location[1] + 1] == False:
-                cumReward += self.paramDictionary["ExploreReward"]
-                self.explored[self.location[0]][self.location[1] + 1] = True
+        elif action == 2 and vector.matrixVals[(sideLength * offset) + offset + 1][0] >= 1: # Move Down
             cumReward += self.paramDictionary["MoveReward"]
 
-        elif action == 3 and vector.matrixVals[sideLength * 5 + offset][0] >= 1: # Move Left
-            if self.explored[self.location[0] - 1][self.location[1]] == False:
-                cumReward += self.paramDictionary["ExploreReward"]
-                self.explored[self.location[0] - 1][self.location[1]] = True
+        elif action == 3 and vector.matrixVals[(sideLength * (offset + 1)) + offset][0] >= 1: # Move Left
             cumReward += self.paramDictionary["MoveReward"]
 
-        #elif action == 4 and worldMap.GetTile(self.location[0], self.location[1]).
+        elif action == 4 and vector.matrixVals[(sideLength * offset) + offset][0] == 5:
+            cumReward += self.paramDictionary["TreeReward"]
 
         else:
             cumReward += self.paramDictionary["TimeWasteReward"]

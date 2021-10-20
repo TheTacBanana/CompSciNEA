@@ -84,3 +84,11 @@ class Matrix():
             else:
                 strOut += str(self.matrixVals[row])
         return strOut
+
+    def Transpose(self):
+        tempMatrix = Matrix((self.order[1], self.order[0]))
+        
+        for row in range(self.order[0]):
+            for col in range(self.order[1]):
+                tempMatrix.matrixVals[col][row] = self.matrixVals[row][col]
+        return tempMatrix

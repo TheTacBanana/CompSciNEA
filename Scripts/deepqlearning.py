@@ -76,7 +76,7 @@ class DoubleNeuralNet():
         for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
             self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
 
-        print(self.MainNetwork.layers[-1].errSignal)
+        #print(self.MainNetwork.layers[-1].errSignal)
 
         self.MainNetwork.BackPropagation()
 
@@ -153,8 +153,8 @@ class NeuralNet():
 
         return outVector, maxIndex, maxVal # Returns vector and best index
 
-    def BackPropagation(self):
-        for i in range(len(self.layers) - 2, 0, -1):
+    def BackPropagation(self, ):
+        for i in range(len(self.layers) - 2, -1, -1):
             print(i)
             self.layers[i].BackPropagation(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
@@ -176,7 +176,7 @@ class Layer():
 
             self.biasVector = Matrix((size, 1), random=True)
 
-            self.errSignal = Matrix((size, 1))
+        self.errSignal = Matrix((size, 1))
         
         self.outputVector = Matrix((size, 1))
 
@@ -190,25 +190,22 @@ class Layer():
         self.outputVector = output
 
     def BackPropagation(self, nextLayer, lr):
-        weightUpdates = Matrix(nextLayer.weightMatrix.order)
+        transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
+        weightUpdates = Matrix(transposedWeightMatrix.order)
 
-        #print(nextLayer.weightMatrix.order, nextLayer.outputVector.order)
-        weightErrSigProduct = nextLayer.weightMatrix * nextLayer.errSignal
-        print(nextLayer.errSignal)
-        #print(weightErrSigProduct)
+        weightErrSigProduct = transposedWeightMatrix * nextLayer.errSignal
+        print("start", weightErrSigProduct)
 
         for i in range(weightUpdates.order[0]): # For every neuron in layer
             z = self.outputVector.matrixVals[i][0]
             zProduct = z * (1 - z)
 
-            print(i, self.errSignal.order, weightErrSigProduct.order)
             self.errSignal.matrixVals[i][0] = zProduct * weightErrSigProduct.matrixVals[i][0]
 
             for k in range(weightUpdates.order[1]):
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
-        print(self.errSignal)
 
-        nextLayer.weightMatrix += weightUpdates
+        nextLayer.weightMatrix += weightUpdates.Transpose()
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):

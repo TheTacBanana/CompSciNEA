@@ -85,6 +85,7 @@ class Matrix():
                 strOut += str(self.matrixVals[row])
         return strOut
 
+    # Flips matrix across the diagonal
     def Transpose(self):
         tempMatrix = Matrix((self.order[1], self.order[0]))
         

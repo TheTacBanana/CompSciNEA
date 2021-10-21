@@ -44,7 +44,7 @@
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 1,
     "DQLEpsilon": 1,
-    "DQLEpisonRegression": 0.9998,
+    "DQLEpisonRegression": 0.9999998,
     "DQLLearningRate": 0.75,
     "DQLGamma": 0.8
 }

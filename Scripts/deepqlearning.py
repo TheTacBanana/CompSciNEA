@@ -1,6 +1,5 @@
 import random, pickle
 from matrix import Matrix
-from collections import namedtuple
 from copy import copy
 import math
 
@@ -25,11 +24,12 @@ class DoubleNeuralNet():
 
         self.step = 0
         self.cumReward = 0.0
+        self.actionsTaken = [0,0,0,0,0]
 
     def TakeStep(self, agent, worldMap):
         self.step += 1
         if self.step % 1000 == 0:
-            print(self.step)
+            print(self.step, self.cumReward, self.actionsTaken, self.epsilon)
 
         # Forward Propagation
         netInput = agent.GetStateVector(worldMap) # Retrieve Vector of State info from Agent
@@ -38,6 +38,8 @@ class DoubleNeuralNet():
 
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
                                             # Returns a probability distribution of the outputs of the network
+
+        print("\n", self.MainNetwork.layers[-1].outputVector)
 
         # Action Taking and Reward
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
@@ -68,6 +70,8 @@ class DoubleNeuralNet():
         tempExp.reward = reward
         tempExp.stateNew = agent.GetStateVector(worldMap)
 
+        self.actionsTaken[tempExp.action] += 1
+
         self.ExperienceReplay.PushFront(copy(tempExp))
 
         # Back Propagation
@@ -80,17 +84,10 @@ class DoubleNeuralNet():
 
         self.MainNetwork.BackPropagation()
 
-        #print(round(self.MainNetwork.layers[3].weightMatrix.matrixVals[0][0], 5), 
-                                        #self.cumReward, reward, output[1], output[0])
-        #print(self.MainNetwork.layers[1].weightMatrix.matrixVals[0][0],
-            #self.MainNetwork.layers[2].weightMatrix.matrixVals[0][0],
-            #self.MainNetwork.layers[3].weightMatrix.matrixVals[0][0],
-            #self.MainNetwork.layers[4].weightMatrix.matrixVals[0][0])
-
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
-            print("Replaced Weights")
+            #print("Replaced Weights")
 
         if not self.ERBFull: # Sample Experience Replay Buffer
             self.ERBFull = self.ExperienceReplay.Full()
@@ -101,7 +98,8 @@ class DoubleNeuralNet():
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
 
         for sample in samples:
-            self.MainNetwork.BackPropagation(sample)
+            pass
+            #self.MainNetwork.BackPropagation(sample)
 
     def LossFunction(self, output, tempExp, prevWeights, agent):
         # L^i(W^i) = (Q(s,a,W) - (r + y*maxQ(s',a';W^i-1)) ** 2
@@ -133,7 +131,7 @@ class NeuralNet():
             self.layers[i].ForwardPropagation(self.layers[i-1])
 
     def SoftMax(self): # Implementation of a Soft Max Function
-        z = self.layers[4].outputVector
+        z = self.layers[-1].outputVector
 
         sumToK = 0
         maxIndex = 0
@@ -155,7 +153,7 @@ class NeuralNet():
 
     def BackPropagation(self, ):
         for i in range(len(self.layers) - 2, -1, -1):
-            print(i)
+            #print(i)
             self.layers[i].BackPropagation(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
     # Using Pickle to Save/Load
@@ -194,17 +192,18 @@ class Layer():
         weightUpdates = Matrix(transposedWeightMatrix.order)
 
         weightErrSigProduct = transposedWeightMatrix * nextLayer.errSignal
-        print("start", weightErrSigProduct)
+        #print(nextLayer.errSignal)
 
         for i in range(weightUpdates.order[0]): # For every neuron in layer
             z = self.outputVector.matrixVals[i][0]
-            zProduct = z * (1 - z)
+            zProduct = 1 - (math.tanh(z) ** 2)
+            #print(zProduct)
 
             self.errSignal.matrixVals[i][0] = zProduct * weightErrSigProduct.matrixVals[i][0]
 
             for k in range(weightUpdates.order[1]):
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
-
+        #print(self.errSignal)
         nextLayer.weightMatrix += weightUpdates.Transpose()
 
 class Deque(): # Double Ended Queue 

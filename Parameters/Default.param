@@ -46,9 +46,9 @@
     "ERSampleRate": 4,
     "ERSampleSize": 100,
 
-    "DeepQLearningLayers" : [25, 32, 16, 16, 5],
+    "DeepQLearningLayers" : [49, 64, 32, 16, 5],
     "DQLearningMaxSteps": 10000,
-    "DQLOffset": 2,
+    "DQLOffset": 3,
     "DQLEpsilon": 1,
     "DQLEpisonRegression": 0.999998,
     "DQLLearningRate": 0.75,

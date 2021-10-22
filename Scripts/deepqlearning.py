@@ -41,13 +41,13 @@ class DoubleNeuralNet():
         #print("\n", self.MainNetwork.layers[-1].outputVector)
 
         # Action Taking and Reward
-        print(output[0])
+        #print(output[0])
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             val = random.random()
             totalled = 0
             for i in range(output[0].order[0]):
                 totalled += output[0].matrixVals[i][0]
-                print(val, totalled)
+                #print(val, totalled)
                 if totalled >= val:
                     action = i
                     self.random[0] += 1
@@ -84,7 +84,7 @@ class DoubleNeuralNet():
         for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
             self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
 
-        self.MainNetwork.BackPropagation()
+        #self.MainNetwork.BackPropagation()
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -132,12 +132,15 @@ class NeuralNet():
     def ForwardPropagation(self, inputVector):
         self.layers[0].outputVector = inputVector
 
-        for i in range(1, len(self.layers)):
+        for i in range(1, len(self.layers) - 1):
+            #print(i)
             self.layers[i].ForwardPropagation(self.layers[i-1])
+
+        #print(i+1)
+        self.layers[-1].ForwardPropagation(self.layers[-2], finalLayer=True)
 
     def SoftMax(self): # Implementation of a Soft Max Function
         z = self.layers[-1].outputVector
-        print(z)
 
         sumToK = 0
         maxIndex = 0
@@ -154,6 +157,8 @@ class NeuralNet():
             outVector.matrixVals[i][0] = (math.exp(z.matrixVals[i][0])) / sumToK
 
         maxVal = outVector.matrixVals[maxIndex][0]
+
+        #print(outVector, maxIndex, maxVal)
 
         return outVector, maxIndex, maxVal # Returns vector and best index
 
@@ -184,13 +189,18 @@ class Layer():
         
         self.outputVector = Matrix((size, 1))
 
-    def ForwardPropagation(self, prevLayer):
+    def ForwardPropagation(self, prevLayer, finalLayer=False):
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
 
         output = weightValueProduct + self.biasVector
 
-        for i in range(output.order[0]):
-            output.matrixVals[i][0] = math.tanh(output.matrixVals[i][0])  # ReLU Activation Function combined with Tanh  
+        if not finalLayer:
+            for i in range(output.order[0]):
+                output.matrixVals[i][0] = math.tanh(output.matrixVals[i][0])  # Tanh Activation 
+        else:
+            for i in range(output.order[0]):
+                output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # Tanh and ReLu Activation
+        #print("Output", output)
         self.outputVector = output
 
     def BackPropagation(self, nextLayer, lr):

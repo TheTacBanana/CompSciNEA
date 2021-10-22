@@ -16,7 +16,7 @@ worldMap = WorldMap(worldSeed, params)
 headless = params["Headless"]
 if not headless:
     worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH
-    window = pygame.display.set_mode((worldResolution + 100, worldResolution))
+    window = pygame.display.set_mode((worldResolution + (len(params["DeepQLearningLayers"] * params["TileWidth"] * 2)), worldResolution))
 
 # Generates and renders the map to a single surface for optimisation
 def Generate():
@@ -70,11 +70,10 @@ while running == True:
         for i in range(len(DQNetwork.MainNetwork.layers)):
             for k in range(DQNetwork.MainNetwork.layers[i].outputVector.order[0]):
                 value = DQNetwork.MainNetwork.layers[i].outputVector.matrixVals[k][0]
-                value = math.tanh(value)
-                #print((255/2) * value + (255/2))
-                #print((255/2) * value + (255/2))
-
-                pygame.draw.rect(window, (((255/2) * value) + (255/2), ((255/2) * value) + (255/2), 0), (((params["WorldSize"] * TW + i * TW * 2, (k * TW * 2), TW * 2, TW * 2))))
+                newVal = (math.tanh(value) + 1) / 2
+                #print(value, newVal, i, k)
+                pygame.draw.rect(window, (255 * newVal, 255 * newVal, 255 * newVal), 
+                                (((params["WorldSize"] * TW + i * TW * 2, (k * TW * 2), TW * 2, TW * 2))))
 
         #if QNetwork.step > MS:
         #    Generate()

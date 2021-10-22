@@ -6,9 +6,10 @@ class Tile(): # Class to store tile data in
     def __init__(self):
         self.tileHeight = -1
 
-    def InitValues(self, tileType, height):
+    def InitValues(self, tileType, height, colour):
         self.tileType = tileType
         self.tileHeight = height
+        self.tileColour = colour
 
 class InteractableObject(): # Class to store interactable data in
     def __init__(self, name, position):
@@ -228,17 +229,21 @@ class WorldMap():
                     if value == 0:
                         colour = (0,0,0)
                     elif value < self.paramDictionary["Water"]:
-                        colour = (18, 89, 144)
+                        colour = tuple(self.paramDictionary["ColourWater"])
                         self.tileArray[x][y].tileType = 0
+                        self.tileArray[x][y].tileColour = colour
                     elif value < self.paramDictionary["Coast"]:
-                        colour = (245, 234, 146)
+                        colour = tuple(self.paramDictionary["ColourCoast"])
                         self.tileArray[x][y].tileType = 1
+                        self.tileArray[x][y].tileColour = colour
                     elif value < self.paramDictionary["Grass"]:
-                        colour = (26, 148, 49)
+                        colour = tuple(self.paramDictionary["ColourGrass"])
                         self.tileArray[x][y].tileType = 2
-                    elif value < self.paramDictionary["TallGrass"]:
-                        colour = (136, 140, 141)
+                        self.tileArray[x][y].tileColour = colour
+                    elif value < self.paramDictionary["Mountain"]:
+                        colour = tuple(self.paramDictionary["ColourMountain"])
                         self.tileArray[x][y].tileType = 3
+                        self.tileArray[x][y].tileColour = colour
                     
                     pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
                             (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
@@ -252,7 +257,7 @@ class WorldMap():
 
         if isList:
             for i in self.interactables:
-                pygame.draw.rect(self.RenderedInteractables, (13, 92, 28), ((i.position[0] * self.TILE_WIDTH + TTB), 
+                pygame.draw.rect(self.RenderedInteractables, tuple(self.paramDictionary["ColourTree"]), ((i.position[0] * self.TILE_WIDTH + TTB), 
                         (i.position[1] * self.TILE_WIDTH + TTB), self.TILE_WIDTH - (TTB * 2), self.TILE_WIDTH - (TTB * 2)))
         #else:
         #    for y in range(0, self.MAP_SIZE):

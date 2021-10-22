@@ -3,6 +3,7 @@ from worldClass import *
 from qlearning import *
 from deepqlearning import *
 from agent import *
+import math
 
 #https://towardsdatascience.com/creating-deep-neural-networks-from-scratch-an-introduction-to-reinforcement-learning-6bba874019db
 #http://www.briandolhansky.com/blog/2013/9/27/artificial-neural-networks-backpropagation-part-4
@@ -15,7 +16,7 @@ worldMap = WorldMap(worldSeed, params)
 headless = params["Headless"]
 if not headless:
     worldResolution = worldMap.MAP_SIZE * worldMap.TILE_WIDTH
-    window = pygame.display.set_mode((worldResolution, worldResolution))
+    window = pygame.display.set_mode((worldResolution + 100, worldResolution))
 
 # Generates and renders the map to a single surface for optimisation
 def Generate():
@@ -65,6 +66,15 @@ while running == True:
 
         DQNetwork.TakeStep(agent, worldMap)
         worldMap.DrawMap(window)
+
+        for i in range(len(DQNetwork.MainNetwork.layers)):
+            for k in range(DQNetwork.MainNetwork.layers[i].outputVector.order[0]):
+                value = DQNetwork.MainNetwork.layers[i].outputVector.matrixVals[k][0]
+                value = math.tanh(value)
+                #print((255/2) * value + (255/2))
+                #print((255/2) * value + (255/2))
+
+                pygame.draw.rect(window, (((255/2) * value) + (255/2), ((255/2) * value) + (255/2), 0), (((params["WorldSize"] * TW + i * TW * 2, (k * TW * 2), TW * 2, TW * 2))))
 
         #if QNetwork.step > MS:
         #    Generate()

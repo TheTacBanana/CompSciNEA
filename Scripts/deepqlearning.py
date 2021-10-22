@@ -25,11 +25,10 @@ class DoubleNeuralNet():
         self.step = 0
         self.cumReward = 0.0
         self.actionsTaken = [0,0,0,0,0]
+        self.random = [0,0]
 
     def TakeStep(self, agent, worldMap):
         self.step += 1
-        if self.step % 1000 == 0:
-            print(self.step, self.cumReward, self.actionsTaken, self.epsilon)
 
         # Forward Propagation
         netInput = agent.GetStateVector(worldMap) # Retrieve Vector of State info from Agent
@@ -39,19 +38,24 @@ class DoubleNeuralNet():
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
                                             # Returns a probability distribution of the outputs of the network
 
-        print("\n", self.MainNetwork.layers[-1].outputVector)
+        #print("\n", self.MainNetwork.layers[-1].outputVector)
 
         # Action Taking and Reward
+        print(output[0])
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             val = random.random()
             totalled = 0
             for i in range(output[0].order[0]):
                 totalled += output[0].matrixVals[i][0]
+                print(val, totalled)
                 if totalled >= val:
                     action = i
+                    self.random[0] += 1
                     break
+            
         else:
             action = output[1]
+            self.random[1] += 1
 
         agent.TakeAction(action, worldMap) # Take Action
         reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
@@ -66,7 +70,7 @@ class DoubleNeuralNet():
         # Assigning values to tempExperience
         tempExp = Experience()
         tempExp.state = netInput 
-        tempExp.action = output[1]
+        tempExp.action = action
         tempExp.reward = reward
         tempExp.stateNew = agent.GetStateVector(worldMap)
 
@@ -80,8 +84,6 @@ class DoubleNeuralNet():
         for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
             self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
 
-        #print(self.MainNetwork.layers[-1].errSignal)
-
         self.MainNetwork.BackPropagation()
 
         # Do things every X steps passed
@@ -93,6 +95,9 @@ class DoubleNeuralNet():
             self.ERBFull = self.ExperienceReplay.Full()
         if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ERBFull: 
             self.SampleExperienceReplay()
+
+        if self.step % 1000 == 0:
+            print(self.step, self.cumReward, self.actionsTaken, self.epsilon, self.random)
 
     def SampleExperienceReplay(self):
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
@@ -132,6 +137,7 @@ class NeuralNet():
 
     def SoftMax(self): # Implementation of a Soft Max Function
         z = self.layers[-1].outputVector
+        print(z)
 
         sumToK = 0
         maxIndex = 0
@@ -184,7 +190,7 @@ class Layer():
         output = weightValueProduct + self.biasVector
 
         for i in range(output.order[0]):
-            output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # ReLU Activation Function combined with Tanh  
+            output.matrixVals[i][0] = math.tanh(output.matrixVals[i][0])  # ReLU Activation Function combined with Tanh  
         self.outputVector = output
 
     def BackPropagation(self, nextLayer, lr):

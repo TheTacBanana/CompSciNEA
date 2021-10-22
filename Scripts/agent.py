@@ -50,16 +50,21 @@ class Agent():
                     for i in worldMap.interactables:
                         if i.position == [x,y]:
                             flag = True
-                            temp.matrixVals[n][0] = 5
+                            colourTuple = tuple(self.paramDictionary["ColourTree"])
+                            grayscale = (0.299 * colourTuple[0] + 0.587 * colourTuple[1] + 0.114 * colourTuple[2]) / 255
+                            temp.matrixVals[n][0] = grayscale
                             n += 1
 
                     if flag == False:
-                        temp.matrixVals[n][0] = world[x][y].tileType
+                        colourTuple = world[x][y].tileColour
+                        grayscale = (0.299 * colourTuple[0] + 0.587 * colourTuple[1] + 0.114 * colourTuple[2]) / 255
+                        temp.matrixVals[n][0] = grayscale
                         n += 1
 
                 x1 += 1
             x1 = 0
             y1 += 1
+        #print(temp)
         return temp
 
     @staticmethod

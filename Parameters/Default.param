@@ -21,10 +21,16 @@
     "Water": 0.46,
     "Coast": 0.48,
     "Grass": 0.63,
-    "TallGrass": 1.0,
+    "Mountain": 1.0,
+
+    "ColourWater": [18, 89, 144],
+    "ColourCoast": [245, 234, 146],
+    "ColourGrass": [26, 148, 49],
+    "ColourMountain": [136, 140, 141],
+    "ColourTree": [13, 92, 28],
 
     "QLearningMaxSteps": 10000,
-    "Offset": 3,
+    "Offset": 4,
     "Epsilon": 0.2,
     "LearningRate": 0.75,
     "Gamma": 0.8,
@@ -40,11 +46,11 @@
     "ERSampleRate": 4,
     "ERSampleSize": 100,
 
-    "DeepQLearningLayers" : [9, 16, 16, 5],
+    "DeepQLearningLayers" : [25, 32, 16, 16, 5],
     "DQLearningMaxSteps": 10000,
-    "DQLOffset": 1,
+    "DQLOffset": 2,
     "DQLEpsilon": 1,
-    "DQLEpisonRegression": 0.9999998,
+    "DQLEpisonRegression": 0.999998,
     "DQLLearningRate": 0.75,
     "DQLGamma": 0.8
 }

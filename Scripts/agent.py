@@ -93,24 +93,27 @@ class Agent():
             return self.PickupItem(worldMap, maxQ)
 
     def Move(self, direction, worldMap, maxQ): # 0 - Up 1 - Right 2 - Down 3 - Left
+        cumReward = 0
         if direction == 0 and worldMap.CheckIfOcean(self.location[0], self.location[1] - 1) != None:          #worldMap.tileArray[self.location[0]][self.location[1] - 1].tileType != 0:
             if not maxQ:
                 self.location = [self.location[0], self.location[1] - 1]
-            return self.paramDictionary["MoveReward"]
+            cumReward += self.paramDictionary["MoveReward"]
         elif direction == 1 and worldMap.CheckIfOcean(self.location[0] + 1, self.location[1]) != None: #worldMap.tileArray[self.location[0] + 1][self.location[1]].tileType != 0:
             if not maxQ:
                 self.location = [self.location[0] + 1, self.location[1]]
-            return self.paramDictionary["MoveReward"]
+            cumReward += self.paramDictionary["MoveReward"]
         elif direction == 2 and worldMap.CheckIfOcean(self.location[0], self.location[1] + 1) != None: #and worldMap.tileArray[self.location[0]][self.location[1] + 1].tileType != 0:
             if not maxQ:
                 self.location = [self.location[0], self.location[1] + 1]
-            return self.paramDictionary["MoveReward"]
+            cumReward +=  self.paramDictionary["MoveReward"]
         elif direction == 3 and worldMap.CheckIfOcean(self.location[0] - 1, self.location[1]) != None: #and worldMap.tileArray[self.location[0] - 1][self.location[1]].tileType != 0:
             if not maxQ:
                 self.location = [self.location[0] - 1, self.location[1]]
-            return self.paramDictionary["MoveReward"]
+            cumReward +=  self.paramDictionary["MoveReward"]
         else:
-            return self.paramDictionary["TimeWasteReward"]
+            cumReward +=  self.paramDictionary["TimeWasteReward"]
+        #print(cumReward)
+        return cumReward
 
     def PickupItem(self, worldMap, maxQ):
         for i in worldMap.interactables:
@@ -126,7 +129,7 @@ class Agent():
     def TakeAction(self, action, worldMap):
         maxQ = False
         if action == 0:
-            return  self.Move(0, worldMap, maxQ)
+            return self.Move(0, worldMap, maxQ)
         elif action == 1:
             return self.Move(1, worldMap, maxQ)
         elif action == 2:
@@ -167,7 +170,7 @@ class Agent():
 
         else:
             cumReward += self.paramDictionary["TimeWasteReward"]
-
+        #print(cumReward)
         return cumReward
 
     def GetRewardWithVector(self, action, vector):
@@ -176,6 +179,7 @@ class Agent():
         sideLength = (offset * 2) + 1
 
         if action == 0 and vector.matrixVals[(sideLength * (offset - 1)) + offset][0] >= 1: # Move Up
+            #print("move up")
             cumReward += self.paramDictionary["MoveReward"]
 
         elif action == 1 and vector.matrixVals[(sideLength * offset) + offset - 1][0] >= 1: # Move Right
@@ -192,5 +196,5 @@ class Agent():
 
         else:
             cumReward += self.paramDictionary["TimeWasteReward"]
-
+        #print(cumReward, action)
         return cumReward

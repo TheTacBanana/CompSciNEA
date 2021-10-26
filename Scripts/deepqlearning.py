@@ -57,15 +57,13 @@ class DoubleNeuralNet():
             action = output[1]
             self.random[1] += 1
 
-        agent.TakeAction(action, worldMap) # Take Action
-        reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
+        reward = agent.TakeAction(action, worldMap) # Take Action
+        #reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
 
-        #print(reward)
         self.cumReward += reward
 
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
-        #print(self.epsilon)
 
         # Assigning values to tempExperience
         tempExp = Experience()
@@ -84,12 +82,14 @@ class DoubleNeuralNet():
         for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
             self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
 
-        #self.MainNetwork.BackPropagation()
+        #self.MainNetwork.BackPropagationV1()
+
+        self.MainNetwork.BackPropagationV2()
+        #print(self.MainNetwork.layers[-1].weightMatrix.matrixVals[0][0])
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
-            #print("Replaced Weights")
 
         if not self.ERBFull: # Sample Experience Replay Buffer
             self.ERBFull = self.ExperienceReplay.Full()
@@ -133,10 +133,8 @@ class NeuralNet():
         self.layers[0].outputVector = inputVector
 
         for i in range(1, len(self.layers) - 1):
-            #print(i)
             self.layers[i].ForwardPropagation(self.layers[i-1])
 
-        #print(i+1)
         self.layers[-1].ForwardPropagation(self.layers[-2], finalLayer=True)
 
     def SoftMax(self): # Implementation of a Soft Max Function
@@ -158,15 +156,17 @@ class NeuralNet():
 
         maxVal = outVector.matrixVals[maxIndex][0]
 
-        #print(outVector, maxIndex, maxVal)
-
         return outVector, maxIndex, maxVal # Returns vector and best index
 
-    def BackPropagation(self, ):
+    def BackPropagationV1(self):
         for i in range(len(self.layers) - 2, -1, -1):
             #print(i)
-            self.layers[i].BackPropagation(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
+            self.layers[i].BackPropagationV1(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
+    def BackPropagationV2(self):
+        for i in range(len(self.layers) - 2, -1, -1):
+            #print(i)
+            self.layers[i].BackPropagationV2(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
     # Using Pickle to Save/Load
     @classmethod
     def LoadNeuralNet(file): # Returns stored Neural Network data
@@ -183,43 +183,58 @@ class Layer():
         if inputLayer == False:
             self.weightMatrix = Matrix((size, prevSize), random=True)
 
-            self.biasVector = Matrix((size, 1), random=True)
+            self.biasVector = Matrix((size, 1), random=False)
 
         self.errSignal = Matrix((size, 1))
         
+        self.sVector = Matrix((size, 1))
         self.outputVector = Matrix((size, 1))
 
     def ForwardPropagation(self, prevLayer, finalLayer=False):
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
 
-        output = weightValueProduct + self.biasVector
+        self.sVector = weightValueProduct + self.biasVector
 
         if not finalLayer:
-            for i in range(output.order[0]):
-                output.matrixVals[i][0] = math.tanh(output.matrixVals[i][0])  # Tanh Activation 
+            for i in range(self.sVector.order[0]):
+                self.outputVector.matrixVals[i][0] = math.tanh(self.sVector.matrixVals[i][0])  # Tanh Activation 
         else:
-            for i in range(output.order[0]):
-                output.matrixVals[i][0] = math.tanh(max(0, output.matrixVals[i][0]))  # Tanh and ReLu Activation
-        #print("Output", output)
-        self.outputVector = output
+            for i in range(self.sVector.order[0]):
+                self.outputVector.matrixVals[i][0] = math.tanh(max(0, self.sVector.matrixVals[i][0]))  # Tanh and ReLu Activation
 
-    def BackPropagation(self, nextLayer, lr):
+    def BackPropagationV1(self, nextLayer, lr):
         transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
         weightUpdates = Matrix(transposedWeightMatrix.order)
 
         weightErrSigProduct = transposedWeightMatrix * nextLayer.errSignal
-        #print(nextLayer.errSignal)
 
         for i in range(weightUpdates.order[0]): # For every neuron in layer
+            s = self.sVector.matrixVals[i][0]
             z = self.outputVector.matrixVals[i][0]
-            zProduct = 1 - (math.tanh(z) ** 2)
-            #print(zProduct)
+            zDerivative = 1 - (math.tanh(s) ** 2)
 
-            self.errSignal.matrixVals[i][0] = zProduct * weightErrSigProduct.matrixVals[i][0]
+            self.errSignal.matrixVals[i][0] = zDerivative * weightErrSigProduct.matrixVals[i][0]
 
             for k in range(weightUpdates.order[1]):
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
-        #print(self.errSignal)
+        nextLayer.weightMatrix += weightUpdates.Transpose()
+
+    def BackPropagationV2(self, nextLayer, lr):
+        transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
+        weightUpdates = Matrix(transposedWeightMatrix.order)
+
+        weightErrSigProduct = transposedWeightMatrix * nextLayer.errSignal
+
+        for i in range(weightUpdates.order[0]): # For every neuron in layer
+            s = self.sVector.matrixVals[i][0]
+            z = self.outputVector.matrixVals[i][0]
+            zDerivative = 1 - (math.tanh(s) ** 2)
+
+            self.errSignal.matrixVals[i][0] = zDerivative * weightErrSigProduct.matrixVals[i][0]
+
+            #print(nextLayer.errSignal.order, weightUpdates.order)
+            for k in range(weightUpdates.order[1]):
+                weightUpdates.matrixVals[i][k] = -lr * nextLayer.errSignal.matrixVals[k][0] * z
         nextLayer.weightMatrix += weightUpdates.Transpose()
 
 class Deque(): # Double Ended Queue 

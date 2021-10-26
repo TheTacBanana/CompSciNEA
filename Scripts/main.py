@@ -72,8 +72,8 @@ while running == True:
                 value = DQNetwork.MainNetwork.layers[i].outputVector.matrixVals[k][0]
                 newVal = (math.tanh(value) + 1) / 2
                 #print(value, newVal, i, k)
-                pygame.draw.rect(window, (255 * newVal, 255 * newVal, 255 * newVal), 
-                                (((params["WorldSize"] * TW + i * TW * 2, (k * TW * 2), TW * 2, TW * 2))))
+                pygame.draw.rect(window, (255 * newVal, 255 * newVal, 255 * newVal),
+                                (params["WorldSize"] * TW + i * TW * 2, (k * TW * 2), TW * 2, TW * 2))
 
         #if QNetwork.step > MS:
         #    Generate()

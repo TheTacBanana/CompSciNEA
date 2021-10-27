@@ -22,7 +22,7 @@ if not headless:
 def Generate():
     global worldMap
     
-    worldMap.MAP_SEED = random.randint(100000, 999999)
+    worldMap.MAP_SEED = 0 # random.randint(100000, 999999)
     
     worldMap.GenerateThreadedParent()
     worldMap.GenerateTreeArea()

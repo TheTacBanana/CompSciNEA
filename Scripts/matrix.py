@@ -61,6 +61,11 @@ class Matrix():
                     self.matrixVals[row][col] = self.matrixVals[row][col] * m2
             return self
 
+        elif self.order[1] == 1 and m2.order[1] == 1 and self.order[0] == m2.order[0]: # Hadamard product between two vectors
+            for row in range(self.order[0]):
+                self.matrixVals[row][0] *= m2.matrixVals[row][0]
+            return self
+
         elif type(m2) == Matrix: # Matrix Multiplication
             if self.order[1] != m2.order[0]:
                 raise MatExcepts.mismatchOrders
@@ -74,6 +79,8 @@ class Matrix():
                     tempMatrix.matrixVals[row][col] = cumProduct
                     cumProduct = 0
             return tempMatrix
+
+
 
     # Overloading convert to string method
     def __str__(self): # Printing to console nicely and easily

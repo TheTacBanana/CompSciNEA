@@ -14,8 +14,8 @@ class DoubleNeuralNet():
     def __init__(self, layers, params): # Constructor for a Double Neural Network
         self.paramDictionary = params
 
-        self.MainNetwork = NeuralNet(layers, params)
-        self.TargetNetwork = NeuralNet(layers, params)
+        self.MainNetwork = NeuralNet.LoadNeuralNet("MainNetwork")
+        self.TargetNetwork = NeuralNet.LoadNeuralNet("TargetNetwork")
 
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
         self.ERBFull = False
@@ -27,6 +27,9 @@ class DoubleNeuralNet():
         self.actionsTaken = [0,0,0,0,0]
         self.random = [0,0]
 
+        #self.MainNetwork.SaveNeuralNet("MainNetwork.dqn")
+        #self.TargetNetwork.SaveNeuralNet("TargetNetwork.dqn")
+
     def TakeStep(self, agent, worldMap):
         self.step += 1
 
@@ -37,8 +40,6 @@ class DoubleNeuralNet():
 
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
                                             # Returns a probability distribution of the outputs of the network
-
-        #print("\n", self.MainNetwork.layers[-1].outputVector)
 
         # Action Taking and Reward
         #print(output[0])
@@ -85,7 +86,7 @@ class DoubleNeuralNet():
         #self.MainNetwork.BackPropagationV1()
 
         self.MainNetwork.BackPropagationV2()
-        #print(self.MainNetwork.layers[-1].weightMatrix.matrixVals[0][0])
+        print(self.MainNetwork.layers[-1].weightMatrix.matrixVals[0][0], tempExp.reward)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -97,7 +98,7 @@ class DoubleNeuralNet():
             self.SampleExperienceReplay()
 
         if self.step % 1000 == 0:
-            print(self.step, self.cumReward, self.actionsTaken, self.epsilon, self.random)
+            print(self.step, self.cumReward, self.actionsTaken, self.epsilon)
 
     def SampleExperienceReplay(self):
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
@@ -164,18 +165,19 @@ class NeuralNet():
             self.layers[i].BackPropagationV1(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
     def BackPropagationV2(self):
-        for i in range(len(self.layers) - 2, -1, -1):
+        for i in range(len(self.layers) - 1, -1, -1):
             #print(i)
-            self.layers[i].BackPropagationV2(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
+            self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"])
+
     # Using Pickle to Save/Load
-    @classmethod
+    @staticmethod
     def LoadNeuralNet(file): # Returns stored Neural Network data
-        with open(file, "rb") as f:
+        with open("DQLearningData\\" + file + ".dqn", "rb") as f:
             temp = pickle.load(f)
         return temp
 
     def SaveNeuralNet(self, file): # Saves Neural Network Data
-        with open(file, "wb") as f:
+        with open("DQLearningData\\" + file + ".dqn", "wb") as f:
             pickle.dump(self, f)
 
 class Layer():
@@ -219,23 +221,23 @@ class Layer():
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
         nextLayer.weightMatrix += weightUpdates.Transpose()
 
-    def BackPropagationV2(self, nextLayer, lr):
-        transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
-        weightUpdates = Matrix(transposedWeightMatrix.order)
+    def BackPropagationV2(self, prevLayer, lr):
+        weightUpdates = self.weightMatrix.Transpose()
+        
+        # Calculating Next Error Signal
+        halfErrSignal = (weightUpdates * self.errSignal)
 
-        weightErrSigProduct = transposedWeightMatrix * nextLayer.errSignal
+        zDerivative = prevLayer.sVector
+        for i in range(zDerivative.order[0]):
+            zDerivative.matrixVals[i][0] = 1 - (math.tanh(zDerivative.matrixVals[i][0]) ** 2)
 
-        for i in range(weightUpdates.order[0]): # For every neuron in layer
-            s = self.sVector.matrixVals[i][0]
-            z = self.outputVector.matrixVals[i][0]
-            zDerivative = 1 - (math.tanh(s) ** 2)
+        errSignal = halfErrSignal * zDerivative
+        prevLayer.errSignal = errSignal
 
-            self.errSignal.matrixVals[i][0] = zDerivative * weightErrSigProduct.matrixVals[i][0]
+        # Calculating Weight updates
+        
 
-            #print(nextLayer.errSignal.order, weightUpdates.order)
-            for k in range(weightUpdates.order[1]):
-                weightUpdates.matrixVals[i][k] = -lr * nextLayer.errSignal.matrixVals[k][0] * z
-        nextLayer.weightMatrix += weightUpdates.Transpose()
+
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):

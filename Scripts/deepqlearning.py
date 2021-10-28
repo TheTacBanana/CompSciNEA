@@ -11,11 +11,15 @@ class Experience():
         self.stateNew = stateNew
 
 class DoubleNeuralNet():
-    def __init__(self, layers, params): # Constructor for a Double Neural Network
+    def __init__(self, layers, params, load=False): # Constructor for a Double Neural Network
         self.paramDictionary = params
 
-        self.MainNetwork = NeuralNet.LoadNeuralNet("MainNetwork")
-        self.TargetNetwork = NeuralNet.LoadNeuralNet("TargetNetwork")
+        if not load:
+            self.MainNetwork = NeuralNet(layers, params)
+            self.TargetNetwork = NeuralNet(layers, params)
+        else:
+            self.MainNetwork = NeuralNet.LoadNeuralNet("MainNetwork")
+            self.TargetNetwork = NeuralNet.LoadNeuralNet("TargetNetwork")
 
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
         self.ERBFull = False
@@ -27,14 +31,14 @@ class DoubleNeuralNet():
         self.actionsTaken = [0,0,0,0,0]
         self.random = [0,0]
 
-        #self.MainNetwork.SaveNeuralNet("MainNetwork.dqn")
-        #self.TargetNetwork.SaveNeuralNet("TargetNetwork.dqn")
-
     def TakeStep(self, agent, worldMap):
         self.step += 1
+        if self.step == 1000:
+            exit()
 
         # Forward Propagation
         netInput = agent.GetStateVector(worldMap) # Retrieve Vector of State info from Agent
+        print(netInput)
         
         self.MainNetwork.ForwardPropagation(netInput) # Forward Prop the Main Network
 
@@ -86,7 +90,7 @@ class DoubleNeuralNet():
         #self.MainNetwork.BackPropagationV1()
 
         self.MainNetwork.BackPropagationV2()
-        print(self.MainNetwork.layers[-1].weightMatrix.matrixVals[0][0], tempExp.reward)
+        #print(self.MainNetwork.layers[-1].weightMatrix.matrixVals[0][0], tempExp.reward)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -119,24 +123,28 @@ class DoubleNeuralNet():
         return Loss
 
 class NeuralNet():
-    def __init__(self, layers, params):
+    def __init__(self, layersIn, params):
         self.paramDictionary = params
 
         self.layers = []
 
-        for i in range(len(layers)):
+        for i in range(len(layersIn)):
             if i == 0:
-                self.layers.append(Layer(0, layers[0], True))
+                self.layers.append(Layer(0, layersIn[0], True))
             else:
-                self.layers.append(Layer(layers[i - 1], layers[i]))
+                self.layers.append(Layer(layersIn[i - 1], layersIn[i]))
 
     def ForwardPropagation(self, inputVector):
         self.layers[0].outputVector = inputVector
 
         for i in range(1, len(self.layers) - 1):
             self.layers[i].ForwardPropagation(self.layers[i-1])
+            print(self.layers[i].outputVector)
+            print()
 
         self.layers[-1].ForwardPropagation(self.layers[-2], finalLayer=True)
+        print(self.layers[-1].sVector)
+        print()
 
     def SoftMax(self): # Implementation of a Soft Max Function
         z = self.layers[-1].outputVector
@@ -161,12 +169,10 @@ class NeuralNet():
 
     def BackPropagationV1(self):
         for i in range(len(self.layers) - 2, -1, -1):
-            #print(i)
             self.layers[i].BackPropagationV1(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
     def BackPropagationV2(self):
-        for i in range(len(self.layers) - 1, -1, -1):
-            #print(i)
+        for i in range(len(self.layers) - 1, 0, -1):
             self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"])
 
     # Using Pickle to Save/Load
@@ -199,10 +205,19 @@ class Layer():
 
         if not finalLayer:
             for i in range(self.sVector.order[0]):
-                self.outputVector.matrixVals[i][0] = math.tanh(self.sVector.matrixVals[i][0])  # Tanh Activation 
+                self.outputVector.matrixVals[i][0] = Layer.Sigmoid(self.sVector.matrixVals[i][0])  # Sigmoid Activation
         else:
             for i in range(self.sVector.order[0]):
-                self.outputVector.matrixVals[i][0] = math.tanh(max(0, self.sVector.matrixVals[i][0]))  # Tanh and ReLu Activation
+                self.outputVector.matrixVals[i][0] = max(0, Layer.Sigmoid(self.sVector.matrixVals[i][0]))  # ReLu Activation
+
+    @staticmethod
+    def Sigmoid(x):
+        if x > 10:
+            return 1
+        elif x < -10:
+            return 0
+        else:
+            return 1 / (1 + math.exp(-x))
 
     def BackPropagationV1(self, nextLayer, lr):
         transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
@@ -222,22 +237,29 @@ class Layer():
         nextLayer.weightMatrix += weightUpdates.Transpose()
 
     def BackPropagationV2(self, prevLayer, lr):
-        weightUpdates = self.weightMatrix.Transpose()
-        
         # Calculating Next Error Signal
-        halfErrSignal = (weightUpdates * self.errSignal)
+        halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
 
         zDerivative = prevLayer.sVector
         for i in range(zDerivative.order[0]):
-            zDerivative.matrixVals[i][0] = 1 - (math.tanh(zDerivative.matrixVals[i][0]) ** 2)
+            z = zDerivative.matrixVals[i][0]
+            zDerivative.matrixVals[i][0] = Layer.Sigmoid(z) * (1 - Layer.Sigmoid(z))
 
-        errSignal = halfErrSignal * zDerivative
+        errSignal = halfErrSignal * zDerivative # Hadamard Product
         prevLayer.errSignal = errSignal
 
         # Calculating Weight updates
+        updatedWeightVectors = []
+        for delta in range(self.errSignal.order[0]):
+            errSignal = self.errSignal.matrixVals[delta][0]
+
+            selectedColumn = self.weightMatrix.Transpose().SelectColumn(delta)
+            updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
+
+        updatedWeights = Matrix.CombineVectorsHor(updatedWeightVectors)
+        print(updatedWeights.order, self.weightMatrix.order)
+        self.weightMatrix += updatedWeights.Transpose()
         
-
-
 
 class Deque(): # Double Ended Queue 
     def __init__(self, length):

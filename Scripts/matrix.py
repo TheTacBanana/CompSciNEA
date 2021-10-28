@@ -80,8 +80,6 @@ class Matrix():
                     cumProduct = 0
             return tempMatrix
 
-
-
     # Overloading convert to string method
     def __str__(self): # Printing to console nicely and easily
         strOut = ""
@@ -99,4 +97,22 @@ class Matrix():
         for row in range(self.order[0]):
             for col in range(self.order[1]):
                 tempMatrix.matrixVals[col][row] = self.matrixVals[row][col]
+        return tempMatrix
+
+    # Selects a column from the given Matrix
+    def SelectColumn(self, column):
+        tempMatrix = Matrix((self.order[0], 1))
+        for row in range(self.order[0]):
+            tempMatrix.matrixVals[row][0] = self.matrixVals[row][column]
+        return tempMatrix
+
+    @staticmethod
+    def CombineVectorsHor(vectorList): # Concatenates a list of vectors into a singular matrice horizontally
+        tempMatrix = Matrix((vectorList[0].order[0], len(vectorList)))
+        for col in range(tempMatrix.order[1]):
+            if vectorList[col].order[1] != 1:
+                pass # Throw error which like makes sense lol
+
+            for row in range(tempMatrix.order[0]):
+                tempMatrix.matrixVals[row][col] = vectorList[col].matrixVals[row][0]
         return tempMatrix

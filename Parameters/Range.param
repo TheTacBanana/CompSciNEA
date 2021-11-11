@@ -1,0 +1,40 @@
+{
+    "WorldSize": [32,1024],
+    "TileWidth": [1,8],
+    "TileBorder": [0,3],
+
+    "OctavesTerrain": [0,20],
+    "PersistenceTerrain": [0,1],
+
+    "OctavesTrees": [0,20],
+    "PersistenceTrees": [0,1],
+    "PoissonRVal": [0,null],
+    "PoissonKVal": [0,null],
+    "TreeHeight": [0,1],
+    "TreeTileBorder": [0,10],
+    "TreeBeachOffset": [0,1],
+
+    "Grayscale": [0,1],
+    "Water": [0,1],
+    "Coast": [0,1],
+    "Grass": [0,1],
+    "Mountain": [0,1],
+
+    "QLearningMaxSteps": [0,null],
+    "Offset": [0,20],
+    "Epsilon": [0,1],
+    "LearningRate": [0,1],
+    "Gamma": [0,1],
+
+    "TargetReplaceRate": [10,300],
+    "ERBuffer": [1000, 10000],
+    "ERSampleRate": [1,100],
+    "ERSampleSize": [10, 1000],
+
+    "DQLearningMaxSteps": [0,null],
+    "DQLOffset": [0,20],
+    "DQLEpsilon": [0,1],
+    "DQLEpisonRegression": [0,1],
+    "DQLLearningRate": [0,1],
+    "DQLGamma": [0,1]
+}

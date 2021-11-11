@@ -179,7 +179,6 @@ class Agent():
         sideLength = (offset * 2) + 1
 
         if action == 0 and vector.matrixVals[(sideLength * (offset - 1)) + offset][0] >= 1: # Move Up
-            #print("move up")
             cumReward += self.paramDictionary["MoveReward"]
 
         elif action == 1 and vector.matrixVals[(sideLength * offset) + offset - 1][0] >= 1: # Move Right

@@ -8,6 +8,8 @@ class Agent():
 
         self.location = location
 
+        self.alive = True
+
     @staticmethod
     def SpawnPosition(worldMap): # Returns a coord in which the Agent can spawn
         spawnList = []
@@ -49,13 +51,45 @@ class Agent():
         return grayscale
 
 # Action Methods
-    def CommitAction(self, action): # Commits the given Action
-        raise NotImplementedError
+    def CommitAction(self, action, tileTypeVec, worldMap): # Commits the given Action
+        if action == 0:
+            self.Move(action, tileTypeVec, worldMap) # Move Up
 
-    def Move(self, direction): # Moves agent in given Direction
-        raise NotImplementedError
+        elif action == 1:
+            self.Move(action, tileTypeVec, worldMap) # Move Right
 
-    def PickupItem(self): # Pickup Item in the same tile as Agent
+        elif action == 2:
+            self.Move(action, tileTypeVec, worldMap) # Move Down
+
+        elif action == 3:
+            self.Move(action, tileTypeVec, worldMap) # Move Left
+
+        elif action == 4 and hasattr(tileTypeVec.matrixVals[(sideLength * offset) + offset][0], "objectType"):
+            self.PickupItem(worldMap)
+
+        elif action == 5:
+            self.Attack(worldMap)
+
+    def Move(self, direction, tileTypeVec, worldMap): # Moves agent in given Direction
+        if action == 0: # Move Up
+            self.location = [self.location[0], self.location[1] - 1]
+
+        elif action == 1: # Move Right
+            self.location = [self.location[0] + 1, self.location[1]]
+
+        elif action == 2: # Move Down
+            self.location = [self.location[0], self.location[1] + 1]
+
+        elif action == 3: # Move Left
+            self.location = [self.location[0] - 1, self.location[1]]
+
+        if worldMap.tileArray[self.location[0]][self.location[1]].tileType == 0:
+            self.alive == False
+
+        if worldMap.tileArray[self.location[0]][self.location[1]].explored == False: 
+            worldMap.tileArray[self.location[0]][self.location[1]].explored = True
+
+    def PickupItem(self, worldMap): # Pickup Item in the same tile as Agent
         raise NotImplementedError
 
     def Attack(self): # Attacks in a given Area surrounding Agent

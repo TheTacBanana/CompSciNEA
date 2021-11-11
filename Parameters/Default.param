@@ -1,7 +1,7 @@
 {
-    "Headless": 0,
-
-    "WorldSize": 128, 
+    "Debug": 1,
+    
+    "WorldSize": 64,
     "TileWidth": 4,
     "TileBorder": 0,
 

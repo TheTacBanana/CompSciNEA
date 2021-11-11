@@ -10,6 +10,11 @@ class Tile(): # Class to store tile data in
         self.tileType = tileType
         self.tileHeight = height
         self.tileColour = colour
+        self.explored = False
+
+    def AddObject(self, objectType, objectColour):
+        self.objectType = objectType
+        self.objectColour = objectColour
 
 class InteractableObject(): # Class to store interactable data in
     def __init__(self, name, position):
@@ -29,37 +34,10 @@ class WorldMap():
         self.interactableTileListTemp = []
         self.interactables = []
 
-
         self.paramDictionary = params
 
         self.time = 0
         
-    @staticmethod
-    def LoadParameters(fname): # Load Parameters from file and store them in a dictionary
-        file = open("Parameters\\{}.param".format(fname), "r")
-        params = json.loads(file.read())
-        file.close()
-        return params
-
-    def GetTile(self, xpos, ypos): # Return tile at specified position
-        return self.tileArray[xpos][ypos]
-
-    def CheckIfOcean(self, x, y):
-        if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
-            if self.tileArray[x][y].tileType == 0:
-                return None
-            else:
-                return True
-        else:
-            return None
-
-    def ConsoleOut(self): # Print grid of characters to console, representing the grid of tiles
-        for y in range(0, self.MAP_SIZE):
-            temp = ""
-            for x in range(0, self.MAP_SIZE):
-                temp += str(self.tileArray[x][y].tileHeight) + "/"
-            print(temp)
-
     def GenerateTreeArea(self): # Uses perlin noise to generate the areas for trees to spawn in
         TSO = self.paramDictionary["TreeSeedOffset"]
 
@@ -173,6 +151,7 @@ class WorldMap():
 
         #self.time += (1 / self.MAP_SIZE)
 
+# Generate terrain using threaded methods
     def ThreadedChild(self, x1, x2, y1, y2): # V2 - Uses 4 threads to generate quicker
         for y in range(y1, y2):
             for x in range(x1, x2):
@@ -199,8 +178,10 @@ class WorldMap():
         while threading.activeCount() > 1:
             pass
 
-        if not self.paramDictionary["Headless"]:
-            self.RenderMap()
+        self.RenderMap()
+
+    def CheckIfOcean(self,x,y):
+        return True
 
     def RenderMap(self): # Renders terrain onto Pygame surface
         resolution = self.MAP_SIZE * self.TILE_WIDTH

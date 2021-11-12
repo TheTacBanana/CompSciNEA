@@ -69,7 +69,7 @@ class Agent():
         elif action == 3:
             self.Move(action, tileTypeVec, worldMap) # Move Left
 
-        elif action == 4 and hasattr(tileTypeVec.matrixVals[(sideLength * offset) + offset][0], "objectType"):
+        elif action == 4 and tileTypeVec.matrixVals[(sideLength * offset) + offset][0].object == True:
             self.PickupItem(worldMap)
 
         elif action == 5:

@@ -8,14 +8,15 @@ class Tile(): # Class to store tile data in
         self.tileType = 0
         self.tileColour = (0,0,0)
         self.explored = False
+        self.hasObject = False
 
     def InitValues(self, tileType, height, colour):
         self.tileType = tileType
         self.tileHeight = height
         self.tileColour = colour
-        self.explored = False
 
     def AddObject(self, objectType, objectColour):
+        self.hasObject = True
         self.objectType = objectType
         self.objectColour = objectColour
 
@@ -34,9 +35,6 @@ class WorldMap():
 
         self.tileArray = [[Tile() for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
-        self.interactableTileListTemp = []
-        self.interactables = []
-
         self.paramDictionary = params
 
         self.time = 0
@@ -44,8 +42,7 @@ class WorldMap():
     def GenerateTreeArea(self): # Uses perlin noise to generate the areas for trees to spawn in
         TSO = self.paramDictionary["TreeSeedOffset"]
 
-        self.interactableTileListTemp = []
-        self.interactables = []
+        treeList = []
 
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
@@ -57,13 +54,22 @@ class WorldMap():
 
                 tileValue = Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0)
 
-                if temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]:
-                    self.interactableTileListTemp.append([x, y])
+                if (temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and 
+                                                                    tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]):
+                    treeList.append([x, y]) 
         
-        poissonCoords = self.ShuffledDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"], self.paramDictionary["PoissonKVal"])
+        poissonCoords = self.NewPoissonDiscSampling(treeList)
+
+        #poissonCoords = self.ShuffledDiscSampling(self.interactableTileListTemp, self.paramDictionary["PoissonRVal"], self.paramDictionary["PoissonKVal"])
 
         for coord in poissonCoords:
-            self.interactables.append(InteractableObject("Tree", coord))
+            self.tileArray[coord[0]][coord[1]].AddObject(1, self.paramDictionary["ColourTree"])
+
+    def NewPoissonDiscSampling(self, array):
+        r = self.paramDictionary["PoissonRVal"]
+        k = self.paramDictionary["PoissonKVal"]
+
+        # https://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf
 
     def ShuffledDiscSampling(self, listIn, r, k): # An algorithm for spacing objects in a given area - Inneficient and high complexity
         random.seed(self.MAP_SEED)
@@ -139,6 +145,8 @@ class WorldMap():
         #print(treeList)
 
         return treeList       
+
+    
 
     def NormalisedDistance(self, v1, v2): # Normalised distance between two points - used for Poisson Disc Sampling
         return ((v1[0]-v2[0]) ** 2 + (v1[1]-v2[1]) ** 2) ** 0.5

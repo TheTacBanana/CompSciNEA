@@ -123,7 +123,7 @@ class Agent():
             tile = tileTypeVec.matrixVals[(sideLength * offset) + offset - 1][0]
             cumReward += self.MoveReward(tile) 
 
-        elif action == 4 and hasattr(tileTypeVec.matrixVals[(sideLength * offset) + offset][0], "objectType"):
+        elif action == 4: # Pickup Item
             raise NotImplementedError
 
         elif action == 5:
@@ -141,5 +141,10 @@ class Agent():
             reward += self.paramDictionary["MoveReward"]
         return reward
             
-    def GetRewardVector(self, tileTypeVec): # Returns Vector of Reward Values Per action
-        raise NotImplementedError
+    def GetRewardVector(self, tileTypeVec, outputs): # Returns Vector of Reward Values Per action
+        returnVec = Matrix((outputs, 1))
+
+        for i in range(outputs):
+            returnVec.matrixVals[i][0] = self.GetReward(i, tileTypeVec)
+
+        return returnVec

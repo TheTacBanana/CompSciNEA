@@ -1,7 +1,7 @@
 from worldClass import *
+from newAgent import *
 from qlearning import *
 from deepqlearning import *
-from newAgent import *
 import random
 import pygame
 import math
@@ -26,7 +26,7 @@ class Simulation():
             raise NotImplementedError
 
         elif self.networkType == 1: # Deep QLearning Network Step
-            #self.network.TakeStep(self.agent, self.worldMap)
+            self.network.TakeStep(self.agent, self.worldMap)
 
             if not self.agent.alive:
                 raise NotImplementedError
@@ -48,13 +48,14 @@ class Simulation():
             self.worldMap = WorldMap(seed, self.paramDictionary)
         else:
             self.worldMap.MAP_SEED = seed
-            self.CreateAgent()
 
         self.worldMap.GenerateThreadedParent()
-        self.worldMap.GenerateTreeArea()
+        self.worldMap.GenerateTreeArea() 
 
         self.worldMap.RenderMap()
         self.worldMap.RenderInteractables()
+
+        self.CreateAgent()
 
         print("Created New World, Seed: {}".format(seed))
 
@@ -76,7 +77,7 @@ class Simulation():
         else:
             self.agent.location = Agent.SpawnPosition(self.worldMap)
 
-# Compile Drawn Layers
+# Render Methods
     def RenderToCanvas(self, window, Debug = False): # Render Content to Canvas
         TW = self.paramDictionary["TileWidth"]
         MS = self.paramDictionary["QLearningMaxSteps"]

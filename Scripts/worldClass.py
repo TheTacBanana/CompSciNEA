@@ -5,6 +5,9 @@ import pygame
 class Tile(): # Class to store tile data in
     def __init__(self):
         self.tileHeight = -1
+        self.tileType = 0
+        self.tileColour = (0,0,0)
+        self.explored = False
 
     def InitValues(self, tileType, height, colour):
         self.tileType = tileType
@@ -176,6 +179,7 @@ class WorldMap():
             t.start()
 
         while threading.activeCount() > 1:
+            print("Threading")
             pass
 
         self.RenderMap()

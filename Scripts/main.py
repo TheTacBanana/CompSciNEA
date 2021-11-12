@@ -25,8 +25,7 @@ while running == True:
 
     gameSim.TimeStep()
 
-    if not params["Debug"]: gameSim.GetRenderedLayers(window)  
-    else: gameSim.GetRenderedLayersAndDebug(window)
+    gameSim.RenderToCanvas(window, params["Debug"])  
 
     pygame.display.update()
 

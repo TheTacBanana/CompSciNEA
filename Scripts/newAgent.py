@@ -31,7 +31,9 @@ class Agent():
         x1, y1, n = 0, 0, 0
         for y in range(self.location[0] - offset, self.location[0] + offset + 1): # Loop through Tiles in surrounding area
             for x in range(self.location[1] - offset, self.location[1] + offset + 1):
-                tileVec.matrixVals[n][0] = worldMap.tileArray[x][y]
+                if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
+                    tileVec.matrixVals[n][0] = worldMap.tileArray[x][y]
+                    n += 1
                 
         return tileVec
 
@@ -40,9 +42,9 @@ class Agent():
         tileGrayscaleVec = Matrix(tileVec.order)
 
         for n in range(tileVec.order[0]):
-            tileTypeVec[n][0] = tileVec[n][0].tileType
+            tileTypeVec.matrixVals[n][0] = tileVec.matrixVals[n][0].tileType
 
-            tileGrayscaleVec[n][0] = self.ColourToGrayscale(tileVec[n][0].tileColour)
+            tileGrayscaleVec.matrixVals[n][0] = self.ColourToGrayscale(tileVec.matrixVals[n][0].tileColour)
 
         return tileTypeVec, tileGrayscaleVec
 
@@ -52,6 +54,9 @@ class Agent():
 
 # Action Methods
     def CommitAction(self, action, tileTypeVec, worldMap): # Commits the given Action
+        offset = self.paramDictionary["DQLOffset"]
+        sideLength = 2 * offset + 1
+
         if action == 0:
             self.Move(action, tileTypeVec, worldMap) # Move Up
 
@@ -71,22 +76,22 @@ class Agent():
             self.Attack(worldMap)
 
     def Move(self, direction, tileTypeVec, worldMap): # Moves agent in given Direction
-        if action == 0: # Move Up
+        if direction == 0: # Move Up
             self.location = [self.location[0], self.location[1] - 1]
 
-        elif action == 1: # Move Right
+        elif direction == 1: # Move Right
             self.location = [self.location[0] + 1, self.location[1]]
 
-        elif action == 2: # Move Down
+        elif direction == 2: # Move Down
             self.location = [self.location[0], self.location[1] + 1]
 
-        elif action == 3: # Move Left
+        elif direction == 3: # Move Left
             self.location = [self.location[0] - 1, self.location[1]]
 
-        if worldMap.tileArray[self.location[0]][self.location[1]].tileType == 0:
+        if worldMap.tileArray[self.location[0]][self.location[1]].tileType == 0: # Checks if tile is water
             self.alive == False
 
-        if worldMap.tileArray[self.location[0]][self.location[1]].explored == False: 
+        if worldMap.tileArray[self.location[0]][self.location[1]].explored == False: # Checks if tile is explored or not
             worldMap.tileArray[self.location[0]][self.location[1]].explored = True
 
     def PickupItem(self, worldMap): # Pickup Item in the same tile as Agent
@@ -96,5 +101,45 @@ class Agent():
         raise NotImplementedError
 
 # Reward Method
-    def GetRewardVector(self, tileTypeVec):
+    def GetReward(self, action, tileTypeVec):
+        offset = self.paramDictionary["DQLOffset"]
+        sideLength = 2 * offset + 1
+
+        cumReward = 0
+
+        if action == 0: # Move Up
+            tile = tileTypeVec.matrixVals[(sideLength * (offset - 1)) + offset][0]
+            cumReward += self.MoveReward(tile)
+            
+        elif action == 1: # Move Right
+            tile = tileTypeVec.matrixVals[(sideLength * offset) + offset + 1][0]
+            cumReward += self.MoveReward(tile) 
+
+        elif action == 2: # Move Down
+            tile = tileTypeVec.matrixVals[(sideLength * (offset + 1)) + offset][0]
+            cumReward += self.MoveReward(tile) 
+
+        elif action == 3: # Move Left
+            tile = tileTypeVec.matrixVals[(sideLength * offset) + offset - 1][0]
+            cumReward += self.MoveReward(tile) 
+
+        elif action == 4 and hasattr(tileTypeVec.matrixVals[(sideLength * offset) + offset][0], "objectType"):
+            raise NotImplementedError
+
+        elif action == 5:
+            raise NotImplementedError
+
+        return cumReward
+
+    def MoveReward(self, tile): # Stops repeating the same code 4 times - Gets Reward given Agent moving into a tile
+        reward = 0 
+        if tile.tileType == 0:
+            reward += self.paramDictionary["DeathReward"]
+        else:
+            if tile.explored == False:
+                reward += self.paramDictionary["ExploreReward"]
+            reward += self.paramDictionary["MoveReward"]
+        return reward
+            
+    def GetRewardVector(self, tileTypeVec): # Returns Vector of Reward Values Per action
         raise NotImplementedError

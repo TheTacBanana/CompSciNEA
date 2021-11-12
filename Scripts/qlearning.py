@@ -1,5 +1,5 @@
 import pickle, random
-from agent import Agent
+from newAgent import *
 
 class StateFrame():
     def __init__(self, state, index):

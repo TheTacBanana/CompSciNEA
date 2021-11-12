@@ -37,8 +37,9 @@ class DoubleNeuralNet():
             exit()
 
         # Forward Propagation
-        netInput = agent.GetStateVector(worldMap) # Retrieve Vector of State info from Agent
-        print(netInput)
+        agentSurround = agent.GetTileVector(worldMap)
+        postProcessedSurround = agent.TileVectorPostProcess(agentSurround) # Retrieve Vector of State info from Agent
+        netInput = postProcessedSurround[1]
         
         self.MainNetwork.ForwardPropagation(netInput) # Forward Prop the Main Network
 
@@ -46,7 +47,7 @@ class DoubleNeuralNet():
                                             # Returns a probability distribution of the outputs of the network
 
         # Action Taking and Reward
-        #print(output[0])
+        print(output[0])
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             val = random.random()
             totalled = 0
@@ -59,11 +60,12 @@ class DoubleNeuralNet():
                     break
             
         else:
+            print(output[1])
             action = output[1]
             self.random[1] += 1
 
-        reward = agent.TakeAction(action, worldMap) # Take Action
-        #reward = agent.GetRewardWithVector(action, netInput) # Get reward given action
+        agent.CommitAction(action, postProcessedSurround[0], worldMap) # Take Action
+        reward = agent.GetReward(action, agentSurround) # Get reward given action
 
         self.cumReward += reward
 
@@ -72,10 +74,10 @@ class DoubleNeuralNet():
 
         # Assigning values to tempExperience
         tempExp = Experience()
-        tempExp.state = netInput 
+        tempExp.state = agentSurround 
         tempExp.action = action
         tempExp.reward = reward
-        tempExp.stateNew = agent.GetStateVector(worldMap)
+        tempExp.stateNew = agent.GetTileVector(worldMap)
 
         self.actionsTaken[tempExp.action] += 1
 
@@ -139,12 +141,12 @@ class NeuralNet():
 
         for i in range(1, len(self.layers) - 1):
             self.layers[i].ForwardPropagation(self.layers[i-1])
-            print(self.layers[i].outputVector)
-            print()
+            #print(self.layers[i].outputVector)
+            #print()
 
         self.layers[-1].ForwardPropagation(self.layers[-2], finalLayer=True)
-        print(self.layers[-1].sVector)
-        print()
+        #print(self.layers[-1].sVector)
+        #print()
 
     def SoftMax(self): # Implementation of a Soft Max Function
         z = self.layers[-1].outputVector

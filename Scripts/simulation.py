@@ -16,8 +16,6 @@ class Simulation():
         self.network = None
         self.agent = None
 
-        self.enemies = []
-
         self.step = 0
 
 # Step forward network methods
@@ -26,7 +24,7 @@ class Simulation():
             raise NotImplementedError
 
         elif self.networkType == 1: # Deep QLearning Network Step
-            self.network.TakeStep(self.agent, self.worldMap)
+            #self.network.TakeStep(self.agent, self.worldMap)
 
             if not self.agent.alive:
                 raise NotImplementedError
@@ -67,9 +65,18 @@ class Simulation():
             layers = self.paramDictionary["DeepQLearningLayers"]
 
         if self.network == None: # Creates a Network if one doesnt already exist
-            self.network = DoubleNeuralNet(layers, self.paramDictionary)
-        else:                    # Resets the existing network
-            raise NotImplementedError
+            if self.paramDictionary["EnterValues"]:
+                load = input("Load weights (Y/N): ")
+                if load.upper() == "Y":
+                    fNames = []
+                    fNames.append(input("Main Network file name: "))
+                    fNames.append(input("Target Network file name: "))
+
+                    self.network = DoubleNeuralNet(layers, self.paramDictionary, load=True, loadNames=fNames)
+                else:
+                    self.network = DoubleNeuralNet(layers, self.paramDictionary)
+            else:
+                self.network = DoubleNeuralNet(layers, self.paramDictionary)
 
     def CreateAgent(self): # Creates an agent / Resets existing agent
         if self.agent == None:
@@ -78,7 +85,7 @@ class Simulation():
             self.agent.location = Agent.SpawnPosition(self.worldMap)
 
 # Render Methods
-    def RenderToCanvas(self, window, Debug = False): # Render Content to Canvas
+    def RenderToCanvas(self, window, Debug): # Render Content to Canvas
         TW = self.paramDictionary["TileWidth"]
         MS = self.paramDictionary["QLearningMaxSteps"]
 
@@ -92,7 +99,7 @@ class Simulation():
                     pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * 2), (k * TW * 2), (TW * 2), (TW * 2)))
 
         self.worldMap.DrawMap(window)
-        pygame.draw.rect(window, (233, 182, 14), ((self.agent.location[0] * TW), (self.agent.location[1] * TW), TW, TW))
+        pygame.draw.rect(window, self.paramDictionary["ColourPlayer"], ((self.agent.location[0] * TW), (self.agent.location[1] * TW), TW, TW))
 
 # Miscellaneous Methods
     @staticmethod

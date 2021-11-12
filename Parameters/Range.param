@@ -5,13 +5,14 @@
 
     "OctavesTerrain": [0,20],
     "PersistenceTerrain": [0,1],
+    "WorldScale": [0.1,10],
 
     "OctavesTrees": [0,20],
     "PersistenceTrees": [0,1],
     "PoissonRVal": [0,null],
     "PoissonKVal": [0,null],
     "TreeHeight": [0,1],
-    "TreeTileBorder": [0,10],
+    "InteractableTileBorder": [0,10],
     "TreeBeachOffset": [0,1],
 
     "Grayscale": [0,1],

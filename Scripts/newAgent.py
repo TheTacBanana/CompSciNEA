@@ -10,6 +10,8 @@ class Agent():
 
         self.alive = True
 
+        self.inventory = {"Wood": 0}
+
     @staticmethod
     def SpawnPosition(worldMap): # Returns a coord in which the Agent can spawn
         spawnList = []
@@ -69,7 +71,7 @@ class Agent():
         elif action == 3:
             self.Move(action, tileTypeVec, worldMap) # Move Left
 
-        elif action == 4 and tileTypeVec.matrixVals[(sideLength * offset) + offset][0].object == True:
+        elif action == 4 and tileTypeVec.matrixVals[(sideLength * offset) + offset][0].hasObject == True:
             self.PickupItem(worldMap)
 
         elif action == 5:
@@ -95,7 +97,10 @@ class Agent():
             worldMap.tileArray[self.location[0]][self.location[1]].explored = True
 
     def PickupItem(self, worldMap): # Pickup Item in the same tile as Agent
-        raise NotImplementedError
+        if worldMap.tileArray[self.location[0]][self.location[1]].hasObject:
+            self.inventory[worldMap.tileArray[self.location[0]][self.location[1]]] += 1
+
+            worldMap.tileArray[self.location[0]][self.location[1]].ClearObject()
 
     def Attack(self): # Attacks in a given Area surrounding Agent
         raise NotImplementedError

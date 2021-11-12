@@ -1,4 +1,5 @@
 {
+    "EnterValues": 0,
     "Debug": 1,
     
     "WorldSize": 64,
@@ -7,14 +8,14 @@
 
     "OctavesTerrain": 7,
     "PersistenceTerrain": 0.6,
+    "WorldScale": 3.5,
 
     "OctavesTrees": 4,
     "PersistenceTrees": 0.95,
-    "PoissonRVal": 1.5,
     "PoissonKVal": 20,
     "TreeSeedOffset": 1000,
     "TreeHeight": 0.15,
-    "TreeTileBorder": 0,
+    "InteractableTileBorder": 0,
     "TreeBeachOffset": 0.05,
 
     "Grayscale": 0,
@@ -23,11 +24,14 @@
     "Grass": 0.63,
     "Mountain": 1.0,
 
+    "TreeType": "Wood",
+
     "ColourWater": [18, 89, 144],
     "ColourCoast": [245, 234, 146],
     "ColourGrass": [26, 148, 49],
     "ColourMountain": [136, 140, 141],
     "ColourTree": [13, 92, 28],
+    "ColourPlayer": [233, 182, 14],
 
     "QLearningMaxSteps": 10000,
     "Offset": 4,

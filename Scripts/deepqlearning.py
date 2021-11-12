@@ -11,15 +11,15 @@ class Experience():
         self.stateNew = stateNew
 
 class DoubleNeuralNet():
-    def __init__(self, layers, params, load=False): # Constructor for a Double Neural Network
+    def __init__(self, layers, params, load=False, loadNames=["",""]): # Constructor for a Double Neural Network
         self.paramDictionary = params
 
         if not load:
             self.MainNetwork = NeuralNet(layers, params)
             self.TargetNetwork = NeuralNet(layers, params)
         else:
-            self.MainNetwork = NeuralNet.LoadNeuralNet("MainNetwork")
-            self.TargetNetwork = NeuralNet.LoadNeuralNet("TargetNetwork")
+            self.MainNetwork = NeuralNet.LoadNeuralNet(loadName)
+            self.TargetNetwork = NeuralNet.LoadNeuralNet(loadName)
 
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
         self.ERBFull = False

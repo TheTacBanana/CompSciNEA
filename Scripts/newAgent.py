@@ -131,6 +131,7 @@ class Agent():
         return cumReward
 
     def MoveReward(self, tile): # Stops repeating the same code 4 times - Gets Reward given Agent moving into a tile
+        #print(tile)
         reward = 0 
         if tile.tileType == 0:
             reward += self.paramDictionary["DeathReward"]
@@ -147,3 +148,6 @@ class Agent():
             returnVec.matrixVals[i][0] = self.GetReward(i, tileTypeVec)
 
         return returnVec
+
+    def MaxQ(self, rewardVec):
+        return max([rewardVec.matrixVals[i][0] for i in range(rewardVec.order[0])])

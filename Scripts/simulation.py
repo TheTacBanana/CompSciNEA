@@ -23,7 +23,7 @@ class Simulation():
             raise NotImplementedError
 
         elif self.networkType == 1: # Deep QLearning Network Step
-            #self.network.TakeStep(self.agent, self.worldMap)
+            self.network.TakeStep(self.agent, self.worldMap)
 
             if not self.agent.alive:
                 raise NotImplementedError

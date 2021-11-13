@@ -10,6 +10,9 @@ class MatExcepts(): # Exception class to avoid repeating same exception
     RowMustBeInteger = Exception("Specified Row must be of type Integer")
     NotOfTypeVector = Exception("1 or more 'Vectors' aren't Vectors")
     VectorsNotOfSameLength = Exception("Given list of vectors isnt all same height")
+    NoMatchingAdditionCase = Exception("No matching addition case found")
+    NoMatchingSubtractionCase = Exception("No matching addition case found")
+    NoMatchingPowerCase = Exception("No matching power case was found")
 
 class Matrix():
     # Init Function
@@ -40,29 +43,55 @@ class Matrix():
 
     # Overloading Addition Operator
     def __add__(self, m2):
-        if self.order != m2.order:
-            raise MatExcepts.MismatchOrders
+        if type(m2) == Matrix:
+            if self.order != m2.order:
+                raise MatExcepts.MismatchOrders
 
-        tempMatrix = Matrix(self.order)
+            tempMatrix = Matrix(self.order)
 
-        for row in range(self.order[0]):
-            for col in range(self.order[1]):
-                tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] + m2.matrixVals[row][col]
+            for row in range(self.order[0]):
+                for col in range(self.order[1]):
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] + m2.matrixVals[row][col]
 
-        return tempMatrix
+            return tempMatrix
+
+        elif type(m2) == float or type(m2) == int:
+            tempMatrix = Matrix(self.order)
+
+            for row in range(self.order[0]):
+                for col in range(self.order[1]):
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] + m2
+
+            return tempMatrix
+
+        else:
+            raise MatExcepts.NoMatchingAdditionCase
 
     # Overloading Subtraction Operator
     def __sub__(self, m2):
-        if self.order != m2.order:
-            raise MatExcepts.MismatchOrders
+        if type(m2) == Matrix:
+            if self.order != m2.order:
+                raise MatExcepts.MismatchOrders
 
-        tempMatrix = Matrix(self.order)
+            tempMatrix = Matrix(self.order)
 
-        for row in range(self.order[0]):
-            for col in range(self.order[1]):
-                tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] - m2.matrixVals[row][col]
+            for row in range(self.order[0]):
+                for col in range(self.order[1]):
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] - m2.matrixVals[row][col]
 
-        return tempMatrix
+            return tempMatrix
+
+        elif type(m2) == float or type(m2) == int:
+            tempMatrix = Matrix(self.order)
+
+            for row in range(self.order[0]):
+                for col in range(self.order[1]):
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] + m2
+
+            return tempMatrix
+
+        else:
+            raise MatExcepts.NoMatchingSubtractionCase
 
     # Overloading Multiplication Operator
     def __mul__(self, m2):
@@ -92,6 +121,17 @@ class Matrix():
             return tempMatrix
         else:
             raise MatExcepts.UnableToMultiply
+
+    # Overloading the Power Operator
+    def __pow__(self, m2):
+        if type(m2) == int: 
+            newMat = self
+            for i in range(m2 - 1):
+                newMat = self * newMat
+
+            return newMat
+        else:
+            raise MatExcepts.NoMatchingPowerCase 
 
     # Overloading convert to string method
     def __str__(self): # Printing to console nicely and easily

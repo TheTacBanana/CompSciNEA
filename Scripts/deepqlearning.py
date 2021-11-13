@@ -39,7 +39,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
 
         # Action Taking and Reward
-        print(output[0])
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             val = random.random()
             totalled = 0
@@ -52,12 +51,13 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
                     break
             
         else:
-            print(output[1])
             action = output[1]
             self.random[1] += 1
 
         agent.CommitAction(action, postProcessedSurround[0], worldMap) # Take Action
-        reward = agent.GetReward(action, agentSurround) # Get reward given action
+        
+        rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
+        reward = rewardVector.matrixVals[action - 1][0] # Get reward given action
 
         self.cumReward += reward
 
@@ -68,18 +68,18 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         tempExp = Experience()
         tempExp.state = agentSurround 
         tempExp.action = action
-        tempExp.reward = reward
+        tempExp.reward = rewardVector
         tempExp.stateNew = agent.GetTileVector(worldMap)
+        print(tempExp.stateNew)
+        print()
 
         self.actionsTaken[tempExp.action] += 1
 
         self.ExperienceReplay.PushFront(copy(tempExp))
 
         # Back Propagation
-        Loss = self.LossFunction(output, tempExp, self.MainNetwork.layers, agent)
-
-        for i in range(self.MainNetwork.layers[-1].outputVector.order[0]):
-            self.MainNetwork.layers[-1].errSignal.matrixVals[i][0] = Loss
+        LossVector = self.LossFunctionV2(output[0], tempExp, agent)
+        self.MainNetwork.layers[-1].errSignal = LossVector
 
         #self.MainNetwork.BackPropagationV1()
 
@@ -106,15 +106,31 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             #self.MainNetwork.BackPropagation(sample)
 
     def LossFunction(self, output, tempExp, prevWeights, agent):
-        # L^i(W^i) = (Q(s,a,W) - (r + y*maxQ(s',a';W^i-1)) ** 2
+        # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
 
         g = self.paramDictionary["DQLGamma"]
 
         self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
         targetFeedForward = agent.GetRewardWithVector(self.TargetNetwork.SoftMax()[1], tempExp.stateNew)
 
-        Loss = (agent.GetRewardWithVector(output[1], tempExp.state) - (tempExp.reward + g * targetFeedForward)) ** 2
+        Loss = ((tempExp.reward + g * targetFeedForward) - agent.GetRewardWithVector(output[1], tempExp.state)) ** 2
         return Loss
+
+    def LossFunctionV2(self, output, tempExp, agent):
+        # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
+        # Loss = ((Reward[] + Gamma * MaxQ(s', a'; TNet)) - Q(s, a)[]) ^ 2
+
+        Reward = tempExp.reward
+        Gamma = self.paramDictionary["DQLGamma"]
+
+        stateNew = agent.TileVectorPostProcess(tempExp.stateNew)
+        self.TargetNetwork.ForwardPropagation(stateNew[1])
+        tempRewardVec = agent.GetRewardVector(tempExp.stateNew, self.paramDictionary["DeepQLearningLayers"][-1])
+        maxQTNet = agent.MaxQ(tempRewardVec)
+
+        #print(Reward.order, output.order)
+        LossVec = ((Reward + (Gamma * maxQTNet)) - output) ** 2
+        return LossVec
 
 class NeuralNet(): # Neural Network Implementation
     def __init__(self, layersIn, params): # Constructor for a Single Neural Network

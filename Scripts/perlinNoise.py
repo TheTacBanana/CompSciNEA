@@ -13,10 +13,9 @@ p = [151,160,137,91,90,15,
     251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
     49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180]
-
 p = p + p
 
-def octaveNoise(x, y, octaves, persistence):
+def octaveNoise(x, y, octaves, persistence): # Sums multiple levels of perlin noise
     total = 0
     frequency = 1
     amplitude = 1
@@ -32,15 +31,13 @@ def octaveNoise(x, y, octaves, persistence):
 
     return total / maxValue
 
-def noise(x, y):
-    #print(x)
+def noise(x, y): # Returns a value of the perlin noise function at (x, y) coordinate
     xi = math.floor(x) % 255
     yi = math.floor(y) % 255
 
     g1 = p[p[xi] + yi]
     g2 = p[p[xi + 1] + yi]
     g3 = p[p[xi] + yi + 1]
-    #print(xi + 1, yi + 1, p[xi + 1] + yi + 1)
     g4 = p[p[xi + 1] + yi + 1]
 
     xf = x - math.floor(x)
@@ -60,7 +57,7 @@ def noise(x, y):
 
     return yInter
 
-def grad(hash, x, y):
+def grad(hash, x, y): # Gradient Function defined as part of the algorithm
     temp = hash & 3
     if temp == 0:
         return x + y
@@ -73,9 +70,8 @@ def grad(hash, x, y):
     else:
         return 0
 
-
-def lerp(ammount, left, right):
+def lerp(ammount, left, right): # Linear interpolation of values
     return ((1 - ammount) * left + ammount * right)
 
-def fade(t):
+def fade(t): # Fade Function defined as part of the algorithm
     return t * t * t * (t * (t * 6 - 15) + 10)

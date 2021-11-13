@@ -78,18 +78,11 @@ class Agent():
             self.Attack(worldMap)
 
     def Move(self, direction, tileTypeVec, worldMap): # Moves agent in given Direction
-        if direction == 0: # Move Up
-            self.location = [self.location[0], self.location[1] - 1]
-
-        elif direction == 1: # Move Right
-            self.location = [self.location[0] + 1, self.location[1]]
-
-        elif direction == 2: # Move Down
-            self.location = [self.location[0], self.location[1] + 1]
-
-        elif direction == 3: # Move Left
-            self.location = [self.location[0] - 1, self.location[1]]
-
+        if direction == 0: self.location = [self.location[0], self.location[1] - 1] # Move Up
+        elif direction == 1: self.location = [self.location[0] + 1, self.location[1]] # Move Right
+        elif direction == 2: self.location = [self.location[0], self.location[1] + 1] # Move Down
+        elif direction == 3: self.location = [self.location[0] - 1, self.location[1]] # Move Left
+           
         if worldMap.tileArray[self.location[0]][self.location[1]].tileType == 0: # Checks if tile is water
             self.alive == False
 
@@ -129,7 +122,8 @@ class Agent():
             cumReward += self.MoveReward(tile) 
 
         elif action == 4: # Pickup Item
-            raise NotImplementedError
+            if tileTypeVec.matrixVals[(sideLength * offset) + offset][0].hasObject:
+                cumReward += self.paramDictionary["CollectItemReward"]
 
         elif action == 5:
             raise NotImplementedError

@@ -1,9 +1,9 @@
 import random as rnd
 class MatExcepts(): # Exception class to avoid repeating same exception
     NoMatchingInitCase = Exception("No Matching Init case for given parameters")
-    mismatchOrders = Exception("Orders of Matrices do not match")
-    unableToCreateIdentityMat = Exception("Unable to create identity Matrix from given arguments")
-    unableToMultiply = Exception("No matching multiply case found")
+    MismatchOrders = Exception("Orders of Matrices do not match")
+    UnableToCreateIdentityMat = Exception("Unable to create identity Matrix from given arguments")
+    UnableToMultiply = Exception("No matching multiply case found")
     ColumnOutOfRange = Exception("Specified Column out of range of Matrix")
     ColumnMustBeInteger = Exception("Specified Column must be of type Integer")
     RowOutOfRange = Exception("Specified Row out of range of Matrix")
@@ -31,7 +31,7 @@ class Matrix():
                 for i in range(self.order[0]):
                     self.matrixVals[i][i] = 1
             else:
-                raise MatExcepts.unableToCreateIdentityMat
+                raise MatExcepts.UnableToCreateIdentityMat
 
         if random == True: # Initiation random values between -0.5 and 0.5
             for row in range(self.order[0]):
@@ -41,7 +41,7 @@ class Matrix():
     # Overloading Addition Operator
     def __add__(self, m2):
         if self.order != m2.order:
-            raise MatExcepts.mismatchOrders
+            raise MatExcepts.MismatchOrders
 
         tempMatrix = Matrix(self.order)
 
@@ -54,7 +54,7 @@ class Matrix():
     # Overloading Subtraction Operator
     def __sub__(self, m2):
         if self.order != m2.order:
-            raise MatExcepts.mismatchOrders
+            raise MatExcepts.MismatchOrders
 
         tempMatrix = Matrix(self.order)
 
@@ -79,7 +79,7 @@ class Matrix():
 
         elif type(m2) == Matrix: # Matrix Multiplication
             if self.order[1] != m2.order[0]:
-                raise MatExcepts.mismatchOrders
+                raise MatExcepts.MismatchOrders
             tempMatrix = Matrix((self.order[0], m2.order[1]))
 
             cumProduct = 0
@@ -91,7 +91,7 @@ class Matrix():
                     cumProduct = 0
             return tempMatrix
         else:
-            raise MatExcepts.unableToMultiply
+            raise MatExcepts.UnableToMultiply
 
     # Overloading convert to string method
     def __str__(self): # Printing to console nicely and easily

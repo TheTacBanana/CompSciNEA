@@ -4,24 +4,24 @@ import pygame
 
 # Class to store Individual Tile Data
 class Tile(): 
-    def __init__(self):
+    def __init__(self): # Initialise Tile object
         self.tileHeight = -1
         self.tileType = 0
         self.tileColour = (0,0,0)
         self.explored = False
         self.hasObject = False
 
-    def InitValues(self, tileType, height, colour):
+    def InitValues(self, tileType, height, colour): # Set/Initialise Tile Vales
         self.tileType = tileType
         self.tileHeight = height
         self.tileColour = colour
 
-    def AddObject(self, objectType, objectColour):
+    def AddObject(self, objectType, objectColour): # Adds an Object to the Tile Object
         self.hasObject = True
         self.objectType = objectType
         self.objectColour = objectColour
     
-    def ClearObject(self):
+    def ClearObject(self): # Clears Object from the Tile Object
         self.hasObject = False
         self.objectType = ""
         self.objectColour = (0,0,0)

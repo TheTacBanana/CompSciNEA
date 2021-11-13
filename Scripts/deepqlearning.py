@@ -3,14 +3,7 @@ from matrix import Matrix
 from copy import copy
 import math
 
-class Experience(): 
-    def __init__(self, state = None, action = None, reward = None, stateNew = None):
-        self.state = state
-        self.action = action
-        self.reward = reward
-        self.stateNew = stateNew
-
-class DoubleNeuralNet():
+class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
     def __init__(self, layers, params, load=False, loadNames=["",""]): # Constructor for a Double Neural Network
         self.paramDictionary = params
 
@@ -31,7 +24,7 @@ class DoubleNeuralNet():
         self.actionsTaken = [0,0,0,0,0]
         self.random = [0,0]
 
-    def TakeStep(self, agent, worldMap):
+    def TakeStep(self, agent, worldMap): # Takes a step forward in time
         self.step += 1
         if self.step == 1000:
             exit()
@@ -44,7 +37,6 @@ class DoubleNeuralNet():
         self.MainNetwork.ForwardPropagation(netInput) # Forward Prop the Main Network
 
         output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
-                                            # Returns a probability distribution of the outputs of the network
 
         # Action Taking and Reward
         print(output[0])
@@ -106,7 +98,7 @@ class DoubleNeuralNet():
         if self.step % 1000 == 0:
             print(self.step, self.cumReward, self.actionsTaken, self.epsilon)
 
-    def SampleExperienceReplay(self):
+    def SampleExperienceReplay(self): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
 
         for sample in samples:
@@ -124,8 +116,8 @@ class DoubleNeuralNet():
         Loss = (agent.GetRewardWithVector(output[1], tempExp.state) - (tempExp.reward + g * targetFeedForward)) ** 2
         return Loss
 
-class NeuralNet():
-    def __init__(self, layersIn, params):
+class NeuralNet(): # Neural Network Implementation
+    def __init__(self, layersIn, params): # Constructor for a Single Neural Network
         self.paramDictionary = params
 
         self.layers = []
@@ -136,19 +128,15 @@ class NeuralNet():
             else:
                 self.layers.append(Layer(layersIn[i - 1], layersIn[i]))
 
-    def ForwardPropagation(self, inputVector):
+    def ForwardPropagation(self, inputVector): # Iterates through Forward Propagation
         self.layers[0].outputVector = inputVector
 
         for i in range(1, len(self.layers) - 1):
             self.layers[i].ForwardPropagation(self.layers[i-1])
-            #print(self.layers[i].outputVector)
-            #print()
 
         self.layers[-1].ForwardPropagation(self.layers[-2], finalLayer=True)
-        #print(self.layers[-1].sVector)
-        #print()
 
-    def SoftMax(self): # Implementation of a Soft Max Function
+    def SoftMax(self): # Returns a probability distribution of the outputs of the network
         z = self.layers[-1].outputVector
 
         sumToK = 0
@@ -169,11 +157,11 @@ class NeuralNet():
 
         return outVector, maxIndex, maxVal # Returns vector and best index
 
-    def BackPropagationV1(self):
+    def BackPropagationV1(self): # Iterates through Back Propagation V1
         for i in range(len(self.layers) - 2, -1, -1):
             self.layers[i].BackPropagationV1(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
-    def BackPropagationV2(self):
+    def BackPropagationV2(self): # Iterates through Back Propagation V2
         for i in range(len(self.layers) - 1, 0, -1):
             self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"])
 
@@ -188,7 +176,7 @@ class NeuralNet():
         with open("DQLearningData\\" + file + ".dqn", "wb") as f:
             pickle.dump(self, f)
 
-class Layer():
+class Layer(): # Layer for a Neural Network
     def __init__(self, prevSize, size, inputLayer=False):
         if inputLayer == False:
             self.weightMatrix = Matrix((size, prevSize), random=True)
@@ -200,7 +188,7 @@ class Layer():
         self.sVector = Matrix((size, 1))
         self.outputVector = Matrix((size, 1))
 
-    def ForwardPropagation(self, prevLayer, finalLayer=False):
+    def ForwardPropagation(self, prevLayer, finalLayer=False): # Forward Propagates the Neural Network
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
 
         self.sVector = weightValueProduct + self.biasVector
@@ -213,7 +201,7 @@ class Layer():
                 self.outputVector.matrixVals[i][0] = max(0, Layer.Sigmoid(self.sVector.matrixVals[i][0]))  # ReLu Activation
 
     @staticmethod
-    def Sigmoid(x):
+    def Sigmoid(x): # Mathematical Function to get "squish" values between 0 and 1
         if x > 10:
             return 1
         elif x < -10:
@@ -221,7 +209,7 @@ class Layer():
         else:
             return 1 / (1 + math.exp(-x))
 
-    def BackPropagationV1(self, nextLayer, lr):
+    def BackPropagationV1(self, nextLayer, lr): # 1st Revision of Back Prop -> Does not work
         transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
         weightUpdates = Matrix(transposedWeightMatrix.order)
 
@@ -238,7 +226,7 @@ class Layer():
                 weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
         nextLayer.weightMatrix += weightUpdates.Transpose()
 
-    def BackPropagationV2(self, prevLayer, lr):
+    def BackPropagationV2(self, prevLayer, lr): # 2nd Revision of Back Prop -> Might work :)
         # Calculating Next Error Signal
         halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
 
@@ -261,9 +249,15 @@ class Layer():
         updatedWeights = Matrix.CombineVectorsHor(updatedWeightVectors)
         print(updatedWeights.order, self.weightMatrix.order)
         self.weightMatrix += updatedWeights.Transpose()
-        
 
-class Deque(): # Double Ended Queue 
+class Experience(): # Used in Experience Replay
+    def __init__(self, state = None, action = None, reward = None, stateNew = None): # Constructor for an Experience Replay Experience
+        self.state = state
+        self.action = action
+        self.reward = reward
+        self.stateNew = stateNew
+
+class Deque(): # Partial Double Ended Queue Implementation
     def __init__(self, length):
         self.length = length
 
@@ -272,7 +266,7 @@ class Deque(): # Double Ended Queue
         self.frontP = -1
         self.backP = -1
 
-    def PushFront(self, item):
+    def PushFront(self, item): # Pushes item to front of Queue
         self.frontP = (self.frontP + 1) % self.length
 
         if self.queue[self.frontP] != None:
@@ -280,15 +274,15 @@ class Deque(): # Double Ended Queue
 
         self.queue[self.frontP] = item
 
-    def Full(self):
+    def Full(self): # Checks if Queue is full
         if self.queue[self.length - 1] != None:
             return True
         return False
 
-    def First(self):
+    def First(self): # Returns Front Item from Queue
         return self.queue[self.frontP]
 
-    def Last(self):
+    def Last(self): # Returns Final Item from Queue
         return self.queue[self.backP]
 
     def Sample(self, n): # Samples N number of samples from the deque

@@ -2,12 +2,11 @@ from worldClass import *
 from newAgent import *
 from qlearning import *
 from deepqlearning import *
-import random
-import pygame
-import math
+import random, pygame, math
 
-class Simulation():
-    def __init__(self, networkType, params):
+# Interface class between Main and Every other class
+class Simulation(): 
+    def __init__(self, networkType, params): # Creates an instance of Simulation
         self.paramDictionary = params
 
         self.networkType = networkType
@@ -19,7 +18,7 @@ class Simulation():
         self.step = 0
 
 # Step forward network methods
-    def TimeStep(self):
+    def TimeStep(self): # Steps forward 1 cycle
         if self.networkType == 0: # QLearning Network Step
             raise NotImplementedError
 
@@ -57,7 +56,7 @@ class Simulation():
 
         print("Created New World, Seed: {}".format(seed))
 
-    def CreateQNetwork(self):
+    def CreateQNetwork(self): # Creates a Q Network with the given Hyper Parameters
         raise NotImplementedError
 
     def CreateDeepQNetwork(self, layers = None): # Creates a Deep Q Network with the given Hyper Parameters
@@ -110,7 +109,7 @@ class Simulation():
         return params
 
     @staticmethod
-    def CheckParameters(params, fname):
+    def CheckParameters(params, fname): # Checks every parameter against the range.parm file
         file = open("Parameters\\{}.param".format(fname), "r")
         paramRanges = json.loads(file.read())
         file.close()

@@ -1,5 +1,6 @@
 {
     "EnterValues": 0,
+    "GenerateThreaded": 0,
     "Debug": 1,
     
     "WorldSize": 64,
@@ -8,7 +9,7 @@
 
     "OctavesTerrain": 7,
     "PersistenceTerrain": 0.6,
-    "WorldScale": 3.5,
+    "WorldScale": 3.2,
 
     "OctavesTrees": 4,
     "PersistenceTrees": 0.95,
@@ -50,7 +51,7 @@
     "ERSampleRate": 4,
     "ERSampleSize": 100,
 
-    "DeepQLearningLayers" : [9, 32, 16, 5],
+    "DeepQLearningLayers" : [9, 64, 32, 16, 5],
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 1,
     "DQLEpsilon": 1,

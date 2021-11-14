@@ -137,10 +137,7 @@ class Matrix():
     def __str__(self): # Printing to console nicely and easily
         strOut = ""
         for row in range(self.order[0]):
-            if row != self.order[0] - 1:
-                strOut += str(self.matrixVals[row]) + "\n"
-            else:
-                strOut += str(self.matrixVals[row])
+            strOut += str([str(self.matrixVals[row][i]) for i in range(self.order[1])]) + "\n"
         return strOut
 
     # Reflects matrix across the diagonal

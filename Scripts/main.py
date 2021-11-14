@@ -22,6 +22,8 @@ while running == True:
         if event.type == pygame.KEYDOWN: # Key Down
             if event.key == pygame.K_F1:
                 gameSim.CreateWorld()
+            if event.key == pygame.K_F2:
+                gameSim.agent.alive = False
 
     gameSim.TimeStep()
 

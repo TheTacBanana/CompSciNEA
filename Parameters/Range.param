@@ -1,11 +1,11 @@
 {
-    "WorldSize": [32,1024],
+    "WorldSize": [8,1024],
     "TileWidth": [1,8],
     "TileBorder": [0,3],
 
     "OctavesTerrain": [0,20],
     "PersistenceTerrain": [0,1],
-    "WorldScale": [0.1,10],
+    "WorldScale": [0.1,null],
 
     "OctavesTrees": [0,20],
     "PersistenceTrees": [0,1],

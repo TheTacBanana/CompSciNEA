@@ -1,6 +1,5 @@
-import json, random
-import perlinNoise, threading
-import pygame
+import json, random, pygame, threading
+import perlinNoise
 
 # Class to store Individual Tile Data
 class Tile(): 
@@ -26,6 +25,12 @@ class Tile():
         self.objectType = ""
         self.objectColour = (0,0,0)
 
+    def __str__(self): # To String Overload
+        if self.hasObject:
+            return ("{},{}").format(self.tileType, self.objectType)
+        else:
+            return("{}").format(self.tileType)
+
 # Class to store world terrain and object data
 class WorldMap(): 
     def __init__(self, seed, params): # Initialise method for creating an instance of the world
@@ -44,8 +49,8 @@ class WorldMap():
     def GenerateMap(self): # Generates terrain - Not Threaded 
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
-                xCoord = x / self.MAP_SIZE
-                yCoord = y / self.MAP_SIZE
+                xCoord = x / self.MAP_SIZE * self.paramDictionary["WorldScale"]
+                yCoord = y / self.MAP_SIZE * self.paramDictionary["WorldScale"]
 
                 self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
                                                             self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"])
@@ -114,8 +119,8 @@ class WorldMap():
         pickedPoints = [[False for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
 
         numPoints = len(pointList) - 1
-        if numPoints == 0: # Catches if no points
-            return []
+        if numPoints <= 0: # Catches if no points
+            return pickedPoints
 
         sampleNum = 0
 
@@ -207,6 +212,13 @@ class WorldMap():
     def DrawMap(self, window): # Blits the rendered frames onto the passed through window
         window.blit(self.RenderedMap, (0,0))
         window.blit(self.RenderedInteractables, (0,0))
+
+    def RenderConsole(self):
+        render = ""
+        for y in range(0, self.MAP_SIZE):
+            render += str([str(self.tileArray[i][y].tileType) for i in range(self.MAP_SIZE)]) + "\n"
+
+        print(render)
 
 # Miscellaneous Methods
     def Clamp(self, val, low, high): # Simple function to clamp a value between two numbers - Used to make sure number doesnt go out of bounds

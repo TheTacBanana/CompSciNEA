@@ -25,8 +25,10 @@ class Simulation():
         elif self.networkType == 1: # Deep QLearning Network Step
             self.network.TakeStep(self.agent, self.worldMap)
 
-            if not self.agent.alive:
-                raise NotImplementedError
+            if self.agent.alive == False:
+                self.ResetOnDeath()
+
+        self.step += 1
 
 # Creation and Initialisation Methods
     def InitiateSimulation(self): # Initialises Simulation
@@ -46,13 +48,15 @@ class Simulation():
         else:
             self.worldMap.MAP_SEED = seed
 
-        self.worldMap.GenerateThreadedParent()
+        if self.paramDictionary["GenerateThreaded"]:
+            self.worldMap.GenerateThreadedParent()
+        else:
+            self.worldMap.GenerateMap()
+
         self.worldMap.GenerateTreeArea() 
 
         self.worldMap.RenderMap()
         self.worldMap.RenderInteractables()
-
-        self.CreateAgent()
 
         print("Created New World, Seed: {}".format(seed))
 
@@ -81,14 +85,19 @@ class Simulation():
         if self.agent == None:
             self.agent = Agent(Agent.SpawnPosition(self.worldMap), self.paramDictionary)
         else:
-            self.agent.location = Agent.SpawnPosition(self.worldMap)
+            self.agent.Reset(self.worldMap)
+
+    def ResetOnDeath(self):
+        self.CreateWorld()
+        self.CreateAgent()
+        self.step = 0
 
 # Render Methods
-    def RenderToCanvas(self, window, Debug): # Render Content to Canvas
+    def RenderToCanvas(self, window, debug): # Render Content to Canvas
         TW = self.paramDictionary["TileWidth"]
         MS = self.paramDictionary["QLearningMaxSteps"]
 
-        if Debug == True:
+        if debug == True:
             for i in range(len(self.network.MainNetwork.layers)):
                 for k in range(self.network.MainNetwork.layers[i].outputVector.order[0]):
                     value = self.network.MainNetwork.layers[i].outputVector.matrixVals[k][0]

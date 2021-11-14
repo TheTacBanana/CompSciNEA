@@ -1,7 +1,7 @@
-import random, pickle
+import random, pickle, math
 from matrix import Matrix
+from activations import *
 from copy import copy
-import math
 
 class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
     def __init__(self, layers, params, load=False, loadNames=["",""]): # Constructor for a Double Neural Network
@@ -76,11 +76,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         LossVector = self.LossFunctionV2(output[0], tempExp, agent)
         self.MainNetwork.layers[-1].errSignal = LossVector
 
-        #self.MainNetwork.BackPropagationV1()
-
         #self.MainNetwork.BackPropagationV2()
-        #print(self.MainNetwork.layers[-1].errSignal)
-        #print()
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network

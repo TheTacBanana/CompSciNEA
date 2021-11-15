@@ -60,6 +60,7 @@ class Agent():
         sideLength = 2 * offset + 1
 
         tileTypeVec = self.TileVectorPostProcess(tileObjVec)
+
         if action == 0:
             self.Move(action, worldMap) # Move Up
 
@@ -169,6 +170,22 @@ class Agent():
             reward += self.paramDictionary["MoveReward"]
         return reward
             
+    def CombatReward(self, tileObjVec):
+        killReward = self.paramDictionary["MakeABloodSacrificeReward"]
+        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset - 1][0].hasEnemy: return killReward
+        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset][0].hasEnemy:     return killReward
+        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset + 1][0].hasEnemy: return killReward
+
+        if tileObjVec.matrixVals[(sideLength * offset) + offset - 1][0].hasEnemy:       return killReward
+        if tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasEnemy:           return killReward
+        if tileObjVec.matrixVals[(sideLength * offset) + offset + 1][0].hasEnemy:       return killReward
+
+        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset - 1][0].hasEnemy: return killReward
+        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset][0].hasEnemy:     return killReward
+        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset + 1][0].hasEnemy: return killReward
+
+        return self.paramDictionary["BloodASacrificeFailedReward"]
+
     def GetRewardVector(self, tileObjVec, outputs): # Returns Vector of Reward Values Per action
         returnVec = Matrix((outputs, 1))
 

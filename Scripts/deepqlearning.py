@@ -70,7 +70,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         LossVector = self.LossFunctionV2(output[0], tempExp, agent)
         self.MainNetwork.layers[-1].errSignal = LossVector
 
-        #self.MainNetwork.BackPropagationV2()
+        self.MainNetwork.BackPropagationV2()
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -164,7 +164,6 @@ class NeuralNet(): # Neural Network Implementation
             self.layers[i].BackPropagationV1(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
 
     def BackPropagationV2(self): # Iterates through Back Propagation V2
-        print("Step:")
         for i in range(len(self.layers) - 1, 0, -1):
             self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"])
 
@@ -250,14 +249,12 @@ class Layer(): # Layer for a Neural Network
             updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
 
         updatedWeights = Matrix.CombineVectorsHor(updatedWeightVectors)
-        #print(updatedWeights.order, self.weightMatrix.order)
         tlist = [self.weightMatrix.SelectColumn(0), self.errSignal, updatedWeights.Transpose().SelectColumn(0)]
-        
 
         self.weightMatrix += updatedWeights.Transpose()
 
         tlist.append(self.weightMatrix.SelectColumn(0))
-        print(Matrix.CombineVectorsHor(tlist))
+        #print(Matrix.CombineVectorsHor(tlist))
 
 class Experience(): # Used in Experience Replay
     def __init__(self, state = None, action = None, reward = None, stateNew = None): # Constructor for an Experience Replay Experience

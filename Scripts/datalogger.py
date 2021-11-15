@@ -1,7 +1,8 @@
 import pickle
 
+# Data Collector Class for logging information for analysis
 class DataCollector():
-    def __init__(self, name, dataStructure, load=True):
+    def __init__(self, name, dataStructure, load=True): # Constructor Method
         self.name = name
 
         self.dataStructure = dataStructure
@@ -11,15 +12,15 @@ class DataCollector():
         else:
             self.dataPoints = []
 
-    def LogDataPointBatch(self, dataPoints):
+    def LogDataPointBatch(self, dataPoints): # Logs a Batch of Data Points
         for i in range(len(dataPoints)):
             self.LogDataPoint(dataPoints[i])
 
-    def LogDataPoint(self, dataPoint):
+    def LogDataPoint(self, dataPoint): # Logs Data Point to Data Point list
         if self.CheckMatchStructure(dataPoint):
             self.dataPoints.append(dataPoint)
 
-    def CheckMatchStructure(self, dataPoint):
+    def CheckMatchStructure(self, dataPoint): # Checks the given Data Point is in the correct Form
         if len(dataPoint) != len(self.dataStructure):
             raise Exception("Structure of Data Point does not match Collector Specified Structure")
 

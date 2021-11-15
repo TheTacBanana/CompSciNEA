@@ -18,8 +18,16 @@ class Matrix():
     # Init Function
     def __init__(self, arg1, identity=False, random=False):
         if type(arg1) == list: # Passed in existing values
-            self.matrixVals = arg1
-            self.order = (len(self.matrixVals), len(self.matrixVals[0]))
+            if type(arg1[0]) != list: # Create Vector from List
+                self.matrixVals = [[0] for j in range(len(arg1))]
+
+                for i in range(len(arg1)):
+                    self.matrixVals[i][0] = arg1[i]
+                    self.order = (len(self.matrixVals), len(self.matrixVals[0]))
+
+            else: # Create Matrix from 2d List
+                self.matrixVals = arg1
+                self.order = (len(self.matrixVals), len(self.matrixVals[0]))
 
         elif type(arg1) == tuple: # Passed in order of Matrix, creates a blank Matrix
             self.matrixVals = [[0 for i in range(arg1[1])] for j in range(arg1[0])]
@@ -170,6 +178,15 @@ class Matrix():
             raise MatExcepts.RowOutOfRange
 
         newMat = Matrix(self.matrixVals[row])
+
+    # Sum of values in a Matrix
+    def Sum(self):
+        matSum = 0
+        for col in range(tempMatrix.order[1]):
+            for row in range(tempMatrix.order[0]):
+                matSum += self.matrixVals[row][col]
+
+        return matSum
 
     @staticmethod
     def CombineVectorsHor(vectorList): # Concatenates a list of vectors into a singular matrice horizontally

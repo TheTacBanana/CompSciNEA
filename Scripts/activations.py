@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from math import e, tanh
+from math import e, tanh, exp
+from matrix import *
 
 class Activation(ABC): # Abstract Base Class
     @abstractmethod
@@ -52,7 +53,23 @@ class SoftMax(Activation): # SoftMax
         pass
 
     def Activation(self, x): # Returns a probability distribution between a vector of values totalling to 1
-        pass
+        sumToK = 0
+        maxIndex = 0
+
+        for i in range(x.order[0]):
+            sumToK += exp(x.matrixVals[i][0])
+
+            if x.matrixVals[i][0] > x.matrixVals[maxIndex][0]:
+                maxIndex = i
+
+        outVector = Matrix(x.order)
+
+        for i in range(x.order[0]):
+            outVector.matrixVals[i][0] = (exp(x.matrixVals[i][0])) / sumToK
+
+        maxVal = outVector.matrixVals[maxIndex][0]
+
+        return outVector, maxIndex, maxVal # Returns vector and best index
 
     def Derivative(self, x): 
         pass

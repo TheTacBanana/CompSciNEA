@@ -21,8 +21,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         self.step = 0
         self.cumReward = 0.0
-        self.actionsTaken = [0,0,0,0,0]
-        self.random = [0,0]
 
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
         self.step += 1
@@ -44,14 +42,12 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
                 totalled += output[0].matrixVals[i][0]
                 if totalled >= val:
                     action = i
-                    self.random[0] += 1
                     break
             
         else:
             action = output[1]
-            self.random[1] += 1
 
-        agent.CommitAction(action, agentSurround, worldMap) # Take Action
+        agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
         
         rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
         reward = rewardVector.matrixVals[action - 1][0] # Get reward given action
@@ -67,8 +63,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         tempExp.action = action
         tempExp.reward = rewardVector
         tempExp.stateNew = agent.GetTileVector(worldMap, enemyList)
-
-        self.actionsTaken[tempExp.action] += 1
 
         self.ExperienceReplay.PushFront(copy(tempExp))
 
@@ -88,7 +82,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             self.SampleExperienceReplay()
 
         if self.step % 1000 == 0:
-            print(self.step, self.cumReward, self.actionsTaken, self.epsilon)
+            print(self.step, self.cumReward, self.epsilon)
 
     def SampleExperienceReplay(self): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])

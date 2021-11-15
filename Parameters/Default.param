@@ -22,14 +22,15 @@
     "TreeBeachOffset": 0.05,
 
     "Grayscale": 0,
-    "Water": 0.46,
+    "Water": 0.43,
     "Coast": 0.48,
     "Grass": 0.63,
     "Mountain": 1.0,
 
     "TreeType": "Wood",
 
-    "StartEnemyCount": 3,
+    "StartEnemyCount": 5,
+    "AgentAttackRange": 1,
 
     "ColourWater": [18, 89, 144],
     "ColourCoast": [245, 234, 146],
@@ -56,11 +57,11 @@
     "ERSampleRate": 4,
     "ERSampleSize": 100,
 
-    "DeepQLearningLayers" : [9, 64, 32, 16, 5],
+    "DeepQLearningLayers" : [49, 64, 32, 16, 7],
     "DQLearningMaxSteps": 10000,
-    "DQLOffset": 1,
+    "DQLOffset": 3,
     "DQLEpsilon": 1,
-    "DQLEpisonRegression": 0.999998,
+    "DQLEpisonRegression": 0.99998,
     "DQLLearningRate": 0.75,
     "DQLGamma": 0.8
 }

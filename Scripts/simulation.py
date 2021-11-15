@@ -26,17 +26,19 @@ class Simulation():
             raise NotImplementedError
 
         elif self.networkType == 1: # Deep QLearning Network Step
+            if not self.agent.alive:
+                self.ResetOnDeath()
+
             self.network.TakeStep(self.agent, self.worldMap, self.enemyList)
 
             if self.paramDictionary["EnableEnemies"]:
                 self.UpdateEnemies()
 
-            if self.agent.alive == False:
-                    self.ResetOnDeath()
-
         self.step += 1
 
     def UpdateEnemies(self): # Updates Enemies
+        self.enemyList = [x for x in self.enemyList if x is not None]
+
         for i in range(len(self.enemyList)):
             self.enemyList[i].CommitAction(self.agent, self.worldMap)
 
@@ -44,6 +46,7 @@ class Simulation():
                 self.enemyList[i] = None
 
         self.enemyList = [x for x in self.enemyList if x is not None]
+        
 
 # Creation and Initialisation Methods
     def InitiateSimulation(self): # Initialises Simulation

@@ -22,11 +22,15 @@ class Agent():
         blankOceanTile = Tile()
         blankOceanTile.InitValues(0, 0, self.paramDictionary["ColourWater"])
 
+        enemyLocList = [enemyList[i].location for i in range(len(enemyList)) if enemyList[i] is not None]
+
         n = 0
         for y in range(self.location[1] - offset, self.location[1] + offset + 1): # Loop through Tiles in surrounding area
             for x in range(self.location[0] - offset, self.location[0] + offset + 1):
                 if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
                     tileVec.matrixVals[n][0] = worldMap.tileArray[x][y]
+                    if [x,y] in enemyLocList:
+                        tileVec.matrixVals[n][0].WriteEnemy()
                 else:
                     tileVec.matrixVals[n][0] = blankOceanTile
                 n += 1
@@ -39,7 +43,10 @@ class Agent():
         for n in range(tileVec.order[0]):
             tileTypeVec.matrixVals[n][0] = tileVec.matrixVals[n][0].tileType
 
-            tileGrayscaleVec.matrixVals[n][0] = self.ColourToGrayscale(tileVec.matrixVals[n][0].tileColour)
+            if tileVec.matrixVals[n][0].hasEnemy:
+                tileGrayscaleVec.matrixVals[n][0] = self.ColourToGrayscale(self.paramDictionary["ColourEnemy"])
+            else:
+                tileGrayscaleVec.matrixVals[n][0] = self.ColourToGrayscale(tileVec.matrixVals[n][0].tileColour)
 
         return tileTypeVec, tileGrayscaleVec
 
@@ -48,7 +55,7 @@ class Agent():
         return grayscale
 
 # Action Methods
-    def CommitAction(self, action, tileObjVec, worldMap): # Commits the given Action
+    def CommitAction(self, action, tileObjVec, worldMap, enemyList): # Commits the given Action
         offset = self.paramDictionary["DQLOffset"]
         sideLength = 2 * offset + 1
 
@@ -68,8 +75,12 @@ class Agent():
         elif action == 4 and tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasObject == True:
             self.PickupItem(worldMap)
 
-        elif action == 5:
-            self.Attack(worldMap)
+        elif action == 5: # Attack Surroundings
+            self.Attack(enemyList)
+
+        elif action == 6: # Noop/Null action
+            pass
+            #print("Noop")
 
     def Move(self, direction, worldMap): # Moves agent in given Direction
         if direction == 0: self.location = [self.location[0], self.location[1] - 1] # Move Up
@@ -101,8 +112,19 @@ class Agent():
 
             worldMap.tileArray[self.location[0]][self.location[1]].ClearObject()
 
-    def Attack(self): # Attacks in a given Area surrounding Agent
-        raise NotImplementedError
+    def Attack(self, enemyList): # Attacks in a given Area surrounding Agent
+        enemyLocList = [enemyList[i].location for i in range(len(enemyList))]
+
+        AAR = self.paramDictionary["AgentAttackRange"]
+
+        for y in range(self.location[1] - AAR, self.location[1] + AAR + 1): # Loop through Tiles in surrounding area
+            for x in range(self.location[0] - AAR, self.location[0] + AAR + 1): 
+                if [x,y] in enemyLocList:
+                    for i in range(len(enemyLocList)):
+                        if enemyLocList[i] == [x,y]:
+                            enemyList[i] = None
+
+        enemyList = [x for x in enemyList if x is not None]
 
 # Reward Method
     def GetReward(self, action, tileObjVec):
@@ -132,7 +154,7 @@ class Agent():
                 cumReward += self.paramDictionary["CollectItemReward"]
 
         elif action == 5:
-            raise NotImplementedError
+            cumReward += 0.1
 
         return cumReward
 
@@ -162,9 +184,9 @@ class Agent():
     def Reset(self, worldMap):
         self.inventory = self.emptyInventory
 
-        self.alive = True
-
         self.location = Agent.SpawnPosition(worldMap)
+
+        self.alive = True
 
     @staticmethod
     def SpawnPosition(worldMap): # Returns a coord in which the Agent can spawn

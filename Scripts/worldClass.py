@@ -9,6 +9,7 @@ class Tile():
         self.tileColour = (0,0,0)
         self.explored = False
         self.hasObject = False
+        self.hasEnemy = False
 
     def InitValues(self, tileType, height, colour): # Set/Initialise Tile Vales
         self.tileType = tileType
@@ -24,6 +25,9 @@ class Tile():
         self.hasObject = False
         self.objectType = ""
         self.objectColour = (0,0,0)
+
+    def WriteEnemy(self): # Write Enemy to tile
+        self.hasEnemy = True
 
     def __str__(self): # To String Overload
         if self.hasObject:
@@ -211,6 +215,7 @@ class WorldMap():
 
     def DrawMap(self, window): # Blits the rendered frames onto the passed through window
         window.blit(self.RenderedMap, (0,0))
+        self.RenderInteractables()
         window.blit(self.RenderedInteractables, (0,0))
 
     def RenderConsole(self):

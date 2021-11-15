@@ -1,6 +1,8 @@
 {
     "EnterValues": 0,
     "GenerateThreaded": 0,
+    "EnableEnemies": 1,
+    "StepDelay": 0,
     "Debug": 1,
     
     "WorldSize": 64,
@@ -27,12 +29,15 @@
 
     "TreeType": "Wood",
 
+    "StartEnemyCount": 3,
+
     "ColourWater": [18, 89, 144],
     "ColourCoast": [245, 234, 146],
     "ColourGrass": [26, 148, 49],
     "ColourMountain": [136, 140, 141],
     "ColourTree": [13, 92, 28],
     "ColourPlayer": [233, 182, 14],
+    "ColourEnemy": [207, 2, 2],
 
     "QLearningMaxSteps": 10000,
     "Offset": 4,

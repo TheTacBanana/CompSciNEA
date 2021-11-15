@@ -1,7 +1,9 @@
 import pygame
 from simulation import *
+import time
 
 params = Simulation.LoadParameters("Default")
+stepDelay = params["StepDelay"]
 Simulation.CheckParameters(params, "Range")
 
 gameSim = Simulation(1, params)
@@ -26,6 +28,7 @@ while running == True:
                 gameSim.agent.alive = False
 
     gameSim.TimeStep()
+    time.sleep(stepDelay)
 
     gameSim.RenderToCanvas(window, params["Debug"])  
 

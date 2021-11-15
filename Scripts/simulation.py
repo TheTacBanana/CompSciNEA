@@ -1,5 +1,6 @@
 from worldClass import *
 from newAgent import *
+from enemy import *
 from qlearning import *
 from deepqlearning import *
 import random, pygame, math
@@ -15,6 +16,8 @@ class Simulation():
         self.network = None
         self.agent = None
 
+        self.enemyList = []
+
         self.step = 0
 
 # Step forward network methods
@@ -23,12 +26,24 @@ class Simulation():
             raise NotImplementedError
 
         elif self.networkType == 1: # Deep QLearning Network Step
-            self.network.TakeStep(self.agent, self.worldMap)
+            self.network.TakeStep(self.agent, self.worldMap, self.enemyList)
+
+            if self.paramDictionary["EnableEnemies"]:
+                self.UpdateEnemies()
 
             if self.agent.alive == False:
-                self.ResetOnDeath()
+                    self.ResetOnDeath()
 
         self.step += 1
+
+    def UpdateEnemies(self): # Updates Enemies
+        for i in range(len(self.enemyList)):
+            self.enemyList[i].CommitAction(self.agent, self.worldMap)
+
+            if not self.enemyList[i].alive:
+                self.enemyList[i] = None
+
+        self.enemyList = [x for x in self.enemyList if x is not None]
 
 # Creation and Initialisation Methods
     def InitiateSimulation(self): # Initialises Simulation
@@ -39,6 +54,7 @@ class Simulation():
             self.CreateQNetwork()
         elif self.networkType == 1: 
             self.CreateDeepQNetwork()
+
 
     def CreateWorld(self, seed = 0): # Creates new world with specified or random seed
         if seed == 0: seed = random.randint(0, 999999)
@@ -57,6 +73,9 @@ class Simulation():
 
         self.worldMap.RenderMap()
         self.worldMap.RenderInteractables()
+
+        if self.paramDictionary["EnableEnemies"]:
+            self.SpawnEnemies()
 
         print("Created New World, Seed: {}".format(seed))
 
@@ -87,9 +106,22 @@ class Simulation():
         else:
             self.agent.Reset(self.worldMap)
 
-    def ResetOnDeath(self):
+    def SpawnEnemies(self, n = 0): # Spawns <= n enemies on call
+        if n == 0: n = self.paramDictionary["StartEnemyCount"]
+        
+        for i in range(n):
+            spawnLoc = Enemy.SpawnPosition(self.worldMap, self.enemyList)
+            if spawnLoc == None:
+                continue
+            else:
+                tempEnemy = Enemy(spawnLoc, self.paramDictionary)
+                self.enemyList.append(tempEnemy)
+
+    def ResetOnDeath(self): # Resets Simulation if Agent Dies
         self.CreateWorld()
         self.CreateAgent()
+        self.enemyList = []
+        self.SpawnEnemies()
         self.step = 0
 
 # Render Methods
@@ -107,6 +139,10 @@ class Simulation():
                     pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * 2), (k * TW * 2), (TW * 2), (TW * 2)))
 
         self.worldMap.DrawMap(window)
+
+        for i in range(len(self.enemyList)):
+            pygame.draw.rect(window, self.paramDictionary["ColourEnemy"], ((self.enemyList[i].location[0] * TW), (self.enemyList[i].location[1] * TW), TW, TW))
+
         pygame.draw.rect(window, self.paramDictionary["ColourPlayer"], ((self.agent.location[0] * TW), (self.agent.location[1] * TW), TW, TW))
 
 # Miscellaneous Methods

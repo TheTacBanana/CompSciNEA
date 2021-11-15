@@ -1,4 +1,6 @@
 {
+    "StepDelay": [0,null],
+
     "WorldSize": [8,1024],
     "TileWidth": [1,8],
     "TileBorder": [0,3],
@@ -20,6 +22,8 @@
     "Coast": [0,1],
     "Grass": [0,1],
     "Mountain": [0,1],
+
+    "StartEnemyCount": [0, 100],
 
     "QLearningMaxSteps": [0,null],
     "Offset": [0,20],

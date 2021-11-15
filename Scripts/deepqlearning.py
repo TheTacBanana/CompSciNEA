@@ -24,11 +24,11 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.actionsTaken = [0,0,0,0,0]
         self.random = [0,0]
 
-    def TakeStep(self, agent, worldMap): # Takes a step forward in time
+    def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
         self.step += 1
 
         # Forward Propagation
-        agentSurround = agent.GetTileVector(worldMap)
+        agentSurround = agent.GetTileVector(worldMap, enemyList)
         postProcessedSurround = agent.TileVectorPostProcess(agentSurround) # Retrieve Vector of State info from Agent
         netInput = postProcessedSurround[1]
         
@@ -66,7 +66,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         tempExp.state = agentSurround 
         tempExp.action = action
         tempExp.reward = rewardVector
-        tempExp.stateNew = agent.GetTileVector(worldMap)
+        tempExp.stateNew = agent.GetTileVector(worldMap, enemyList)
 
         self.actionsTaken[tempExp.action] += 1
 

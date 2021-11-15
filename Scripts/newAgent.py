@@ -14,7 +14,7 @@ class Agent():
         self.inventory = self.emptyInventory
 
 # Methods for tile vectors
-    def GetTileVector(self, worldMap): # Returns a Vector of Tile Datatype
+    def GetTileVector(self, worldMap, enemyList): # Returns a Vector of Tile Datatype
         offset = self.paramDictionary["DQLOffset"]
         sideLength = 2 * offset + 1
         tileVec = Matrix((sideLength * sideLength, 1))

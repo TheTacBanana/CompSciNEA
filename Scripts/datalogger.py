@@ -8,7 +8,7 @@ class DataCollector():
         self.dataStructure = dataStructure
 
         if load:
-            self.dataPoints = DataColletor.LoadDataPoints(name)
+            self.dataPoints = DataCollector.LoadDataPoints(name)
         else:
             self.dataPoints = []
 
@@ -20,6 +20,7 @@ class DataCollector():
         if self.CheckMatchStructure(dataPoint):
             self.dataPoints.append(dataPoint)
 
+
     def CheckMatchStructure(self, dataPoint): # Checks the given Data Point is in the correct Form
         if len(dataPoint) != len(self.dataStructure):
             raise Exception("Structure of Data Point does not match Collector Specified Structure")
@@ -28,11 +29,30 @@ class DataCollector():
             t1 = type(dataPoint[i])
             t2 = self.dataStructure[i]
 
-            if type(t2) == list: # Checks Multiple types against t1
+            if t1 == list and type(t2) != list: # Checks if list is all of same type
                 flag = False
 
-                for i in range(len(t2)):
-                    if t1 == t2[i]:
+                for x in range(len(dataPoint[i])):
+                    if type(dataPoint[i][x]) != t2:
+                        flag = True
+                if not flag:
+                    continue
+
+            elif t1 == list and type(t2) == list: # Checks list against list
+                if len(dataPoint[i]) == len(t2):
+                    flag = False
+                    for x in range(len(dataPoint[i])):
+                        if type(dataPoint[i][x]) != t2[x]:
+                            flag = True
+
+                    if not flag:
+                        continue
+
+            elif type(t2) == list: # Checks Multiple types against t1
+                flag = False
+
+                for x in range(len(t2)):
+                    if t1 == t2[x]:
                         flag = True
                 if flag:
                     continue

@@ -1,6 +1,7 @@
 import pygame
 from simulation import *
 import time
+import datalogger
 
 params = Simulation.LoadParameters("Default")
 stepDelay = params["StepDelay"]
@@ -10,7 +11,7 @@ gameSim = Simulation(1, params)
 gameSim.InitiateSimulation()
 
 worldResolution = params["WorldSize"] * params["TileWidth"]
-if params["Debug"]: debugOffset = (len(params["DeepQLearningLayers"] * params["TileWidth"] * 2))
+if params["Debug"]: debugOffset = (len(params["DeepQLearningLayers"]) * params["TileWidth"] * params["DebugScale"])
 else: debugOffset = 0
 window = pygame.display.set_mode((worldResolution + debugOffset, worldResolution))
 

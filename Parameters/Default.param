@@ -4,9 +4,10 @@
     "EnableEnemies": 1,
     "StepDelay": 0,
     "Debug": 1,
+    "DebugScale": 1,
     
     "WorldSize": 64,
-    "TileWidth": 4,
+    "TileWidth": 8,
     "TileBorder": 0,
 
     "OctavesTerrain": 7,

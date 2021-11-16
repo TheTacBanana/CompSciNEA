@@ -131,6 +131,7 @@ class Simulation():
     def RenderToCanvas(self, window, debug): # Render Content to Canvas
         TW = self.paramDictionary["TileWidth"]
         MS = self.paramDictionary["QLearningMaxSteps"]
+        DS = self.paramDictionary["DebugScale"]
 
         if debug == True:
             for i in range(len(self.network.MainNetwork.layers)):
@@ -139,7 +140,7 @@ class Simulation():
                     newVal = (math.tanh(value) + 1) / 2
                     colourTuple = (255 * newVal, 255 * newVal, 255 * newVal)
 
-                    pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * 2), (k * TW * 2), (TW * 2), (TW * 2)))
+                    pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * DS), (k * TW * DS), (TW * DS), (TW * DS)))
 
         self.worldMap.DrawMap(window)
 

@@ -1,4 +1,6 @@
-import pickle
+import pickle, random
+from heap import *
+from time import time
 
 # Data Collector Class for logging information for analysis
 class DataCollector():
@@ -64,6 +66,14 @@ class DataCollector():
             raise Exception(("Type: {} != Data Structure Type: {} \n {}").format(t1, t2, self.dataStructure))
         return True
 
+    def HeapSort(self, parameterIndex):
+        sortedList = []
+
+        heap = Heap(self.dataPoints, parameterIndex)
+
+        while heap.Length() - 1 > 0:
+            sortedList.append(heap.RemoveTop())
+
     # Using Pickle to Save/Load
     @staticmethod
     def LoadDataPoints(file): # Returns stored Neural Network data
@@ -74,3 +84,15 @@ class DataCollector():
     def SaveDataPoints(self, file): # Saves Neural Network Data
         with open("DataLogger\\" + self.name + ".data", "wb") as f:
             pickle.dump(self.dataPoints)
+
+dl = DataCollector("DataLogger", [int, int, bool], False)
+
+l = [[random.randint(1, 100), random.randint(1, 100), True] for i in range(2000)]
+
+dl.LogDataPointBatch(l)
+
+t1 = time()
+dl.HeapSort(1)
+t2 = time()
+
+print(t2 - t1)

@@ -66,33 +66,31 @@ class DataCollector():
             raise Exception(("Type: {} != Data Structure Type: {} \n {}").format(t1, t2, self.dataStructure))
         return True
 
-    def HeapSort(self, parameterIndex):
+    def HeapSort(self, parameterIndex): # O(n*log n) sorting algorithm utilising a Heap Data structure, Sorts the data points by the specified parameter
+        # 1000 Items -> 0.13
+        # 10000 Items -> 12.1
+        # 100000 Items -> 1646 or 27.4 minutes
+
+        if type(self.dataStructure[parameterIndex]) == list:
+            raise Exception("Cannot sort by structure: {}".format(type(self.dataStructure[parameterIndex])))
+
+        elif self.dataStructure[parameterIndex] == bool:
+            raise Exception("Cannot sort by structure: {}".format(self.dataStructure[parameterIndex]))
+
         sortedList = []
 
-        heap = Heap(self.dataPoints, parameterIndex)
+        heap = Heap(self.dataPoints, parameterIndex) # Creates a new heap
 
         while heap.Length() - 1 > 0:
-            sortedList.append(heap.RemoveTop())
+            sortedList.append(heap.RemoveTop()) # Loops popping highest element from heap
 
     # Using Pickle to Save/Load
     @staticmethod
-    def LoadDataPoints(file): # Returns stored Neural Network data
+    def LoadDataPoints(file): # Returns stored dataPoints
         with open("DataLogger\\" + self.name + ".data", "rb") as f:
             temp = pickle.load(f)
         return temp
 
-    def SaveDataPoints(self, file): # Saves Neural Network Data
+    def SaveDataPoints(self, file): # Saves dataPoints to a file
         with open("DataLogger\\" + self.name + ".data", "wb") as f:
             pickle.dump(self.dataPoints)
-
-dl = DataCollector("DataLogger", [int, int, bool], False)
-
-l = [[random.randint(1, 100), random.randint(1, 100), True] for i in range(2000)]
-
-dl.LogDataPointBatch(l)
-
-t1 = time()
-dl.HeapSort(1)
-t2 = time()
-
-print(t2 - t1)

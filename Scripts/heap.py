@@ -66,9 +66,9 @@ class Heap:
     def Peek(self): # Returns root/top element
         return self.elements[0]
 
-    def Length(self):
+    def Length(self): # Returns size of heap
         return len(self.elements)
 
     def Heapify(self): # Returns values to a heap form, where all children of parents are less than or equal too
-        for i in range(len(self.elements), -1, -1):
+        for i in range(math.floor((len(self.elements) - 1) / 2), -1, -1):
             self.SiftDown(i)

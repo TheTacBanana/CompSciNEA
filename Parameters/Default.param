@@ -61,8 +61,8 @@
     "DeepQLearningLayers" : [49, 64, 32, 16, 7],
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 3,
-    "DQLEpsilon": 1,
+    "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
-    "DQLLearningRate": 0.75,
-    "DQLGamma": 0.8
+    "DQLLearningRate": 0.7,
+    "DQLGamma": 0.6
 }

@@ -71,6 +71,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.MainNetwork.layers[-1].errSignal = LossVector
 
         self.MainNetwork.BackPropagationV2()
+        #print(self.MainNetwork.layers[-1].errSignal)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -83,6 +84,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         if self.step % 1000 == 0:
             print(self.step, self.cumReward, self.epsilon)
+            self.SaveNetworks()
 
     def SampleExperienceReplay(self): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
@@ -117,6 +119,10 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         #print(Reward.order, output.order)
         LossVec = ((Reward + (Gamma * maxQTNet)) - output) ** 2
         return LossVec
+
+    def SaveNetworks(self):
+        self.MainNetwork.SaveNeuralNet("MainNetwork")
+        self.TargetNetwork.SaveNeuralNet("TargetNetwork")
 
 class NeuralNet(): # Neural Network Implementation
     def __init__(self, layersIn, params): # Constructor for a Single Neural Network

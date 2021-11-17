@@ -35,19 +35,6 @@ while running == True:
 
     pygame.display.update()
 
-#TW = params["TileWidth"]
-#MS = params["QLearningMaxSteps"]
-
-#for i in range(len(DQNetwork.MainNetwork.layers)):
-#    for k in range(DQNetwork.MainNetwork.layers[i].outputVector.order[0]):
-#        value = DQNetwork.MainNetwork.layers[i].outputVector.matrixVals[k][0]
-#        newVal = (math.tanh(value) + 1) / 2
-#        colourTuple = (255 * newVal, 255 * newVal, 255 * newVal)
-
-#        pygame.draw.rect(window, colourTuple, ((params["WorldSize"] * TW + i * TW * 2), (k * TW * 2), (TW * 2), (TW * 2)))
-
-#worldMap.RenderMap()
-
 #QNetwork.NextStep(worldMap)
 
 #if QNetwork.step > MS:

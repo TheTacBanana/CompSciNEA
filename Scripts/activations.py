@@ -41,8 +41,13 @@ class Sigmoid(Activation): # Sigmoid
     def __init__(self):
         pass
 
-    def Activation(self, x):
-        return 1 / (1 + math.exp(-x))
+    def Activation(self, x): # Mathematical Function to get "squish" values between 0 and 1
+        if x > 10:
+            return 1
+        elif x < -10:
+            return 0
+        else:
+            return 1 / (1 + exp(-x))
 
     def Derivative(self, x):
         sigmoidX = self.Activation(x)

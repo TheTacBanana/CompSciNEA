@@ -1,7 +1,8 @@
 {
-    "EnterValues": 0,
+    "EnterValues": 1,
     "GenerateThreaded": 0,
     "EnableEnemies": 1,
+    "SaveWeights": 0,
     "StepDelay": 0,
     "Debug": 1,
     "DebugScale": 1,

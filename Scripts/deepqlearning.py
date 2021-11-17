@@ -1,6 +1,6 @@
 import random, pickle, math
 from matrix import Matrix
-from activations import *
+import activations
 from copy import copy
 
 class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
@@ -11,8 +11,8 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             self.MainNetwork = NeuralNet(layers, params)
             self.TargetNetwork = NeuralNet(layers, params)
         else:
-            self.MainNetwork = NeuralNet.LoadNeuralNet(loadName)
-            self.TargetNetwork = NeuralNet.LoadNeuralNet(loadName)
+            self.MainNetwork = NeuralNet.LoadNeuralNet(loadNames[0])
+            self.TargetNetwork = NeuralNet.LoadNeuralNet(loadNames[1])
 
         self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
         self.ERBFull = False
@@ -22,6 +22,10 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.step = 0
         self.cumReward = 0.0
 
+        self.layerActivation = activations.Sigmoid()
+        self.finalLayerActivation = activations.SoftMax()
+        self.activations = (self.layerActivation, self.finalLayerActivation) # Tuple of activations
+
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
         self.step += 1
 
@@ -30,22 +34,22 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         postProcessedSurround = agent.TileVectorPostProcess(agentSurround) # Retrieve Vector of State info from Agent
         netInput = postProcessedSurround[1]
         
-        self.MainNetwork.ForwardPropagation(netInput) # Forward Prop the Main Network
+        self.MainNetwork.ForwardPropagation(netInput, self.activations) # Forward Prop the Main Network
 
-        output = self.MainNetwork.SoftMax() # Utilise the SoftMax function
+        output = self.MainNetwork.layers[-1].outputVector
 
         # Action Taking and Reward
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             val = random.random()
             totalled = 0
-            for i in range(output[0].order[0]):
-                totalled += output[0].matrixVals[i][0]
+            for i in range(output.order[0]):
+                totalled += output.matrixVals[i][0]
                 if totalled >= val:
                     action = i
                     break
             
         else:
-            action = output[1]
+            action = self.MainNetwork.layers[-1].rawOut[1]
 
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
         
@@ -67,24 +71,24 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.ExperienceReplay.PushFront(copy(tempExp))
 
         # Back Propagation
-        LossVector = self.LossFunctionV2(output[0], tempExp, agent)
+        LossVector = self.LossFunctionV2(output, tempExp, agent)
         self.MainNetwork.layers[-1].errSignal = LossVector
 
-        self.MainNetwork.BackPropagationV2()
-        #print(self.MainNetwork.layers[-1].errSignal)
+        self.MainNetwork.BackPropagationV2(self.activations)
+        print(self.MainNetwork.layers[3].weightMatrix.SelectColumn(0))
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
 
-        if not self.ERBFull: # Sample Experience Replay Buffer
-            self.ERBFull = self.ExperienceReplay.Full()
-        if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ERBFull: 
+        if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ExperienceReplay.Full(): # Sample Experience Replay Buffer
             self.SampleExperienceReplay()
 
         if self.step % 1000 == 0:
             print(self.step, self.cumReward, self.epsilon)
-            self.SaveNetworks()
+
+            if self.paramDictionary["SaveWeights"]:
+                self.SaveNetworks()
 
     def SampleExperienceReplay(self): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
@@ -92,17 +96,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         for sample in samples:
             pass
             #self.MainNetwork.BackPropagation(sample)
-
-    def LossFunction(self, output, tempExp, prevWeights, agent):
-        # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
-
-        g = self.paramDictionary["DQLGamma"]
-
-        self.TargetNetwork.ForwardPropagation(tempExp.stateNew)
-        targetFeedForward = agent.GetRewardWithVector(self.TargetNetwork.SoftMax()[1], tempExp.stateNew)
-
-        Loss = ((tempExp.reward + g * targetFeedForward) - agent.GetRewardWithVector(output[1], tempExp.state)) ** 2
-        return Loss
 
     def LossFunctionV2(self, output, tempExp, agent):
         # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
@@ -112,7 +105,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         Gamma = self.paramDictionary["DQLGamma"]
 
         stateNew = agent.TileVectorPostProcess(tempExp.stateNew)
-        self.TargetNetwork.ForwardPropagation(stateNew[1])
+        self.TargetNetwork.ForwardPropagation(stateNew[1], self.activations)
         tempRewardVec = agent.GetRewardVector(tempExp.stateNew, self.paramDictionary["DeepQLearningLayers"][-1])
         maxQTNet = agent.MaxQ(tempRewardVec)
 
@@ -136,42 +129,17 @@ class NeuralNet(): # Neural Network Implementation
             else:
                 self.layers.append(Layer(layersIn[i - 1], layersIn[i]))
 
-    def ForwardPropagation(self, inputVector): # Iterates through Forward Propagation
+    def ForwardPropagation(self, inputVector, activations): # Iterates through Forward Propagation
         self.layers[0].outputVector = inputVector
 
         for i in range(1, len(self.layers) - 1):
-            self.layers[i].ForwardPropagation(self.layers[i-1])
+            self.layers[i].ForwardPropagation(self.layers[i-1], activations)
 
-        self.layers[-1].ForwardPropagation(self.layers[-2], finalLayer=True)
+        self.layers[-1].ForwardPropagation(self.layers[-2], activations, finalLayer=True)
 
-    def SoftMax(self): # Returns a probability distribution of the outputs of the network
-        z = self.layers[-1].outputVector
-
-        sumToK = 0
-        maxIndex = 0
-
-        for i in range(z.order[0]):
-            sumToK += math.exp(z.matrixVals[i][0])
-
-            if z.matrixVals[i][0] > z.matrixVals[maxIndex][0]:
-                maxIndex = i
-
-        outVector = Matrix(z.order)
-
-        for i in range(z.order[0]):
-            outVector.matrixVals[i][0] = (math.exp(z.matrixVals[i][0])) / sumToK
-
-        maxVal = outVector.matrixVals[maxIndex][0]
-
-        return outVector, maxIndex, maxVal # Returns vector and best index
-
-    def BackPropagationV1(self): # Iterates through Back Propagation V1
-        for i in range(len(self.layers) - 2, -1, -1):
-            self.layers[i].BackPropagationV1(self.layers[i+1], self.paramDictionary["DQLLearningRate"])
-
-    def BackPropagationV2(self): # Iterates through Back Propagation V2
+    def BackPropagationV2(self, activations): # Iterates through Back Propagation V2
         for i in range(len(self.layers) - 1, 0, -1):
-            self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"])
+            self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"], activations)
 
     # Using Pickle to Save/Load
     @staticmethod
@@ -196,54 +164,29 @@ class Layer(): # Layer for a Neural Network
         self.sVector = Matrix((size, 1))
         self.outputVector = Matrix((size, 1))
 
-    def ForwardPropagation(self, prevLayer, finalLayer=False): # Forward Propagates the Neural Network
+    def ForwardPropagation(self, prevLayer, activations, finalLayer=False): # Forward Propagates the Neural Network
         weightValueProduct = self.weightMatrix * prevLayer.outputVector
 
         self.sVector = weightValueProduct + self.biasVector
 
         if not finalLayer:
             for i in range(self.sVector.order[0]):
-                self.outputVector.matrixVals[i][0] = Layer.Sigmoid(self.sVector.matrixVals[i][0])  # Sigmoid Activation
+                self.outputVector.matrixVals[i][0] = activations[0].Activation(self.sVector.matrixVals[i][0])
         else:
-            for i in range(self.sVector.order[0]):
-                self.outputVector.matrixVals[i][0] = max(0, Layer.Sigmoid(self.sVector.matrixVals[i][0]))  # ReLu Activation
+            self.rawOut = activations[1].Activation(self.sVector)
+            self.outputVector = self.rawOut[0]
 
-    @staticmethod
-    def Sigmoid(x): # Mathematical Function to get "squish" values between 0 and 1
-        if x > 10:
-            return 1
-        elif x < -10:
-            return 0
-        else:
-            return 1 / (1 + math.exp(-x))
-
-    def BackPropagationV1(self, nextLayer, lr): # 1st Revision of Back Prop -> Does not work
-        transposedWeightMatrix = nextLayer.weightMatrix.Transpose()
-        weightUpdates = Matrix(transposedWeightMatrix.order)
-
-        weightErrSigProduct = transposedWeightMatrix * nextLayer.errSignal
-
-        for i in range(weightUpdates.order[0]): # For every neuron in layer
-            s = self.sVector.matrixVals[i][0]
-            z = self.outputVector.matrixVals[i][0]
-            zDerivative = 1 - (math.tanh(s) ** 2)
-
-            self.errSignal.matrixVals[i][0] = zDerivative * weightErrSigProduct.matrixVals[i][0]
-
-            for k in range(weightUpdates.order[1]):
-                weightUpdates.matrixVals[i][k] = -lr * self.errSignal.matrixVals[i][0] * z
-        nextLayer.weightMatrix += weightUpdates.Transpose()
-
-    def BackPropagationV2(self, prevLayer, lr): # 2nd Revision of Back Prop -> Might work :)
+    def BackPropagationV2(self, prevLayer, lr, layerActivations, finalLayer=False): # 2nd Revision of Back Propagation
         # Calculating Next Error Signal
         halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
 
         zDerivative = prevLayer.sVector
-        for i in range(zDerivative.order[0]):
-            z = zDerivative.matrixVals[i][0]
-            zDerivative.matrixVals[i][0] = Layer.Sigmoid(z) * (1 - Layer.Sigmoid(z))
 
-        errSignal = halfErrSignal * zDerivative # Hadamard Product
+        for i in range(zDerivative.order[0]): # Applying derivative functions to the output of a layer
+            z = zDerivative.matrixVals[i][0]
+            zDerivative.matrixVals[i][0] = layerActivations[0].Derivative(z)
+
+        errSignal = halfErrSignal * zDerivative # Hadamard Product to get error signal for previous layer
         prevLayer.errSignal = errSignal
 
         # Calculating Weight updates
@@ -254,13 +197,10 @@ class Layer(): # Layer for a Neural Network
             selectedColumn = self.weightMatrix.Transpose().SelectColumn(delta)
             updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
 
+        # Combining the weight updates into a matrix and updating the weight matrix
         updatedWeights = Matrix.CombineVectorsHor(updatedWeightVectors)
-        tlist = [self.weightMatrix.SelectColumn(0), self.errSignal, updatedWeights.Transpose().SelectColumn(0)]
 
         self.weightMatrix += updatedWeights.Transpose()
-
-        tlist.append(self.weightMatrix.SelectColumn(0))
-        #print(Matrix.CombineVectorsHor(tlist))
 
 class Experience(): # Used in Experience Replay
     def __init__(self, state = None, action = None, reward = None, stateNew = None): # Constructor for an Experience Replay Experience

@@ -1,4 +1,5 @@
 from newAgent import *
+from random import randint
 
 class Enemy(Agent):
     def __init__(self, location, params):
@@ -26,6 +27,17 @@ class Enemy(Agent):
                 self.location[1] += 1
             else:
                 self.location[1] -= 1
+        else:
+            if randint(0,1):
+                if xDif > 0:
+                    self.location[0] += 1
+                else:
+                    self.location[0] -= 1
+            else:
+                if yDif > 0:
+                    self.location[1] += 1
+                else:
+                    self.location[1] -= 1
 
         self.alive = self.CheckIfValidStandTile(self.location, worldMap)
 

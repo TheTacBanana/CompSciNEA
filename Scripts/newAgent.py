@@ -155,14 +155,17 @@ class Agent():
                 cumReward += self.paramDictionary["CollectItemReward"]
 
         elif action == 5:
-            cumReward += 0.1
+            cumReward += self.CombatReward(tileObjVec)
+
+        elif action == 6:
+            cumReward += self.paramDictionary["NoopReward"]
 
         return cumReward
 
     def MoveReward(self, tileObj): # Stops repeating the same code 4 times - Gets Reward given Agent moving into a tile
         #print(tile)
         reward = 0 
-        if tileObj.tileType == 0:
+        if tileObj.tileType == 0 or tileObj.hasEnemy:
             reward += self.paramDictionary["DeathReward"]
         else:
             if tileObj.explored == False:
@@ -172,6 +175,9 @@ class Agent():
             
     def CombatReward(self, tileObjVec):
         killReward = self.paramDictionary["MakeABloodSacrificeReward"]
+        offset = self.paramDictionary["DQLOffset"]
+        sideLength = 2 * offset + 1
+
         if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset - 1][0].hasEnemy: return killReward
         if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset][0].hasEnemy:     return killReward
         if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset + 1][0].hasEnemy: return killReward

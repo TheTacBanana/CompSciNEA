@@ -1,8 +1,8 @@
 {
-    "EnterValues": 0,
+    "EnterValues": 1,
     "GenerateThreaded": 0,
     "EnableEnemies": 1,
-    "SaveWeights": 0,
+    "SaveWeights": 1,
     "StepDelay": 0,
     "Debug": 1,
     "DebugScale": 1,
@@ -46,14 +46,15 @@
     "Offset": 4,
     "Epsilon": 0.2,
     "LearningRate": 0.75,
-    "Gamma": 0.8,
+    "Gamma": 0.7,
 
     "MoveReward": 0,
-    "CollectItemReward": 2,
-    "DeathReward": -2,
-    "ExploreReward": 0.05,
-    "MakeABloodSacrificeReward": 1,
+    "CollectItemReward": 0.1,
+    "DeathReward": -0.1,
+    "ExploreReward": 0.01,
+    "MakeABloodSacrificeReward": 0.5,
     "BloodASacrificeFailedReward": -0.1,
+    "NoopReward": -0.001,
 
     "TargetReplaceRate": 50,
     "ERBuffer": 10000,
@@ -65,6 +66,6 @@
     "DQLOffset": 3,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
-    "DQLLearningRate": 0.7,
+    "DQLLearningRate": 0.5,
     "DQLGamma": 0.6
 }

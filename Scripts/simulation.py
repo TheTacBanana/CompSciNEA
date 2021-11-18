@@ -93,11 +93,9 @@ class Simulation():
             if self.paramDictionary["EnterValues"]:
                 load = input("Load weights (Y/N): ")
                 if load.upper() == "Y":
-                    fNames = []
-                    fNames.append(input("Main Network file name: "))
-                    fNames.append(input("Target Network file name: "))
+                    fName = input("State file name: ")
 
-                    self.network = DoubleNeuralNet(layers, self.paramDictionary, load=True, loadNames=fNames)
+                    self.network = DoubleNeuralNet(layers, self.paramDictionary, load=True, loadName=fName)
                 else:
                     self.network = DoubleNeuralNet(layers, self.paramDictionary)
             else:

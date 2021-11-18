@@ -4,26 +4,27 @@ import activations
 from copy import copy
 
 class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
-    def __init__(self, layers, params, load=False, loadNames=["",""]): # Constructor for a Double Neural Network
+    def __init__(self, layers, params, load=False, loadName="DQNetwork"): # Constructor for a Double Neural Network
         self.paramDictionary = params
 
         if not load:
             self.MainNetwork = NeuralNet(layers, params)
             self.TargetNetwork = NeuralNet(layers, params)
+
+            self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
+
+            self.epsilon = self.paramDictionary["DQLEpsilon"]
+
+            self.step = 0
+            self.cumReward = 0.0
+            
+            self.layerActivation = activations.TanH()
+            self.finalLayerActivation = activations.SoftMax()
         else:
-            self.MainNetwork = NeuralNet.LoadNeuralNet(loadNames[0])
-            self.TargetNetwork = NeuralNet.LoadNeuralNet(loadNames[1])
+            self.LoadState(loadName)
 
-        self.ExperienceReplay = Deque(self.paramDictionary["ERBuffer"])
-        self.ERBFull = False
-
-        self.epsilon = self.paramDictionary["DQLEpsilon"]
-
-        self.step = 0
-        self.cumReward = 0.0
-
-        self.layerActivation = activations.TanH()
-        self.finalLayerActivation = activations.ReLu()
+        self.fileName = loadName
+        
         self.activations = (self.layerActivation, self.finalLayerActivation) # Tuple of activations
 
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
@@ -42,6 +43,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         # Action Taking and Reward
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             if type(self.finalLayerActivation) == activations.Sigmoid:
+                action = randint(0, 6)
                 val = random.random()
                 totalled = 0
                 for i in range(output.order[0]):
@@ -80,7 +82,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.MainNetwork.layers[-1].errSignal = LossVector
 
         self.MainNetwork.BackPropagationV2(self.activations)
-        print(self.MainNetwork.layers[-1].errSignal)
+        #print(output)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -89,11 +91,11 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ExperienceReplay.Full(): # Sample Experience Replay Buffer
             self.SampleExperienceReplay()
 
-        if self.step % 1000 == 0:
+        if self.step % 100 == 0:
             print(self.step, self.cumReward, self.epsilon)
 
             if self.paramDictionary["SaveWeights"]:
-                self.SaveNetworks()
+                self.SaveState(self.fileName)
 
     def SampleExperienceReplay(self): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
@@ -121,6 +123,26 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
     def SaveNetworks(self):
         self.MainNetwork.SaveNeuralNet("MainNetwork")
         self.TargetNetwork.SaveNeuralNet("TargetNetwork")
+
+    def SaveState(self, file):
+        state = [self.MainNetwork, self.TargetNetwork, self.ExperienceReplay, self.step, 
+                    self.epsilon, self.cumReward, self.layerActivation, self.finalLayerActivation]
+        with open("DQLearningData\\" + file + ".dqn", "wb") as f:
+            pickle.dump(state, f)
+
+    def LoadState(self, file): # Returns stored Neural Network data
+        with open("DQLearningData\\" + file + ".dqn", "rb") as f:
+            state = pickle.load(f)
+
+            self.MainNetwork = state[0]
+            self.TargetNetwork = state[1]
+            self.ExperienceReplay = state[2]
+            self.step = state[3]
+            self.epsilon = state[4]
+            self.cumReward = state[5]
+            self.layerActivation = state[6]
+            self.finalLayerActivation = state[7]
+
 
 class NeuralNet(): # Neural Network Implementation
     def __init__(self, layersIn, params): # Constructor for a Single Neural Network
@@ -200,6 +222,9 @@ class Layer(): # Layer for a Neural Network
         updatedWeights = Matrix.CombineVectorsHor(updatedWeightVectors)
 
         self.weightMatrix += updatedWeights.Transpose()
+
+        biasUpdate = self.errSignal * lr
+        self.biasVector -= biasUpdate
 
 class Experience(): # Used in Experience Replay
     def __init__(self, state = None, action = None, reward = None, stateNew = None): # Constructor for an Experience Replay Experience

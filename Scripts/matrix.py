@@ -188,6 +188,11 @@ class Matrix():
 
         return matSum
 
+    # Get Max item in Vector
+    def MaxInVector(self):
+        values = [self.matrixVals[row][0] for row in range(self.order[0])]
+        return max(values), max(range(len(values)), key=values.__getitem__)
+
     @staticmethod
     def CombineVectorsHor(vectorList): # Concatenates a list of vectors into a singular matrice horizontally
         firstHeight = vectorList[0].order[0]

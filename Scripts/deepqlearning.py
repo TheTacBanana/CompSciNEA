@@ -22,8 +22,8 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.step = 0
         self.cumReward = 0.0
 
-        self.layerActivation = activations.Sigmoid()
-        self.finalLayerActivation = activations.SoftMax()
+        self.layerActivation = activations.TanH()
+        self.finalLayerActivation = activations.ReLu()
         self.activations = (self.layerActivation, self.finalLayerActivation) # Tuple of activations
 
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
@@ -37,20 +37,25 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.MainNetwork.ForwardPropagation(netInput, self.activations) # Forward Prop the Main Network
 
         output = self.MainNetwork.layers[-1].outputVector
+        outputMax = output.MaxInVector()
 
         # Action Taking and Reward
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
-            val = random.random()
-            totalled = 0
-            for i in range(output.order[0]):
-                totalled += output.matrixVals[i][0]
-                if totalled >= val:
-                    action = i
-                    break
-            
+            if type(self.finalLayerActivation) == activations.Sigmoid:
+                val = random.random()
+                totalled = 0
+                for i in range(output.order[0]):
+                    totalled += output.matrixVals[i][0]
+                    if totalled >= val:
+                        action = i
+                        break
+            else:
+                action = random.randint(0, 6)
         else:
-            action = self.MainNetwork.layers[-1].rawOut[1]
+            action = outputMax[1]
 
+
+        #print(action)
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
         
         rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
@@ -75,7 +80,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.MainNetwork.layers[-1].errSignal = LossVector
 
         self.MainNetwork.BackPropagationV2(self.activations)
-        print(self.MainNetwork.layers[3].weightMatrix.SelectColumn(0))
+        print(self.MainNetwork.layers[-1].errSignal)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -170,21 +175,15 @@ class Layer(): # Layer for a Neural Network
         self.sVector = weightValueProduct + self.biasVector
 
         if not finalLayer:
-            for i in range(self.sVector.order[0]):
-                self.outputVector.matrixVals[i][0] = activations[0].Activation(self.sVector.matrixVals[i][0])
+            self.outputVector = activations[0].Activation(self.sVector)
         else:
-            self.rawOut = activations[1].Activation(self.sVector)
-            self.outputVector = self.rawOut[0]
+            self.outputVector = activations[1].Activation(self.sVector)
 
     def BackPropagationV2(self, prevLayer, lr, layerActivations, finalLayer=False): # 2nd Revision of Back Propagation
         # Calculating Next Error Signal
         halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
 
-        zDerivative = prevLayer.sVector
-
-        for i in range(zDerivative.order[0]): # Applying derivative functions to the output of a layer
-            z = zDerivative.matrixVals[i][0]
-            zDerivative.matrixVals[i][0] = layerActivations[0].Derivative(z)
+        zDerivative = layerActivations[0].Derivative(prevLayer.sVector) # Applying derivative functions to the output of a layer
 
         errSignal = halfErrSignal * zDerivative # Hadamard Product to get error signal for previous layer
         prevLayer.errSignal = errSignal

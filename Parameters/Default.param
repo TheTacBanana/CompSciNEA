@@ -57,9 +57,10 @@
     "NoopReward": 0,
 
     "TargetReplaceRate": 50,
-    "ERBuffer": 10000,
-    "ERSampleRate": 4,
-    "ERSampleSize": 100,
+    "EREnabled": 1,
+    "ERBuffer": 1000,
+    "ERSampleRate": 100,
+    "ERSampleSize": 10,
 
     "DeepQLearningLayers" : [49, 64, 32, 16, 7],
     "DQLEpoch": 100,

@@ -58,12 +58,12 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
 
         #print(action)
-        agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
-        
         rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
-        reward = rewardVector.matrixVals[action - 1][0] # Get reward given action
-
+        reward = rewardVector.matrixVals[action][0] # Get reward given action
+        print(rewardVector, action, reward)
         self.cumReward += reward
+
+        agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
 
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
@@ -88,8 +88,9 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
             self.TargetNetwork.layers = self.MainNetwork.layers
 
-        if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ExperienceReplay.Full(): # Sample Experience Replay Buffer
-            self.SampleExperienceReplay()
+        if (self.paramDictionary["EREnabled"] and self.step % self.paramDictionary["ERSampleRate"] == 0 and 
+                                            self.ExperienceReplay.Full()):         # Sample Experience Replay Buffer
+            self.SampleExperienceReplay(agent)
 
         if self.step % self.paramDictionary["DQLEpoch"] == 0:
             print(self.step, self.cumReward, self.epsilon)
@@ -99,12 +100,22 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             if self.paramDictionary["SaveWeights"]:
                 self.SaveState(self.fileName)
 
-    def SampleExperienceReplay(self): # Samples the Experience Replay Buffer, Back Propagating its Findings
+    def SampleExperienceReplay(self, agent): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
 
         for sample in samples:
-            pass
+            postProcessedSurround = agent.TileVectorPostProcess(sample.state) # Post process the Tile Vector
+            netInput = postProcessedSurround[1]
+
+            self.MainNetwork.ForwardPropagation(netInput, self.activations) # Forward Prop the Main Network
+
+            output = self.MainNetwork.layers[-1].outputVector
+
+            Loss = self.LossFunctionV2(output, sample, agent)
+
             self.MainNetwork.BackPropagationV2(self.activations)
+
+        print("Sampled")
 
     def LossFunctionV2(self, output, tempExp, agent):
         # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2

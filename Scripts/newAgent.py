@@ -94,6 +94,7 @@ class Agent():
 
         if worldMap.tileArray[self.location[0]][self.location[1]].explored == False: # Checks if tile is explored or not
             worldMap.tileArray[self.location[0]][self.location[1]].explored = True
+            print("Explored")
 
     def CheckIfValidStandTile(self, location, worldMap): # Checks if tile will murder the agent
         x = location[0]
@@ -113,6 +114,8 @@ class Agent():
 
             worldMap.tileArray[self.location[0]][self.location[1]].ClearObject()
 
+            print("Picked Up Item")
+
     def Attack(self, enemyList): # Attacks in a given Area surrounding Agent
         enemyLocList = [enemyList[i].location for i in range(len(enemyList))]
 
@@ -124,6 +127,7 @@ class Agent():
                     for i in range(len(enemyLocList)):
                         if enemyLocList[i] == [x,y]:
                             enemyList[i] = None
+                            print("Killed Enemy")
 
         enemyList = [x for x in enemyList if x is not None]
 
@@ -178,19 +182,22 @@ class Agent():
         offset = self.paramDictionary["DQLOffset"]
         sideLength = 2 * offset + 1
 
-        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset - 1][0].hasEnemy: return killReward
-        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset][0].hasEnemy:     return killReward
-        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset + 1][0].hasEnemy: return killReward
+        reward = 0
 
-        if tileObjVec.matrixVals[(sideLength * offset) + offset - 1][0].hasEnemy:       return killReward
-        if tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasEnemy:           return killReward
-        if tileObjVec.matrixVals[(sideLength * offset) + offset + 1][0].hasEnemy:       return killReward
+        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset - 1][0].hasEnemy: reward += killReward
+        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset][0].hasEnemy:     reward += killReward
+        if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset + 1][0].hasEnemy: reward += killReward
 
-        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset - 1][0].hasEnemy: return killReward
-        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset][0].hasEnemy:     return killReward
-        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset + 1][0].hasEnemy: return killReward
+        if tileObjVec.matrixVals[(sideLength * offset) + offset - 1][0].hasEnemy:       reward += killReward
+        if tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasEnemy:           reward += killReward
+        if tileObjVec.matrixVals[(sideLength * offset) + offset + 1][0].hasEnemy:       reward += killReward
 
-        return self.paramDictionary["BloodASacrificeFailedReward"]
+        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset - 1][0].hasEnemy: reward += killReward
+        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset][0].hasEnemy:     reward += killReward
+        if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset + 1][0].hasEnemy: reward += killReward
+
+        if reward > 0: return reward 
+        else: return self.paramDictionary["BloodASacrificeFailedReward"]
 
     def GetRewardVector(self, tileObjVec, outputs): # Returns Vector of Reward Values Per action
         returnVec = Matrix((outputs, 1))

@@ -56,18 +56,18 @@
     "BloodASacrificeFailedReward": -0.1,
     "NoopReward": 0,
 
-    "TargetReplaceRate": 50,
+    "TargetReplaceRate": 10,
     "EREnabled": 1,
     "ERBuffer": 1000,
     "ERSampleRate": 100,
     "ERSampleSize": 10,
 
-    "DeepQLearningLayers" : [49, 64, 32, 16, 7],
+    "DeepQLearningLayers" : [9, 8, 7],
     "DQLEpoch": 100,
     "DQLearningMaxSteps": 10000,
-    "DQLOffset": 3,
+    "DQLOffset": 1,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
-    "DQLLearningRate": 0.5,
-    "DQLGamma": 0.6
+    "DQLLearningRate": 0.75,
+    "DQLGamma": 0.4
 }

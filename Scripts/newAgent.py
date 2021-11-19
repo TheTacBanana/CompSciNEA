@@ -94,7 +94,6 @@ class Agent():
 
         if worldMap.tileArray[self.location[0]][self.location[1]].explored == False: # Checks if tile is explored or not
             worldMap.tileArray[self.location[0]][self.location[1]].explored = True
-            print("Explored")
 
     def CheckIfValidStandTile(self, location, worldMap): # Checks if tile will murder the agent
         x = location[0]
@@ -114,8 +113,6 @@ class Agent():
 
             worldMap.tileArray[self.location[0]][self.location[1]].ClearObject()
 
-            print("Picked Up Item")
-
     def Attack(self, enemyList): # Attacks in a given Area surrounding Agent
         enemyLocList = [enemyList[i].location for i in range(len(enemyList))]
 
@@ -127,7 +124,6 @@ class Agent():
                     for i in range(len(enemyLocList)):
                         if enemyLocList[i] == [x,y]:
                             enemyList[i] = None
-                            print("Killed Enemy")
 
         enemyList = [x for x in enemyList if x is not None]
 
@@ -157,6 +153,8 @@ class Agent():
         elif action == 4: # Pickup Item
             if tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasObject:
                 cumReward += self.paramDictionary["CollectItemReward"]
+            else:
+                cumReward += self.paramDictionary["NoopReward"]
 
         elif action == 5:
             cumReward += self.CombatReward(tileObjVec)

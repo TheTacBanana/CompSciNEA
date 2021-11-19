@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from math import e, tanh, exp
+from math import e, tanh, exp, cosh
 from matrix import *
 
 class Activation(ABC): # Abstract Base Class
@@ -114,5 +114,5 @@ class TanH(Activation): # TanH
 
     def Derivative(self, x): 
         for row in range(x.order[0]):
-            x.matrixVals[row][0] = 1 - (tanh(x.matrixVals[row][0]) ** 2)
+            x.matrixVals[row][0] = (1 / (cosh(x.matrixVals[row][0]))) ** 2
         return x

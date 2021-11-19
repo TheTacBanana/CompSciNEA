@@ -27,6 +27,9 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         
         self.activations = (self.layerActivation, self.finalLayerActivation) # Tuple of activations
 
+        self.actions = [0 for i in range(7)]
+        self.batchReward = 0
+
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
         self.step += 1
 
@@ -60,10 +63,12 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         #print(action)
         rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
         reward = rewardVector.matrixVals[action][0] # Get reward given action
-        print(rewardVector, action, reward)
         self.cumReward += reward
+        self.batchReward += reward
 
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
+
+        self.actions[action] += 1
 
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
@@ -82,7 +87,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.MainNetwork.layers[-1].errSignal = LossVector
 
         self.MainNetwork.BackPropagationV2(self.activations)
-        #print(output)
+        #print(LossVector)
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -94,8 +99,16 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         if self.step % self.paramDictionary["DQLEpoch"] == 0:
             print(self.step, self.cumReward, self.epsilon)
+            print(self.actions, sum(self.actions), self.batchReward)
+            self.actions = [0 for i in range(7)]
+            self.batchReward = 0
 
             self.MainNetwork.UpdateWeightsAndBiases(self.paramDictionary["DQLEpoch"])
+
+            print(self.MainNetwork.layers[-1].weightMatrix.SelectColumn(0))
+            #print(self.MainNetwork.layers[-2].weightMatrix.SelectColumn(0))
+            #print(self.MainNetwork.layers[-3].weightMatrix.SelectColumn(0))
+            print(LossVector)
 
             if self.paramDictionary["SaveWeights"]:
                 self.SaveState(self.fileName)
@@ -114,8 +127,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             Loss = self.LossFunctionV2(output, sample, agent)
 
             self.MainNetwork.BackPropagationV2(self.activations)
-
-        print("Sampled")
 
     def LossFunctionV2(self, output, tempExp, agent):
         # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
@@ -155,7 +166,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             self.cumReward = state[5]
             self.layerActivation = state[6]
             self.finalLayerActivation = state[7]
-
 
 class NeuralNet(): # Neural Network Implementation
     def __init__(self, layersIn, params): # Constructor for a Single Neural Network
@@ -245,8 +255,11 @@ class Layer(): # Layer for a Neural Network
         self.biasUpdates += self.errSignal * lr # Bias Updates
 
     def UpdateWeightsAndBiases(self, epochCount):
-        self.weightMatrix += self.weightUpdates * (1 / epochCount)
-        self.biasVector -= self.biasUpdates * (1 / epochCount)
+        self.weightMatrix -= (self.weightUpdates * (1 / epochCount))
+        self.biasVector -= (self.biasUpdates * (1 / epochCount))
+
+        self.weightUpdates.Clear()
+        self.biasUpdates.Clear()
 
 class Experience(): # Used in Experience Replay
     def __init__(self, state = None, action = None, reward = None, stateNew = None): # Constructor for an Experience Replay Experience

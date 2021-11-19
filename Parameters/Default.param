@@ -54,7 +54,7 @@
     "ExploreReward": 0.01,
     "MakeABloodSacrificeReward": 0.5,
     "BloodASacrificeFailedReward": -0.1,
-    "NoopReward": -0.001,
+    "NoopReward": 0,
 
     "TargetReplaceRate": 50,
     "ERBuffer": 10000,
@@ -62,6 +62,7 @@
     "ERSampleSize": 100,
 
     "DeepQLearningLayers" : [49, 64, 32, 16, 7],
+    "DQLEpoch": 100,
     "DQLearningMaxSteps": 10000,
     "DQLOffset": 3,
     "DQLEpsilon": 0.5,

@@ -138,7 +138,10 @@ class Simulation():
                     newVal = (math.tanh(value) + 1) / 2
                     colourTuple = (255 * newVal, 255 * newVal, 255 * newVal)
 
-                    pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * DS), (k * TW * DS), (TW * DS), (TW * DS)))
+                    try:
+                        pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * DS), (k * TW * DS), (TW * DS), (TW * DS)))
+                    except:
+                        print(newVal)
 
         self.worldMap.DrawMap(window)
 

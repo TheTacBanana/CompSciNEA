@@ -26,7 +26,7 @@ class Tile():
         self.objectType = ""
         self.objectColour = (0,0,0)
 
-    def WriteEnemy(self): # Write Enemy to tile
+    def WriteEnemy(self): # Write Enemy to tile        
         self.hasEnemy = True
 
     def __str__(self): # To String Overload

@@ -91,8 +91,10 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         if self.step % self.paramDictionary["ERSampleRate"] == 0 and self.ExperienceReplay.Full(): # Sample Experience Replay Buffer
             self.SampleExperienceReplay()
 
-        if self.step % 100 == 0:
+        if self.step % self.paramDictionary["DQLEpoch"] == 0:
             print(self.step, self.cumReward, self.epsilon)
+
+            self.MainNetwork.UpdateWeightsAndBiases(self.paramDictionary["DQLEpoch"])
 
             if self.paramDictionary["SaveWeights"]:
                 self.SaveState(self.fileName)
@@ -102,7 +104,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         for sample in samples:
             pass
-            #self.MainNetwork.BackPropagation(sample)
+            self.MainNetwork.BackPropagationV2(self.activations)
 
     def LossFunctionV2(self, output, tempExp, agent):
         # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
@@ -168,6 +170,10 @@ class NeuralNet(): # Neural Network Implementation
         for i in range(len(self.layers) - 1, 0, -1):
             self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"], activations)
 
+    def UpdateWeightsAndBiases(self, epochCount):
+        for i in range(1, len(self.layers) - 1):
+            self.layers[i].UpdateWeightsAndBiases(epochCount)
+
     # Using Pickle to Save/Load
     @staticmethod
     def LoadNeuralNet(file): # Returns stored Neural Network data
@@ -185,6 +191,10 @@ class Layer(): # Layer for a Neural Network
             self.weightMatrix = Matrix((size, prevSize), random=True)
 
             self.biasVector = Matrix((size, 1), random=False)
+
+            self.weightUpdates = Matrix((size, prevSize))
+
+            self.biasUpdates = Matrix((size, 1))
 
         self.errSignal = Matrix((size, 1))
         
@@ -205,7 +215,7 @@ class Layer(): # Layer for a Neural Network
         # Calculating Next Error Signal
         halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
 
-        zDerivative = layerActivations[0].Derivative(prevLayer.sVector) # Applying derivative functions to the output of a layer
+        zDerivative = layerActivations[0].Derivative(prevLayer.sVector) # Applying derivative functions to the output of a layerN
 
         errSignal = halfErrSignal * zDerivative # Hadamard Product to get error signal for previous layer
         prevLayer.errSignal = errSignal
@@ -218,13 +228,14 @@ class Layer(): # Layer for a Neural Network
             selectedColumn = self.weightMatrix.Transpose().SelectColumn(delta)
             updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
 
-        # Combining the weight updates into a matrix and updating the weight matrix
-        updatedWeights = Matrix.CombineVectorsHor(updatedWeightVectors)
+        # Combining the weight updates into a matrix and adding it to the weight updates Matrix
+        self.weightUpdates += Matrix.CombineVectorsHor(updatedWeightVectors).Transpose()
 
-        self.weightMatrix += updatedWeights.Transpose()
+        self.biasUpdates += self.errSignal * lr # Bias Updates
 
-        biasUpdate = self.errSignal * lr
-        self.biasVector -= biasUpdate
+    def UpdateWeightsAndBiases(self, epochCount):
+        self.weightMatrix += self.weightUpdates * (1 / epochCount)
+        self.biasVector -= self.biasUpdates * (1 / epochCount)
 
 class Experience(): # Used in Experience Replay
     def __init__(self, state = None, action = None, reward = None, stateNew = None): # Constructor for an Experience Replay Experience

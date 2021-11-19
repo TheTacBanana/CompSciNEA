@@ -47,7 +47,7 @@ class Matrix():
         if random == True: # Initiation random values between -0.5 and 0.5
             for row in range(self.order[0]):
                 for col in range(self.order[1]):
-                    self.matrixVals[row][col] = (rnd.random() - 0.5) 
+                    self.matrixVals[row][col] = (rnd.random() - 0.5)
 
     # Overloading Addition Operator
     def __add__(self, m2):

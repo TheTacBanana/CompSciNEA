@@ -9,7 +9,7 @@ class DataCollector():
 
         self.dataStructure = dataStructure
 
-        if load:
+        if load: # Loads Data if available but else create blank
             self.dataPoints = DataCollector.LoadDataPoints(name)
         else:
             self.dataPoints = []
@@ -24,12 +24,12 @@ class DataCollector():
 
 
     def CheckMatchStructure(self, dataPoint): # Checks the given Data Point is in the correct Form
-        if len(dataPoint) != len(self.dataStructure):
+        if len(dataPoint) != len(self.dataStructure): # Throws error if lengths dont match
             raise Exception("Structure of Data Point does not match Collector Specified Structure")
 
         for i in range(len(dataPoint)):
-            t1 = type(dataPoint[i])
-            t2 = self.dataStructure[i]
+            t1 = type(dataPoint[i]) # Type 1 
+            t2 = self.dataStructure[i] # Type 2
 
             if t1 == list and type(t2) != list: # Checks if list is all of same type
                 flag = False
@@ -71,10 +71,10 @@ class DataCollector():
         # 10000 Items -> 12.1
         # 100000 Items -> 1646 or 27.4 minutes
 
-        if type(self.dataStructure[parameterIndex]) == list:
+        if type(self.dataStructure[parameterIndex]) == list: # Throw error if data structure element is List
             raise Exception("Cannot sort by structure: {}".format(type(self.dataStructure[parameterIndex])))
 
-        elif self.dataStructure[parameterIndex] == bool:
+        elif self.dataStructure[parameterIndex] == bool: # Throw error if data structure element is Bool
             raise Exception("Cannot sort by structure: {}".format(self.dataStructure[parameterIndex]))
 
         sortedList = []
@@ -82,7 +82,7 @@ class DataCollector():
         heap = Heap(self.dataPoints, parameterIndex) # Creates a new heap
 
         while heap.Length() - 1 > 0:
-            sortedList.append(heap.RemoveTop()) # Loops popping highest element from heap
+            sortedList.append(heap.RemoveTop()) # Loops popping and appending greatest element from Heap
 
     # Using Pickle to Save/Load
     @staticmethod

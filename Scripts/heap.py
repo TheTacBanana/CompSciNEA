@@ -1,8 +1,9 @@
 import math
 
+# A Binary tree with the heap property, such that for every element, both children are <= to the parent
 class Heap:
-    def __init__(self, rootElements, indexIn):
-        self.elements = rootElements
+    def __init__(self, elements, indexIn): # Creates a new heap from a list of elements, and assigns an index for which to sort by
+        self.elements = elements
         self.index = indexIn
 
         self.Heapify()
@@ -15,13 +16,13 @@ class Heap:
         newElementIndex = elementIndex
         isHeap = False
 
-        while not isHeap:
+        while not isHeap: # Repeat until is a heap again
             parentIndex = math.floor((newElementIndex - 1) / 2)
 
-            if parentIndex == 0 and newElementIndex == 0:
+            if parentIndex == 0 and newElementIndex == 0: # Base Case
                 isHeap = True
 
-            elif self.elements[newElementIndex][self.index] >= self.elements[parentIndex][self.index]:
+            elif self.elements[newElementIndex][self.index] >= self.elements[parentIndex][self.index]: # Swaps elements which dont conform to heap property
                 tempSwap = self.elements[parentIndex]
                 self.elements[parentIndex] = self.elements[newElementIndex]
                 self.elements[newElementIndex] = tempSwap
@@ -36,13 +37,13 @@ class Heap:
 
         end = len(self.elements) - 1
 
-        while ((2 * rootIndex) + 1) <= end:
+        while ((2 * rootIndex) + 1) <= end: # Repeat until the next root index is outside the dimensions of the heap
             childIndex = (rootIndex * 2) + 1
 
-            if childIndex + 1 <= end and self.elements[childIndex][self.index] < self.elements[childIndex + 1][self.index]:
+            if childIndex + 1 <= end and self.elements[childIndex][self.index] < self.elements[childIndex + 1][self.index]: # Checks which child is larger
                 childIndex += 1
 
-            if self.elements[rootIndex][self.index] < self.elements[childIndex][self.index]:
+            if self.elements[rootIndex][self.index] < self.elements[childIndex][self.index]: # Swapping elements which dont conform to Heap rules
                 tempSwap = self.elements[childIndex]
                 self.elements[childIndex] = self.elements[rootIndex]
                 self.elements[rootIndex] = tempSwap
@@ -53,15 +54,15 @@ class Heap:
 
     def RemoveTop(self): # Pops top element off of Heap and returns it, heapifies the heap once removed
         tempSwap = self.elements[-1]
-        self.elements[-1] = self.elements[0]
+        self.elements[-1] = self.elements[0] # Swaps First and Last elements
         self.elements[0] = tempSwap
 
-        returnElement = self.elements[-1]
+        returnElement = self.elements[-1] # Stores and deletes the final element
         self.elements = self.elements[:-1]
 
-        self.Heapify()
+        self.Heapify() # Creates Heap again
 
-        return returnElement
+        return returnElement # Returns Top element
 
     def Peek(self): # Returns root/top element
         return self.elements[0]

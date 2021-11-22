@@ -158,7 +158,7 @@ class WorldMap():
         self.RenderedMap = pygame.Surface((resolution, resolution))
         self.RenderedMap.set_colorkey((0,0,0))
 
-        if self.paramDictionary["Grayscale"] == 1: # Renders in grayscale if needed
+        if self.paramDictionary["Grayscale"] == 1: # Renders in grayscale if specified
             for y in range(0, self.MAP_SIZE):
                 for x in range(0, self.MAP_SIZE):
                     value = self.tileArray[x][y].tileHeight
@@ -173,11 +173,11 @@ class WorldMap():
                 for x in range(0, self.MAP_SIZE):
                     value = self.tileArray[x][y].tileHeight
                     value = (value / 2) + 0.5
-                    value = self.Clamp(value, 0.0, 1.0)
+                    value = self.Clamp(value, 0.0, 1.0) # Clamps value between 0 and 1
                     
                     colour = None
 
-                    if value == 0:
+                    if value == 0: # Colour ramp for all available colours
                         colour = (0,0,0)
                     elif value < self.paramDictionary["Water"]:
                         colour = tuple(self.paramDictionary["ColourWater"])
@@ -196,7 +196,8 @@ class WorldMap():
                         self.tileArray[x][y].tileType = 3
                         self.tileArray[x][y].tileColour = colour
                     
-                    pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER), 
+                    # Draws correct colour pixel to rendered map - takes into account width and border
+                    pygame.draw.rect(self.RenderedMap, colour, ((x * self.TILE_WIDTH + self.TILE_BORDER),
                             (y * self.TILE_WIDTH + self.TILE_BORDER), self.TILE_WIDTH - (self.TILE_BORDER * 2), self.TILE_WIDTH - (self.TILE_BORDER * 2)))
 
     def RenderInteractables(self): # Renders interactables onto pygame surface

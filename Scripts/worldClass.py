@@ -57,7 +57,7 @@ class WorldMap():
                 yCoord = y / self.MAP_SIZE * self.paramDictionary["WorldScale"]
 
                 self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
-                                                            self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"])
+                                                            self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"]) # Write Octave Noise values to tile array
 
 # Threaded Terrain Generation
     def GenerateThreadedParent(self): # Generates terrain using 4 threads
@@ -66,18 +66,22 @@ class WorldMap():
         halfMap = int(self.MAP_SIZE / 2)
         fullMap = self.MAP_SIZE
 
+        # Create 4 threads for threaded child functions
         threads.append(threading.Thread(target=self.ThreadedChild, args=(0, halfMap, 0, halfMap)))
         threads.append(threading.Thread(target=self.ThreadedChild, args=(halfMap, fullMap, 0, halfMap)))
         threads.append(threading.Thread(target=self.ThreadedChild, args=(0, halfMap, halfMap, fullMap)))
         threads.append(threading.Thread(target=self.ThreadedChild, args=(halfMap, fullMap, halfMap, fullMap)))
             
+
+        # Start all the threads
         for t in threads:
             t.start()
 
+        # While threads arent finished, pause 
         while threading.activeCount() > 1:
             pass
 
-        self.RenderMap()
+        self.RenderMap() # Render Map
 
     def ThreadedChild(self, x1, x2, y1, y2): # Child Method to GenerateThreadedParent
         for y in range(y1, y2):
@@ -86,7 +90,7 @@ class WorldMap():
                 yCoord = (y / self.MAP_SIZE) * self.paramDictionary["WorldScale"]
 
                 self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
-                                                            self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"])
+                                                            self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"]) # Write Octave Noise values to tile array
 
 # Generate Tree Methods
     def GenerateTreeArea(self): # Uses perlin noise to generate the areas for trees to spawn in
@@ -100,27 +104,27 @@ class WorldMap():
                 yCoord = y / self.MAP_SIZE
 
                 temp = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + TSO, self.MAP_SEED + yCoord + TSO, 
-                            self.paramDictionary["OctavesTrees"], self.paramDictionary["PersistenceTrees"])
+                            self.paramDictionary["OctavesTrees"], self.paramDictionary["PersistenceTrees"]) # Sample octave noise
 
-                tileValue = self.Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0)
+                tileValue = self.Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0) # Clamp value
 
                 if (temp > self.paramDictionary["TreeHeight"] and tileValue > self.paramDictionary["Coast"] + self.paramDictionary["TreeBeachOffset"] and 
-                                                                    tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]):
+                                                                    tileValue < self.paramDictionary["Grass"] - self.paramDictionary["TreeBeachOffset"]): # Check within range
                     treeList.append([x, y]) 
         
-        poissonArray = self.PoissonDiscSampling(treeList)
+        poissonArray = self.PoissonDiscSampling(treeList) # Get Poisson Disc Sampling values for poisson array
 
         for y in range(0, self.MAP_SIZE):
             for x in range(0, self.MAP_SIZE):
-                self.tileArray[x][y].ClearObject()
+                self.tileArray[x][y].ClearObject() # Clear Existing objects from tile map
 
                 if poissonArray[x][y] == True:
-                    self.tileArray[x][y].AddObject(self.paramDictionary["TreeType"], self.paramDictionary["ColourTree"])
+                    self.tileArray[x][y].AddObject(self.paramDictionary["TreeType"], self.paramDictionary["ColourTree"]) # Add Poisson Disc Sample results to tile map
 
     def PoissonDiscSampling(self, pointList): # A tweaked version of poisson disc sampling in 2 dimensions
         k = self.paramDictionary["PoissonKVal"]
 
-        pickedPoints = [[False for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)]
+        pickedPoints = [[False for i in range(self.MAP_SIZE)] for j in range(self.MAP_SIZE)] # Blank array of False
 
         numPoints = len(pointList) - 1
         if numPoints <= 0: # Catches if no points
@@ -128,10 +132,10 @@ class WorldMap():
 
         sampleNum = 0
 
-        while sampleNum <= k:
+        while sampleNum <= k: # While sampled attempts is less than k
             sample = pointList[random.randint(0, numPoints)]
 
-            result = self.PoissonCheckPoint(sample, pickedPoints)
+            result = self.PoissonCheckPoint(sample, pickedPoints) # Check points
             if result == True:
                 pickedPoints[sample[0]][sample[1]] = True
                 sampleNum = 0
@@ -207,7 +211,7 @@ class WorldMap():
 
         ITB = self.paramDictionary["InteractableTileBorder"]
 
-        for y in range(0, self.MAP_SIZE):
+        for y in range(0, self.MAP_SIZE): # Draw interactables to rendered image
             for x in range(0, self.MAP_SIZE):
                 if self.tileArray[x][y].hasObject == True:
                     tile = self.tileArray[x][y]
@@ -218,13 +222,6 @@ class WorldMap():
         window.blit(self.RenderedMap, (0,0))
         self.RenderInteractables()
         window.blit(self.RenderedInteractables, (0,0))
-
-    def RenderConsole(self):
-        render = ""
-        for y in range(0, self.MAP_SIZE):
-            render += str([str(self.tileArray[i][y].tileType) for i in range(self.MAP_SIZE)]) + "\n"
-
-        print(render)
 
 # Miscellaneous Methods
     def Clamp(self, val, low, high): # Simple function to clamp a value between two numbers - Used to make sure number doesnt go out of bounds

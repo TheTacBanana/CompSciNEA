@@ -117,14 +117,14 @@ class Matrix():
             for row in range(self.order[0]):
                 for col in range(self.order[1]):
                     tempMatrix.matrixVals[row][0] = self.matrixVals[row][0] * m2 # Apply Operation 
-            return self
+            return tempMatrix
 
         elif self.order[1] == 1 and m2.order[1] == 1 and self.order[0] == m2.order[0]: # Hadamard product between two vectors
             tempMatrix = Matrix(self.order) # Create Temporary Matrix
 
             for row in range(self.order[0]):
                 tempMatrix.matrixVals[row][0] = self.matrixVals[row][0] * m2.matrixVals[row][0] # Apply Operation
-            return self
+            return tempMatrix
 
         elif type(m2) == Matrix: # Matrix Multiplication
             if self.order[1] != m2.order[0]: # Throw error if orders are not the same
@@ -147,7 +147,7 @@ class Matrix():
 
     # Overloading the Power Operator
     def __pow__(self, power):
-        if type(m2) == int: 
+        if type(power) == int: 
             newMat = self # Create new Matrix from self
 
             for iterate in range(power - 1):
@@ -196,7 +196,7 @@ class Matrix():
         if type(row) != int: # Throw error if value isnt of type Integer
             raise MatExcepts.RowMustBeInteger
             
-        if column < 0 or column > self.order[1] - 1: # Throw error if row out of range
+        if row < 0 or row > self.order[1] - 1: # Throw error if row out of range
             raise MatExcepts.RowOutOfRange
 
         newMat = self.matrixVals[row] 
@@ -210,8 +210,8 @@ class Matrix():
 
         matSum = 0
 
-        for col in range(tempMatrix.order[1]):
-            for row in range(tempMatrix.order[0]):
+        for col in range(self.order[1]):
+            for row in range(self.order[0]):
                 matSum += self.matrixVals[row][col] # Add value to matSum
 
         return matSum

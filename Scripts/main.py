@@ -5,12 +5,12 @@ import time
 params = Simulation.LoadParameters("Default") # Loads parameters
 Simulation.CheckParameters(params, "Range") # Checks parameters
 
-gameSim = Simulation(1, params) # Create and initiate simulation
+gameSim = Simulation(params) # Create and initiate simulation
 gameSim.InitiateSimulation()
 
 # Creates pygame window - includes side debug offset if needed
 worldResolution = params["WorldSize"] * params["TileWidth"] 
-if params["Debug"]: 
+if params["Debug"]:
     debugOffset = (len(params["DeepQLearningLayers"]) * params["TileWidth"] * params["DebugScale"])
 else: 
     debugOffset = 0

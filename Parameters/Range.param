@@ -31,7 +31,7 @@
     "LearningRate": [0,1],
     "Gamma": [0,1],
 
-    "TargetReplaceRate": [10,300],
+    "TargetReplaceRate": [5,300],
     "ERBuffer": [1000, 10000],
     "ERSampleRate": [1,100],
     "ERSampleSize": [10, 1000],

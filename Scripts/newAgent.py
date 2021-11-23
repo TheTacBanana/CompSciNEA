@@ -10,7 +10,7 @@ class Agent():
 
         self.alive = True
 
-        self.emptyInventory = {"Wood": 0, "Metal": 0}
+        self.emptyInventory = {"Wood": 0}
         self.inventory = self.emptyInventory
 
 # Methods for tile vectors
@@ -20,7 +20,7 @@ class Agent():
         tileVec = Matrix((sideLength * sideLength, 1))
 
         blankOceanTile = Tile()
-        blankOceanTile.InitValues(0, 0, self.paramDictionary["ColourWater"])
+        blankOceanTile.InitValues(0, 0, self.paramDictionary["ColourWater"]) # Blank ocean tile for edge case
 
         enemyLocList = [enemyList[i].location for i in range(len(enemyList)) if enemyList[i] is not None]
 
@@ -30,9 +30,9 @@ class Agent():
                 if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
                     tileVec.matrixVals[n][0] = worldMap.tileArray[x][y]
                     if [x,y] in enemyLocList:
-                        tileVec.matrixVals[n][0].WriteEnemy()
+                        tileVec.matrixVals[n][0].WriteEnemy() # Writes enemies to tile if they exist
                 else:
-                    tileVec.matrixVals[n][0] = blankOceanTile
+                    tileVec.matrixVals[n][0] = blankOceanTile # Write water tile when out of range of the world - Literal edge case
                 n += 1
         return tileVec
 
@@ -40,10 +40,10 @@ class Agent():
         tileTypeVec = Matrix(tileVec.order)
         tileGrayscaleVec = Matrix(tileVec.order)
 
-        for n in range(tileVec.order[0]):
+        for n in range(tileVec.order[0]): # Converts vector to grayscale and type vectors
             tileTypeVec.matrixVals[n][0] = tileVec.matrixVals[n][0].tileType
 
-            if tileVec.matrixVals[n][0].hasEnemy:
+            if tileVec.matrixVals[n][0].hasEnemy: # Enemy will overwrite tile colour if they are within that tile
                 tileGrayscaleVec.matrixVals[n][0] = self.ColourToGrayscale(self.paramDictionary["ColourEnemy"])
             else:
                 tileGrayscaleVec.matrixVals[n][0] = self.ColourToGrayscale(tileVec.matrixVals[n][0].tileColour)
@@ -59,8 +59,6 @@ class Agent():
         offset = self.paramDictionary["DQLOffset"]
         sideLength = 2 * offset + 1
 
-        tileTypeVec = self.TileVectorPostProcess(tileObjVec)
-
         if action == 0:
             self.Move(action, worldMap) # Move Up
 
@@ -73,7 +71,7 @@ class Agent():
         elif action == 3:
             self.Move(action, worldMap) # Move Left
 
-        elif action == 4 and tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasObject == True:
+        elif action == 4 and tileObjVec.matrixVals[(sideLength * offset) + offset][0].hasObject == True: # Pickup item
             self.PickupItem(worldMap)
 
         elif action == 5: # Attack Surroundings
@@ -125,10 +123,10 @@ class Agent():
                         if enemyLocList[i] == [x,y]:
                             enemyList[i] = None
 
-        enemyList = [x for x in enemyList if x is not None]
+        enemyList = [x for x in enemyList if x is not None] # Clears enemy list of None type
 
 # Reward Method
-    def GetReward(self, action, tileObjVec):
+    def GetReward(self, action, tileObjVec): # Gets reward given action and tile vector
         offset = self.paramDictionary["DQLOffset"]
         sideLength = 2 * offset + 1
 
@@ -156,32 +154,32 @@ class Agent():
             else:
                 cumReward += self.paramDictionary["NoopReward"]
 
-        elif action == 5:
+        elif action == 5: # Attack
             cumReward += self.CombatReward(tileObjVec)
 
-        elif action == 6:
+        elif action == 6: # No action/Noop/Idle
             cumReward += self.paramDictionary["NoopReward"]
 
         return cumReward
 
-    def MoveReward(self, tileObj): # Stops repeating the same code 4 times - Gets Reward given Agent moving into a tile
-        #print(tile)
+    def MoveReward(self, tileObj): # Gets Reward given Agent moving into a tile
         reward = 0 
-        if tileObj.tileType == 0 or tileObj.hasEnemy:
+        if tileObj.tileType == 0 or tileObj.hasEnemy:   # Adds death reward if enemy or water
             reward += self.paramDictionary["DeathReward"]
-        else:
+        else:                                           # Else adds explore and move reward
             if tileObj.explored == False:
                 reward += self.paramDictionary["ExploreReward"]
             reward += self.paramDictionary["MoveReward"]
         return reward
             
     def CombatReward(self, tileObjVec):
-        killReward = self.paramDictionary["MakeABloodSacrificeReward"]
+        killReward = self.paramDictionary["AttackReward"]
         offset = self.paramDictionary["DQLOffset"]
         sideLength = 2 * offset + 1
 
         reward = 0
 
+        # Checks tiles around agent for enemies, adding reward where neccesary
         if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset - 1][0].hasEnemy: reward += killReward
         if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset][0].hasEnemy:     reward += killReward
         if tileObjVec.matrixVals[(sideLength * (offset - 1)) + offset + 1][0].hasEnemy: reward += killReward
@@ -195,7 +193,7 @@ class Agent():
         if tileObjVec.matrixVals[(sideLength * (offset + 1)) + offset + 1][0].hasEnemy: reward += killReward
 
         if reward > 0: return reward 
-        else: return self.paramDictionary["BloodASacrificeFailedReward"]
+        else: return self.paramDictionary["AttackFailedReward"]
 
     def GetRewardVector(self, tileObjVec, outputs): # Returns Vector of Reward Values Per action
         returnVec = Matrix((outputs, 1))
@@ -205,11 +203,11 @@ class Agent():
 
         return returnVec
 
-    def MaxQ(self, rewardVec):
-        return max([rewardVec.matrixVals[i][0] for i in range(rewardVec.order[0])])
+    def MaxQ(self, rewardVec): # Used to get Max Reward from reward Vector
+        return max([rewardVec.matrixVals[i][0] for i in range(rewardVec.order[0])]) # Utilises List Comprehension
 
 # Miscellaneous Methods
-    def Reset(self, worldMap):
+    def Reset(self, worldMap): # Resets Inventory and Location of Agent
         self.inventory = self.emptyInventory
 
         self.location = Agent.SpawnPosition(worldMap)

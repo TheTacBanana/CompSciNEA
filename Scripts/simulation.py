@@ -1,16 +1,13 @@
 from worldClass import *
 from newAgent import *
 from enemy import *
-from qlearning import *
 from deepqlearning import *
 import random, pygame, math
 
 # Interface class between Main and Every other class
 class Simulation():
-    def __init__(self, networkType, params): # Constructor for Simulation
+    def __init__(self, params): # Constructor for Simulation
         self.paramDictionary = params
-
-        self.networkType = networkType
 
         self.worldMap = None
         self.network = None
@@ -22,17 +19,13 @@ class Simulation():
 
 # Step forward network methods
     def TimeStep(self): # Steps forward 1 cycle
-        if self.networkType == 0: # QLearning Network Step
-            raise NotImplementedError
+        if not self.agent.alive: # Resets Sim if Agent is dead
+            self.ResetOnDeath()
 
-        elif self.networkType == 1: # Deep QLearning Network Step
-            if not self.agent.alive: # Resets Sim if Agent is dead
-                self.ResetOnDeath()
+        self.network.TakeStep(self.agent, self.worldMap, self.enemyList) # Take step with Deep Q Network
 
-            self.network.TakeStep(self.agent, self.worldMap, self.enemyList) # Take step with Deep Q Network
-
-            if self.paramDictionary["EnableEnemies"]: # If enemies enabled then update enemies
-                self.UpdateEnemies()
+        if self.paramDictionary["EnableEnemies"]: # If enemies enabled then update enemies
+            self.UpdateEnemies()
 
         self.step += 1 
 
@@ -42,7 +35,7 @@ class Simulation():
         for i in range(len(self.enemyList)): # Commits each Enemies actions and sets to None if they died in that step
             self.enemyList[i].CommitAction(self.agent, self.worldMap)
 
-            if not self.enemyList[i].alive:
+            if not self.enemyList[i].alive: # Removes dead enemies from list
                 self.enemyList[i] = None
 
         self.enemyList = [x for x in self.enemyList if x is not None] # Clears None type from list
@@ -52,11 +45,7 @@ class Simulation():
         self.CreateWorld()
         self.CreateAgent()
 
-        if self.networkType == 0: # Creates Q Network
-            self.CreateQNetwork()
-        elif self.networkType == 1: # Creates Deep Q Network
-            self.CreateDeepQNetwork()
-
+        self.CreateDeepQNetwork()
 
     def CreateWorld(self, seed = 0): # Creates new world with specified or random seed
         if seed == 0: seed = random.randint(0, 999999)
@@ -80,9 +69,6 @@ class Simulation():
             self.SpawnEnemies()
 
         print("Created New World, Seed: {}".format(seed))
-
-    def CreateQNetwork(self): # Creates a Q Network with the given Hyper Parameters
-        raise NotImplementedError
 
     def CreateDeepQNetwork(self, layers = None): # Creates a Deep Q Network with the given Hyper Parameters
         if layers == None:

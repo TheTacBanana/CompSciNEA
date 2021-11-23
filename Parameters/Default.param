@@ -52,22 +52,22 @@
     "CollectItemReward": 0.1,
     "DeathReward": -0.1,
     "ExploreReward": 0.01,
-    "MakeABloodSacrificeReward": 0.5,
-    "BloodASacrificeFailedReward": -0.1,
+    "AttackReward": 0.5,
+    "AttackFailedReward": -0.1,
     "NoopReward": 0,
 
-    "TargetReplaceRate": 10,
+    "TargetReplaceRate": 5,
     "EREnabled": 1,
     "ERBuffer": 1000,
     "ERSampleRate": 100,
     "ERSampleSize": 10,
 
-    "DeepQLearningLayers" : [9, 8, 7],
+    "DeepQLearningLayers" : [49, 64, 32, 16, 7],
     "DQLEpoch": 100,
     "DQLearningMaxSteps": 10000,
-    "DQLOffset": 1,
+    "DQLOffset": 3,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
     "DQLLearningRate": 0.75,
-    "DQLGamma": 0.4
+    "DQLGamma": 0.8
 }

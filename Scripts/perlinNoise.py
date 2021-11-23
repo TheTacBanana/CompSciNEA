@@ -21,7 +21,7 @@ def octaveNoise(x, y, octaves, persistence): # Sums multiple levels of perlin no
     amplitude = 1
     maxValue = 0
 
-    for i in range(octaves):
+    for i in range(octaves): # Combines Multiple octaves of perlin noise
         total += ((noise(x * frequency, y * frequency)) * amplitude)
 
         maxValue += amplitude

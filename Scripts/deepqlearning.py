@@ -46,7 +46,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         # Action Taking and Reward
         if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
             if type(self.finalLayerActivation) == activations.SoftMax: # Sum softmax distribution values and choose a random action from that set
-                action = randint(0, 6)
+                action = random.randint(0, 6)
                 val = random.random()
                 totalled = 0
                 for i in range(output.order[0]):

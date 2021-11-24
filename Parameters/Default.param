@@ -4,7 +4,7 @@
     "EnableEnemies": 1,
     "SaveWeights": 1,
     "StepDelay": 0,
-    "Debug": 1,
+    "Debug": 0,
     "DebugScale": 1,
     
     "WorldSize": 64,

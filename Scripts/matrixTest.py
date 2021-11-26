@@ -2,8 +2,8 @@ from matrix import *
 from random import randint, seed
 
 class MatrixTest():
-    def __init__(self, seed):
-        seed(seed)
+    def __init__(self, seedIn):
+        seed(seedIn)
 
         self.ConstructorTests = {"CreateVectorFrom1DList": False,
                                  "CreateMatrixFrom2DList": False,
@@ -13,7 +13,7 @@ class MatrixTest():
         self.ConstructorExceptions = {"NoMatchingInitCase": False,
                                       "UnableToCreateIdentityMat": False}
 
-        self.MethodUnitTests = {"Addition": False,
+        self.MethodUnitsTests = {"Addition": False,
                                "Subtraction": False,
                                "Multiplication": False,
                                "Power": False,
@@ -42,43 +42,110 @@ class MatrixTest():
     def RunAllTests(self):
         self.ConstructorTest()
         self.ConstructorExceptionsTest()
-        self.MethodUnitTests()
-        self.MethodExceptions()
+        self.MethodUnitTest()
+        self.MethodException()
 
         self.TestingResults()
 
+# Constructor Tests
     def ConstructorTest(self):
-        # CreateVectorFrom1DList
-        v1 = Matrix([randint(-10, 10) for i in range(randint(3, 10))])
+        print(self.CreateVectorFrom1DList())
+        print(self.CreateMatrixFrom2DList())
+        print(self.CreateMatrixFromTuple())
+        print(self.CreateIdentityMatrix())
 
-        if v1.order[0] == len(v1) and v1.order[1] == 1:
-            self.ConstructorTests["CreateVectorFrom1DList"] = True
-        else:
-            self.ConstructorTests["CreateVectorFrom1DList"] = False
+    def CreateVectorFrom1DList(self): # Finished
+        result = True
+        vals = [randint(-10, 10) for i in range(randint(3, 10))]
+        v1 = Matrix(vals)
 
-        # CreateMatrixFrom2DList
-        m1 = Matrix([[3 , -4],
-                     [-1,  5]])
+        if v1.order[0] != len(vals) or v1.order[1] != 1:
+            result = False
 
-        if m1.order[0] == 2 and m1.order[1] == 2:
-            self.ConstructorTest["CreateMatrixFrom2DList"] = True
-        else:
-            self.ConstructorTest["CreateMatrixFrom2DList"] = False
+        for i in range(len(vals)):
+            if vals[i] != v1.matrixVals[i][0]:
+                result = False
 
-        # CreateMatrixFromTuple
-        order = (randint(-10, 10), randint(-10, 10))
-        m2 = Matrix(order)
-        if m2.order == order:
-            self.ConstructorTest["CreateMatrixFrom2DList"] = True
+        return result
 
+    def CreateMatrixFrom2DList(self): # Finished
+        result = True
+        vals = [[randint(-10, 10) , randint(-10, 10)],
+                [randint(-10, 10),  randint(-10, 10)]]
+        m1 = Matrix(vals)
+
+        if m1.order[0] != 2 or m1.order[1] != 2:
+            result = False
+        if m1.matrixVals != vals:
+            result = False 
+
+        return result
+
+    def CreateMatrixFromTuple(self): # Finished
+        result = True
+        order = (randint(1, 10), randint(1, 10))
+
+        m1 = Matrix(order)
+        if m1.order != order:
+            result = False
+
+        for row in range(m1.order[0]):
+            for col in range(m1.order[1]):
+                if m1.matrixVals[row][col] != 0:
+                    result = False
+
+        return result
+
+    def CreateIdentityMatrix(self): # Finished
+        result = True
+        rand = randint(1, 10)
+        order = ((rand, rand))
+
+        m1 = Matrix(order, identity=True)
+        if m1.order != order:
+            result = False
+
+        for row in range(m1.order[0]):
+            for col in range(m1.order[1]):
+                if row == col:
+                    if m1.matrixVals[row][col] != 1:
+                        result = False
+
+                elif m1.matrixVals[row][col] != 0:
+                    result = False
+
+        return result
+
+# Constructor Exception Tests
     def ConstructorExceptionsTest(self):
+        print(self.NoMatchingInitCase())
+        print(self.UnableToCreateIdentityMat())
+
+    def NoMatchingInitCase(self): # Finished
+        try:
+            m1 = Matrix(1)
+            return False
+        except Exception as x:
+            if x == MatExcepts.NoMatchingInitCase: return True
+            else: return False
+
+    def UnableToCreateIdentityMat(self): # Finished
+        try:
+            rand = randint(1, 10)
+            m1 = Matrix((rand, rand + 1), identity=True)
+            return False
+        except Exception as x:
+            if x == MatExcepts.UnableToCreateIdentityMat: return True
+            else: return False
+
+    def MethodUnitTest(self):
         pass
 
-    def MethodUnitTests(self):
-        pass
-
-    def MethodExceptions(self):
+    def MethodException(self):
         pass
 
     def TestingResults(self):
         pass
+
+MT = MatrixTest(0)
+MT.RunAllTests()

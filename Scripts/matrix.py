@@ -85,7 +85,16 @@ class Matrix():
 
     # Overloading Subtraction Operator
     def __sub__(self, m2):
-        if type(m2) == Matrix:
+        if type(m2) == float or type(m2) == int: # Subract value from each element in Matrix
+            tempMatrix = Matrix(self.order)
+
+            for row in range(self.order[0]): # Apply operation
+                for col in range(self.order[1]):
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] - m2
+
+            return tempMatrix # Return temporary Matrix
+
+        elif type(m2) == Matrix:
             if self.order != m2.order: # Throw error if orders dont match
                 raise MatExcepts.MismatchOrders
 
@@ -94,15 +103,6 @@ class Matrix():
             for row in range(self.order[0]): # Populate values
                 for col in range(self.order[1]):
                     tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] - m2.matrixVals[row][col]
-
-            return tempMatrix # Return temporary Matrix
-
-        elif type(m2) == float or type(m2) == int: # Subract value from each element in Matrix
-            tempMatrix = Matrix(self.order)
-
-            for row in range(self.order[0]): # Apply operation
-                for col in range(self.order[1]):
-                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] + m2
 
             return tempMatrix # Return temporary Matrix
 
@@ -116,7 +116,7 @@ class Matrix():
 
             for row in range(self.order[0]):
                 for col in range(self.order[1]):
-                    tempMatrix.matrixVals[row][0] = self.matrixVals[row][0] * m2 # Apply Operation 
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] * m2 # Apply Operation 
             return tempMatrix
 
         elif self.order[1] == 1 and m2.order[1] == 1 and self.order[0] == m2.order[0]: # Hadamard product between two vectors

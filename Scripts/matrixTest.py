@@ -2,42 +2,12 @@ from matrix import *
 from random import randint, seed
 
 class MatrixTest():
-    def __init__(self, seedIn):
+    def __init__(self, seedIn, testCount):
         seed(seedIn)
 
-        self.ConstructorTests = {"CreateVectorFrom1DList": False,
-                                 "CreateMatrixFrom2DList": False,
-                                 "CreateMatrixFromTuple": False,
-                                 "CreateIdentityMatrix": False}
+        self.testCount = testCount
 
-        self.ConstructorExceptions = {"NoMatchingInitCase": False,
-                                      "UnableToCreateIdentityMat": False}
-
-        self.MethodUnitsTests = {"Addition": False,
-                               "Subtraction": False,
-                               "Multiplication": False,
-                               "Power": False,
-                               "Transpose": False,
-                               "SelectColumn": False,
-                               "SelectColumn": False,
-                               "SelectRow": False,
-                               "Sum": False,
-                               "MaxInVector": False,
-                               "Clear": False,
-                               "CombineVectorsHor": False}
-
-        self.MethodExceptions = {"NoMatchingMultiplycase": False,
-                               "NoMatchingAdditionCase": False,
-                               "NoMatchingSubtractionCase": False,
-                               "NoMatchingPowerCase": False,
-                               "MismatchOrders": False,
-                               "SumOfMatrixReqNumericalVals": False,
-                               "ColumnOutOfRange": False,
-                               "ColumnMustBeInteger": False,
-                               "RowOutOfRange": False,
-                               "RowMustBeInteger": False,
-                               "NotOfTypeVector": False,
-                               "VectorsNotOfSameLength": False}
+        self.testResults = {}
 
     def RunAllTests(self):
         self.ConstructorTest()
@@ -49,10 +19,10 @@ class MatrixTest():
 
 # Constructor Tests
     def ConstructorTest(self):
-        print(self.CreateVectorFrom1DList())
-        print(self.CreateMatrixFrom2DList())
-        print(self.CreateMatrixFromTuple())
-        print(self.CreateIdentityMatrix())
+        self.testResults["CreateVectorFrom1DList"] = [self.CreateVectorFrom1DList() for i in range(self.testCount)]
+        self.testResults["CreateMatrixFrom2DList"] = [self.CreateMatrixFrom2DList() for i in range(self.testCount)]
+        self.testResults["CreateMatrixFromTuple"] = [self.CreateMatrixFromTuple() for i in range(self.testCount)]
+        self.testResults["CreateIdentityMatrix"] = [self.CreateIdentityMatrix() for i in range(self.testCount)]
 
     def CreateVectorFrom1DList(self): # Finished
         result = True
@@ -115,8 +85,8 @@ class MatrixTest():
 
 # Constructor Exception Tests
     def ConstructorExceptionsTest(self):
-        print(self.NoMatchingInitCase())
-        print(self.UnableToCreateIdentityMat())
+        self.testResults["NoMatchingInitCase"] = [self.NoMatchingInitCase() for i in range(self.testCount)]
+        self.testResults["UnableToCreateIdentityMat"] = [self.UnableToCreateIdentityMat() for i in range(self.testCount)]
 
     def NoMatchingInitCase(self): # Finished
         try:
@@ -136,18 +106,21 @@ class MatrixTest():
 
 # Method Unit Tests
     def MethodUnitTest(self):
-        print(self.AdditionMatrix())
-        print(self.AdditionInteger())
-        print(self.SubtractionMatrix())
-        print(self.SubtractionInteger())
-        print(self.MultiplicationInteger())
-        print(self.MultiplicationHadamardVector())
-        print(self.MultiplicationMatrix())
-        print(self.Power())
-        print(self.Transpose())
-        print(self.SelectColumn())
-        print(self.SelectRow())
-        print(self.CombineVectorHorizontal())
+        self.testResults["AdditionMatrix"] = [self.AdditionMatrix() for i in range(self.testCount)]
+        self.testResults["AdditionInteger"] = [self.AdditionInteger() for i in range(self.testCount)]
+        self.testResults["SubtractionMatrix"] = [self.SubtractionMatrix() for i in range(self.testCount)]
+        self.testResults["SubtractionInteger"] = [self.SubtractionInteger() for i in range(self.testCount)]
+        self.testResults["MultiplicationInteger"] = [self.MultiplicationInteger() for i in range(self.testCount)]
+        self.testResults["MultiplicationHadamardVector"] = [self.MultiplicationHadamardVector() for i in range(self.testCount)]
+        self.testResults["MultiplicationMatrix"] = [self.MultiplicationMatrix() for i in range(self.testCount)]
+        self.testResults["Power"] = [self.Power() for i in range(self.testCount)]
+        self.testResults["Transpose"] = [self.Transpose() for i in range(self.testCount)]
+        self.testResults["SelectColumn"] = [self.SelectColumn() for i in range(self.testCount)]
+        self.testResults["SelectRow"] = [self.SelectRow() for i in range(self.testCount)]
+        self.testResults["CombineVectorHorizontal"] = [self.CombineVectorHorizontal() for i in range(self.testCount)]
+        self.testResults["Sum"] = [self.Sum() for i in range(self.testCount)]
+        self.testResults["MaxInVector"] = [self.MaxInVector() for i in range(self.testCount)]
+        self.testResults["Clear"] = [self.Clear() for i in range(self.testCount)]
 
     def AdditionMatrix(self): # Finished
         result = True
@@ -328,12 +301,45 @@ class MatrixTest():
             result = False
 
         return result
-    def Sum(self):
-        pass
-    def MaxInVector(self):
-        pass
-    def Clear(self):
-        pass
+    def Sum(self): # Finished
+        result = True
+        vals = [[randint(-10, 10) , randint(-10, 10)],
+                [randint(-10, 10),  randint(-10, 10)]]
+        valsResult = vals[0][0] + vals[1][0] + vals[0][1] + vals[1][1]
+
+        m1 = Matrix(vals)
+        m2 = m1.Sum()
+
+        if m2 != valsResult:
+            result = False 
+
+        return result
+    def MaxInVector(self): # Finished
+        result = True
+        vals = [randint(-10, 10), randint(-10, 10), randint(-10, 10), randint(-10, 10)]
+        valsResult = max(vals)
+
+        m1 = Matrix(vals)
+        m2 = m1.MaxInVector()[0]
+
+        if m2 != valsResult:
+            result = False 
+
+        return result
+    def Clear(self): # Finished
+        result = True
+        vals = [[randint(-10, 10) , randint(-10, 10)],
+                [randint(-10, 10),  randint(-10, 10)]]
+        valsResult = [[0, 0],
+                      [0, 0]]
+
+        m1 = Matrix(vals)
+        m1.Clear()
+
+        if m1.matrixVals != valsResult:
+            result = False 
+
+        return result
     def CombineVectorHorizontal(self): # Finished
         result = True
 
@@ -353,18 +359,29 @@ class MatrixTest():
 
 # Method Exception Tests
     def MethodException(self):
-        print(self.NotOfTypeVector())
-        print(self.VectorsNotOfSameLength())
+        self.testResults["NotOfTypeVector"] = [self.NotOfTypeVector() for i in range(self.testCount)]
+        self.testResults["VectorsNotOfSameLength"] = [self.VectorsNotOfSameLength() for i in range(self.testCount)]
+        self.testResults["NoMatchingMultiplycase"] = [self.NoMatchingMultiplycase() for i in range(self.testCount)]
+        self.testResults["NoMatchingAdditionCase"] = [self.NoMatchingAdditionCase() for i in range(self.testCount)]
+        self.testResults["NoMatchingSubtractionCase"] = [self.NoMatchingSubtractionCase() for i in range(self.testCount)]
+        self.testResults["NoMatchingPowerCase"] = [self.NoMatchingPowerCase() for i in range(self.testCount)]
+        self.testResults["MismatchOrdersAdd"] = [self.MismatchOrdersAdd() for i in range(self.testCount)]
+        self.testResults["MismatchOrdersSub"] = [self.MismatchOrdersSub() for i in range(self.testCount)]
+        self.testResults["MismatchOrdersMul"] = [self.MismatchOrdersMul() for i in range(self.testCount)]
+        self.testResults["SumOfMatrixReqNumericalVals"] = [self.SumOfMatrixReqNumericalVals() for i in range(self.testCount)]
+        self.testResults["ColumnOutOfRange"] = [self.ColumnOutOfRange() for i in range(self.testCount)]
+        self.testResults["ColumnMustBeInteger"] = [self.ColumnMustBeInteger() for i in range(self.testCount)]
+        self.testResults["RowOutOfRange"] = [self.RowOutOfRange() for i in range(self.testCount)]
+        self.testResults["RowMustBeInteger"] = [self.RowMustBeInteger() for i in range(self.testCount)]
 
-    def NotOfTypeVector(self):
+    def NotOfTypeVector(self): # Finished
         try:
             m1 = Matrix((2,2))
             Matrix.CombineVectorsHor([m1, m1])
         except Exception as x:
             if x == MatExcepts.NotOfTypeVector: return True
             else: return False
-
-    def VectorsNotOfSameLength(self):
+    def VectorsNotOfSameLength(self): # Finished
         try:
             m1 = Matrix((2,1))
             m2 = Matrix((3,1))
@@ -372,8 +389,7 @@ class MatrixTest():
         except Exception as x:
             if x == MatExcepts.VectorsNotOfSameLength: return True
             else: return False
-
-    def NoMatchingMultiplycase(self):
+    def NoMatchingMultiplycase(self): # Finished
         try:
             m1 = Matrix((2,1))
             m2 = "Test Data"
@@ -381,8 +397,7 @@ class MatrixTest():
         except Exception as x:
             if x == MatExcepts.NoMatchingMultiplycase: return True
             else: return False
-
-    def NoMatchingAdditionCase(self):
+    def NoMatchingAdditionCase(self): # Finished
         try:
             m1 = Matrix((2,1))
             m2 = "Test Data"
@@ -390,8 +405,7 @@ class MatrixTest():
         except Exception as x:
             if x == MatExcepts.NoMatchingAdditionCase: return True
             else: return False
-
-    def NoMatchingSubtractionCase(self):
+    def NoMatchingSubtractionCase(self): # Finished
         try:
             m1 = Matrix((2,1))
             m2 = "Test Data"
@@ -399,8 +413,7 @@ class MatrixTest():
         except Exception as x:
             if x == MatExcepts.NoMatchingSubtractionCase: return True
             else: return False
-
-    def NoMatchingPowerCase(self):
+    def NoMatchingPowerCase(self): # Finished
         try:
             m1 = Matrix((2,1))
             m2 = randint(2,10) + 0.1
@@ -408,51 +421,75 @@ class MatrixTest():
         except Exception as x:
             if x == MatExcepts.NoMatchingPowerCase: return True
             else: return False
-    
-    def MismatchOrdersAdd(self):
+    def MismatchOrdersAdd(self): # Finished
         try:
             m1 = Matrix((2,2))
             m2 = Matrix((3,3))
             m3 = m1 + m2
         except Exception as x:
-            if x == MatExcepts.MismatchOrdersAdd: return True
+            if x == MatExcepts.MismatchOrders: return True
             else: return False
-
-    def MismatchOrdersSub(self):
+    def MismatchOrdersSub(self): # Finished
         try:
             m1 = Matrix((2,2))
             m2 = Matrix((3,3))
             m3 = m1 - m2
         except Exception as x:
-            if x == MatExcepts.MismatchOrdersAdd: return True
+            if x == MatExcepts.MismatchOrders: return True
             else: return False
-
-    def MismatchOrdersMul(self):
+    def MismatchOrdersMul(self): # Finished
         try:
             m1 = Matrix((2,2))
             m2 = Matrix((3,3))
             m3 = m1 * m2
         except Exception as x:
-            if x == MatExcepts.MismatchOrdersMul: return True
+            if x == MatExcepts.MismatchOrders: return True
+            else: return False
+    def SumOfMatrixReqNumericalVals(self): # Finished
+        try:
+            M1 = Matrix([["1", "2"],
+                        ["3", "4"]])
+            m1Sum = M1.Sum() 
+        except Exception as x:
+            if x == MatExcepts.SumOfMatrixReqNumericalVals: return True
+            else: return False
+    def ColumnOutOfRange(self): # Finished
+        try:
+            m1 = Matrix((2,2))
+            m2 = m1.SelectColumn(-1)
+        except Exception as x:
+            if x == MatExcepts.ColumnOutOfRange: return True
+            else: return False
+    def ColumnMustBeInteger(self): # Finished
+        try:
+            m1 = Matrix((3,3))
+            m2 = m1.SelectColumn(1.5)
+        except Exception as x:
+            if x == MatExcepts.ColumnMustBeInteger: return True
+            else: return False
+    def RowOutOfRange(self): # Finished
+        try:
+            m1 = Matrix((2,2))
+            m2 = m1.SelectRow(-1)
+        except Exception as x:
+            if x == MatExcepts.RowOutOfRange: return True
+            else: return False
+    def RowMustBeInteger(self): # Finished
+        try:
+            m1 = Matrix((3,3))
+            m2 = m1.SelectRow(1.5)
+        except Exception as x:
+            if x == MatExcepts.RowMustBeInteger: return True
             else: return False
 
-    def SumOfMatrixReqNumericalVals(self):
-        pass
-
-    def ColumnOutOfRange(self):
-        pass
-
-    def ColumnMustBeInteger(self):
-        pass
-
-    def RowOutOfRange(self):
-        pass
-
-    def RowMustBeInteger(self):
-        pass
-
     def TestingResults(self):
-        pass
+        print("Unit Test Results:")
 
-MT = MatrixTest(0)
+        for key in self.testResults:
+            vals = self.testResults[key]
+            count = sum(vals)
+
+            print("{}/{} | {}".format(count, self.testCount, key))
+
+MT = MatrixTest(0, 100000)
 MT.RunAllTests()

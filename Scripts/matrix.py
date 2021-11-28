@@ -111,7 +111,10 @@ class Matrix():
 
     # Overloading Multiplication Operator
     def __mul__(self, m2):
-        if type(m2) == float or type(m2) == int: # Scalar Multiply
+        if not type(m2) in [int, float, Matrix]: # Throw error if no matching cases found
+            raise MatExcepts.NoMatchingMultiplycase
+
+        elif type(m2) == float or type(m2) == int: # Scalar Multiply
             tempMatrix = Matrix(self.order) # Create Temporary Matrix
 
             for row in range(self.order[0]):
@@ -141,9 +144,6 @@ class Matrix():
                     tempMatrix.matrixVals[row][col] = cumProduct # Apply to new matrix
                     cumProduct = 0
             return tempMatrix
-
-        else: # Throw error if no matching cases found
-            raise MatExcepts.NoMatchingMultiplycase
 
     # Overloading the Power Operator
     def __pow__(self, power):
@@ -205,7 +205,7 @@ class Matrix():
 
     # Sum of values in a Matrix
     def Sum(self):
-        if type(self.matrixVals[0][0]) != int or type(self.matrixVals[0][0]) != float: # Throw error if not a numerical type
+        if not type(self.matrixVals[0][0]) in [int, float]: # Throw error if not a numerical type
             raise MatExcepts.SumOfMatrixReqNumericalVals
 
         matSum = 0

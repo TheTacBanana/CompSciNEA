@@ -1,9 +1,56 @@
 \documentclass{article}
 \usepackage[a4paper]{geometry}
 \usepackage{array}
+\usepackage{tikz}
+\usepackage{listings}
+\usetikzlibrary{matrix,shapes,arrows,positioning,chains}
 
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+
+\tikzset{
+decision/.style={
+    diamond,
+    draw,
+    text width=4em,
+    text badly centered,
+    inner sep=0pt
+},
+block/.style={
+    rectangle,
+    draw,
+    text width=10em,
+    text badly centered,
+    rounded corners
+},
+cloud/.style={
+    draw,
+    ellipse,
+    minimum height=2em
+},
+descr/.style={
+    fill=white,
+    inner sep=2.5pt
+},
+connector/.style={
+    -latex,
+    font=\scriptsize
+},
+rectangle connector/.style={
+    connector,
+    to path={(\tikztostart) -- ++(#1,0pt) \tikztonodes |- (\tikztotarget) },
+    pos=0.5
+},
+rectangle connector/.default=-2cm,
+straight connector/.style={
+    connector,
+    to path=--(\tikztotarget) \tikztonodes
+}
+}
 
 \begin{document}
 
@@ -32,7 +79,7 @@
 
 \begin{flushleft}
     \huge
-    \textbf{Contents}
+    \textbf{1. Contents}
     
     \Large
     \begin{enumerate}

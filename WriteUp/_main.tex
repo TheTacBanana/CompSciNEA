@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage[a4paper]{geometry}
+\usepackage{array}
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace{1cm}
+        \Huge
+        
+        \textbf{An Investigation into Machine Learning and Neural Networks through the Simulation of Human Survival}
+        
+        \vspace{1cm}
+        \Large
+        Computer Science NEA
+        
+        \vfill
+        
+        \large
+        \textbf{Name:} Matthew Brabham\\
+        \textbf{Candidate Number:} \\
+        
+        \textbf{Centre Name:} Barton Peveril College\\
+        \textbf{Centre Number:} 58231\\
+        \pagebreak
+    \end{center}
+\end{titlepage}
+
+\begin{flushleft}
+    \huge
+    \textbf{Contents}
+    
+    \Large
+    \begin{enumerate}
+        \item Contents
+        \item Analysis
+            \begin{enumerate}
+                \item Statement of Investigation
+                \item Background
+                \item End User
+                \item Initial Research
+                    \begin{enumerate}
+                        \item Existing, Similar Investigations
+                        \item Potential Abstract Data Types / Algorithms
+                        \item First Interview
+                        \item Key Requirements
+                    \end{enumerate}
+                \item Further Research
+                    \begin{enumerate}
+                        \item Prototype
+                        \item Second Interview
+                    \end{enumerate}
+                \item Objectives
+                \item Modelling
+            \end{enumerate}
+        \item Design
+        \item Testing
+        \item Evaluation
+        \item Technical Solution
+    \end{enumerate}
+    
+    \pagebreak
+\end{flushleft}
+
+\include{analysis}
+
+\include{design}
+
+\include{testing}
+
+\include{evaluation}
+
+\end{document}

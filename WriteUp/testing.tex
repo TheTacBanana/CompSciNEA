@@ -8,10 +8,12 @@
     My testing targets these areas from different angles to ensure they work correctly. 
     These areas are:
     \begin{enumerate}
-        \item User Input
+        \item User Input and Program Output
             \begin{enumerate}
                 \item Parameter Loading
                 \item Neural Network Loading
+                \item Graphical Output
+                \item Console Output
             \end{enumerate}
         \item Matrix Implementation
             \begin{enumerate}
@@ -36,6 +38,8 @@
             \begin{enumerate}
                 \item Generation of 2d Terrain
                 \item Continuity of Generation
+                \item ML Agent
+                \item Reward Methods
             \end{enumerate}
     \end{enumerate}
     
@@ -43,7 +47,7 @@
     
     \begin{center}
         \large
-        \textbf{Below is the included NEA Testing video for testing evidence}
+        \textbf{Below is included an NEA Testing video for testing evidence}
         
         \vspace{0.2cm}
         
@@ -53,26 +57,126 @@
     
     \vspace{1cm}
     
-    \Large
-    \textbf{1.1 User Input}
+    
+    \large{\textbf{1. User Input and Program Output}}
     
     \vspace{0.5cm}
     
     \normalsize
-    \begin{tabular}{| C{0.6cm} | L{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
     \hline
     {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
+    \hline\hline
+    \rn & Loading Parameters File & "Default.json" file which contains the loadable values & Loads parameters into the Parameters Dictionary variable & Pass & 00:00 \\ 
     \hline
-    1 & Loading Parameters File & "Default.json" file which contains the loadable values & Loads parameters into the Parameters Dictionary variable & Pass & 00:00 \\ 
+    \rn & Test Parameters within range & - & - & - & - \\
     \hline
-    2 & Test Parameters within range & - & - & - & - \\
+    \rn & Network Weights Loading & - & - & - & - \\
     \hline
-    3 & Loading of Network Weights & - & - & - & - \\
+    \rn & Window Opening & - & - & - & - \\
     \hline
-    4 & - & - & - & - & - \\
+    \rn & Window Displays correct Graphical information & - & - & - & - \\
     \hline
-    5 & - & - & - & - & - \\
+    \rn & Window Displays correct debug information & - & - & - & - \\
     \hline
-    \end{tabular}
+    \rn & Agent is displayed & - & - & - & - \\
+    \hline
+    \rn & Enemies are displayed & - & - & - & - \\
+    \hline
+    \rn & Console Messages Output & - & - & - & - \\
+    \hline
+    \end{longtable}
+    
+    \vspace{1cm}
+    \large{\textbf{2. Matrix Implementation}}
+    
+    \vspace{0.5cm}
+    
+    \normalsize
+    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \hline
+    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
+    \hline\hline
+    \rn & Matrix Addition Calculation & - & - & - & - \\
+    \hline
+    \rn & Matrix Subtraction Calculation & - & - & - & - \\
+    \hline
+    \rn & Matrix Multiplication Calculation & - & - & - & - \\
+    \hline
+    \rn & Matrix Scalar Multiplication Calculation & - & - & - & - \\
+    \hline
+    \rn & Vector Hadamard Product Calculation & - & - & - & - \\
+    \hline
+    \rn & Matrix Power Calulation & - & - & - & - \\
+    \hline
+    \rn & Matrix Transpose Calculation & - & - & - & - \\
+    \hline
+    \rn & Matrix Select Column & - & - & - & - \\
+    \hline
+    \rn & Matrix Select Row & - & - & - & - \\
+    \hline
+    \rn & Vector Max in Vector & - & - & - & - \\
+    \hline
+    \rn & Matrix Clear & - & - & - & - \\
+    \hline
+    \rn & Combine Vectors & - & - & - & - \\
+    \hline
+    \rn & Matrix Sum & - & - & - & - \\
+    \hline
+    \rn & Matrix String Overload & - & - & - & - \\
+    \hline
+    \rn & Randomised Matrix Constructor Tests & - & - & - & - \\
+    \hline
+    \rn & Randomised Constructor Exception Tests & - & - & - & - \\
+    \hline
+    \rn & Randomised Operator Tests & - & - & - & - \\
+    \hline
+    \rn & Randomised Operator Exception Tests & - & - & - & - \\
+    \hline
+    \end{longtable}
+
+    \vspace{1cm}
+    \large{\textbf{3. Deep Q Learning Algorithm}}
+    
+    \vspace{0.5cm}
+    
+    \normalsize
+    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \hline
+    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
+    \hline\hline
+    \rn & - & - & - & - & - \\
+    \hline
+    \end{longtable}
+
+    \vspace{1cm}
+    \large{\textbf{3. Data Logger}}
+    
+    \vspace{0.5cm}
+    
+    \normalsize
+    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \hline
+    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
+    \hline\hline
+    \rn & - & - & - & - & - \\
+    \hline
+    \end{longtable}
+
+    \vspace{1cm}
+    \large{\textbf{5. Simulation}}
+    
+    \vspace{0.5cm}
+    
+    \normalsize
+    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \hline
+    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
+    \hline\hline
+    \rn & - & - & - & - & - \\
+    \hline
+    \end{longtable}
+
+
     
 \end{flushleft}

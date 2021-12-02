@@ -3,6 +3,7 @@
 \usepackage{array}
 \usepackage{tikz}
 \usepackage{listings}
+\usepackage{amsmath}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
 
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -107,6 +108,7 @@ straight connector/.style={
         \item Design
         \item Testing
         \item Evaluation
+        \item Prototype Code
         \item Technical Solution
     \end{enumerate}
     
@@ -120,5 +122,9 @@ straight connector/.style={
 \include{testing}
 
 \include{evaluation}
+
+\include{prototypecode}
+
+\include{technicalsolution}
 
 \end{document}

@@ -76,6 +76,9 @@
             
             \vspace{0.5cm}
 
+            {\Large Terrain Generation and Displaying} \\
+            \vspace{0.25cm}
+
             Starting from the begining of my hierarchy I installed Pygame using \textit{pip} and started creating a window.
             This was a relatively simple task only taking a few lines:
             \vspace{0.5cm}
@@ -87,7 +90,7 @@ import pygame
 simSize = 128
 gridSize = 2
 
-window = pygame.display.set_mode((simSize * gridSize, simSize * gridSize))
+window = pygame.display.set_mode((simSize*gridSize, simSize*gridSize))
 pygame.display.set_caption("Procedural Generation")
 
 running = True
@@ -134,13 +137,13 @@ def GenerateMap(self, seed):
 
             \vspace{1cm}
 
-            {\Large UpDownNeutralGen Method} \\
+            {\large UpDownNeutralGen Method} \\
             \vspace{0.25cm}
 
             The UpDownNeutralGen method takes a tile, and considers every tile around it. It sums the tile 
             which are greater than, less than, or within a certain range of the tile height. And then pulls
             the selected tile in the direction which has the highest precedence. As an example, here are some
-            randomly generated values
+            randomly generated values:
 
             \begin{center}
                 \begin{tabular}{| M{0.75cm} | M{0.75cm} | M{0.75cm} |}
@@ -177,10 +180,213 @@ def GenerateMap(self, seed):
                 $Value[x][y] \pluseq pullValue$\\
             \end{center}
             
+            \vspace{0.5cm}
+
+            We then add the pullValue to the original square value, leaving us with the updated value. The code for 
+            this shown under the Prototype Code Header.
+            \vspace{0.5cm}
+
+            {\large Average Method}
+            \vspace{0.25cm}
+
+            The Average method takes a tile and considers every tile around it, this time instead of looking at the
+            differences, it creates an average from the 8 surrounding tiles. It then sets the selected tile to this
+            average value. As an example, here are some randomly generated values:
+
+            \begin{center}
+                \begin{tabular}{| M{0.75cm} | M{0.75cm} | M{0.75cm} |}
+                    \hline
+                    0.83 & 0.93 & 0.64 \\ [0.75cm]
+                    \hline
+                    0.07 & 0.38 & 0.21 \\ [0.75cm]
+                    \hline
+                    0.33 & 0.94 & 0.95 \\ [0.75cm]
+                    \hline
+                \end{tabular}
+                \vspace{0.25cm}
+
+                Summing these and dividing by the total grants us the average:
+
+                \[
+                \frac{0.83 + 0.93 + 0.64 + 0.07 + 0.38 + 0.21 + 0.95 + 0.33 + 0.94}{9} = 0.586
+                \]
+                $Value[x][y] = 0.586$
+            \end{center}
+            \vspace{0.25cm}
+
+            The code for this shown under the Prototype Code Header.
 
             \vspace{1cm}
 
-            {\Large Average Method}
+            {\large Finished Terrain Generation} \\
+            \vspace{0.25cm}
+
+            Overall I am happy with the Terrain generation, though I feel as if it could be improved to look more realistic.
+            The difference between the original random noise and the Colour Mapped Terrain looks so much better.
+
+            \begin{center}
+                \includegraphics[width=6cm]{Images/Prototype/Seed420 Grayscale.png}
+                \includegraphics[width=6cm]{Images/Prototype/Seed420 Colour.png} 
+            \end{center}
+            
+            \vspace{1cm}
+            {\Large Matrix Data Structure} \\
+            \vspace{0.25cm}
+
+            As part of my Matrix Class I made a list of operations which would be key to a Matrix Class, along with being useful
+            for Machine Learning. A Matrix is an abstract data type, commonly used in Maths, but has practical uses in the world
+            of Computer Science. It holds a 2d array of values such as: \\ 
+            \begin{center}
+            $\begin{pmatrix}
+                a & b\\
+                c & d
+            \end{pmatrix}$ 
+            $\begin{pmatrix}
+                a & b & c \\
+                d & e & f \\
+                g & h & i 
+            \end{pmatrix}$ 
+            $\begin{pmatrix}
+                a \\
+                b \\
+                c  
+            \end{pmatrix}$ 
+            $\begin{pmatrix}
+                a & b & c & d\\
+                e & f & g & h
+            \end{pmatrix}$ 
+            \end{center}
+            The values in a Matrix can be manipulated using common operations such as $+ - *$ as long as the orders of the 2 Matrices
+            match up. Along with other, non-standard operations which have other purposes.
+
+            \vspace{0.25cm}
+            As part of my Matrix Class, I implemented the following operators:
+            \begin{enumerate}
+                \item Addition/Subtraction \\
+                    Implementing Addition didnt take too long, I utilised a nested for loop to iterate over every value in both Matrices.
+                    Adding the two values together into a temporary Matrix which the method then returned. 
+                    \vspace{0.25cm}
+                    \begin{center}
+                        $\begin{pmatrix}
+                            a & b\\
+                            c & d
+                        \end{pmatrix} +
+                        \begin{pmatrix}
+                            e & f\\
+                            g & h
+                        \end{pmatrix} =
+                        \begin{pmatrix}
+                            a+e & b+f\\
+                            c+g & d+h
+                        \end{pmatrix}$
+                    \end{center}
+                    \vspace{0.25cm}
+
+                \item Multiplication \\
+                    Multiplication of Matrices is slightly more complicated, it is of $O(n^3)$ complexity, utilising a triple nested for loop.
+                    It multiplies the row of a $M1$, by the column in $M2$. Summing the calculation into the element in the new Matrix $M3$. \\
+                    
+                    \vspace{0.25cm}
+                    \begin{center}
+                        $\begin{pmatrix}
+                            a & b\\
+                            c & d
+                        \end{pmatrix} *
+                        \begin{pmatrix}
+                            e & f\\
+                            g & h
+                        \end{pmatrix} =
+                        \begin{pmatrix}
+                            a*e + b*g & a*f + b*h\\
+                            c*e + d*g & c*f + d*h
+                        \end{pmatrix}$
+                    \end{center}
+                    There is also Scalar Multiplication which multiples each value of a Matrix by the Scalar.
+                    \begin{center}
+                        $k *
+                        \begin{pmatrix}
+                            a & b\\
+                            c & d
+                        \end{pmatrix} =
+                        \begin{pmatrix}
+                            ka & kb\\
+                            kc & kd
+                        \end{pmatrix}$
+                    \end{center}
+                    \vspace{0.25cm}
+
+                \item Determinant \\
+                    Calculating the Determinant of an NxN Matrix is a recursive algorithm. With the base case being the Determinant of a 2x2
+                    Matrix. When calculating the Determinant of a 3x3 Matrix you create a Matrix of Cofactors, and multiply each 
+                    value by the corresponding value in the Sin Matrix (\textit{Formed from repeating 1's and -1's}). Summing the values from
+                    a singular Row or Column will then give you the Determinant. For a 4x4 you simply calculate the Determinant of the corresponding
+                    3x3's to get the Cofactors.
+                    
+                    \begin{center}
+                        $
+                        \begin{vmatrix}
+                            a & b\\
+                            c & d
+                        \end{vmatrix} = 
+                            a*d - b*c
+                        $
+                    \end{center}
+                    \vspace{0.25cm}
+                    \begin{center}
+                        $\begin{vmatrix}
+                            a & b & c \\
+                            d & e & f \\
+                            g & h & i 
+                        \end{vmatrix}  = a*
+                        \begin{vmatrix}
+                            e & f\\
+                            h & i
+                        \end{vmatrix}
+                        -b*
+                        \begin{vmatrix}
+                            d & f\\
+                            g & i
+                        \end{vmatrix}
+                        +c*
+                        \begin{vmatrix}
+                            d & e\\
+                            g & h
+                        \end{vmatrix}$
+                    \end{center}
+                    \vspace{0.25cm}
+
+                \item Dot Product \\
+                    The Dot Product occurs between two vectors, and can be used to calculate the angle between them. 
+                    Its a relatively simple operation only taking a few lines of code.
+                    \begin{center}
+                        $
+                        \begin{pmatrix}
+                            a \\
+                            b \\
+                            c
+                        \end{pmatrix} .
+                        \begin{pmatrix}
+                            d \\
+                            e \\
+                            f
+                        \end{pmatrix} = 
+                        a*d + b*e + c*f$
+                    \end{center}
+            \end{enumerate}
+
+            All code is available under the Prototype Code Header.
+            
+            \vspace{1cm}
+            {\Large Prototype Evaluation} \\
+            \vspace{0.25cm}
+
+            Overall I am happy with my prototype, though I feel like some parts need to be improved. I did meet my 
+            objectives for my prototype but there were improvements which can me made when I create my Technical Solution. 
+            Namely the Terrain Generation along with the Matrix class. I feel that Perlin noise would be a better alternative
+            to the two algorithms I used. In theory it should produce better results, and also provice more marks for 
+            complexity. My Matrix class could be rewritten to be more efficient, along with using operator overloading, which
+            I didnt know Python could do at the time. I also feel like having vector inherit from matrix is relatively pointless,
+            there is no need for it when I could just use 1 wide Matrices.
 
             \pagebreak
         \item {\Large Objectives} \\
@@ -263,7 +469,5 @@ def GenerateMap(self, seed):
                         \item Implement Load and Save Functions to save progress during training
                     \end{enumerate}   
             \end{enumerate}
-
-
     \end{enumerate}
 \end{flushleft}

@@ -57,11 +57,13 @@
                 \item {\Large Algorithms and Potential Data Types} \\
                     \large
                     \vspace{0.2cm}
+                    
+                    {\Large Neural Network and Matrices} \\
                     As part of developing a Machine Learning Algorithm, I will need to implement a Matrix class in order to
                     implement a neural network. Matrices are commonly used to represent individual layers of a network. Along
                     with making calculations much easier, condensing them into performing operations on matrices, rather than
                     nested using nested for loops and lists. As part of my Initial Research I have taken the time to understand
-                    how a Neural Network functions, it turns out I have already learned most of the maths needed to understand
+                    how a Neural Network functions, it turns out I have already learned most of the Maths needed to understand
                     how it works in my A Level Maths and Further Maths courses. \\
                     \vspace{0.2cm}
                     A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
@@ -79,10 +81,190 @@
                     Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
                     layer having an associated Bias. These are used to compute the outcome of a network.
                     \vspace{0.2cm}
-                    Forward Propagation is used to compute the outcome of a network, it has a general form and uses Matrix
-                    Multiplication and Addition to achieve this.
+                    Forward Propagation is used to compute the outcome of a network, it has a general form and uses 
+                    Matrix Multiplication and Addition to achieve this.
+                    \vspace{0.2cm}
+                    
+                    \begin{center}
+                        $
+                        S^{(L)} = 
+                        \begin{bmatrix}
+                        s^{(L)}_{0} \\
+                        s^{(L)}_{1} \\
+                        \vdots      \\
+                        s^{(L)}_{n} 
+                        \end{bmatrix}
+                        = 
+                        \begin{bmatrix}
+                        w^{(L-1)}_{0,0} & w^{(L-1)}_{0,1} & \hdots  & w^{(L-1)}_{0,m} \\
+                        w^{(L-1)}_{1,0} & w^{(L-1)}_{1,1} & \hdots  & w^{(L-1)}_{1,m} \\
+                        \vdots          & \vdots          & \ddots  & \vdots          \\
+                        w^{(L-1)}_{n,0} & w^{(L-1)}_{n,1} & \hdots  & w^{(L-1)}_{n,m} \\
+                        \end{bmatrix}
+                        \begin{bmatrix}
+                        a^{(L-1)}_{0} \\
+                        a^{(L-1)}_{1} \\
+                        \vdots      \\
+                        a^{(L-1)}_{n} 
+                        \end{bmatrix}
+                        +
+                        \begin{bmatrix}
+                        b^{(L)}_{0} \\
+                        b^{(L)}_{1} \\
+                        \vdots      \\
+                        b^{(L)}_{n} 
+                        \end{bmatrix}
+                        $ 
+                    \end{center}
+                    
+                    \begin{center}
+                        $
+                        \sigma(S^{(L)})
+                        =
+                        \sigma\left(
+                        \begin{bmatrix}
+                        s^{(L)}_{0} \\
+                        s^{(L)}_{1} \\
+                        \vdots      \\
+                        s^{(L)}_{n} 
+                        \end{bmatrix}
+                        \right)
+                        =
+                        \begin{bmatrix}
+                        \sigma(s^{(L)}_{0}) \\
+                        \sigma(s^{(L)}_{1}) \\
+                        \vdots              \\
+                        \sigma(s^{(L)}_{n}) 
+                        \end{bmatrix}
+                        $ 
+                    \end{center}
+                    
+                    \vspace{0.2cm}
+                    We then apply an activation function as shown above, in this case we will apply the Sigmoid function: $\sigma(x)$ to $S^{(L)}$. The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and
+                    1. Shown Below:
+                    
+                    \begin{center}
+                        \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
+                        \begin{axis}%
+                        [
+                            grid=major,     
+                            axis x line=bottom,
+                            ytick={0,.5,1},
+                            ymax=1,
+                            axis y line=middle,
+                            samples=100,
+                            domain=-6:6,
+                            range=0:1
+                            legend style={at={(1,0.9)}}     
+                        ]
+                            \addplot[blue,mark=none]   (x,{sigma(x)});
+                            \legend{$\sigma(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
 
-                
+                    Matrices can be used for all parts of a Neural Network implementation, and will prove very useful in my Technical
+                    Solution. \\
+                    \vspace{0.5cm}
+                    
+                    \pagebreak
+                    {\Large Procedural Generation} \\
+                    For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
+                    which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
+                    
+                    \begin{flushleft}
+                        \begin{tabular}{| C{6cm} | C{6cm} |}
+                            \hline
+                            {\Large Post-Processing Algorithms} & {\Large Perlin Noise} \\
+                            \hline
+                            I discovered two post processing algorithms often used for simple 2d terrain generation. 1 Averages squares 
+                            around the selected square, and the other pulls it up or down the gradient its currently on.
+                            I find these interesting because they're relatively simple, and I'm not quite sure whether they will produce good results or not. 
+                            \vspace{0.2cm}\linebreak
+                            So it would be interesting to test out implementing these in my prototype.
+                            &
+                            Perlin Noise is an algorithm developed by Ken Perlin for use in the digital generation of noise.
+                            This noise can be combined to create \textit{realistic} looking height maps for world generation.
+                            Perlin Noise retains continuity and is seeded so the generation can be entirely controlled.
+                            By "retains continuity" I mean that you can sample the same point and retrieve the same value. 
+                            \vspace{0.2cm}\linebreak
+                            
+                            If I was to implement Perlin noise it would take longer, but also might end up with a better result
+                            due to it being more widely used. It's a trade-off between time to implement and desired result. \\
+                            \hline
+                        \end{tabular}
+                    \end{flushleft}
+                    
+                    I also discovered an algorithm called Poisson Disc Sampling, this can be used to sample random points 
+                    in N dimensional space. It takes in 2 values, the R and K value, these values determine the output of
+                    the function. The R values is the minimum distance a point has to be from another, randomly placed point
+                    which hasn't been selected yet. If the distance between any existing points is less than R, the point
+                    will be rejected and another will be selected. The K value determines how many rejected are needed before 
+                    the algorithm will stop attempting to choose a new point.
+                    
+                    \vspace{0.5cm}
+                    {\Large Proposed Programming Language and Associated Libraries} \\
+                    When selecting a Programming Language and associated Graphical Libraries I took into consideration a few options.
+                    Below I have weighed up 3 options for Programming Language, along with 2 graphical libraries per language
+                    
+                    \begin{flushleft}
+                        \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
+                        \hline
+                        Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
+                        \hline
+                            Python & \multicolumn{2}{M{10cm}|}{Python is the first thought which comes to mind when I think about programming, 
+                            it is my favourite language and I'm yet to find anything which I prefer. Its very versatile and great
+                            for rapid prototyping, the dynamic typing makes It great for coding quickly without worrying too
+                            much about whether you're using a \textit{float32 or float64}. It also has hundreds of libraries
+                            and is very well supported by its developers and the community.}\\
+                        \hline
+                            \multirow{2}*{\minitab[c]{Python \\ Graphical \\ Libraries}} & Pygame & Pygame is a highly customizable and well developed binding of
+                            \textit{Simple DirectMedia Layer} (SDL) Library. It has a full set of 2d drawing tools, along with keyboard and audio
+                            capabilities. I have lots of experience with Pygame so I already have code which I can take from, which will speed up
+                            development when dealing with the Pygame library.\\
+                        \cline{3-3}
+                            &Tkinter & Tkinter provides an interface to the standard \textit{Tcl/Tk GUI Toolkit}, which is available
+                            for most platforms, this makes it highly versatile. Though as my project is not intended as a software
+                            package I dont see this as being an incredibly big selling point. Tkinter will serve mostly the same
+                            purpose as Pygame but give me easier options for Graphical Input, I dont currently plan to add GUI so 
+                            this feature isnt neccesary.\\
+                        \hline
+                            C\# & \multicolumn{2}{M{10cm}|}{C\# is my second favourite language, I have plenty of experience with it from developing games
+                            with Unity. Its faster than Python and is less abstracted, but this speed isn't necessarily required
+                            for my project. With C\# I could utilise the \textit{Unity Game Engine} for my project, but then
+                            I might end-up relying on builtin types and functions rather than developing my own.}\\
+                        \hline
+                    \end{longtable}
+
+                    \pagebreak
+                    \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
+                        \hline
+                        Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
+                        \hline
+                            \multirow{2}*{\minitab[c]{C\# \\ Graphical \\ Libraries}} & Windows Forms & Windows Forms is a relatively simple drag drop
+                            interface for designing your own applications. I've never used it before but I could utilise it with C\# to create my project.
+                            I belive it might be a bit overkill for my needs though, as it includes many, many UI features which I will have no use for.\\
+                        \cline{3-3}
+                            & WPF & WPF or \textit{Windows Presentation Foundation} is a versatile development platform for desktop applications.
+                            It is relatively versatile in its uses and utilises XAML and is the UI Language of Windows Platforms. XAML would be a
+                            new language for me to learn but I have experience with HTML so I dont believe it would be too difficult.
+                            The platform would provide a stable base to my project.\\
+                        \hline
+                            Rust & \multicolumn{2}{M{10cm}|}{Rust is low level language designed for speed and efficiency, I started using it recently
+                            as a side hobby and would like to use it more in future projects of mine. Though I feel like it may be a bit overkill for a Computer 
+                            Science NEA, with it often being used for server side applications rather than general purpose applications.}\\
+                        \hline
+                            \multirow{2}*{\minitab[c]{Rust \\ Graphical \\ Libraries}} & Piston2d & Piston2d is a feature complete 2d graphics library which utilises OpenGl,
+                            I've worked with it briefly before and I believe it would be a good option over Pixels if I needed more complex drawing
+                            methods.\\
+                        \cline{3-3}
+                             & Pixels & Pixels is a lightweight 2d graphics library designed to simply push pixels to the screen, Its relatively simple
+                             and ive used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
+                             a lightweight solution.\\
+                        \hline
+                        \end{longtable}
+                    \end{flushleft}
+                    
                 \item {\Large Interview} \\
                     \large
                     \vspace{0.2cm}
@@ -98,7 +280,7 @@
             \vspace{0.2cm}
             \begin{enumerate}
                 \item Terrain Generation
-                \item Displaying the Generated Terrain using a Grahics Library
+                \item Displaying the Generated Terrain using a Graphics Library
                 \item Matrix and Vector implementation
             \end{enumerate}
             \vspace{0.2cm}

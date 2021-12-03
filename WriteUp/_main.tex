@@ -5,6 +5,8 @@
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{longtable}
+\usepackage{multirow}
+\usepackage{pgfplots}
 \newcounter{magicrownumbers}
 \newcommand\rn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
@@ -15,6 +17,7 @@
 \newcolumntype{N}{@{}m{0pt}@{}}
 
 \newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\minitab}[2][l]{\begin{tabular}{#1}#2\end{tabular}}
 
 \tikzset{
 decision/.style={

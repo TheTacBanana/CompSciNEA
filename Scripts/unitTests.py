@@ -52,7 +52,7 @@ print() # 4.6
 try:
     dl = DataCollector("Match Data Structure Error", [str, int], False)
 
-    print("Matches Structure: ", dl.CheckMatchStructure(["Steve", True]))
+    print("Matches Structure: ", dl.CheckMatchStructure(["Steve Preston", True]))
 except Exception as x:
     print(x)
 
@@ -73,7 +73,7 @@ print("Selected List:")
 for item in sortedList:
     print(item)
 
-print() # 4.9
+print() # 4.8
 
 inputList = [[random.randint(-10,10), random.randint(-10,10)] for i in range(5)]
 print("Saved List:")
@@ -86,7 +86,7 @@ dl.LogDataPointBatch(inputList)
 
 dl.SaveDataPoints()
 
-print() # 4.8
+print() # 4.9
 
 dl = DataCollector("Save-Load Test", [int, int], True)
 

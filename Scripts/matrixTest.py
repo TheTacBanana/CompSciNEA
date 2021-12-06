@@ -491,5 +491,5 @@ class MatrixTest():
 
             print("{}/{} | {}".format(count, self.testCount, key))
 
-MT = MatrixTest(0, 100000)
+MT = MatrixTest(0, 10000)
 MT.RunAllTests()

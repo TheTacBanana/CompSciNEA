@@ -1,5 +1,12 @@
 \documentclass{article}
 \usepackage[a4paper]{geometry}
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    right=20mm,
+    top=20mm,
+    }
 \usepackage{array}
 \usepackage{tikz}
 \usepackage{listings}
@@ -17,6 +24,8 @@
 \newcolumntype{N}{@{}m{0pt}@{}}
 
 \newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\greatereq}{\mathrel{>}=}
+\newcommand{\lesseq}{\mathrel{<}=}
 \newcommand{\minitab}[2][l]{\begin{tabular}{#1}#2\end{tabular}}
 
 \tikzset{

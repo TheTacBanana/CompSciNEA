@@ -25,12 +25,6 @@
 
     "StartEnemyCount": [0, 100],
 
-    "QLearningMaxSteps": [0,null],
-    "Offset": [0,20],
-    "Epsilon": [0,1],
-    "LearningRate": [0,1],
-    "Gamma": [0,1],
-
     "TargetReplaceRate": [5,300],
     "ERBuffer": [1000, 10000],
     "ERSampleRate": [1,100],

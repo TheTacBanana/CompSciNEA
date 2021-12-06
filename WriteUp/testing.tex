@@ -56,125 +56,202 @@
     \end{center}
     
     \vspace{1cm}
-    
-    
     \large{\textbf{1. User Input and Program Output}}
-    
     \vspace{0.5cm}
     
     \normalsize
-    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
-    \hline
-    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
-    \hline\hline
-    \rn & Loading Parameters File & "Default.json" file which contains the loadable values & Loads parameters into the Parameters Dictionary variable & Pass & 00:00 \\ 
-    \hline
-    \rn & Test Parameters within range & - & - & - & - \\
-    \hline
-    \rn & Network Weights Loading & - & - & - & - \\
-    \hline
-    \rn & Window Opening & - & - & - & - \\
-    \hline
-    \rn & Window Displays correct Graphical information & - & - & - & - \\
-    \hline
-    \rn & Window Displays correct debug information & - & - & - & - \\
-    \hline
-    \rn & Agent is displayed & - & - & - & - \\
-    \hline
-    \rn & Enemies are displayed & - & - & - & - \\
-    \hline
-    \rn & Console Messages Output & - & - & - & - \\
-    \hline
+    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1cm} |}
+        \hline
+        {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Time Stamp \\
+        \hline\hline
+        \rn & Loading Parameters File & Input "Default.json" file which contains the loadable values & Loads parameters into the 
+        Parameters Dictionary variable & - & - \\ 
+        \hline
+        \rn & Parameters within range & Input "Default.json" file & Prints to console "Parameters withing Specified Ranges" & - & - \\
+        \hline
+        \rn & Below Range Parameter & Input "Default.json" file with a below range parameters & Raises an exception detailing the Parameter, 
+        Value of Parameters, and the given Range Required & - & - \\
+        \hline
+        \rn & Above Range Parameter & Input "Default.json" file with an above range parameters & Raises an exception detailing the Parameter, 
+        Value of Parameters, and the given Range Required  & - & - \\
+        \hline
+        \rn & Network Save Data Loading & When Prompted to load network data type "Y", and type the file name of network data to load & Network 
+        Data is loaded successfully, training position stored & - & - \\
+        \hline
+        \rn & Window Opening & Run Program, enter setup info as normal & Window opens and is of the correct size/resolution & - & - \\
+        \hline
+        \rn & Window Displays correct Graphical information & Run Program, enter setup info as normal & - & - & - \\
+        \hline
+        \rn & Window Displays correct debug information & Run Program, enter setup info as normal, with "Debug" = 1 in parameters file & Debug 
+        Layer output info displayed on Right side of Window & - & - \\
+        \hline
+        \rn & Agent is displayed & Run Program, enter setup info as normal & Orange square displayed on screen & - & - \\
+        \hline
+        \rn & Enemies are displayed & Run Program, enter setup info as normal, with "StartEnemyCount" $\greatereq$ 1  & Red Square/s are displayed on Screen & - & - \\
+        \hline
+        \rn & Console Messages Output & Run Program, enter setup info as normal & Console Messages Outputted per 100 Steps & - & - \\
+        \hline
     \end{longtable}
     
     \vspace{1cm}
     \large{\textbf{2. Matrix Implementation}}
-    
     \vspace{0.5cm}
     
     \normalsize
-    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
-    \hline
-    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
-    \hline\hline
-    \rn & Matrix Addition Calculation & - & - & - & - \\
-    \hline
-    \rn & Matrix Subtraction Calculation & - & - & - & - \\
-    \hline
-    \rn & Matrix Multiplication Calculation & - & - & - & - \\
-    \hline
-    \rn & Matrix Scalar Multiplication Calculation & - & - & - & - \\
-    \hline
-    \rn & Vector Hadamard Product Calculation & - & - & - & - \\
-    \hline
-    \rn & Matrix Power Calulation & - & - & - & - \\
-    \hline
-    \rn & Matrix Transpose Calculation & - & - & - & - \\
-    \hline
-    \rn & Matrix Select Column & - & - & - & - \\
-    \hline
-    \rn & Matrix Select Row & - & - & - & - \\
-    \hline
-    \rn & Vector Max in Vector & - & - & - & - \\
-    \hline
-    \rn & Matrix Clear & - & - & - & - \\
-    \hline
-    \rn & Combine Vectors & - & - & - & - \\
-    \hline
-    \rn & Matrix Sum & - & - & - & - \\
-    \hline
-    \rn & Matrix String Overload & - & - & - & - \\
-    \hline
-    \rn & Randomised Matrix Constructor Tests & - & - & - & - \\
-    \hline
-    \rn & Randomised Constructor Exception Tests & - & - & - & - \\
-    \hline
-    \rn & Randomised Operator Tests & - & - & - & - \\
-    \hline
-    \rn & Randomised Operator Exception Tests & - & - & - & - \\
-    \hline
+    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1cm} |}
+        \hline
+        {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Time Stamp \\
+        \hline\hline
+        \rn & Create Matrix with Tuple & - & Matrix is created with an order the same as the Tuple & - & - \\
+        \hline
+        \rn & Create Matrix with 2d List & - & Matrix is created with the same values as the 2d List & - & - \\
+        \hline
+        \rn & Create Vector with List & - & Vector is created with the same values as the List & - & - \\
+        \hline
+        \rn & Print Matrix to Console & - & Matrix Prints to the console with the correct formatting & - & - \\
+        \hline
+        \rn & Create Randomised Matrix & - & Matrix is created with randomised values between -0.5 and 0.5 & - & - \\
+        \hline
+        \rn & Create Identity Matrix & - & Matrix is created with all 0's and 1's down the diagonal & - & - \\
+        \hline
+        \rn & Matrix Addition Calculation & - & Matrix Addition is performed to create a new Matrix with the added values & - & - \\
+        \hline
+        \rn & Matrix Subtraction Calculation & - & Matrix Subtraction is performed to create a new Matrix with the subtracted values & - & - \\
+        \hline
+        \rn & Matrix Multiplication Calculation & - & Matrix Multiplication is performed to create a new Matrix with the multiplied values & - & - \\
+        \hline
+        \rn & Matrix Scalar Multiplication Calculation & - & Matrix Scalar Multiplication is performed to create a new Matrix with the multiplied values & - & - \\
+        \hline
+        \rn & Vector Hadamard Product Calculation & - & Vector Hadamard Product is performed to create a new Vector with the multiplied values & - & - \\
+        \hline
+        \rn & Matrix Power Calulation & - & Matrix to the Power of is performed to create a new Matrix with the correct values & - & - \\
+        \hline
+        \rn & Matrix Transpose Calculation & - & New Matrix is created with values flipped across the diagonal & - & - \\
+        \hline
+        \rn & Matrix Select Column & - & Selects the indexed Column from the Matrix, returning as a list & - & - \\
+        \hline
+        \rn & Matrix Select Row & - & Selects the indexed Row from the Matrix, returning as a list & - & - \\
+        \hline
+        \rn & Vector Max in Vector & - & Returns Largest value in Vector & - & - \\
+        \hline
+        \rn & Matrix Clear & - & Clears Matrix of any values & - & - \\
+        \hline
+        \rn & Combine Vectors & List of Vectors of the same Order & Combines the list of Vectors into a Matrix & - & - \\
+        \hline
+        \rn & Matrix Sum & - & Sums all values in the Matrix returning a $float/int$ & - & - \\
+        \hline
+        \rn & Randomised Matrix Constructor Tests & Generator Constructor Parameters randomnly for 10000 Tests & All Tests Should produce a valid Matrix & Pass & - \\
+        \hline
+        \rn & Randomised Constructor Exception Tests & Generate Random Data to cause Exceptions within the Constructor for 10000 Tests & All Tests should 
+        trigger the Targetted Exception for that test & Pass & - \\
+        \hline
+        \rn & Randomised Operator Tests & Generator Random Data to test the Operator Methods for 10000 Tests & All Tests should produce the correct result & Pass & - \\
+        \hline
+        \rn & Randomised Operator Exception Tests & Generate Random Data to cause Exceptions within the Operators for 10000 Tests & All Tests should 
+        trigger the Targetted Exception for that test & Pass & - \\
+        \hline
     \end{longtable}
 
     \vspace{1cm}
     \large{\textbf{3. Deep Q Learning Algorithm}}
-    
     \vspace{0.5cm}
     
-    \normalsize
-    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \small
+    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1cm} |}
     \hline
-    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
-    \hline\hline
-    \rn & - & - & - & - & - \\
-    \hline
+    {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Time Stamp \\
+        \hline\hline
+        \rn & Networks are Created & Run Program, enter setup info, denying the loading of weights & A Dual Neural Network is created after Program Start & - & - \\
+        \hline
+        \rn & Networks conforms to Parameters & Run Program, enter setup info, denying the loading of weights & The created Dual Network conforms to the specified structure 
+        in the parameter "DeepQLearningLayers" & - & - \\
+        \hline
+        \rn & Forward Propagation Test & - & - & - & - \\
+        \hline
+        \rn & Forward Propagation Multi Layer Test & - & - & - & - \\
+        \hline
+        \rn & Loss Function Bellman Equation & - & - & - & - \\
+        \hline
+        \rn & Back Propagation Unit Test & - & - & - & - \\
+        \hline
+        \rn & Back Propagation Multi Layer Unit Test & - & - & - & - \\
+        \hline
+        \rn & Deque Push Front & - & Item is pushed to front of Deque & - & - \\
+        \hline
+        \rn & Deque Pop & - & Front item is removed and returns from Deque & - & - \\
+        \hline
+        \rn & Deque First/Last & - & Returns item at Front/Last index of Deque & - & - \\
+        \hline
+        \rn & Deque Sample N Ammount of Items & - & Returns N number of random samples from Deque & - & - \\
+        \hline
+        \rn & Experience Replay Sampling & - & Back Propagation is performed on the sampled Deque Items & - & - \\
+        \hline
+        \rn & Activation Outputs Unit Test & - & - & - & - \\
+        \hline
+        \rn & Activation Derivatives Output Unit Test & - & - & - & - \\
+        \hline
     \end{longtable}
 
     \vspace{1cm}
-    \large{\textbf{3. Data Logger}}
-    
+    \large{\textbf{4. Data Logger}}
     \vspace{0.5cm}
     
     \normalsize
-    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1cm} |}
     \hline
-    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
-    \hline\hline
-    \rn & - & - & - & - & - \\
-    \hline
+    {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Time Stamp \\
+        \hline\hline
+        \rn & Heapify Method & - & Returns Binary Tree to have the Heap Property (Such that for any node the child nodes are $\lesseq$ to it) & - & - \\
+        \hline
+        \rn & Heap Sort Decending & - & Sorts the list of items into Descending order & - & - \\
+        \hline
+        \rn & Add Point & - & Point is added to Data Points list & - & - \\
+        \hline
+        \rn & Match Data Struture with Single & - & No error thrown & - & - \\
+        \hline
+        \rn & Match Data Struture with Multi-Typed & - & No error thrown & - & - \\
+        \hline
+        \rn & Match Data Struture with List-Typed & - & No error thrown & - & - \\
+        \hline
+        \rn & Match Data Structure Error & - & Error is thrown with correct info & - & - \\
+        \hline
+        \rn & Select Query & - & Returns a list of the selected column where the Search Contents Matches & - & - \\
+        \hline
+        \rn & Load Data Points & - & Loads Data Points from specified File & - & - \\
+        \hline
+        \rn & Save Data Points & - & Saves Data to specified File & - & - \\
+        \hline
     \end{longtable}
 
     \vspace{1cm}
     \large{\textbf{5. Simulation}}
-    
     \vspace{0.5cm}
     
     \normalsize
-    \begin{longtable}{| C{0.6cm} | C{2cm} | C{3.4cm} | C{4cm} | L{1cm} | L{1cm} |}
+    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1cm} |}
     \hline
-    {\footnotesize Test No.} & Test Name & Input Data & Expected Output & Pass / Fail & Time Stamp \\
-    \hline\hline
-    \rn & - & - & - & - & - \\
-    \hline
+    {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Time Stamp \\
+        \hline\hline
+        \rn & Creation of Agent & - & Agent is created as an instance of the Agent Class & - & - \\
+        \hline
+        \rn & Creation of Enemies & - & Up to the ammount of specified Enemies are created & - & - \\
+        \hline
+        \rn & Enemies Pathfind towards Agent & - & The spawned enemies pathfind towards the agnet using the defined pathfinding algorithm & - & - \\
+        \hline
+        \rn & Getting Tile Data & - & Returns a Vector of the surrounding tile objects & - & - \\
+        \hline
+        \rn & Convert Tile Data & - & Converts Tile Data into two vectors, Grayscale Colour and Tile Type & - & - \\
+        \hline
+        \rn & Reward System Test Basic Reward & - & Expected reward is given to agent & - & - \\
+        \hline
+        \rn & Reward System Test Complex Reward & - & Expected reward is given to agent & - & - \\
+        \hline
+        \rn & World Generates to an Acceptable Standard & - & Generates 2d Terrain which roughly looks realistic & - & - \\
+        \hline
+        \rn & World Generation Conforms to Parameters & - & Terrain changes depending on inputting Parameters & - & - \\
+        \hline
+        \rn & Perlin Noise retains Continuity & - & Perlin Noise returns same value when using the same seed twice & - & - \\
+        \hline
     \end{longtable}
 
 

@@ -42,12 +42,6 @@
     "ColourPlayer": [233, 182, 14],
     "ColourEnemy": [207, 2, 2],
 
-    "QLearningMaxSteps": 10000,
-    "Offset": 4,
-    "Epsilon": 0.2,
-    "LearningRate": 0.75,
-    "Gamma": 0.7,
-
     "MoveReward": 0,
     "CollectItemReward": 0.1,
     "DeathReward": -0.1,

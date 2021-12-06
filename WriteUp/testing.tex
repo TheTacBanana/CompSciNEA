@@ -351,25 +351,25 @@
         {\large Evidence 2.\rn } \\ 
         \vspace{0.3cm}
         Console Output, all Tests have passed with no failures \\
-        \includegraphics[4cm]{Images/Testing/T2.19.1.PNG} \\
+        \includegraphics[width=4cm]{Images/Testing/T2.16.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 2.\rn } \\ 
         \vspace{0.3cm}
         Console Output, all Tests have passed with no failures \\
-        \includegraphics[4cm]{Images/Testing/T2.20.1.PNG} \\
+        \includegraphics[width=4cm]{Images/Testing/T2.17.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 2.\rn } \\ 
         \vspace{0.3cm}
         Console Output, all Tests have passed with no failures \\
-        \includegraphics[4cm]{Images/Testing/T2.21.1.PNG} \\
+        \includegraphics[width=4cm]{Images/Testing/T2.18.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 2.\rn } \\ 
         \vspace{0.3cm}
         Console Output, all Tests have passed with no failures \\
-        \includegraphics[4cm]{Images/Testing/T2.22.1.PNG} \\
+        \includegraphics[width=4cm]{Images/Testing/T2.19.1.PNG} \\
         \vspace{1cm}
     \end{center}
 
@@ -391,47 +391,148 @@
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
         Randomnly Generated Unsorted List, sorted by the 1st Element to form the Sorted List \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+inputList = [[random.randint(-10,10), random.randint(-10,10)] for i in range(5)]
+print("Unsorted List:")
+for item in inputList:
+    print(item)
+
+dl = DataCollector("SortingTest", [int, int], False)
+
+dl.LogDataPointBatch(inputList)
+
+sortedList = dl.HeapSort(0)
+
+print("Sorted List:")
+for item in sortedList:
+    print(item)
+        \end{minted}
+
+        The output of the above code: \\
         \includegraphics[width=3cm]{Images/Testing/T4.1.1.PNG} \\
+
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
         Adding a single point: [5, 2] to DataLogger \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+dl = DataCollector("AddPointTest", [int, int], False)
+print("Before: ", dl.dataPoints)
+
+dl.LogDataPoint([5, 2])
+
+print("After: ", dl.dataPoints)
+        \end{minted}
+
+        The output of the above code: \\
         \includegraphics[width=4cm]{Images/Testing/T4.2.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
-        Data Point matches struture \\
+        Test Data Point matches struture \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+dl = DataCollector("Match Single Types", [int, float], False)
+
+print("Matches Structure: ", dl.CheckMatchStructure([-3, 2.2]))
+        \end{minted}
+
+        The output of the above code: \\
         \includegraphics[width=4cm]{Images/Testing/T4.3.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
-        Data Point matches structure \\
+        Test Data Point matches structure \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+dl = DataCollector("Match Multi Typed", [bool, [float, int]], False)
+
+print("Matches Structure: ", dl.CheckMatchStructure([False, 4.5]))
+print("Matches Structure: ", dl.CheckMatchStructure([True, -9]))
+        \end{minted}
+            
+        The output of the above code: \\
         \includegraphics[width=4cm]{Images/Testing/T4.4.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
-        Data Point matches structure \\
+        Test Data Point matches structure \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+dl = DataCollector("Match List Type", [bool, str], False)
+
+print("Matches Structure: ", dl.CheckMatchStructure([True, ["Matt", "Isabel", "Tristan", "Chris"]]))
+        \end{minted}
+                        
+        The output of the above code: \\
         \includegraphics[width=4cm]{Images/Testing/T4.5.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
-        The correct Exception is thrown when trying to match the point to the structure \\
+        Test error thrown when Data Point doesnt match the given structure \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+try:
+    dl = DataCollector("Match Data Structure Error", [str, int], False)
+
+    print("Matches Structure: ", dl.CheckMatchStructure(["Steve Preston", True]))
+except Exception as x:
+    print(x)
+        \end{minted}
+
+        The output of the above code: \\
         \includegraphics[width=8cm]{Images/Testing/T4.6.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
-        The random list compared the the selected list \\
+        Select Prime numbers in 1st index\\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+inputList = [[random.randint(-10,10), random.randint(-10,10)] for i in range(5)]
+print("Random List:")
+for item in inputList:
+    print(item)
+
+dl = DataCollector("Select List", [int, int], False)
+
+dl.LogDataPointBatch(inputList)
+
+sortedList = dl.Select(0, [1,2,3,5,7])
+
+print("Selected List:")
+for item in sortedList:
+    print(item)
+        \end{minted}
+            
+        The output of the above code: \\
         \includegraphics[width=3cm]{Images/Testing/T4.7.1.PNG} \\
         \vspace{1cm}
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
+
+        Test for saving a file \\
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+inputList = [[random.randint(-10,10), random.randint(-10,10)] for i in range(5)]
+print("Saved List:")
+for item in inputList:
+    print(item)
+
+dl = DataCollector("Save-Load Test", [int, int], False)
+
+dl.LogDataPointBatch(inputList)
+
+dl.SaveDataPoints()
+        \end{minted}
+
         The saved Data Points \\
         \includegraphics[width=3cm]{Images/Testing/T4.8.1.PNG} \\
         The saved file "Save-Load Test.data" \\
@@ -440,6 +541,16 @@
 
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
+
+        Test for loading a file
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+dl = DataCollector("Save-Load Test", [int, int], True)
+
+print("Loaded List:")
+for item in dl.dataPoints:
+    print(item)
+        \end{minted}
+
         The File we're loading from "Save-Load Test.data" \\
         \includegraphics[width=4cm]{Images/Testing/T4.8.2.PNG} \\
         The loaded Data Points \\

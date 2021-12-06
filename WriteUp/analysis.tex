@@ -323,7 +323,7 @@
             \vspace{0.5cm}
 
             \normalsize
-            \begin{lstlisting}[language=Python]
+            \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
 import pygame
 
 simSize = 128
@@ -337,7 +337,7 @@ while running == True:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
-            \end{lstlisting}
+            \end{minted}
 
             \vspace{0.5cm}
 
@@ -351,13 +351,13 @@ while running == True:
             Following the hierarchy I then added noise generation by generating random numbers and 
             assigning them to a 2d List. Shown here: 
             
-            \normalsize\begin{lstlisting}[language=Python]
+            \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
 def GenerateMap(self, seed):
     random.seed(seed)
     for y in range(0, self.arraySize):
         for x in range(0, self.arraySize):
             self.heightArray[x][y] = round(random.random(),2)
-            \end{lstlisting}
+            \end{minted}
 
             \vspace{0.5cm}
 

@@ -63,6 +63,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         reward = rewardVector.matrixVals[action][0] # Get reward given action
         self.cumReward += reward
         self.batchReward += reward
+        print(reward, action)
 
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
 
@@ -237,7 +238,7 @@ class Layer(): # Layer for a Neural Network
         self.biasUpdates += self.errSignal * lr # Bias Updates
 
     def UpdateWeightsAndBiases(self, epochCount): # Update Weights and Biases
-        self.weightMatrix += (self.weightUpdates * (1 / epochCount))
+        self.weightMatrix -= (self.weightUpdates * (1 / epochCount))
         self.biasVector -= (self.biasUpdates * (1 / epochCount))
 
         self.weightUpdates.Clear()

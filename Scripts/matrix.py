@@ -85,7 +85,16 @@ class Matrix():
 
     # Overloading Subtraction Operator
     def __sub__(self, m2):
-        if type(m2) == Matrix:
+        if type(m2) == float or type(m2) == int: # Subract value from each element in Matrix
+            tempMatrix = Matrix(self.order)
+
+            for row in range(self.order[0]): # Apply operation
+                for col in range(self.order[1]):
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] - m2
+
+            return tempMatrix # Return temporary Matrix
+
+        elif type(m2) == Matrix:
             if self.order != m2.order: # Throw error if orders dont match
                 raise MatExcepts.MismatchOrders
 
@@ -97,26 +106,20 @@ class Matrix():
 
             return tempMatrix # Return temporary Matrix
 
-        elif type(m2) == float or type(m2) == int: # Subract value from each element in Matrix
-            tempMatrix = Matrix(self.order)
-
-            for row in range(self.order[0]): # Apply operation
-                for col in range(self.order[1]):
-                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] + m2
-
-            return tempMatrix # Return temporary Matrix
-
         else: # Throw error if no matching cases found
             raise MatExcepts.NoMatchingSubtractionCase
 
     # Overloading Multiplication Operator
     def __mul__(self, m2):
-        if type(m2) == float or type(m2) == int: # Scalar Multiply
+        if not type(m2) in [int, float, Matrix]: # Throw error if no matching cases found
+            raise MatExcepts.NoMatchingMultiplycase
+
+        elif type(m2) == float or type(m2) == int: # Scalar Multiply
             tempMatrix = Matrix(self.order) # Create Temporary Matrix
 
             for row in range(self.order[0]):
                 for col in range(self.order[1]):
-                    tempMatrix.matrixVals[row][0] = self.matrixVals[row][0] * m2 # Apply Operation 
+                    tempMatrix.matrixVals[row][col] = self.matrixVals[row][col] * m2 # Apply Operation 
             return tempMatrix
 
         elif self.order[1] == 1 and m2.order[1] == 1 and self.order[0] == m2.order[0]: # Hadamard product between two vectors
@@ -141,9 +144,6 @@ class Matrix():
                     tempMatrix.matrixVals[row][col] = cumProduct # Apply to new matrix
                     cumProduct = 0
             return tempMatrix
-
-        else: # Throw error if no matching cases found
-            raise MatExcepts.NoMatchingMultiplycase
 
     # Overloading the Power Operator
     def __pow__(self, power):
@@ -205,7 +205,7 @@ class Matrix():
 
     # Sum of values in a Matrix
     def Sum(self):
-        if type(self.matrixVals[0][0]) != int or type(self.matrixVals[0][0]) != float: # Throw error if not a numerical type
+        if not type(self.matrixVals[0][0]) in [int, float]: # Throw error if not a numerical type
             raise MatExcepts.SumOfMatrixReqNumericalVals
 
         matSum = 0

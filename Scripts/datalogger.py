@@ -81,14 +81,16 @@ class DataCollector():
 
         heap = Heap(self.dataPoints, parameterIndex) # Creates a new heap
 
-        while heap.Length() - 1 > 0:
+        while heap.Length() - 1 >= 0:
             sortedList.append(heap.RemoveTop()) # Loops popping and appending greatest element from Heap
+
+        return sortedList
 
     def Select(self, searchIndex, searchContents): # Select a specified element with contents from data points
         returnedList = []
 
         for i in range(len(self.dataPoints)):
-            if searchContents.contains(self.dataPoints[i][searchIndex]):
+            if self.dataPoints[i][searchIndex] in searchContents:
                 returnedList.append(self.dataPoints[i])
 
         return returnedList
@@ -102,4 +104,4 @@ class DataCollector():
 
     def SaveDataPoints(self): # Saves dataPoints to a file
         with open("DataLogger\\" + self.name + ".data", "wb") as f:
-            pickle.dump(self.dataPoints)
+            pickle.dump(self.dataPoints, f)

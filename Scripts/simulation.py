@@ -113,7 +113,6 @@ class Simulation():
 # Render Methods
     def RenderToCanvas(self, window): # Render Content to Canvas
         TW = self.paramDictionary["TileWidth"]
-        MS = self.paramDictionary["QLearningMaxSteps"]
         DS = self.paramDictionary["DebugScale"]
 
         if self.paramDictionary["Debug"]: # Renders debug info for Neural Network if specified

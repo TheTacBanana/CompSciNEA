@@ -3,6 +3,9 @@
     \textbf{4. Testing}
     \vspace{0.1cm}
     
+    \Large{\textbf{4.1 Testing Table}}
+    \vspace{0.5cm}
+    
     \large
     As part of testing my NEA, I identified the key areas of my project which needed testing.
     My testing targets these areas from different angles to ensure they work correctly. 
@@ -47,7 +50,7 @@
     
     \begin{center}
         \large
-        \textbf{Below is included an NEA Testing video for testing evidence}
+        \textbf{Below is included an NEA Testing video used for some parts of Testing Evidence}
         
         \vspace{0.2cm}
         
@@ -60,36 +63,35 @@
     \vspace{0.5cm}
     
     \normalsize
-    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1cm} |}
+    \begin{longtable}{| C{0.6cm} | C{3cm} | C{4cm} | C{5cm} | L{1cm} | L{1.4cm} |}
         \hline
-        {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Time Stamp \\
+        {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
         \hline\hline
         \rn & Loading Parameters File & Input "Default.json" file which contains the loadable values & Loads parameters into the 
-        Parameters Dictionary variable & - & - \\ 
+        Parameters Dictionary variable & Pass & 1.1 \\ 
         \hline
-        \rn & Parameters within range & Input "Default.json" file & Prints to console "Parameters withing Specified Ranges" & - & - \\
+        \rn & Parameters within range & Input Loaded Parameters Dictionary & Prints to console "Parameters within Specified Ranges" & Pass & 1.2 \\
         \hline
         \rn & Below Range Parameter & Input "Default.json" file with a below range parameters & Raises an exception detailing the Parameter, 
-        Value of Parameters, and the given Range Required & - & - \\
+        Value of Parameters, and the given Range Required & Pass & 1.3 \\
         \hline
         \rn & Above Range Parameter & Input "Default.json" file with an above range parameters & Raises an exception detailing the Parameter, 
-        Value of Parameters, and the given Range Required  & - & - \\
+        Value of Parameters, and the given Range Required  & Pass & 1.4 \\
         \hline
-        \rn & Network Save Data Loading & When Prompted to load network data type "Y", and type the file name of network data to load & Network 
-        Data is loaded successfully, training position stored & - & - \\
+        \rn & Network Saved Data Loading & When Prompted to load network data type "Y", and type the file name of network data to load & Network 
+        Data is loaded successfully, training position stored & Pass & 1.5 \\
         \hline
-        \rn & Window Opening & Run Program, enter setup info as normal & Window opens and is of the correct size/resolution & - & - \\
-        \hline
-        \rn & Window Displays correct Graphical information & Run Program, enter setup info as normal & - & - & - \\
+        \rn & Window Opening & Run Program, enter setup info as normal & Window opens and is of the correct size/resolution & Pass & 1.6 \\
         \hline
         \rn & Window Displays correct debug information & Run Program, enter setup info as normal, with "Debug" = 1 in parameters file & Debug 
-        Layer output info displayed on Right side of Window & - & - \\
+        Layer output info displayed on Right side of Window & Pass & 1.7 \\
         \hline
-        \rn & Agent is displayed & Run Program, enter setup info as normal & Orange square displayed on screen & - & - \\
+        \rn & Agent is displayed & Run Program, enter setup info as normal & Orange square displayed on screen & Pass & 1.8 \\
         \hline
-        \rn & Enemies are displayed & Run Program, enter setup info as normal, with "StartEnemyCount" $\greatereq$ 1  & Red Square/s are displayed on Screen & - & - \\
+        \rn & Enemies are displayed & Run Program, enter setup info as normal, with "StartEnemyCount" $\greatereq$ 1  & Red Square/s are displayed 
+        on Screen & Pass & 1.9 \\
         \hline
-        \rn & Console Messages Output & Run Program, enter setup info as normal & Console Messages Outputted per 100 Steps & - & - \\
+        \rn & Console Messages Output & Run Program, enter setup info as normal & Console Messages Outputted per 100 Steps & Pass & 1.10 \\
         \hline
     \end{longtable}
     
@@ -253,7 +255,91 @@
         \rn & Perlin Noise retains Continuity & - & Perlin Noise returns same value when using the same seed twice & - & - \\
         \hline
     \end{longtable}
-
-
     
+    \pagebreak
+    \vspace{1cm}
+    \Large{\textbf{4.2 Testing Evidence}}
+    
+    \vspace{0.5cm}
+
+    \setcounter{magicrownumbers}{0}
+    \normalsize
+    \begin{center}
+        {\large Evidence 1.\rn }\\ 
+        \vspace{0.3cm}
+        The .json file which is being loaded \\
+        \includegraphics[width=6cm]{Images/Testing/T1.1.1.PNG} \\
+        Printing the loaded Json File to console to Console to check the values match\\
+        \includegraphics[width=16cm]{Images/Testing/T1.1.2.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        Console Output when parameters are within specified ranges \\
+        \includegraphics[width=6cm]{Images/Testing/T1.2.1.PNG} \\
+        A Screenshot of the .json file where the Ranges are defined \\
+        \includegraphics[width=6cm]{Images/Testing/T1.2.2.PNG}
+        \vspace{1cm}
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        The given out of range parameter - subceeding \\
+        \includegraphics[width=6cm]{Images/Testing/T1.3.1.PNG} \\
+        The specified range it should be within \\
+        \includegraphics[width=6cm]{Images/Testing/T1.3.2.PNG} \\
+        The Exception thrown when the program is run \\
+        \includegraphics[width=12cm]{Images/Testing/T1.3.3.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 1.\rn }\\ 
+        \vspace{0.3cm}
+        The given out of range parameter - exceeding \\
+        \includegraphics[width=6cm]{Images/Testing/T1.4.1.PNG} \\
+        The specified range it should be within \\
+        \includegraphics[width=6cm]{Images/Testing/T1.4.2.PNG} \\
+        The Exception thrown when the program is run \\
+        \includegraphics[width=12cm]{Images/Testing/T1.4.3.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 1.\rn }\\ 
+        \vspace{0.3cm}
+        The Console prompt if the user wants to load Network Weights \\
+        \includegraphics[width=6cm]{Images/Testing/T1.5.1.PNG} \\
+        The file the program is loading \\
+        \includegraphics[width=4cm]{Images/Testing/T1.5.2.PNG} \\
+        The testing step resumes at 400, underlined in Red \\
+        \includegraphics[width=6cm]{Images/Testing/T1.5.3.PNG}
+        \vspace{1cm}
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        The width/height of the window\\
+        \includegraphics[width=4cm]{Images/Testing/T1.6.1.PNG} \\
+        The opened window, it is 64 wide and 64 tall \\
+        \includegraphics[width=8cm]{Images/Testing/T1.6.2.PNG}
+        \vspace{1cm}
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        Debug being set to 1 in the parameters file \\
+        \includegraphics[width=4cm]{Images/Testing/T1.7.1.PNG} \\
+        The displayed debug information to the right of the Window \\
+        \includegraphics[width=8cm]{Images/Testing/T1.7.2.PNG} \\
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        The opened window, with the agent circled \\
+        \includegraphics[width=8cm]{Images/Testing/T1.8.1.PNG} \\
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        The opened window, with the enemies circled \\
+        \includegraphics[width=8cm]{Images/Testing/T1.9.1.PNG} \\
+
+        {\large Evidence 1.\rn } \\ 
+        \vspace{0.3cm}
+        The correctly dispalyed console outputs \\
+        \includegraphics[width=8cm]{Images/Testing/T1.10.1.PNG} \\
+    \end{center}
+   
 \end{flushleft}

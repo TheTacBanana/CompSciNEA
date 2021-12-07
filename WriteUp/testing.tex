@@ -104,39 +104,39 @@
         \hline
         {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
         \hline\hline
-        \rn & Create Matrix with Tuple & - & Matrix is created with an order the same as the Tuple & - & - \\
+        \rn & Create Matrix with Tuple & A Tuple for the order of the Matrix & Matrix is created with an order the same as the Tuple & - & - \\
         \hline
-        \rn & Create Matrix with 2d List & - & Matrix is created with the same values as the 2d List & - & - \\
+        \rn & Create Matrix with 2d List & A 2d List, where the parent list holds a list for every row, each "row list" is of the same length & Matrix is created with the same values as the 2d List & - & - \\
         \hline
-        \rn & Create Vector with List & - & Vector is created with the same values as the List & - & - \\
+        \rn & Create Vector with List & A 1d List of any Values  & Vector is created with the same values as the List & - & - \\
         \hline
-        \rn & Print Matrix to Console & - & Matrix Prints to the console with the correct formatting & - & - \\
+        \rn & Print Matrix to Console & A valid Matrix of any size & Matrix Prints to the console with the correct formatting & - & - \\
         \hline
-        \rn & Create Randomised Matrix & - & Matrix is created with randomised values between -0.5 and 0.5 & - & - \\
+        \rn & Create Randomised Matrix & A Tuple for the order of the Matrix, and the the keyargument random=True & Matrix is created with randomised values between -0.5 and 0.5 & - & - \\
         \hline
-        \rn & Create Identity Matrix & - & Matrix is created with all 0's and 1's down the diagonal & - & - \\
+        \rn & Create Identity Matrix & A Tuple for the order of the Matrix, and the the keyargument identity=True & Matrix is created with all 0's and 1's down the diagonal & - & - \\
         \hline
-        \rn & Matrix Addition Calculation & - & Matrix Addition is performed to create a new Matrix with the added values & - & - \\
+        \rn & Matrix Addition Calculation & Two Matrices of the same order & Matrix Addition is performed to create a new Matrix with the added values & - & - \\
         \hline
-        \rn & Matrix Subtraction Calculation & - & Matrix Subtraction is performed to create a new Matrix with the subtracted values & - & - \\
+        \rn & Matrix Subtraction Calculation & Two Matrices of the same order & Matrix Subtraction is performed to create a new Matrix with the subtracted values & - & - \\
         \hline
-        \rn & Matrix Multiplication Calculation & - & Matrix Multiplication is performed to create a new Matrix with the multiplied values & - & - \\
+        \rn & Matrix Multiplication Calculation & Two Matrices where Width of $M1$ is equal to the height of $M2$ & Matrix Multiplication is performed to create a new Matrix with the multiplied values & - & - \\
         \hline
-        \rn & Matrix Scalar Multiplication Calculation & - & Matrix Scalar Multiplication is performed to create a new Matrix with the multiplied values & - & - \\
+        \rn & Matrix Scalar Multiplication Calculation & A $float/int$ as the scalar and any size Matrix & Matrix Scalar Multiplication is performed to create a new Matrix with the multiplied values & - & - \\
         \hline
-        \rn & Vector Hadamard Product Calculation & - & Vector Hadamard Product is performed to create a new Vector with the multiplied values & - & - \\
+        \rn & Vector Hadamard Product Calculation & Two Vectors with the same Order & Vector Hadamard Product is performed to create a new Vector with the multiplied values & - & - \\
         \hline
-        \rn & Matrix Power Calulation & - & Matrix to the Power of is performed to create a new Matrix with the correct values & - & - \\
+        \rn & Matrix Power Calulation & A Square Matrix with values stored in it & Matrix to the Power of is performed to create a new Matrix with the correct values & - & - \\
         \hline
-        \rn & Matrix Transpose Calculation & - & New Matrix is created with values flipped across the diagonal & - & - \\
+        \rn & Matrix Transpose Calculation & A Matrix with values stored in it & New Matrix is created with values flipped across the diagonal & - & - \\
         \hline
-        \rn & Matrix Select Column & - & Selects the indexed Column from the Matrix, returning as a list & - & - \\
+        \rn & Matrix Select Column & A Matrix with values stored in it & Selects the indexed Column from the Matrix, returning as a list & - & - \\
         \hline
-        \rn & Matrix Select Row & - & Selects the indexed Row from the Matrix, returning as a list & - & - \\
+        \rn & Matrix Select Row & A Matrix with values stored in it & Selects the indexed Row from the Matrix, returning as a list & - & - \\
         \hline
-        \rn & Vector Max in Vector & - & Returns Largest value in Vector & - & - \\
+        \rn & Vector Max in Vector & A Vector & Returns Largest value in Vector & - & - \\
         \hline
-        \rn & Matrix Clear & - & Clears Matrix of any values & - & - \\
+        \rn & Matrix Clear & A Matrix with values stored in it & Clears Matrix of any values & - & - \\
         \hline
         \rn & Combine Vectors & List of Vectors of the same Order & Combines the list of Vectors into a Matrix & - & - \\
         \hline
@@ -165,12 +165,13 @@
         \hline\hline
         \rn & Networks are Created & Run Program, enter setup info, denying the loading of weights & A Dual Neural Network is created after Program Start & - & - \\
         \hline
-        \rn & Networks conforms to Parameters & Run Program, enter setup info, denying the loading of weights & The created Dual Network conforms to the specified structure 
+        \rn & Networks conforms to Parameters & Run Program, enter setup info, denying the loading of weights & The created Dual Neural Network conforms to the specified structure 
         in the parameter "DeepQLearningLayers" & - & - \\
         \hline
-        \rn & Forward Propagation Test & - & - & - & - \\
+        \rn & Forward Propagation Test & Where L is the Current Layer, Forward Propagation requires: $Output Vector^{L-1}, Weight Matrix^{L-1}, Bias Vector^{L}$ 
+        & The output of the Layer & - & - \\
         \hline
-        \rn & Forward Propagation Multi Layer Test & - & - & - & - \\
+        \rn & Forward Propagation Multi Layer Test & Same as Entry Above & - & - & - \\
         \hline
         \rn & Loss Function Bellman Equation & - & - & - & - \\
         \hline
@@ -178,19 +179,20 @@
         \hline
         \rn & Back Propagation Multi Layer Unit Test & - & - & - & - \\
         \hline
-        \rn & Deque Push Front & - & Item is pushed to front of Deque & - & - \\
+        \rn & Deque Push Front & A value to push to the Deque & Item is pushed to front of Deque & - & - \\
         \hline
-        \rn & Deque Pop & - & Front item is removed and returns from Deque & - & - \\
+        \rn & Deque First/Last & Call the .First() or .Last() Method for a Deque Object & Returns item at Front/Last index of Deque & - & - \\
         \hline
-        \rn & Deque First/Last & - & Returns item at Front/Last index of Deque & - & - \\
-        \hline
-        \rn & Deque Sample N Ammount of Items & - & Returns N number of random samples from Deque & - & - \\
+        \rn & Deque Sample N Ammount of Items & Call the .Sample(int N) Method, with a parameter of N items, for a Deque Object & Returns N number of random 
+        samples from Deque & - & - \\
         \hline
         \rn & Experience Replay Sampling & - & Back Propagation is performed on the sampled Deque Items & - & - \\
         \hline
-        \rn & Activation Outputs Unit Test & - & - & - & - \\
+        \rn & Activation Outputs Unit Test & Input Value Vector to the Activation Function & Returns a Vector of values, where the Activation has been 
+        applied to them & - & - \\
         \hline
-        \rn & Activation Derivatives Output Unit Test & - & - & - & - \\
+        \rn & Activation Derivatives Output Unit Test & Input Value Vector to the Activation Derivative Function & Returns a Vector of values, where the 
+        Activation Deivative has been applied to them & - & - \\
         \hline
     \end{longtable}
 
@@ -235,25 +237,28 @@
     \hline
     {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
         \hline\hline
-        \rn & Creation of Agent & - & Agent is created as an instance of the Agent Class & - & - \\
+        \rn & Creation of Agent & Run progam as normal & Agent is created as an instance of the Agent Class & - & - \\
         \hline
-        \rn & Creation of Enemies & - & Up to the ammount of specified Enemies are created & - & - \\
+        \rn & Creation of Enemies & Run program as normal with the "StartEnemyCount" Parameter $\greatereq 1$ & Up to the ammount of specified Enemies are created & - & - \\
         \hline
-        \rn & Enemies Pathfind towards Agent & - & The spawned enemies pathfind towards the agnet using the defined pathfinding algorithm & - & - \\
+        \rn & Enemies Pathfind towards Agent & Run program as normal with "StartEnemyCount" Parameter $\greatereq 1$ & The spawned enemies pathfind towards the agnet 
+        using the defined pathfinding algorithm & - & - \\
         \hline
-        \rn & Getting Tile Data & - & Returns a Vector of the surrounding tile objects & - & - \\
+        \rn & Getting Tile Data & Call .GetTileVector(worldMap, enemyList[]) with arguments for worldMap and the list of current Enemies & Returns a Vector of the 
+        surrounding tile objects & - & - \\
         \hline
-        \rn & Convert Tile Data & - & Converts Tile Data into two vectors, Grayscale Colour and Tile Type & - & - \\
+        \rn & Convert Tile Data & Call .TileVectorPostProcess(tileVec) with argument of the result from the Test Above & Converts Tile Data into two vectors, Grayscale 
+        Colour and Tile Type & - & - \\
         \hline
         \rn & Reward System Test Basic Reward & - & Expected reward is given to agent & - & - \\
         \hline
         \rn & Reward System Test Complex Reward & - & Expected reward is given to agent & - & - \\
         \hline
-        \rn & World Generates to an Acceptable Standard & - & Generates 2d Terrain which roughly looks realistic & - & - \\
+        \rn & World Generates to an Acceptable Standard & Run program as normal & Generates 2d Terrain which roughly looks realistic & - & - \\
         \hline
-        \rn & World Generation Conforms to Parameters & - & Terrain changes depending on inputting Parameters & - & - \\
+        \rn & World Generation Conforms to Parameters & Utilise inputted parameters to identify the effect they have on the world Generation & Terrain changes depending on inputting Parameters & - & - \\
         \hline
-        \rn & Perlin Noise retains Continuity & - & Perlin Noise returns same value when using the same seed twice & - & - \\
+        \rn & Perlin Noise retains Continuity & Generate two worlds with the same seed & Perlin Noise returns same value when using the same seed twice & - & - \\
         \hline
     \end{longtable}
     

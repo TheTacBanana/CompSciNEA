@@ -277,7 +277,7 @@ class Deque(): # Partial Double Ended Queue Implementation
         return self.queue[self.frontP]
 
     def Last(self): # Returns Final Item from Queue
-        return self.queue[self.backP]
+        return self.queue[(self.frontP + 1) % self.length]
 
     def Sample(self, n): # Samples N number of samples from the deque
         temp = self.queue

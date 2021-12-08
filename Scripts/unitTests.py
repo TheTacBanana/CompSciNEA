@@ -1,5 +1,6 @@
 from heap import *
 from datalogger import *
+from deepqlearning import Deque
 import random
 
 # 4.1
@@ -93,3 +94,52 @@ dl = DataCollector("Save-Load Test", [int, int], True)
 print("Loaded List:")
 for item in dl.dataPoints:
     print(item)
+
+print() # 3.8
+
+deque = Deque(10)
+deque.PushFront(3)
+print("Added 3:", deque.queue)
+deque.PushFront(-5)
+print("Added -1:", deque.queue)
+deque.PushFront(9)
+print("Added 9:", deque.queue)
+
+print() # 3.9
+
+deque = Deque(4)
+deque.PushFront(3)
+deque.PushFront(-5)
+deque.PushFront(9)
+deque.PushFront(4)
+deque.PushFront(-4)
+
+print("First:", deque.First())
+print("Last:", deque.Last())
+print("Queue:", deque.queue)
+
+print() # 3.10
+
+deque = Deque(4)
+deque.PushFront(3)
+deque.PushFront(-5)
+deque.PushFront(9)
+deque.PushFront(4)
+deque.PushFront(-4)
+
+print("Sample 1:", deque.Sample(2))
+print("Sample 2:", deque.Sample(2))
+print(deque.queue)
+
+print() # 3.11
+
+# Experience Replay
+
+print() # 3.12
+
+# Activation Outputs
+
+print() # 3.13
+
+# Activation Derivatives
+

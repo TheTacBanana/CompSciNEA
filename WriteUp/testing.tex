@@ -179,7 +179,7 @@
         \hline
         \rn & Back Propagation Multi Layer Unit Test & - & - & - & - \\
         \hline
-        \rn & Deque Push Front & A value to push to the Deque & Item is pushed to front of Deque & - & - \\
+        \rn & Deque Push Front & A value to push to the Deque & Item is pushed to front of Deque & - & 3.8 \\
         \hline
         \rn & Deque First/Last & Call the .First() or .Last() Method for a Deque Object & Returns item at Front/Last index of Deque & - & - \\
         \hline
@@ -382,6 +382,92 @@
     \begin{center}
         {\large Evidence 3.\rn } \\ 
         \vspace{0.3cm}
+        \vspace{1cm}
+        
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        Pushing items to the front of the Double Ended Queue \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+deque = Deque(10)
+deque.PushFront(3)
+print("Added 3:", deque.queue)
+deque.PushFront(-5)
+print("Added -1:", deque.queue)
+deque.PushFront(9)
+print("Added 9:", deque.queue)
+        \end{minted}
+        
+        The output of the above code: \\
+        \includegraphics{Images/Testing/T3.8.1.PNG}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        Creating a Double Ended Queue with a length of 4, add Push Items to it, and get the 
+        Items in First and Last \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+deque = Deque(4)
+deque.PushFront(3)
+deque.PushFront(-5)
+deque.PushFront(9)
+deque.PushFront(4)
+deque.PushFront(-4)
+
+print("First:", deque.First())
+print("Last:", deque.Last())
+print("Queue:", deque.queue)
+        \end{minted}
+
+        The output of the above code: \\
+        \includegraphics{Images/Testing/T3.9.PNG}
+        \vspace{1cm}
+
+        {\large Evidence 3.\rn } \\ 
+        \vspace{0.3cm}
+        Create a Double Ended Queue and Sample items from the Queue \\
+
+        \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+deque = Deque(4)
+deque.PushFront(3)
+deque.PushFront(-5)
+deque.PushFront(9)
+deque.PushFront(4)
+deque.PushFront(-4)
+
+print("Sample 1:", deque.Sample(2))
+print("Sample 2:", deque.Sample(2))
+print(deque.queue)
+        \end{minted}
+
+        The output of the above code: \\
+        \includegraphics{Images/Testing/T3.10.1.PNG}
+        \vspace{1cm}
     \end{center}
 
     \setcounter{magicrownumbers}{0}
@@ -422,7 +508,6 @@ for item in sortedList:
         {\large Evidence 5.\rn } \\ 
         \vspace{0.3cm}
         Adding a single point: [5, 2] to DataLogger \\
-
         \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
 dl = DataCollector("AddPointTest", [int, int], False)
 print("Before: ", dl.dataPoints)

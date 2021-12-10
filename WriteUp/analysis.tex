@@ -51,35 +51,66 @@
         \item {\Large Initial Research} \\
             \begin{enumerate}
                 \item {\Large Existing Investigations} \\
-                    \large
-                    \vspace{0.2cm}
+                    \begin{enumerate}
+                        \item {\large \textbf{Crafter}}
+                            In my research on the Internet I discovered a project called $Crafter$.
+                            
+                            \centerline{\texit{https://github.com/danijar/crafter}}
 
-                        In my research on the Internet I discovered a project called $Crafter$.
-                        
-                        \centerline{\texit{https://github.com/danijar/crafter}}
+                            Crafter is described to be \textit{"Benchmarking the Spectrum of Agent Capabilities"}, and is utlised
+                            in conjunction with Machine Learning Algoriths such as $DreamerV2$, $PPO$ and $Rainbow$. Crafter poses significant
+                            challenge towards its Player, requiring high levels of generalisation, long-term reasoning, and complex 
+                            problem solving. If the machine Learning algorithm in question fails to achieve one of these aspects it will 
+                            struggle to full "Solve" the simulation. \\
 
-                        Crafter is described to be \textit{"Benchmarking the Spectrum of Agent Capabilities"}, and is utlised
-                        in conjunction with Machine Learning Algoriths such as $DreamerV2$, $PPO$ and $Rainbow$. Crafter poses significant
-                        challenge towards its Player, requiring high levels of generalisation, long-term reasoning, and complex 
-                        problem solving. If the machine Learning algorithm in question fails to achieve one of these aspects it will 
-                        struggle to full "Solve" the simulation. \\
+                            \vspace{0.2cm}
 
-                        \vspace{0.2cm}
+                            High levels of generalisation are required when training a Machine Learning algorithm, if this is not achieved then
+                            your network will only lend itself to a single Dataset/Problem. An example of this would be training a network used
+                            to recognise hand written digits on only one way of writing 4's, if presented with an input for a different type of 
+                            4 it may not recognise it and identify it incorrectly. \\
+                            
+                            \vspace{0.2cm}
 
-                        High levels of generalisation are required when training a Machine Learning algorithm, if this is not achieved then
-                        your network will only lend itself to a single Dataset/Problem. An example of this would be training a network used
-                        to recognise hand written digits on only one way of writing 4's, if presented with an input for a different type of 
-                        4 it may not recognise it and identify it incorrectly.
-                        
-                        \vspace{0.2cm}
+                            Long-Term reasoning is a complex problem to solve in the context of Machine Learning, current Machine Learning models
+                            struggle to deal with this problem. This is dealt with by using algorithms built to mimic "memory". A common 
+                            implementation of this is Experience Replay which stores states in a queue, and relearns from it after every N ammount
+                            of steps. \\
 
-                        Long-Term reasoning is a complex problem to solve in the context of Machine Learning, current Machine Learning models
-                        struggle to deal with this problem. 
+                            \vspace{0.2cm}
 
-                        \vspace{0.2cm}
+                            A complex reward and action system may take time for an algorithm to learn but it certainly is possible with current
+                            Machine Learning Models. Crafter utilises a complex action system with a flow chart determining which Action can be taken
+                            given the current state of the simulation. Below is shown the Complex Flow Chart of Actions: \\
 
-                        A complex reward and action system may take time for an algorithm to learn but it certainly is possible with current
-                        Machine Learning Models.
+                            \vspace{0.2cm}
+                            \begin{center}
+                                \includegraphics[width=8cm]{Images/Initial Research/CrafterComplexActionSystem.PNG}
+                                Complex action system as shown in the Paper "Benchmarking the Spectrum of Agent Capabilities" \\
+                            \end{center}
+                            \vspace{0.2cm}
+
+                            While I would love to create a simulation similar to crafter, it is very complex and would take a long time to develop. Yet
+                            would not net many marks in the process.
+
+                            \vspace{0.2cm}
+                        \item {\large \textbf{Minecraft}}
+                            Minecraft is a \textit{very} popular Game. It's a sandbox game, meaning that the player can do almost anything they want.
+                            It has infinite terrain generation, and explicity uses Perlin Noise, and is generated from a seed. The seed determines
+                            all the terrain generation, loot tables, random structures, caves, etc. Two seeds next to eachother will also be wildly
+                            different. \\
+                            
+                            \vspace{0.2cm}
+
+                            First it starts off on a very broad level, painting a basic topographical map of the world. It then adds finer detail
+                            of noise in the form of Biomes, Shrubbery and Generated Structures. \\
+
+                            \includegraphics{Images\Initial Research/MCTerrainGeneration.jpg}
+                            \includegraphics{Images\Initial Research/MCStructureGeneration.jpg}
+
+                        \item {\large \textbf{Conways Game of Life}}
+
+                \end{enumerate}
 
                 \item {\Large Algorithms and Potential Data Types} \\
                     \large

@@ -47,8 +47,6 @@ class WorldMap():
 
         self.paramDictionary = params
 
-        self.time = 0
-
 # Non Threaded Terrain Generation
     def GenerateMap(self): # Generates terrain - Not Threaded 
         for y in range(0, self.MAP_SIZE):

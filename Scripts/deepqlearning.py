@@ -27,7 +27,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         
         self.activations = (self.layerActivation, self.finalLayerActivation) # Tuple of activations
 
-        self.actions = [0 for i in range(7)]
         self.batchReward = 0
 
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
@@ -137,10 +136,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         LossVec = ((Reward + (Gamma * maxQTNet)) - output) ** 2 # Bellman Equation
         return LossVec
-
-    def SaveNetworks(self):
-        self.MainNetwork.SaveNeuralNet("MainNetwork")
-        self.TargetNetwork.SaveNeuralNet("TargetNetwork")
 
     def SaveState(self, file):
         state = [self.MainNetwork, self.TargetNetwork, self.ExperienceReplay, self.step, 

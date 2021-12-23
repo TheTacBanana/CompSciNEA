@@ -1,5 +1,151 @@
 \begin{flushleft}
     \huge
     \textbf{3. Design}
+
+    \Large
+    \begin{enumerate}
+        \item {\Large Whole System Flow Chart}
+            \large
+            \vspace{0.2cm}
+
+        \item {\Large System Class Diagrams}
+            \large
+            \vspace{0.2cm}
+
+        \item {\Large Description of Algorithms}
+            \large
+            \vspace{0.2cm}
+            \begin{enumerate}[label=\arabic*)]
+                \item Matrix Addition \\
+                This algorithm is a Mathematical Operation to add 2 Matrices together. To Add together 2 Matrices their Orders
+                must be the same. To perform the Operation you must Sum each element in Matrix A with the corresponding element 
+                in Matrix B, placing the result of each Sum in the resultant Matrix.
+
+                \vspace{0.5cm}
+                \item Matrix Subtraction \\
+                This algorithm is a Mathematical Operation to subtract 2 Matrices. To Subtract 2 Matrices their Orders
+                must be the same. To perform the Operation you must Sum each element in Matrix A with the negative of the 
+                corresponding element in Matrix B, placing the result of each Sum in the resultant Matrix.
+
+                \vspace{0.5cm}
+                \item Matrix Multiplication \\
+                This algorithm is a Mathematical Operation to find the product of 2 Matrices. To Multiply 2 Matrices
+                the number of Columns in the Matrix A must be equal to the number of Rows in Matrix B. Where Matrix A has
+                dimensions of $m$ x $n$ and Matrix B has dimensions of $j$ x $k$, the resultant Matrix will have dimensions of 
+                $n$ x $j$. To Multiply two Matrices, the algorithm performs the Dot Product between the Row in Matrix A and the 
+                corresponding Column in Matrix B. The Dot Product is the Sum of the Products of corresponding elements.
+
+                \vspace{0.5cm}
+                \item Matrix Scalar Multiplication \\
+                This algorithm is a Mathematical Operation to find the product between a Matrix and a Scalar.
+                The result can be found by Multiplying each element of the Matrix by the Scalar Value to form the Resultant 
+                Matrix.
+                
+                \vspace{0.5cm}
+                \item Matrix Hadamard Product \\
+                This algorithm is a Mathematical Operation to another way to find the product between 2 Matrices. Instead of
+                applying the Dot Product between Rows and Columns, you find the product between each element in Matrix A
+                with the corresponding element in Matrix B, placing the result in the resultant Matrix. This is very epic gamer
+
+                \vspace{0.5cm}
+                \item Matrix Power \\
+                This algorithm is a Mathematical Operation to find the power of a Matrix. The given Matrix needs to have square dimensions.
+                The result can be found by multiplying the given Matrix by itself $n$ ammount of times where $n$ is the given power.
+                
+                \vspace{0.5cm}
+                \item Matrix Transpose \\
+                This algorithm is a Mathematical Operation used to Flip a Matrix across its Diagonal. The Transpose of any Matrix
+                can be found by converting each Row of the Matrix into a Column. An $m$ x $n$ Matrix will turn into an $n$ x $m$ Matrix.
+                
+                \vspace{0.5cm}
+                \item Activation Function Sigmoid \\
+                This algorithm is a Mathematical Formulae which squishes any value to between 0 and 1. It uses Eulers Number $e$.
+
+                \vspace{0.2cm}
+                {\Large\centerline{$S(x) = \frac{1}{1 + e^{-x}}$}}
+                \vspace{0.2cm}
+                
+                \vspace{0.5cm}
+                \item Activation Function TanH \\
+                This algorithm is a Hyperbolic Function which squishes any value to between -1 and 1. It is a Ratio between the two Hyperbolic 
+                functions SinH and CosH.
+
+                \vspace{0.2cm}
+                {\Large\centerline{$TanH(x) = \frac{SinH(x)}{CosH(x)} = \frac{e^x - e^{-x}}{e^x + e^{-x}}$}}
+                \vspace{0.2cm}
+
+                \vspace{0.5cm}
+                \item Activation Function Relu \\
+                This algorithm is a simple function which removes any negative values from its input, returning 0 instead.
+                
+                \vspace{0.5cm}
+                \item Activation Function SoftMax \\
+                This algorithm is a logistic function that creates a probability distribution from a set of points. This probability 
+                distribution sums to 1. It applies the standard Exponential Function to each element, then normalises this value by dividing
+                by the sum of all these Exponentials.
+
+                \vspace{0.5cm}
+                \item Neural Network Forward Propagation \\
+                This algorithm is used to obtain the outputs of a Neural Network. It uses Matrix Multiplication to propagate the inputs
+                of the network from Layer to Layer, eventually reaching the Output Layer. My Multiplying the Weight Matrix and the outputs
+                of the previous Layer, and then adding the Bias. We can obtain the output of the layer.
+                
+                \vspace{0.5cm}
+                \item Neural Network Loss Function \\
+                
+                \vspace{0.5cm}
+                \item Neural Network Back Propagation \\
+                
+                \vspace{0.5cm}
+                \item Agent Get Tile Vector \\
+                This algorithm takes the current world data of the simulation, and produces a Vector of Tile Data surrounding the Agent. 
+                
+                \vspace{0.5cm}
+                \item Agent Post Process Tile Vector \\
+                This algorithm will convert the Tile Vector into a Vector of Grayscale values, which can be used as the input for the Neural
+                Network.
+                
+                \vspace{0.5cm}
+                \item Agent Convert to Grayscale \\
+                This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value
+
+                \vspace{0.5cm}
+                \item Agent Spawn Position \\
+                
+                \vspace{0.5cm}
+                \item Enemy Spawn Position \\
+                
+                \vspace{0.5cm}
+                \item Enemy Move \\
+                
+                \vspace{0.5cm}
+                \item Poisson Disc Sampling \\
+                
+                \vspace{0.5cm}
+                \item Perlin Noise \\
+                
+                \vspace{0.5cm}
+                \item Octave Perlin Noise \\
+                
+                \vspace{0.5cm}
+                \item Deque Push Front \\
+                
+                \vspace{0.5cm}
+                \item Deque First \\
+                
+                \vspace{0.5cm}
+                \item Deque Last \\
+                
+                \vspace{0.5cm}
+                \item Deque Sample \\
+                
+                \vspace{0.5cm}
+            \end{enumerate}
+
+        \item {\Large Description of Data Structures}
+            \large
+            \vspace{0.2cm}
+
+    \end{enumerate}
     \vspace{0.1cm}
 \end{flushleft}

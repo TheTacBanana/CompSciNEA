@@ -2,15 +2,15 @@ import pickle, random
 from heap import *
 from time import time
 
-# Data Collector Class for logging information for analysis
-class DataCollector():
+# Data Logger Class for logging information for analysis
+class DataLogger():
     def __init__(self, name, dataStructure, load=True): # Constructor Method
         self.name = name
 
         self.dataStructure = dataStructure
 
         if load: # Loads Data if available but else create blank
-            self.dataPoints = DataCollector.LoadDataPoints(name)
+            self.dataPoints = DataLogger.LoadDataPoints(name)
         else:
             self.dataPoints = []
 

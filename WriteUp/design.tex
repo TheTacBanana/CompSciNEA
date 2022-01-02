@@ -4,11 +4,11 @@
 
     \Large
     \begin{enumerate}
-        \item {\Large Whole System Flow Chart}
+        \item {\Large System Flow Charts}
             \large
             \vspace{0.2cm}
 
-        \item {\Large System Class Diagrams}
+        \item {\Large Class Diagrams}
             \large
             \vspace{0.2cm}
 
@@ -93,9 +93,15 @@
                 \vspace{0.5cm}
                 \item Neural Network Loss Function \\
                 
-                \vspace{0.5cm}
-                \item Neural Network Back Propagation \\
                 
+                \vspace{0.5cm}
+                \item Neural Network Backwards Propagation \\
+                This algorithm is used within a Neural Network to adjust its Weights and Biases, allowing it to more accurately predict the
+                best outcome. In Reinforcement Learning, the Network is trained using an estimate for what is the best action given a situation.
+                Using this estimate, we can train the Network to predict this outcome by converging the series of Weights and Biases towards a
+                local minimum. This is done by calculating partial derivates for every weight and bias value with respect to the cost function.
+                This derivative is then subtracted from the existing weight or bias, eventually converging on the best possible value.
+
                 \vspace{0.5cm}
                 \item Agent Get Tile Vector \\
                 This algorithm takes the current world data of the simulation, and produces a Vector of Tile Data surrounding the Agent. 
@@ -107,44 +113,63 @@
                 
                 \vspace{0.5cm}
                 \item Agent Convert to Grayscale \\
-                This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value
+                This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value.
 
                 \vspace{0.5cm}
                 \item Agent Spawn Position \\
+                This algorithm will create a list of spawnable tiles for which the Agent could spawn on, and then randomnly select a specific
+                tile as its spawn position.
                 
                 \vspace{0.5cm}
                 \item Enemy Spawn Position \\
+                This algorithm will create a list of spawnable tiles for which Enemies can spawn on, then select tiles randomnly, if they dont
+                already contain an enemy or the agent it will create an Enemy Object with that position. It will do this $n$ ammount of times where $n$ is
+                the limit to how many enemies can spawn.
                 
                 \vspace{0.5cm}
                 \item Enemy Move \\
+                The algorithm I have designed for the Enemy Pathfinding is rather simple, and wont take up much runtime in my solution.
+                First it calculates the distance between itself and the Agent in both Axis. The Enemy will then converge upon the Agents
+                position by moving in the direction with the greatest distance, effectively finding the nearest diagonal and following it.
+                The flow diagram for this Simple Algorithm is shown above under System Flow Charts.
                 
                 \vspace{0.5cm}
                 \item Poisson Disc Sampling \\
+                Poisson Disc Sampling is used to sample a set of points in N Dimensional Space. It takes two parameters, $r$ and $k$, where
+                $r$ is the minimum distance a specified point must be from every other point, and $k$ is the limit of samples to choose
+                before rejection. It starts by creating an N Dimensional Grid which accelerates spacial searches. An initial sample is then
+                chosen and inserted into the grid. It then chooses a random point, and determines if it is greater than $r$ range from every 
+                other point in the grid. This can easily be acomplished using the previously defined Grid. If after $k$ attempts, no point is
+                found then the search is concluded.
                 
                 \vspace{0.5cm}
                 \item Perlin Noise \\
+                Perlin Noise is a method of generating a procedural texture depending upon input parameters. It defines an n-dimensional
+                grid of Vectors, each grid intersection contains a fixed, random unit vector. To sample Perlin Noise, the grid cell which
+                the point lies in must be found. The Vectors between the sampled point, and the corners of the cell. We then take the Dot
+                Product between these new Vectors, and the Vectors applied to the intersections. In 2d Space this leaves us with 4 Values.
+                We then use an Interpolation function to Interpolate between the 4 Values. 
                 
                 \vspace{0.5cm}
                 \item Octave Perlin Noise \\
-                
-                \vspace{0.5cm}
-                \item Deque Push Front \\
-                
-                \vspace{0.5cm}
-                \item Deque First \\
-                
-                \vspace{0.5cm}
-                \item Deque Last \\
-                
-                \vspace{0.5cm}
-                \item Deque Sample \\
-                
+                Octave Perlin Noise takes the existing Perlin Noise algorithm, but adds rescaled clones of itself into itself, to create
+                what is known as Fractal Noise. Creating this Fractal Noise is common practice because it reduces the sharp edges encountered
+                with just the regular Perlin Noise Algorithm.
+
                 \vspace{0.5cm}
             \end{enumerate}
 
-        \item {\Large Description of Data Structures}
+        \item {\Large Description of Data Structures} \\
             \large
             \vspace{0.2cm}
+            \begin{enumerate}
+                \item {\large Matrices} \\
+                As part of developing a Neural Network, I will extensively use Matrices, as they are an integral part of the algorithms
+                used for Machine Learning. After creating a prototype Matrix class as part of my prototype, I will represent it in the
+                same format. In my prototype I created a Class, and then represented the values of the Matrix with a 2d List (List of Lists).
+                As part of my Matrix Class I will have multiple constructors, to help avoid repeating code.
+            \end{enumerate}
+            
 
     \end{enumerate}
     \vspace{0.1cm}

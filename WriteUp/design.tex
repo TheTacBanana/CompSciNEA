@@ -4,9 +4,17 @@
 
     \Large
     \begin{enumerate}
-        \item {\Large System Flow Charts}
+        \item {\Large System Flow Charts} \\
             \large
             \vspace{0.2cm}
+            Below is shown the Flow Chart Overview of my Entire Project. This flowchart is very abstracted without going into
+            the fine detail of each Process. \\
+            
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=\textwidth]{Images/Design/NEA Flow Chart.png}}
+            \vspace{0.5cm}
+
+            
 
         \item {\Large Class Diagrams}
             \large
@@ -68,7 +76,7 @@
                 \vspace{0.5cm}
                 \item Activation Function TanH \\
                 This algorithm is a Hyperbolic Function which squishes any value to between -1 and 1. It is a Ratio between the two Hyperbolic 
-                functions SinH and CosH.
+                functions SinH and CosH. The Mathematical Formulae for this can be found under 
 
                 \vspace{0.2cm}
                 {\Large\centerline{$TanH(x) = \frac{SinH(x)}{CosH(x)} = \frac{e^x - e^{-x}}{e^x + e^{-x}}$}}
@@ -92,7 +100,10 @@
                 
                 \vspace{0.5cm}
                 \item Neural Network Loss Function \\
-                
+                The algorithm for to calculate the Loss of a Dual Neural Network can calculated by using a variation of the Bellman Equation.
+                The Bellman Equation is neccesary for Mathematically Optimising in this case. It determines the Value of a decision at a certain 
+                point in time, in terms of the Payoff from the Inital Action and the Value of the Potential Payoff after taking that Initial
+                Action. 
                 
                 \vspace{0.5cm}
                 \item Neural Network Backwards Propagation \\
@@ -104,7 +115,8 @@
 
                 \vspace{0.5cm}
                 \item Agent Get Tile Vector \\
-                This algorithm takes the current world data of the simulation, and produces a Vector of Tile Data surrounding the Agent. 
+                This algorithm takes the current World Data of the simulation, and produces a Vector of Tile Data surrounding the Agent. This can
+                be done using a nested For Loop rather simply.
                 
                 \vspace{0.5cm}
                 \item Agent Post Process Tile Vector \\
@@ -113,7 +125,9 @@
                 
                 \vspace{0.5cm}
                 \item Agent Convert to Grayscale \\
-                This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value.
+                This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value. The Red, Green and Blue elements of
+                the colour value are multiplied by the specific values $0.299$, $0.587$ and $0.114$. You then sum the results, and divide by 
+                $255$.
 
                 \vspace{0.5cm}
                 \item Agent Spawn Position \\
@@ -123,8 +137,8 @@
                 \vspace{0.5cm}
                 \item Enemy Spawn Position \\
                 This algorithm will create a list of spawnable tiles for which Enemies can spawn on, then select tiles randomnly, if they dont
-                already contain an enemy or the agent it will create an Enemy Object with that position. It will do this $n$ ammount of times where $n$ is
-                the limit to how many enemies can spawn.
+                already contain an enemy or the agent it will create an Enemy Object with that position. It will do this $n$ ammount of times 
+                where $n$ is the limit to how many enemies can spawn.
                 
                 \vspace{0.5cm}
                 \item Enemy Move \\

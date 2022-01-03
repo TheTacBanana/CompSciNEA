@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} MatrixMultiplication(Matrix1, Matrix2)}
+    \PYG{esc}{tempMatrix \leftarrow \textbf{NEW} Matrix((Matrix1.Order[0], Matrix2.Order[1]))}
+    \PYG{esc}{\textbf{FOR} i \leftarrow 0 \textbf{TO} Matrix1.Order[0]}
+        \PYG{esc}{\textbf{FOR} j \leftarrow 0 \textbf{TO} Matrix2.Order[1]}
+            \PYG{esc}{\textbf{FOR} l \leftarrow 0 \textbf{TO} Matrix.Order[1]}
+                \PYG{esc}{tempMatrix[i, j] \leftarrow tempMatrix[i, j] + Matrix1[i, k] * Matrix2[k, j]}
+            \PYG{esc}{\textbf{END FOR}}
+        \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{RETURN} tempMatrix}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

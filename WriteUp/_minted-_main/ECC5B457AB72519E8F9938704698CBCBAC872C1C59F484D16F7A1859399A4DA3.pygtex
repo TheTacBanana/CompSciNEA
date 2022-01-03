@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} Softmax(Input)}
+    \PYG{esc}{OutVector \leftarrow \textbf{NEW} Matrix(Input.Order)}
+    \PYG{esc}{ExpSum \leftarrow 0}
+    \PYG{esc}{\textbf{FOR} Row \leftarrow 0 \textbf{TO} Input.Order[0]}
+        \PYG{esc}{ExpSum \leftarrow ExpSum + Math.exp(Input[Row, 0]})
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{FOR} Row \leftarrow 0 \textbf{TO} Input.Order[0]}
+        \PYG{esc}{OutVector[Row] \leftarrow Input[Row, 0] / ExpSum}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{RETURN} OutVector}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

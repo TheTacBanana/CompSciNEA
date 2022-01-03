@@ -11,29 +11,71 @@
             the fine detail of each Process. \\
             
             \vspace{0.5cm}
-            \centerline{\includegraphics[width=\textwidth]{Images/Design/NEA Flow Chart.png}}
+            \centerline{\includegraphics[width=\textwidth]{Images/Design/NEAFlowChart.png}}
             \vspace{0.5cm}
 
-            
+            Below is shown the Action and Reward Tree for the Agent. Any Reward is added to a Total Reward Buffer and returned
+            as part of the Function. \\
+
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=\textwidth]{Images/Design/RewardActionStructure.png}}
+            \vspace{0.5cm}
 
         \item {\Large Class Diagrams}
             \large
             \vspace{0.2cm}
+            Below is shown the Class Diagram of the entire Technical Solution. The Data Logger is listed seperately for clarity, as
+            in practice multiple sections of the Program will aggregate with it.
 
-        \item {\Large Description of Algorithms}
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=\textwidth]{Images/Design/ClassDiagram.png}}
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=.65\textwidth]{Images/Design/DataLoggerDiagram.png}}
+            \vspace{0.5cm}
+
+        \item {\Large Description of Algorithms} \\
             \large
             \vspace{0.2cm}
+            In this section, I will describe the algorithms I intend to use in my Technical Solution. I will also include generalised
+            Pseudocode as part of my description.
+
             \begin{enumerate}[label=\arabic*)]
                 \item Matrix Addition \\
                 This algorithm is a Mathematical Operation to add 2 Matrices together. To Add together 2 Matrices their Orders
                 must be the same. To perform the Operation you must Sum each element in Matrix A with the corresponding element 
                 in Matrix B, placing the result of each Sum in the resultant Matrix.
 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixAddition(Matrix1, Matrix2)|
+    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
+        |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]|
+            |temporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] + Matrix2[Row, Column]|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} temporaryMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
                 \vspace{0.5cm}
                 \item Matrix Subtraction \\
                 This algorithm is a Mathematical Operation to subtract 2 Matrices. To Subtract 2 Matrices their Orders
                 must be the same. To perform the Operation you must Sum each element in Matrix A with the negative of the 
                 corresponding element in Matrix B, placing the result of each Sum in the resultant Matrix.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixSubtraction(Matrix1, Matrix2)|
+    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
+        |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]|
+            |temporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] - Matrix2[Row, Column]|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} temporaryMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
 
                 \vspace{0.5cm}
                 \item Matrix Multiplication \\
@@ -43,17 +85,58 @@
                 $n$ x $j$. To Multiply two Matrices, the algorithm performs the Dot Product between the Row in Matrix A and the 
                 corresponding Column in Matrix B. The Dot Product is the Sum of the Products of corresponding elements.
 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixMultiplication(Matrix1, Matrix2)|
+    |tempMatrix \leftarrow \textbf{NEW} Matrix((Matrix1.Order[0], Matrix2.Order[1]))|
+    |\textbf{FOR} i \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
+        |\textbf{FOR} j \leftarrow 0 \textbf{TO} Matrix2.Order[1]|
+            |\textbf{FOR} l \leftarrow 0 \textbf{TO} Matrix.Order[1]|
+                |tempMatrix[i, j] \leftarrow tempMatrix[i, j] + Matrix1[i, k] * Matrix2[k, j]|
+            |\textbf{END FOR}|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} tempMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}   
+
                 \vspace{0.5cm}
                 \item Matrix Scalar Multiplication \\
                 This algorithm is a Mathematical Operation to find the product between a Matrix and a Scalar.
                 The result can be found by Multiplying each element of the Matrix by the Scalar Value to form the Resultant 
                 Matrix.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixScalarMultiplication(Scalar, Matrix)|
+    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix.Order[0]|
+        |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix.Order[1]|
+            |temporaryMatrix[Row, Column] \leftarrow Scalar * Matrix[Row, Column]|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} temporaryMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}   
                 
                 \vspace{0.5cm}
                 \item Matrix Hadamard Product \\
                 This algorithm is a Mathematical Operation to another way to find the product between 2 Matrices. Instead of
                 applying the Dot Product between Rows and Columns, you find the product between each element in Matrix A
-                with the corresponding element in Matrix B, placing the result in the resultant Matrix. This is very epic gamer
+                with the corresponding element in Matrix B, placing the result in the resultant Matrix.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixHadamardProduct(Matrix1, Matrix2)|
+    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
+        |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]|
+            |temporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] * Matrix2[Row, Column]|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} temporaryMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}   
 
                 \vspace{0.5cm}
                 \item Matrix Power \\
@@ -64,33 +147,40 @@
                 \item Matrix Transpose \\
                 This algorithm is a Mathematical Operation used to Flip a Matrix across its Diagonal. The Transpose of any Matrix
                 can be found by converting each Row of the Matrix into a Column. An $m$ x $n$ Matrix will turn into an $n$ x $m$ Matrix.
-                
-                \vspace{0.5cm}
-                \item Activation Function Sigmoid \\
-                This algorithm is a Mathematical Formulae which squishes any value to between 0 and 1. It uses Eulers Number $e$.
 
                 \vspace{0.2cm}
-                {\Large\centerline{$S(x) = \frac{1}{1 + e^{-x}}$}}
-                \vspace{0.2cm}
-                
-                \vspace{0.5cm}
-                \item Activation Function TanH \\
-                This algorithm is a Hyperbolic Function which squishes any value to between -1 and 1. It is a Ratio between the two Hyperbolic 
-                functions SinH and CosH. The Mathematical Formulae for this can be found under 
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixTranspose(Matrix)|
+    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix.Order[0]|
+        |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix.Order[1]|
+            |temporaryMatrix[Row, Column] \leftarrow Matrix[Column, Row]|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} temporaryMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
 
-                \vspace{0.2cm}
-                {\Large\centerline{$TanH(x) = \frac{SinH(x)}{CosH(x)} = \frac{e^x - e^{-x}}{e^x + e^{-x}}$}}
-                \vspace{0.2cm}
-
-                \vspace{0.5cm}
-                \item Activation Function Relu \\
-                This algorithm is a simple function which removes any negative values from its input, returning 0 instead.
-                
                 \vspace{0.5cm}
                 \item Activation Function SoftMax \\
                 This algorithm is a logistic function that creates a probability distribution from a set of points. This probability 
                 distribution sums to 1. It applies the standard Exponential Function to each element, then normalises this value by dividing
                 by the sum of all these Exponentials.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} Softmax(Input)|
+    |OutVector \leftarrow \textbf{NEW} Matrix(Input.Order)|
+    |ExpSum \leftarrow 0|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Input.Order[0]|
+        |ExpSum \leftarrow ExpSum + Math.exp(Input[Row, 0]|)
+    |\textbf{END FOR}|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Input.Order[0]|
+        |OutVector[Row] \leftarrow Input[Row, 0] / ExpSum|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} OutVector|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
 
                 \vspace{0.5cm}
                 \item Neural Network Forward Propagation \\
@@ -117,11 +207,23 @@
                 \item Agent Get Tile Vector \\
                 This algorithm takes the current World Data of the simulation, and produces a Vector of Tile Data surrounding the Agent. This can
                 be done using a nested For Loop rather simply.
-                
-                \vspace{0.5cm}
-                \item Agent Post Process Tile Vector \\
-                This algorithm will convert the Tile Vector into a Vector of Grayscale values, which can be used as the input for the Neural
-                Network.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} GetTileVector(WorldMap)|
+    |Offset \leftarrow LoadFromParameters("DQLOffset")|
+    |SideLength \leftarrow 2 * Offset + 1|
+    |TileVector \leftarrow \textbf{NEW} Matrix((Math.pow(sideLength, 2), 1))|
+    |Num \leftarrow 0|
+    |\textbf{FOR} i \leftarrow Agent.Pos[1] - Offset \textbf{TO} Agent.Pos[1] + offset + 1|
+        |\textbf{FOR} j \leftarrow Agent.Pos[0] - offset \textbf{TO} Agent.Pos[1] + offset + 1|
+            |TileVector[Num, 0] \leftarrow WorldMap[j, i]|
+            |Num \leftarrow Num + 1|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} TileVector|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
                 
                 \vspace{0.5cm}
                 \item Agent Convert to Grayscale \\
@@ -129,6 +231,33 @@
                 the colour value are multiplied by the specific values $0.299$, $0.587$ and $0.114$. You then sum the results, and divide by 
                 $255$.
 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} RGBToGrayscale(RGBVal)|
+    |GrayscaleValue \leftarrow 0|
+    |GrayscaleValue \leftarrow GrayscaleValue + (0.299 * RGBVal[0])|
+    |GrayscaleValue \leftarrow GrayscaleValue + (0.587 * RGBVal[1])|
+    |GrayscaleValue \leftarrow GrayscaleValue + (0.114 * RGBVal[2])|
+    |\textbf{RETURN} GrayscaleValue / 255|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
+                \vspace{0.5cm}
+                \item Agent Post Process Tile Vector \\
+                This algorithm will convert the Tile Vector into a Vector of Grayscale values, which can be used as the input for the Neural
+                Network.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} GetTileVector(TileVector)|
+    |ProcessedVector \leftarrow \textbf{NEW} Matrix(TileVector.Order)|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} TileVector.Order[0]|
+        |ProcessedVector[Row, 0] \leftarrow RGBToGrayscale(TileVector[Row, 0].RGBValue)|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} ProcessedVector|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+                
                 \vspace{0.5cm}
                 \item Agent Spawn Position \\
                 This algorithm will create a list of spawnable tiles for which the Agent could spawn on, and then randomnly select a specific
@@ -145,7 +274,33 @@
                 The algorithm I have designed for the Enemy Pathfinding is rather simple, and wont take up much runtime in my solution.
                 First it calculates the distance between itself and the Agent in both Axis. The Enemy will then converge upon the Agents
                 position by moving in the direction with the greatest distance, effectively finding the nearest diagonal and following it.
-                The flow diagram for this Simple Algorithm is shown above under System Flow Charts.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} EnemyMove(Agent, WorldMap)|
+    |XDifference \leftarrow Agent.Pos[0] - This.Pos[0]|
+    |YDifference \leftarrow Agent.Pos[1] - This.Pos[0]|
+
+    |\textbf{IF} XDifference == 0 \textbf{AND} YDifference == 0|
+        |Agent.Alive = False|
+        |\textbf{RETURN}|
+    |\textbf{END IF}|
+
+    |\textbf{IF} abs(XDifference) > abs(YDifference)|
+        |\textbf{IF} XDifference > 0|
+            |This.Pos[0] \leftarrow This.Pos[0] + 1|
+        |\textbf{ELSE}|
+            |This.Pos[0] \leftarrow This.Pos[0] - 1|
+        |\textbf{END IF}|
+    |\textbf{ELSE IF} abs(XDifference) < abs(YDifference)|
+        |\textbf{IF} YDifference > 0|
+            |This.Pos[1] \leftarrow This.Pos[1] + 1|
+        |\textbf{ELSE}|
+            |This.Pos[1] \leftarrow This.Pos[1] - 1|
+        |\textbf{END IF}|
+    |\textbf{END IF}|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
                 
                 \vspace{0.5cm}
                 \item Poisson Disc Sampling \\
@@ -163,16 +318,89 @@
                 the point lies in must be found. The Vectors between the sampled point, and the corners of the cell. We then take the Dot
                 Product between these new Vectors, and the Vectors applied to the intersections. In 2d Space this leaves us with 4 Values.
                 We then use an Interpolation function to Interpolate between the 4 Values. 
-                
+            
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|PermTable \leftarrow [1 \rightarrow 255].Shuffle() * 2|
+
+|\textbf{SUBROUTINE} PerlinNoise(X, Y)|
+    |XFloor \leftarrow Math.floor(X)|
+    |YFloor \leftarrow Math.floor(Y)|
+
+    |G1 \leftarrow PermTable[PermTable[XFloor] + YFloor]|
+    |G2 \leftarrow PermTable[PermTable[XFloor + 1] + YFloor]|
+    |G3 \leftarrow PermTable[PermTable[XFloor] + YFloor + 1]|
+    |G4 \leftarrow PermTable[PermTable[XFloor + 1] + YFloor + 1]|
+
+    |XExact \leftarrow X - XFloor|
+    |YExact \leftarrow Y - YFloor|
+
+    |D1 \leftarrow Grad(G1, XFloor, YFloor)|
+    |D2 \leftarrow Grad(G2, XFloor - 1, YFloor)|
+    |D3 \leftarrow Grad(G3, XFloor, YFloor - 1)|
+    |D4 \leftarrow Grad(G4, XFloor - 1, YFloor - 1)|
+
+    |U \leftarrow Fade(XFloor)|
+    |V \leftarrow Fade(YFloor)|
+
+    |XInterpolated \leftarrow Lerp(U, D1, D2)
+    |YInterpolated \leftarrow Lerp(U, D3, D4)
+
+    |\textbf{RETURN} Lerp(V, XInterpolated, YInterpolated)|
+|\textbf{ENDSUBROUTINE}|
+
+|\textbf{SUBROUTINE} Grad(Hash, X, Y)|
+    |Temp \leftarrow Hash BITWISEAND 3|
+    |\textbf{IF} Temp == 0|
+        |\textbf{RETURN} X + Y|
+    |\textbf{ELSE IF} Temp == 1|
+        |\textbf{RETURN} -X + Y|
+    |\textbf{ELSE IF} Temp == 2|
+        |\textbf{RETURN} X - Y|
+    |\textbf{ELSE IF} Temp == 3|
+        |\textbf{RETURN} -X - Y|
+    |\textbf{ELSE}|
+        |\textbf{RETURN} 0|
+|\textbf{ENDSUBROUTINE}|
+
+|\textbf{SUBROUTINE} Lerp(Ammount, Left, Right)|
+    |\textbf{RETURN} ((1 - Ammount) * Left + Ammount * Right)|
+|\textbf{ENDSUBROUTINE}|
+
+|\textbf{SUBROUTINE} Fade(T)|
+    |\textbf{RETURN} T * T * T * (T * (T * 6 - 15) + 10)|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
                 \vspace{0.5cm}
                 \item Octave Perlin Noise \\
                 Octave Perlin Noise takes the existing Perlin Noise algorithm, but adds rescaled clones of itself into itself, to create
                 what is known as Fractal Noise. Creating this Fractal Noise is common practice because it reduces the sharp edges encountered
                 with just the regular Perlin Noise Algorithm.
 
-                \vspace{0.5cm}
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} OctaveNoise(X, Y, Octaves, Persistence)|
+    |Total \leftarrow 0|
+    |Frequency \leftarrow 1|
+    |Amplitude \leftarrow 1|
+    |MaxValue \leftarrow 0|
+
+    |\textbf{FOR} i \leftarrow 0 \textbf{TO} Octaves|
+        |Total \leftarrow Total + (PerlinNoise(X * Frequency, Y * Frequency) * Amplitude|
+
+        |MaxValue \leftarrow MaxValue + Amplitude|
+
+        |Amplitude \leftarrow Amplitude * Persistence|
+        |Frequency \leftarrow Frequency * 2|
+    |\textbf{END FOR}|
+
+    |\textbf{RETURN} Total / MaxValue|
+|\textbf{ENDSUBROUTINE}|            
+                \end{pseudocode}
             \end{enumerate}
 
+        \vspace{0.5cm}
         \item {\Large Description of Data Structures} \\
             \large
             \vspace{0.2cm}
@@ -183,8 +411,6 @@
                 same format. In my prototype I created a Class, and then represented the values of the Matrix with a 2d List (List of Lists).
                 As part of my Matrix Class I will have multiple constructors, to help avoid repeating code.
             \end{enumerate}
-            
-
     \end{enumerate}
     \vspace{0.1cm}
 \end{flushleft}

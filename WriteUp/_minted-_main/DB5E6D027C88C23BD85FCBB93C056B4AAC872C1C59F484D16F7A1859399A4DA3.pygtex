@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} MatrixTranspose(Matrix)}
+    \PYG{esc}{temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)}
+    \PYG{esc}{\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix.Order[0]}
+        \PYG{esc}{\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix.Order[1]}
+            \PYG{esc}{temporaryMatrix[Row, Column] \leftarrow Matrix[Column, Row]}
+        \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{RETURN} temporaryMatrix}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

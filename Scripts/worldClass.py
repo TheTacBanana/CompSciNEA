@@ -54,7 +54,7 @@ class WorldMap():
                 xCoord = x / self.MAP_SIZE * self.paramDictionary["WorldScale"]
                 yCoord = y / self.MAP_SIZE * self.paramDictionary["WorldScale"]
 
-                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
+                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord, self.MAP_SEED + yCoord, 
                                                             self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"]) # Write Octave Noise values to tile array
 
 # Threaded Terrain Generation

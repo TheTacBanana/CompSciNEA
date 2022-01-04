@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} EnemySpawnPosition(WorldMap, EnemyList)}
+    \PYG{esc}{SpawnList \leftarrow \textbf{NEW} List()}
+    \PYG{esc}{EnemyLocationList \leftarrow \textbf{NEW} List()}
+    \PYG{esc}{MapSize \leftarrow LoadFromParameters("MapSize")}
+    \PYG{esc}{\textbf{FOR} y \leftarrow 0 \textbf{TO} MapSize}
+        \PYG{esc}{\textbf{FOR} x \leftarrow 0 \textbf{TO} MapSize}
+            \PYG{esc}{\textbf{IF} WorldMap[x, y].TileType == 2}
+                \PYG{esc}{SpawnList.Add([x, y])}
+            \PYG{esc}{\textbf{END IF}}
+        \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{SpawnList.Shuffle()}
+    \PYG{esc}{\textbf{IF} SpawnList[0] \textbf{IN} EnemyLocationList}
+        \PYG{esc}{\textbf{RETURN NONE}}
+    \PYG{esc}{\textbf{ELSE}}
+        \PYG{esc}{\textbf{RETURN} SpawnList[0]}
+    \PYG{esc}{\textbf{END IF}}
+    \PYG{esc}{\textbf{RETURN} SpawnList[0]}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

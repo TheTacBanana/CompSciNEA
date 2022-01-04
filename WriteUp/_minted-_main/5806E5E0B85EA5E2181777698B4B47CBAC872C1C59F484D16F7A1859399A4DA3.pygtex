@@ -1,0 +1,51 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{PermTable \leftarrow [1 \rightarrow 255].Shuffle() * 2}
+
+\PYG{esc}{\textbf{SUBROUTINE} PerlinNoise(X, Y)}
+    \PYG{esc}{XFloor \leftarrow Math.floor(X)}
+    \PYG{esc}{YFloor \leftarrow Math.floor(Y)}
+
+    \PYG{esc}{G1 \leftarrow PermTable[PermTable[XFloor] + YFloor]}
+    \PYG{esc}{G2 \leftarrow PermTable[PermTable[XFloor + 1] + YFloor]}
+    \PYG{esc}{G3 \leftarrow PermTable[PermTable[XFloor] + YFloor + 1]}
+    \PYG{esc}{G4 \leftarrow PermTable[PermTable[XFloor + 1] + YFloor + 1]}
+
+    \PYG{esc}{XExact \leftarrow X - XFloor}
+    \PYG{esc}{YExact \leftarrow Y - YFloor}
+
+    \PYG{esc}{D1 \leftarrow Grad(G1, XFloor, YFloor)}
+    \PYG{esc}{D2 \leftarrow Grad(G2, XFloor - 1, YFloor)}
+    \PYG{esc}{D3 \leftarrow Grad(G3, XFloor, YFloor - 1)}
+    \PYG{esc}{D4 \leftarrow Grad(G4, XFloor - 1, YFloor - 1)}
+
+    \PYG{esc}{U \leftarrow Fade(XFloor)}
+    \PYG{esc}{V \leftarrow Fade(YFloor)}
+
+    \PYG{esc}{XInterpolated \leftarrow Lerp(U, D1, D2)}
+    \PYG{esc}{YInterpolated \leftarrow Lerp(U, D3, D4)}
+
+    \PYG{esc}{\textbf{RETURN} Lerp(V, XInterpolated, YInterpolated)}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+
+\PYG{esc}{\textbf{SUBROUTINE} Grad(Hash, X, Y)}
+    \PYG{esc}{Temp \leftarrow Hash BITWISEAND 3}
+    \PYG{esc}{\textbf{IF} Temp == 0}
+        \PYG{esc}{\textbf{RETURN} X + Y}
+    \PYG{esc}{\textbf{ELSE IF} Temp == 1}
+        \PYG{esc}{\textbf{RETURN} -X + Y}
+    \PYG{esc}{\textbf{ELSE IF} Temp == 2}
+        \PYG{esc}{\textbf{RETURN} X - Y}
+    \PYG{esc}{\textbf{ELSE IF} Temp == 3}
+        \PYG{esc}{\textbf{RETURN} -X - Y}
+    \PYG{esc}{\textbf{ELSE}}
+        \PYG{esc}{\textbf{RETURN} 0}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+
+\PYG{esc}{\textbf{SUBROUTINE} Lerp(Ammount, Left, Right)}
+    \PYG{esc}{\textbf{RETURN} ((1 - Ammount) * Left + Ammount * Right)}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+
+\PYG{esc}{\textbf{SUBROUTINE} Fade(T)}
+    \PYG{esc}{\textbf{RETURN} T * T * T * (T * (T * 6 - 15) + 10)}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

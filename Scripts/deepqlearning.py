@@ -66,8 +66,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
 
-        self.actions[action] += 1
-
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
 

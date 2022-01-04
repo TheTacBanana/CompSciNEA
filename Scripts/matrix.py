@@ -151,7 +151,7 @@ class Matrix():
             newMat = self # Create new Matrix from self
 
             for iterate in range(power - 1):
-                newMat = self * newMat # Multiply new Matrix by self
+                newMat = newMat * self # Multiply new Matrix by self
 
             return newMat # Return New Matrix
 

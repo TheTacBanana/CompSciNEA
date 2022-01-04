@@ -143,6 +143,17 @@
                 This algorithm is a Mathematical Operation to find the power of a Matrix. The given Matrix needs to have square dimensions.
                 The result can be found by multiplying the given Matrix by itself $n$ ammount of times where $n$ is the given power.
                 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} MatrixHadamardProduct(Matrix, Power)|
+    |TemporaryMatrix \leftarrow \textbf{CLONE} Matrix|
+    |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Power - 1|
+        |TemporaryMatrix \leftarrow TemporaryMatrix * Matrix|
+    |\textbf{END FOR}|
+    |\textbf{RETURN} TemporaryMatrix|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}  
+
                 \vspace{0.5cm}
                 \item Matrix Transpose \\
                 This algorithm is a Mathematical Operation used to Flip a Matrix across its Diagonal. The Transpose of any Matrix
@@ -187,7 +198,20 @@
                 This algorithm is used to obtain the outputs of a Neural Network. It uses Matrix Multiplication to propagate the inputs
                 of the network from Layer to Layer, eventually reaching the Output Layer. My Multiplying the Weight Matrix and the outputs
                 of the previous Layer, and then adding the Bias. We can obtain the output of the layer.
-                
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} Forward Propagation(PrevLayer, Activations, FinalLayer)|
+        |WeightValueProduct \leftarrow This.WeightMatrix * PrevLayer.OutputVector|
+        |This.SVector \leftarrow WeightValueProduct + This.BiasVector|
+        |\textbf{IF NOT} FinalLayer|
+            |This.OutputLayer \leftarrow Activations[0].Activation(SVector)|
+        |\textbf{ELSE}|
+            |This.OutputLayer \leftarrow Activations[1].Activation(SVector)|
+        |\textbf{END IF}|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
                 \vspace{0.5cm}
                 \item Neural Network Loss Function \\
                 The algorithm for to calculate the Loss of a Dual Neural Network can calculated by using a variation of the Bellman Equation.
@@ -262,13 +286,53 @@
                 \item Agent Spawn Position \\
                 This algorithm will create a list of spawnable tiles for which the Agent could spawn on, and then randomnly select a specific
                 tile as its spawn position.
-                
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} AgentSpawnPosition(WorldMap)|
+    |SpawnList \leftarrow \textbf{NEW} List()|
+    |MapSize \leftarrow LoadFromParameters("MapSize")|
+    |\textbf{FOR} y \leftarrow 0 \textbf{TO} MapSize|
+        |\textbf{FOR} x \leftarrow 0 \textbf{TO} MapSize|
+            |\textbf{IF} WorldMap[x, y].TileType == 2|
+                |SpawnList.Add([x, y])|
+            |\textbf{END IF}|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |SpawnList.Shuffle()|
+    |\textbf{RETURN} SpawnList[0]|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
                 \vspace{0.5cm}
                 \item Enemy Spawn Position \\
                 This algorithm will create a list of spawnable tiles for which Enemies can spawn on, then select tiles randomnly, if they dont
                 already contain an enemy or the agent it will create an Enemy Object with that position. It will do this $n$ ammount of times 
                 where $n$ is the limit to how many enemies can spawn.
                 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} EnemySpawnPosition(WorldMap, EnemyList)|
+    |SpawnList \leftarrow \textbf{NEW} List()|
+    |EnemyLocationList \leftarrow \textbf{NEW} List()|
+    |MapSize \leftarrow LoadFromParameters("MapSize")|
+    |\textbf{FOR} y \leftarrow 0 \textbf{TO} MapSize|
+        |\textbf{FOR} x \leftarrow 0 \textbf{TO} MapSize|
+            |\textbf{IF} WorldMap[x, y].TileType == 2|
+                |SpawnList.Add([x, y])|
+            |\textbf{END IF}|
+        |\textbf{END FOR}|
+    |\textbf{END FOR}|
+    |SpawnList.Shuffle()|
+    |\textbf{IF} SpawnList[0] \textbf{IN} EnemyLocationList|
+        |\textbf{RETURN NONE}|
+    |\textbf{ELSE}|
+        |\textbf{RETURN} SpawnList[0]|
+    |\textbf{END IF}|
+    |\textbf{RETURN} SpawnList[0]|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
                 \vspace{0.5cm}
                 \item Enemy Move \\
                 The algorithm I have designed for the Enemy Pathfinding is rather simple, and wont take up much runtime in my solution.
@@ -310,6 +374,29 @@
                 chosen and inserted into the grid. It then chooses a random point, and determines if it is greater than $r$ range from every 
                 other point in the grid. This can easily be acomplished using the previously defined Grid. If after $k$ attempts, no point is
                 found then the search is concluded.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} PoissonDiscSampling(PointList)|
+    |KVal \leftarrow LoadFromParameters("PoissonKVal")|
+    |MapSize \leftarrow LoadFromParameters("MapSize")|
+    |PickedPoints \leftarrow \textbf{NEW} Grid(MapSize, MapSize)|
+    |SampleNum \leftarrow LoadFromParameters("MapSize")|
+    |\textbf{WHILE} SampleNum <= KVal|
+        |Sample \leftarrow PointList[RandomInt(0, PointList.Length - 1)]|
+        |Result \leftarrow CheckPointDistance(Sample, PickedPoints)|
+        |\textbf{IF} Result == True|
+            |PickedPoints[Sample[0], Sample[1]] \leftarrow = True|
+            |SampleNum \leftarrow 0|
+            |\textbf{CONTINUE}|
+        |\textbf{ELSE}|
+            |SampleNum \leftarrow SampleNum + 1|
+            |\textbf{CONTINUE}|
+        |\textbf{END IF}|
+    |\textbf{END WHILE}|
+    |\textbf{RETURN} PickedPoints|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
                 
                 \vspace{0.5cm}
                 \item Perlin Noise \\
@@ -343,8 +430,8 @@
     |U \leftarrow Fade(XFloor)|
     |V \leftarrow Fade(YFloor)|
 
-    |XInterpolated \leftarrow Lerp(U, D1, D2)
-    |YInterpolated \leftarrow Lerp(U, D3, D4)
+    |XInterpolated \leftarrow Lerp(U, D1, D2)|
+    |YInterpolated \leftarrow Lerp(U, D3, D4)|
 
     |\textbf{RETURN} Lerp(V, XInterpolated, YInterpolated)|
 |\textbf{ENDSUBROUTINE}|
@@ -401,16 +488,202 @@
             \end{enumerate}
 
         \vspace{0.5cm}
+        \pagebreak
         \item {\Large Description of Data Structures} \\
             \large
             \vspace{0.2cm}
             \begin{enumerate}
-                \item {\large Matrices} \\
+                \item {\Large Matrices} \\
                 As part of developing a Neural Network, I will extensively use Matrices, as they are an integral part of the algorithms
                 used for Machine Learning. After creating a prototype Matrix class as part of my prototype, I will represent it in the
-                same format. In my prototype I created a Class, and then represented the values of the Matrix with a 2d List (List of Lists).
-                As part of my Matrix Class I will have multiple constructors, to help avoid repeating code.
+                same format. A Matrix can be represented simply using a 2D Array, but they can have Mathematical Operations performed
+                between them. Explanations and the formulae can be found in the Modelling of the Problem Analysis Section. \\
+                \vspace{0.2cm}
+                To avoid repeating code in some places, Matrices will have multiple Constructors. The main Constructors are in the form 
+                of an (Int, Int) Tuple, or an pre-existing 2D Array. Other less used examples could be an Integer for creating 
+                a Vector of that length. \\
+                \vspace{0.2cm}
+                Operator Overloading will be useful when implementing a Matrix Class, as it allows classes to have implementations for
+                operators such as Multiplication, Addition, Subtraction etc. This avoids the need to rely on Static Methods for Operator
+                Implementations and makes code much more readable overall. \\
+                \vspace{0.2cm}
+                As part of a Neural Network Matrices are used heavily in the calculations. So it will be important to optimise the
+                implemented algorithms to make sure their Algorithmic Time Complexity is minimised. \\
+
+                \vspace{0.5cm}
+                \item {\Large Double Ended Queue} \\
+                A Double Ended Queue (Commonly referred to as a {\textbf{Deque}}) is an Abstract Data Type, which is a generalisation of 
+                a Queue. Elements can be added to the Front/Head or Back/Tail. Deques are commonly implemented using an Array, and two
+                pointers, one for Front and Back.
+
+                \vspace{0.5cm}
+                \item {\Large Tile} \\
+                A Tile is used to store specific location Data as part of the World Map. It can be initialised without values, and is
+                then populated with the relevant information. Methods are attatched to this Class to Add/Remove Items and Enemies as needed.
+                Allowing for the Agent when getting Tile data to get relevant and accurate information.
+
+                \vspace{0.5cm}
+                \item {\Large Experience} \\
+                An Experience is used to store data for Experience Replay. It is an Empty Class with no Methods. This includes the State, 
+                Action, NewState and Reward, all at the time of assignment. This is used in conjunction with the Experience Replay 
+                Algorithm, described above.
+
+                \vspace{0.5cm}
+                \item {\Large Heap} \\
+                A Heap is specialised Binary Tree which satisfies the \textbf{Heap Property}: such that for all nodes with Parents, the
+                Parent has a greater value than the Child. A Heap is used as part of a Heap Sort, an $O(nlog(n))$ Sorting Algorithm. The
+                highest priority element is always stored at the Root, with the tree of the structure being considered "Partialy Ordered".
+                Heaps can be stored in an Array, with the Root element at Index 0. Children of an Index are located at \textbf{2i + 1} and
+                \textbf{2i + 2}. The Parent of an Index is located at \textbf{$\lfloor$(i-1)/2$\rfloor$}.
             \end{enumerate}
+
+        \vspace{0.5cm}
+        \item {\Large File Structure} \\
+            \large
+            \vspace{0.2cm}
+            \begin{enumerate}
+                \item {\Large User Defined Parameters} \\
+                As part of my Technical Solution, the User will be able to modify the parameters which dynamically modifies the Simulation
+                and the Structure of the Double Neural Network. The file is stored in a Json format (Java Script Object Notation).
+                This allows the File to be Human Readable, and easily editable. Each parameter will also have a defined Range alongside it.
+                The program will throw an error if the parameter is outside the specified range. Below is a table of the Parameters used in
+                the Technical Solution, alongside their respective Ranges. \\
+
+                \vspace{0.5cm}
+
+                \normalsize
+                \begin{longtable}{| C{4cm} | C{2cm} | C{1.5cm} | C{8cm} |}
+                    \hline
+                    Name in Json & Data Type & Range & Description \\
+                    \hline\hline
+                    EnterValues & Int & 0 - 1 & The program will ask you to enter values if this is 1 \\
+                    \hline
+                    GenerateThreaded & Int & 0 - 1 & The program will generate the Terrain using Multiple Threads \\
+                    \hline
+                    EnableEnemies & Int & 0 - 1 & Toggled Enable Enemies Option. \\
+                    \hline
+                    SaveWeights & Int & 0 - 1 & Toggled Save Network Weights Option. \\
+                    \hline
+                    StepDelay & Float & 0 - \infty & The time delay each step. \\
+                    \hline
+                    Debug & Int & 0 - 1 & Toggled Debug Option. \\
+                    \hline
+                    DebugScale & Int & 1 - 4 & The scale of the Debug side extension. \\
+                    \hline
+                    WorldSize & Int & 16 - 1024 & The size the of the World in Tiles. Must be a Multiple of 2. \\
+                    \hline
+                    TileWidth & Int & 1 - 8 & The Width and Height of each Tile. \\
+                    \hline
+                    TileBorder & Int & 0 - 3 & The Pixel Border surrounding Tiles. \\
+                    \hline
+                    OctavesTerrain & Int & 1 - 20 & The Perlin Noise Octave Value for World Generation. \\
+                    \hline
+                    PersistenceTerrain & Float & 0 - 1 & The Perlin Noise Persistence Value for World Generation. \\
+                    \hline
+                    WorldScale & Float & 0.1 - 10 & The Perlin Noise Scale Value for World Generation. \\
+                    \hline
+                    OctavesTrees & Int & 1 - 20 & The Perlin Noise Octave Value for Trees \\
+                    \hline
+                    PersistenceTrees & Float & 0 - 1 & The Perlin Noise Persistence Value for generating the Trees. \\
+                    \hline
+                    PoissonKVal & Int & 0 - \infty & The K Value for Poisson Disc Sampling. \\
+                    \hline
+                    TreeSeedOffset & Int & 0 - \infty & The Seed offset for generating the Trees. \\
+                    \hline
+                    TreeHeight & Float & 0 - 1 & The difference between Min Tree spawning height and Max Tree spawning height. \\
+                    \hline
+                    InteractableTileBorder & Int & 0 - 3 & The Pixel Border surrounding Interactables. \\
+                    \hline
+                    TreeBeachOffset & Float & 0 - 1 & The height difference from Beaches which Trees will Spawn. \\
+                    \hline
+                    Grayscale & Int & 0 - 1 & Toggled Grayscale Terrain Option. \\
+                    \hline
+                    Water & Float & 0 - 1 & The cuttoff values for Water. \\
+                    \hline
+                    Coast & Float & 0 - 1 & The cuttoff values for Coast. \\
+                    \hline
+                    Grass & Float & 0 - 1 & The cuttoff values for Grass. \\
+                    \hline
+                    Mountain & Float & 0 - 1 & The cuttoff values for Mountains. \\
+                    \hline
+                    TreeType & String & 0 - 1 & The internally used Inventory name for collected Trees. \\
+                    \hline
+                    StartEnemyCount & Int & 0 - \infty & The maximum count of Enemies to Spawn upon the creation of a new Map. \\
+                    \hline
+                    ColourWater & [Int, Int, Int] & 0 - 255 & The display Colour of Water. \\
+                    \hline
+                    ColourCoast & [Int, Int, Int] & 0 - 255 & The display Colour of Coast. \\
+                    \hline
+                    ColourGrass & [Int, Int, Int] & 0 - 255 & The display Colour of Grass. \\
+                    \hline
+                    ColourMountain & [Int, Int, Int] & 0 - 255 & The display Colour of Mountains. \\
+                    \hline
+                    ColourTree & [Int, Int, Int] & 0 - 255 & The display Colour of Trees. \\
+                    \hline
+                    ColourPlayer & [Int, Int, Int] & 0 - 255 & The display Colour of the Agent. \\
+                    \hline
+                    ColourEnemy & [Int, Int, Int] & 0 - 255 & The display Colour of Enemies. \\
+                    \hline
+                    MoveReward & Float & -1 - 1 & The Reward Gained when the Agent Moves. \\
+                    \hline
+                    CollectItemReward & Float & -1 - 1 & The Reward Gained when the Agent collects an Item. \\
+                    \hline
+                    DeathReward & Float & -1 - 1 & The Reward Gained when the Agent Dies through any means. \\
+                    \hline
+                    ExploreReward & Float & -1 - 1 & The Reward Gained when the Agent moves into a Tile which hasnt been Visited yet. \\
+                    \hline
+                    AttackReward & Float & -1 - 1 & The Reward Gained when the Agent successfully Attacks an Enemy. \\
+                    \hline
+                    AttackFailedReward & Float & -1 - 1 & The Reward Gained when the Null Action is chosen. \\
+                    \hline
+                    NoopReward & Float & -1 - 1 & The Reward Gained when the Null Action is chosen. \\
+                    \hline
+                    TargetReplaceRate & Int & 5 - 300 & Replace Rate for Target Neural Network. \\
+                    \hline
+                    EREnabled & Int & 0 - 1 & Wether Experience Replay is Enabled or Disabled. \\
+                    \hline
+                    ERBuffer & Int & 1k - 10k & The size of the Experience Replay Buffer. \\
+                    \hline
+                    ERSampleRate & Int & 1 - 100 & The ammount of steps between each Experience Replay sample. \\
+                    \hline
+                    ERSampleSize & Int & 10 - 1000 & The ammount of samples taken from the Experience Replay Buffer. \\
+                    \hline
+                    DeepQLearningLayers & [Int, ..., Int] & 0 - 256 & List of Integers defining the size of each Layer in the Neural Network. \\
+                    \hline
+                    DQLEpoch & Int & 10 - 1000 & The ammount of steps per Weight and Bias Update, along with Network Saving and Debug Output \\
+                    \hline
+                    DQLearningMaxSteps & Int & 1000 - \infty & Maximum steps the Simulation will run for. \\
+                    \hline
+                    DQLOffset & Int & 1 - 10 & The square radius around the agent which is sampled for the Input vector, must be the root of the 
+                    Input Layers size. \\
+                    \hline
+                    DQLEpsilon & Float & 0 - 1 & The initial Probability that the Agent will favour a Random Action over the predicted Action \\
+                    \hline
+                    DQLEpsilonRegression & Float & 0 - 1 & The rate at which Epsilon will decrease, Epsilon is multiplied every step by this number \\
+                    \hline
+                    DQLLearningRate & Float & 0 - 1 & The Learning Rate of the Neural Network. Higher values will cause more drastic changes during
+                    Back Propagation. \\
+                    \hline
+                    DQLGamma & Float & 0 - 1 & The Discount for future gained Reward \\
+                    \hline
+                \end{longtable}
+
+                \vspace{0.5cm}
+                \item {\Large .dqn Files} \\
+                \vspace{0.2cm}
+                DQN Files are used to store all Data relating to the Dual Neural Network. It is a Binary File. It contains all Layer Data, along
+                with Experience Replay Data, the activations being used, and other important data.
+
+                \vspace{0.5cm}
+                \item {\Large .data Files}
+                \vspace{0.2cm}
+                Data Files are used to store all data points created by the Data Loggers. They are Binary Files and are individually created per Data
+                Logger.
+            
+                \vspace{0.5cm}
+            \end{enumerate}
+        
+
     \end{enumerate}
     \vspace{0.1cm}
 \end{flushleft}

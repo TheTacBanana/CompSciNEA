@@ -32,7 +32,6 @@
     "TreeType": "Wood",
 
     "StartEnemyCount": 5,
-    "AgentAttackRange": 1,
 
     "ColourWater": [18, 89, 144],
     "ColourCoast": [245, 234, 146],

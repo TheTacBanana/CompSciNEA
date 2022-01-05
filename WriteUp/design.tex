@@ -448,6 +448,7 @@
         |\textbf{RETURN} -X - Y|
     |\textbf{ELSE}|
         |\textbf{RETURN} 0|
+    |\textbf{END IF}|
 |\textbf{ENDSUBROUTINE}|
 
 |\textbf{SUBROUTINE} Lerp(Ammount, Left, Right)|
@@ -485,6 +486,71 @@
     |\textbf{RETURN} Total / MaxValue|
 |\textbf{ENDSUBROUTINE}|            
                 \end{pseudocode}
+
+                \item Heap Heapify \\
+                The Heapify algorithm converts a Binary Tree of values into a valid Heap. The Heap Property is defined in Description of Data
+                Structures below. This algorithm works by repeatedly performing Sift Down Operations for \textbf{$\lfloor$(N-1)/2$\rfloor$} times.
+                Where N is the Number of elements in the Tree. A Sift Down Operation will swap elements which don't conform to the Heap Property.
+                This operation relys on the fact that Children of an Index are located at \textbf{2i + 1} and \textbf{2i + 2}.
+                \vspace{0.2cm}
+                \begin{pseudocode} 
+|\textbf{SUBROUTINE} Heapify()|
+    |\textbf{FOR} i \leftarrow $\lfloor$(HeapList.Length-1)/2$\rfloor$ \textbf{TO} 0 \textbf{STEP} -1|
+        |SiftDown(i)|
+    |\textbf{END FOR}|
+|\textbf{ENDSUBROUTINE}| 
+
+|\textbf{SUBROUTINE} SiftDown(RootIndex)|
+    |IsHeap \leftarrow \textbf{FALSE}|
+    |End \leftarrow HeapList.Length - 1|
+
+    |\textbf{WHILE} (2 * RootIndex) + 1 <= End|
+        |ChildIndex = (RootIndex * 2) + 1|
+        |\textbf{IF} ChildIndex <= End \textbf{AND} HeapList[ChildIndex] < HeapList[ChildIndex + 1]|
+            |ChildIndex \leftarrow ChildIndex + 1|
+        |\textbf{END IF}|
+        
+|\textbf{ENDSUBROUTINE}| 
+                \end{pseudocode}
+
+while ((2 * rootIndex) + 1) <= end: # Repeat until the next root index is outside the dimensions of the heap
+    childIndex = (rootIndex * 2) + 1
+
+    if childIndex + 1 <= end and self.elements[childIndex][self.index] < self.elements[childIndex + 1][self.index]: # Checks which child is larger
+        childIndex += 1
+
+    if self.elements[rootIndex][self.index] < self.elements[childIndex][self.index]: # Swapping elements which dont conform to Heap rules
+        tempSwap = self.elements[childIndex]
+        self.elements[childIndex] = self.elements[rootIndex]
+        self.elements[rootIndex] = tempSwap
+
+        rootIndex = childIndex
+    else:
+        break
+
+                \vspace{0.5cm}
+                \item Heap Extraction \\
+                This algorithm extracts the Root Element from a valid Heap. It does this by swapping the Root Element and Final Element, and then
+                popping the new Final Element (Originally the Root) from the list. 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+
+                \end{pseudocode}
+
+                \vspace{0.5cm}
+                \item Heap Sort \\
+                The Heap Sort algorithm relys on the prior two algorithms to fully order a list in Worst and Best case $O(nlog(n))$ Time Complexity. It 
+                is also $O(1)$ Space Complexity due to it being an In-Place Sorting algorithm. The sort will iteratively shrink the unsorted region by 
+                performing the following steps: Apply Heapify to the Unsorted Region, Extract the Root Element from the Heap, Insert the Extracted Element 
+                at the end of the Unsorted Region. This allows it to be In-Place because it never requires extra space.
+                \vspace{0.2cm}
+                \begin{pseudocode}
+
+                \end{pseudocode}
+                def Heapify(self): # Returns values to a heap form, where all children of parents are less than or equal too
+                for i in range(math.floor((len(self.elements) - 1) / 2), -1, -1):
+                    self.SiftDown(i)
+                \vspace{0.5cm}
             \end{enumerate}
 
         \vspace{0.5cm}

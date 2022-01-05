@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} Heapify()}
+    \PYG{esc}{\textbf{FOR} i \leftarrow $\lfloor$(HeapList.Length-1)/2$\rfloor$ \textbf{TO} 0 \textbf{STEP} -1}
+        \PYG{esc}{SiftDown(i)}
+    \PYG{esc}{\textbf{END FOR}}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+
+\PYG{esc}{\textbf{SUBROUTINE} SiftDown(RootIndex)}
+    \PYG{esc}{IsHeap \leftarrow \textbf{FALSE}}
+    \PYG{esc}{End \leftarrow HeapList.Length - 1}
+
+    \PYG{esc}{\textbf{WHILE} (2 * RootIndex) + 1 <= End}
+        \PYG{esc}{ChildIndex = (RootIndex * 2) + 1}
+        \PYG{esc}{\textbf{IF} ChildIndex <= End \textbf{AND} HeapList[ChildIndex] < HeapList[ChildIndex + 1]}
+            \PYG{esc}{ChildIndex \leftarrow ChildIndex + 1}
+        \PYG{esc}{\textbf{END IF}}
+        \PYG{esc}{\textbf{IF} HeapList[RootIndex] < HeapList[ChildIndex]}
+            \PYG{esc}{TempSwap \leftarrow HeapList[ChildIndex]}
+            \PYG{esc}{HeapList[ChildIndex] \leftarrow HeapList[RootIndex]}
+            \PYG{esc}{HeapList[RootIndex] \leftarrow TempSwap}
+        \PYG{esc}{\textbf{ELSE}}
+            \PYG{esc}{\textbf{BREAK}}
+        \PYG{esc}{\textbf{END IF}}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} RemoveTop()}
+    \PYG{esc}{TempSwap \leftarrow HeapList[-1]}
+    \PYG{esc}{HeapList[-1] \leftarrow HeapList[0]}
+    \PYG{esc}{HeapList[0] \leftarrow TempSwap}
+    \PYG{esc}{ReturnItem \leftarrow HeapList.Pop()}
+
+    \PYG{esc}{Heapify()}
+
+    \PYG{esc}{\textbf{RETURN} ReturnItem}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

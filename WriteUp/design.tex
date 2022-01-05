@@ -202,13 +202,13 @@
                 \vspace{0.2cm}
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} Forward Propagation(PrevLayer, Activations, FinalLayer)|
-        |WeightValueProduct \leftarrow This.WeightMatrix * PrevLayer.OutputVector|
-        |This.SVector \leftarrow WeightValueProduct + This.BiasVector|
-        |\textbf{IF NOT} FinalLayer|
-            |This.OutputLayer \leftarrow Activations[0].Activation(SVector)|
-        |\textbf{ELSE}|
-            |This.OutputLayer \leftarrow Activations[1].Activation(SVector)|
-        |\textbf{END IF}|
+    |WeightValueProduct \leftarrow This.WeightMatrix * PrevLayer.OutputVector|
+    |This.SVector \leftarrow WeightValueProduct + This.BiasVector|
+    |\textbf{IF NOT} FinalLayer|
+        |This.OutputLayer \leftarrow Activations[0].Activation(SVector)|
+    |\textbf{ELSE}|
+        |This.OutputLayer \leftarrow Activations[1].Activation(SVector)|
+    |\textbf{END IF}| 
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}
 
@@ -493,6 +493,7 @@
                 Where N is the Number of elements in the Tree. A Sift Down Operation will swap elements which don't conform to the Heap Property.
                 This operation relys on the fact that Children of an Index are located at \textbf{2i + 1} and \textbf{2i + 2}.
                 \vspace{0.2cm}
+
                 \begin{pseudocode} 
 |\textbf{SUBROUTINE} Heapify()|
     |\textbf{FOR} i \leftarrow $\lfloor$(HeapList.Length-1)/2$\rfloor$ \textbf{TO} 0 \textbf{STEP} -1|
@@ -509,32 +510,33 @@
         |\textbf{IF} ChildIndex <= End \textbf{AND} HeapList[ChildIndex] < HeapList[ChildIndex + 1]|
             |ChildIndex \leftarrow ChildIndex + 1|
         |\textbf{END IF}|
-        
+        |\textbf{IF} HeapList[RootIndex] < HeapList[ChildIndex]|
+            |TempSwap \leftarrow HeapList[ChildIndex]|
+            |HeapList[ChildIndex] \leftarrow HeapList[RootIndex]|
+            |HeapList[RootIndex] \leftarrow TempSwap|
+        |\textbf{ELSE}|   
+            |\textbf{BREAK}|
+        |\textbf{END IF}|
 |\textbf{ENDSUBROUTINE}| 
                 \end{pseudocode}
-
-while ((2 * rootIndex) + 1) <= end: # Repeat until the next root index is outside the dimensions of the heap
-    childIndex = (rootIndex * 2) + 1
-
-    if childIndex + 1 <= end and self.elements[childIndex][self.index] < self.elements[childIndex + 1][self.index]: # Checks which child is larger
-        childIndex += 1
-
-    if self.elements[rootIndex][self.index] < self.elements[childIndex][self.index]: # Swapping elements which dont conform to Heap rules
-        tempSwap = self.elements[childIndex]
-        self.elements[childIndex] = self.elements[rootIndex]
-        self.elements[rootIndex] = tempSwap
-
-        rootIndex = childIndex
-    else:
-        break
 
                 \vspace{0.5cm}
                 \item Heap Extraction \\
                 This algorithm extracts the Root Element from a valid Heap. It does this by swapping the Root Element and Final Element, and then
                 popping the new Final Element (Originally the Root) from the list. 
                 \vspace{0.2cm}
-                \begin{pseudocode}
 
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} RemoveTop()|
+    |TempSwap \leftarrow HeapList[-1]|
+    |HeapList[-1] \leftarrow HeapList[0]|
+    |HeapList[0] \leftarrow TempSwap|
+    |ReturnItem \leftarrow HeapList.Pop()|
+
+    |Heapify()|
+
+    |\textbf{RETURN} ReturnItem|
+|\textbf{ENDSUBROUTINE}| 
                 \end{pseudocode}
 
                 \vspace{0.5cm}
@@ -544,17 +546,24 @@ while ((2 * rootIndex) + 1) <= end: # Repeat until the next root index is outsid
                 performing the following steps: Apply Heapify to the Unsorted Region, Extract the Root Element from the Heap, Insert the Extracted Element 
                 at the end of the Unsorted Region. This allows it to be In-Place because it never requires extra space.
                 \vspace{0.2cm}
-                \begin{pseudocode}
 
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} HeapSort()|
+    |SortedList \leftarrow \textbf{NEW} List()|
+    |Heap \leftarrow \textbf{NEW} Heap(DataPoints)|
+
+    |\textbf{WHILE} Heap.Size() - 1 >= 0|
+        |SortedList.Append(Heap.RemoveTop)|
+    |\textbf{END FOR}|
+
+    |\textbf{RETURN} SortedList|
+|\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}
-                def Heapify(self): # Returns values to a heap form, where all children of parents are less than or equal too
-                for i in range(math.floor((len(self.elements) - 1) / 2), -1, -1):
-                    self.SiftDown(i)
+
                 \vspace{0.5cm}
             \end{enumerate}
 
         \vspace{0.5cm}
-        \pagebreak
         \item {\Large Description of Data Structures} \\
             \large
             \vspace{0.2cm}
@@ -741,7 +750,7 @@ while ((2 * rootIndex) + 1) <= end: # Repeat until the next root index is outsid
                 with Experience Replay Data, the activations being used, and other important data.
 
                 \vspace{0.5cm}
-                \item {\Large .data Files}
+                \item {\Large .data Files} \\
                 \vspace{0.2cm}
                 Data Files are used to store all data points created by the Data Loggers. They are Binary Files and are individually created per Data
                 Logger.

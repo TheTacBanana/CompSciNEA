@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage[a4paper]{geometry}
+
 \geometry{
     a4paper,
     total={170mm,257mm},
@@ -18,6 +19,16 @@
 \usepackage{minted}[cache=false]
 \usepackage{subfig}
 \usepackage{csvsimple}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\large \rightmark}
+\lhead{\large Machine Learning Investigation}
+\rfoot{\large Page \thepage}
+\lfoot{\large Name: \\ Candidate Number: }
 
 \newcounter{magicrownumbers}
 \newcommand\rn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
@@ -37,43 +48,14 @@
 \newminted[pseudocode]{markdown}{escapeinside=||,mathescape=true,frame=leftline,linenos,fontsize=\normalsize}
 
 \tikzset{
-decision/.style={
-    diamond,
-    draw,
-    text width=4em,
-    text badly centered,
-    inner sep=0pt
-},
-block/.style={
-    rectangle,
-    draw,
-    text width=10em,
-    text badly centered,
-    rounded corners
-},
-cloud/.style={
-    draw,
-    ellipse,
-    minimum height=2em
-},
-descr/.style={
-    fill=white,
-    inner sep=2.5pt
-},
-connector/.style={
-    -latex,
-    font=\scriptsize
-},
-rectangle connector/.style={
-    connector,
-    to path={(\tikztostart) -- ++(#1,0pt) \tikztonodes |- (\tikztotarget) },
-    pos=0.5
-},
+decision/.style={diamond,draw,text width=4em,text badly centered,inner sep=0pt},
+block/.style={rectangle,draw,text width=10em,text badly centered,rounded corners},
+cloud/.style={draw,ellipse,minimum height=2em},
+descr/.style={fill=white,inner sep=2.5pt},
+connector/.style={-latex,font=\scriptsize},
+rectangle connector/.style={connector,to path={(\tikztostart) -- ++(#1,0pt) \tikztonodes |- (\tikztotarget) },pos=0.5},
 rectangle connector/.default=-2cm,
-straight connector/.style={
-    connector,
-    to path=--(\tikztotarget) \tikztonodes
-}
+straight connector/.style={connector,to path=--(\tikztotarget) \tikztonodes}
 }
 
 \begin{document}
@@ -101,52 +83,22 @@ straight connector/.style={
     \end{center}
 \end{titlepage}
 
-\begin{flushleft}
-    \huge
-    \textbf{1. Contents}
-    
-    \Large
-    \begin{enumerate}
-        \item Contents
-        \item Analysis
-            \begin{enumerate}
-                \item Statement of Investigation
-                \item Background
-                \item End User
-                \item Initial Research
-                    \begin{enumerate}
-                        \item Existing, Similar Investigations
-                        \item Potential Abstract Data Types / Algorithms
-                        \item First Interview
-                    \end{enumerate}
-                \item Further Research
-                    \begin{enumerate}
-                        \item Prototype
-                        \item Second Interview
-                    \end{enumerate}
-                \item Objectives
-                \item Modelling
-            \end{enumerate}
-        \item Design
-        \item Testing
-        \item Evaluation
-        \item Prototype Code
-        \item Technical Solution
-    \end{enumerate}
-    
-    \pagebreak
-\end{flushleft}
+\setcounter{tocdepth}{5}
+\tableofcontents
 
 \include{analysis}
 
 \include{design}
 
+\section{Testing}
 \include{testing}
 
+\section{Evaluation}
 \include{evaluation}
 
 %\include{prototypecode}
 
+\section{Technical Solution}
 \include{technicalsolution}
 
 \end{document}

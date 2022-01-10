@@ -1,11 +1,8 @@
 \begin{flushleft}
-    \huge
-    \textbf{2. Analysis}
-    \vspace{0.1cm}
-
     \Large
-    \begin{enumerate}
-        \item {\Large Statement of Investigation} \\
+    \section{Analysis}
+
+        \subsection{Statement of Investigation}
             \large
             \vspace{0.2cm}
             I plan to investigate Machine Learning by developing a survival simulation environment 
@@ -26,7 +23,7 @@
             Machine Learning picking things up as fast as possible.
 
         \vspace{1cm}
-        \item {\Large Background} \\
+        \subsection{Background}
             \vspace{0.2cm}
             I am investigating this area of Computer Science because I've been interesting in attempting a form of
             Machine Learning for a while now but havent had a reason to dive into it. Machine Learning is an evolving
@@ -37,7 +34,7 @@
             \vspace{0.2cm}
 
         \vspace{1cm}
-        \item {\Large Expert} \\
+        \subsection{Expert}
             \vspace{0.2cm}
             For my expert I approached one of my friends, Shaun, who has prior experience with Machine Learning. He has
             created his own Hand Written Digit Recognition Network before, along with using Python Libraries such as 
@@ -48,7 +45,7 @@
             He has agreed to answer some questions for my Interview once I have completed my Initial Investigation.
 
 
-            \item {\Large First Interview} \\
+        \subsection{First Interview}
             \large
             \vspace{0.2cm}
             As part of my Investigation I approached my friend Shaun, who has Machine Learning Experience, to give me feedback on my
@@ -108,11 +105,9 @@
             \end{enumerate}
             
         \vspace{1cm}
-        \item {\Large Initial Research} \\
-            \begin{enumerate}
-                \item {\Large Existing Investigations} \\
-                    \begin{enumerate}
-                        \item {\Large \textbf{Crafter}} \\
+        \subsection{Initial Research}
+                \subsubsection{Existing Investigations} 
+                    \paragraph{Crafter} \mbox{} \\
                         \vspace{0.2cm}
                             In my research on the Internet I discovered a project called $Crafter$. \\
 
@@ -172,294 +167,292 @@
                             require a complex Machine Learning Model in order to achieve reliable results from my Investigation.
 
                         \vspace{1cm}
-                        \item {\Large \textbf{Minecraft}} \\
-                            \vspace{0.2cm}
-                            Minecraft is a \textit{very} popular Game. It's a sandbox game, meaning that the player can do almost anything they want.
-                            The game is formed from blocks which can be broken or placed, along with a plethera of items, enemies, passive animals
-                            and more. It has infinite terrain generation, and explicity uses Perlin Noise, and is generated from a seed. The seed determines
-                            all the terrain generation, loot tables, random structures, caves, etc. \\
-                            
-                            \vspace{0.2cm}
+                    \paragraph{Minecraft} \mbox{} \\
+                        \vspace{0.2cm}
+                        Minecraft is a \textit{very} popular Game. It's a sandbox game, meaning that the player can do almost anything they want.
+                        The game is formed from blocks which can be broken or placed, along with a plethera of items, enemies, passive animals
+                        and more. It has infinite terrain generation, and explicity uses Perlin Noise, and is generated from a seed. The seed determines
+                        all the terrain generation, loot tables, random structures, caves, etc. \\
+                        
+                        \vspace{0.2cm}
 
-                            First it starts off on a very broad level, painting a basic topographical map of the world. It uses Perlin Noise to sample
-                            a height value for each chunk, where chunks are 16x16 areas of blocks. Then within these chunks the game uses the Diamond Square
-                            algorithm to interpolate between it and the chunks around it, creating blocks where the terrain should be. This produces an 
-                            entirely deterministic results based upon the seed.\\
+                        First it starts off on a very broad level, painting a basic topographical map of the world. It uses Perlin Noise to sample
+                        a height value for each chunk, where chunks are 16x16 areas of blocks. Then within these chunks the game uses the Diamond Square
+                        algorithm to interpolate between it and the chunks around it, creating blocks where the terrain should be. This produces an 
+                        entirely deterministic results based upon the seed.\\
 
-                            \vspace{0.2cm}
+                        \vspace{0.2cm}
 
-                            Secondly, the Caves are generated using Perlin Worms, which travel in deterministic directions based on their starting position.
-                            These worms dig through the terrain carving out caves which can then be traversed by the player. Within these Caves spawn water
-                            sources, pools of lava, useful ores. All of these are deterministically generated by the original seed. \\ 
+                        Secondly, the Caves are generated using Perlin Worms, which travel in deterministic directions based on their starting position.
+                        These worms dig through the terrain carving out caves which can then be traversed by the player. Within these Caves spawn water
+                        sources, pools of lava, useful ores. All of these are deterministically generated by the original seed. \\ 
 
-                            \vspace{0.2cm}
-                            \begin{center}
-                            \includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg} \\
-                            Example of Minecraft's terrain generation in a Swamp Biome \\ 
-                            \vspace{0.2cm}
+                        \vspace{0.2cm}
+                        \begin{center}
+                        \includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg} \\
+                        Example of Minecraft's terrain generation in a Swamp Biome \\ 
+                        \vspace{0.2cm}
 
-                            \includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg} \\ 
-                            Example of a Sunken Pirate Ship Structure \\
-                            \vspace{0.2cm}
-                            \end{center}
-                            \vspace{0.2cm}
+                        \includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg} \\ 
+                        Example of a Sunken Pirate Ship Structure \\
+                        \vspace{0.2cm}
+                        \end{center}
+                        \vspace{0.2cm}
 
-                            Minecraft itself is too complex and dynamic to be solved by current Machine Learning algorithms, along with there is no quantifiable 
-                            metric for performance due to it's sandbox nature. There exist data sets for Minecraft, in the form of captured gameplay footage, but
-                            there has been little to no success of quantifiably good solutions to solving Machine Learning problems within Minecraft. \\
+                        Minecraft itself is too complex and dynamic to be solved by current Machine Learning algorithms, along with there is no quantifiable 
+                        metric for performance due to it's sandbox nature. There exist data sets for Minecraft, in the form of captured gameplay footage, but
+                        there has been little to no success of quantifiably good solutions to solving Machine Learning problems within Minecraft. \\
 
-                            \vspace{0.2cm}
+                        \vspace{0.2cm}
 
-                            Overall I feel like it would be good to borrow elements from Minecraft's terrain generation, such as its utilisation of Perlin Noise.
-                            But the majority of the games systems are way too complex for a Machine Learning algorithm to solve. \\
+                        Overall I feel like it would be good to borrow elements from Minecraft's terrain generation, such as its utilisation of Perlin Noise.
+                        But the majority of the games systems are way too complex for a Machine Learning algorithm to solve. \\
 
-                        \vspace{1cm}
-                        \item {\Large \textbf{Conway's Game of Life}} \\
-                            \vspace{0.2cm}
-                            Conway's Game of Life is whats called a Cellular Automaton, which is a discrete computation model formed from a grid of cells along with 
-                            a ruleset. Conway's is commonly referred to a Zero Player Game, where the input for the Automaton is defined at the start, with no
-                            further adjustment needed for it to run. The game is fully Turing complete and can simulate a Universal Constructor. \\
-                            \vspace{0.2cm}
-                            The rules of Conway's are such that: \\
+                    \vspace{1cm}
+                    \paragraph{Conway's Game of Life} \mbox{} \\
+                        \vspace{0.2cm}
+                        Conway's Game of Life is whats called a Cellular Automaton, which is a discrete computation model formed from a grid of cells along with 
+                        a ruleset. Conway's is commonly referred to a Zero Player Game, where the input for the Automaton is defined at the start, with no
+                        further adjustment needed for it to run. The game is fully Turing complete and can simulate a Universal Constructor. \\
+                        \vspace{0.2cm}
+                        The rules of Conway's are such that: \\
 
-                            
-                            \begin{center}
-                                \normalsize
-                                1. Any live cell with fewer than two live neighbours dies, as if by underpopulation. \\
-                                2. Any live cell with two or three live neighbours lives on to the next generation. \\
-                                3. Any live cell with more than three live neighbours dies, as if by overpopulation. \\
-                                4. Any dead cell with exactly three live neighbours becomes a live cell. \\
-                            \end{center}
+                        
+                        \begin{center}
+                            \normalsize
+                            1. Any live cell with fewer than two live neighbours dies, as if by underpopulation. \\
+                            2. Any live cell with two or three live neighbours lives on to the next generation. \\
+                            3. Any live cell with more than three live neighbours dies, as if by overpopulation. \\
+                            4. Any dead cell with exactly three live neighbours becomes a live cell. \\
+                        \end{center}
 
-                            \vspace{0.2cm}
-                            It is rather interesting that such complicated Machines can be formed from such a simple ruleset, as an example 
-                            here is a Turing Machine formed from 34 Thousand Cells: \\
+                        \vspace{0.2cm}
+                        It is rather interesting that such complicated Machines can be formed from such a simple ruleset, as an example 
+                        here is a Turing Machine formed from 34 Thousand Cells: \\
 
-                            \vspace{0.5cm}
-                            \centerline{\includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
-                            \vspace{0.2cm}
+                        \vspace{0.5cm}
+                        \centerline{\includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
+                        \vspace{0.2cm}
 
-                            Overall, I think this shows that my simulation doesnt need to have complex rules in order to achieve 
-                            interesting results. Conway's is formed from 4 simple rules, and yet is Turing complete.
+                        Overall, I think this shows that my simulation doesnt need to have complex rules in order to achieve 
+                        interesting results. Conway's is formed from 4 simple rules, and yet is Turing complete.
 
-                        \vspace{1cm}
-                \end{enumerate}
-
-                \item {\Large Algorithms and Potential Data Types} \\
+                    \vspace{1cm}
+                \subsection{Algorithms and Potential Data Types}
                     \large
                     \vspace{0.2cm}
-                    
-                    {\Large Neural Network and Matrices} \\
-                    As part of developing a Machine Learning Algorithm, I will need to implement a Matrix class in order to
-                    implement a neural network. Matrices are commonly used to represent individual layers of a network. Along
-                    with making calculations much easier, condensing them into performing operations on matrices, rather than
-                    nested using nested for loops and lists. As part of my Initial Research I have taken the time to understand
-                    how a Neural Network functions, it turns out I have already learned most of the Maths needed to understand
-                    how it works in my A Level Maths and Further Maths courses. \\
-                    \vspace{0.2cm}
-                    A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
-                    and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be
-                    in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$. The functions name in this case is
-                    Forward Propagation. 
-                    \vspace{0.2cm}
-                    We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
-                    Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
-                    the following layer. In the below image is represented a Neural Network with a layer structure of $[3, 5, 2]$.
+                    \paragraph{Neural Network and Matrices} \mbox{} \\
+                        As part of developing a Machine Learning Algorithm, I will need to implement a Matrix class in order to
+                        implement a neural network. Matrices are commonly used to represent individual layers of a network. Along
+                        with making calculations much easier, condensing them into performing operations on matrices, rather than
+                        nested using nested for loops and lists. As part of my Initial Research I have taken the time to understand
+                        how a Neural Network functions, it turns out I have already learned most of the Maths needed to understand
+                        how it works in my A Level Maths and Further Maths courses. \\
+                        \vspace{0.2cm}
+                        A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
+                        and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be
+                        in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$. The functions name in this case is
+                        Forward Propagation. 
+                        \vspace{0.2cm}
+                        We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
+                        Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
+                        the following layer. In the below image is represented a Neural Network with a layer structure of $[3, 5, 2]$.
 
-                    \vspace{0.1cm}
-                    \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+                        \vspace{0.1cm}
+                        \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
 
-                    Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
-                    layer having an associated Bias. These are used to compute the outcome of a network.
-                    \vspace{0.2cm}
-                    Forward Propagation is used to compute the outcome of a network, it has a general form and uses 
-                    Matrix Multiplication and Addition to achieve this.
-                    \vspace{0.2cm}
-                    
-                    \begin{center}
-                        $
-                        S^{(L)} = 
-                        \begin{bmatrix}
-                        s^{(L)}_{0} \\
-                        s^{(L)}_{1} \\
-                        \vdots      \\
-                        s^{(L)}_{n} 
-                        \end{bmatrix}
-                        = 
-                        \begin{bmatrix}
-                        w^{(L-1)}_{0,0} & w^{(L-1)}_{0,1} & \hdots  & w^{(L-1)}_{0,m} \\
-                        w^{(L-1)}_{1,0} & w^{(L-1)}_{1,1} & \hdots  & w^{(L-1)}_{1,m} \\
-                        \vdots          & \vdots          & \ddots  & \vdots          \\
-                        w^{(L-1)}_{n,0} & w^{(L-1)}_{n,1} & \hdots  & w^{(L-1)}_{n,m} \\
-                        \end{bmatrix}
-                        \begin{bmatrix}
-                        a^{(L-1)}_{0} \\
-                        a^{(L-1)}_{1} \\
-                        \vdots      \\
-                        a^{(L-1)}_{n} 
-                        \end{bmatrix}
-                        +
-                        \begin{bmatrix}
-                        b^{(L)}_{0} \\
-                        b^{(L)}_{1} \\
-                        \vdots      \\
-                        b^{(L)}_{n} 
-                        \end{bmatrix}
-                        $ 
-                    \end{center}
-                    
-                    \begin{center}
-                        $
-                        \sigma(S^{(L)})
-                        =
-                        \sigma\left(
-                        \begin{bmatrix}
-                        s^{(L)}_{0} \\
-                        s^{(L)}_{1} \\
-                        \vdots      \\
-                        s^{(L)}_{n} 
-                        \end{bmatrix}
-                        \right)
-                        =
-                        \begin{bmatrix}
-                        \sigma(s^{(L)}_{0}) \\
-                        \sigma(s^{(L)}_{1}) \\
-                        \vdots              \\
-                        \sigma(s^{(L)}_{n}) 
-                        \end{bmatrix}
-                        $ 
-                    \end{center}
-                    
-                    \vspace{0.2cm}
-                    We then apply an activation function as shown above, in this case we will apply the Sigmoid function: $\sigma(x)$ to $S^{(L)}$. 
-                    The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and
-                    1. Shown Below:
-                    
-                    \begin{center}
-                        \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
-                        \begin{axis}%
-                        [
-                            grid=major,     
-                            axis x line=bottom,
-                            ytick={0,.5,1},
-                            ymax=1,
-                            axis y line=middle,
-                            samples=100,
-                            domain=-6:6,
-                            range=0:1
-                            legend style={at={(1,0.9)}}     
-                        ]
-                            \addplot[blue,mark=none]   (x,{sigma(x)});
-                            \legend{$\sigma(x)$}
-                        \end{axis}
-                        \end{tikzpicture}
-                    \end{center}
+                        Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
+                        layer having an associated Bias. These are used to compute the outcome of a network.
+                        \vspace{0.2cm}
+                        Forward Propagation is used to compute the outcome of a network, it has a general form and uses 
+                        Matrix Multiplication and Addition to achieve this.
+                        \vspace{0.2cm}
+                        
+                        \begin{center}
+                            $
+                            S^{(L)} = 
+                            \begin{bmatrix}
+                            s^{(L)}_{0} \\
+                            s^{(L)}_{1} \\
+                            \vdots      \\
+                            s^{(L)}_{n} 
+                            \end{bmatrix}
+                            = 
+                            \begin{bmatrix}
+                            w^{(L-1)}_{0,0} & w^{(L-1)}_{0,1} & \hdots  & w^{(L-1)}_{0,m} \\
+                            w^{(L-1)}_{1,0} & w^{(L-1)}_{1,1} & \hdots  & w^{(L-1)}_{1,m} \\
+                            \vdots          & \vdots          & \ddots  & \vdots          \\
+                            w^{(L-1)}_{n,0} & w^{(L-1)}_{n,1} & \hdots  & w^{(L-1)}_{n,m} \\
+                            \end{bmatrix}
+                            \begin{bmatrix}
+                            a^{(L-1)}_{0} \\
+                            a^{(L-1)}_{1} \\
+                            \vdots      \\
+                            a^{(L-1)}_{n} 
+                            \end{bmatrix}
+                            +
+                            \begin{bmatrix}
+                            b^{(L)}_{0} \\
+                            b^{(L)}_{1} \\
+                            \vdots      \\
+                            b^{(L)}_{n} 
+                            \end{bmatrix}
+                            $ 
+                        \end{center}
+                        
+                        \begin{center}
+                            $
+                            \sigma(S^{(L)})
+                            =
+                            \sigma\left(
+                            \begin{bmatrix}
+                            s^{(L)}_{0} \\
+                            s^{(L)}_{1} \\
+                            \vdots      \\
+                            s^{(L)}_{n} 
+                            \end{bmatrix}
+                            \right)
+                            =
+                            \begin{bmatrix}
+                            \sigma(s^{(L)}_{0}) \\
+                            \sigma(s^{(L)}_{1}) \\
+                            \vdots              \\
+                            \sigma(s^{(L)}_{n}) 
+                            \end{bmatrix}
+                            $ 
+                        \end{center}
+                        
+                        \vspace{0.2cm}
+                        We then apply an activation function as shown above, in this case we will apply the Sigmoid function: $\sigma(x)$ to $S^{(L)}$. 
+                        The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and
+                        1. Shown Below:
+                        
+                        \begin{center}
+                            \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
+                            \begin{axis}%
+                            [
+                                grid=major,     
+                                axis x line=bottom,
+                                ytick={0,.5,1},
+                                ymax=1,
+                                axis y line=middle,
+                                samples=100,
+                                domain=-6:6,
+                                range=0:1
+                                legend style={at={(1,0.9)}}     
+                            ]
+                                \addplot[blue,mark=none]   (x,{sigma(x)});
+                                \legend{$\sigma(x)$}
+                            \end{axis}
+                            \end{tikzpicture}
+                        \end{center}
 
-                    Matrices can be used for all parts of a Neural Network implementation, and will prove very useful in my Technical
-                    Solution. \\
-                    \vspace{0.5cm}
-                    
-                    \pagebreak
-                    {\Large Procedural Generation} \\
-                    For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
-                    which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
-                    
-                    \begin{flushleft}
-                        \begin{tabular}{| C{6cm} | C{6cm} |}
+                        Matrices can be used for all parts of a Neural Network implementation, and will prove very useful in my Technical
+                        Solution. \\
+                        \vspace{0.5cm}
+                        
+                        \pagebreak
+                    \paragraph{Procedural Generation} \mbox{} \\
+                        \vspace{0.2cm}
+                        For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
+                        which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
+                        
+                        \begin{flushleft}
+                            \begin{tabular}{| C{6cm} | C{6cm} |}
+                                \hline
+                                {\Large Post-Processing Algorithms} & {\Large Perlin Noise} \\
+                                \hline
+                                I discovered two post processing algorithms often used for simple 2d terrain generation. 1 Averages squares 
+                                around the selected square, and the other pulls it up or down the gradient its currently on.
+                                I find these interesting because they're relatively simple, and I'm not quite sure whether they will produce good results or not. 
+                                \vspace{0.2cm}\linebreak
+                                So it would be interesting to test out implementing these in my prototype.
+                                &
+                                Perlin Noise is an algorithm developed by Ken Perlin for use in the digital generation of noise.
+                                This noise can be combined to create \textit{realistic} looking height maps for world generation.
+                                Perlin Noise retains continuity and is seeded so the generation can be entirely controlled.
+                                By "retains continuity" I mean that you can sample the same point and retrieve the same value. 
+                                \vspace{0.2cm}\linebreak
+                                
+                                If I was to implement Perlin noise it would take longer, but also might end up with a better result
+                                due to it being more widely used. It's a trade-off between time to implement and desired result. \\
+                                \hline
+                            \end{tabular}
+                        \end{flushleft}
+                        
+                        I also discovered an algorithm called Poisson Disc Sampling, this can be used to sample random points 
+                        in N dimensional space. It takes in 2 values, the R and K value, these values determine the output of
+                        the function. The R values is the minimum distance a point has to be from another, randomly placed point
+                        which hasn't been selected yet. If the distance between any existing points is less than R, the point
+                        will be rejected and another will be selected. The K value determines how many rejected are needed before 
+                        the algorithm will stop attempting to choose a new point.
+                        
+                        \vspace{0.5cm}
+                    \paragraph{Proposed Programming Language and Associated Libraries} \mbox{} \\
+                        \vspace{0.2cm}
+                        When selecting a Programming Language and associated Graphical Libraries I took into consideration a few options.
+                        Below I have weighed up 3 options for Programming Language, along with 2 graphical libraries per language
+                        
+                        \begin{flushleft}
+                            \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
                             \hline
-                            {\Large Post-Processing Algorithms} & {\Large Perlin Noise} \\
+                            Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
                             \hline
-                            I discovered two post processing algorithms often used for simple 2d terrain generation. 1 Averages squares 
-                            around the selected square, and the other pulls it up or down the gradient its currently on.
-                            I find these interesting because they're relatively simple, and I'm not quite sure whether they will produce good results or not. 
-                            \vspace{0.2cm}\linebreak
-                            So it would be interesting to test out implementing these in my prototype.
-                            &
-                            Perlin Noise is an algorithm developed by Ken Perlin for use in the digital generation of noise.
-                            This noise can be combined to create \textit{realistic} looking height maps for world generation.
-                            Perlin Noise retains continuity and is seeded so the generation can be entirely controlled.
-                            By "retains continuity" I mean that you can sample the same point and retrieve the same value. 
-                            \vspace{0.2cm}\linebreak
-                            
-                            If I was to implement Perlin noise it would take longer, but also might end up with a better result
-                            due to it being more widely used. It's a trade-off between time to implement and desired result. \\
+                                Python & \multicolumn{2}{M{10cm}|}{Python is the first thought which comes to mind when I think about programming, 
+                                it is my favourite language and I'm yet to find anything which I prefer. Its very versatile and great
+                                for rapid prototyping, the dynamic typing makes It great for coding quickly without worrying too
+                                much about whether you're using a \textit{float32 or float64}. It also has hundreds of libraries
+                                and is very well supported by its developers and the community.}\\
                             \hline
-                        \end{tabular}
-                    \end{flushleft}
-                    
-                    I also discovered an algorithm called Poisson Disc Sampling, this can be used to sample random points 
-                    in N dimensional space. It takes in 2 values, the R and K value, these values determine the output of
-                    the function. The R values is the minimum distance a point has to be from another, randomly placed point
-                    which hasn't been selected yet. If the distance between any existing points is less than R, the point
-                    will be rejected and another will be selected. The K value determines how many rejected are needed before 
-                    the algorithm will stop attempting to choose a new point.
-                    
-                    \vspace{0.5cm}
-                    {\Large Proposed Programming Language and Associated Libraries} \\
-                    When selecting a Programming Language and associated Graphical Libraries I took into consideration a few options.
-                    Below I have weighed up 3 options for Programming Language, along with 2 graphical libraries per language
-                    
-                    \begin{flushleft}
-                        \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
-                        \hline
-                        Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
-                        \hline
-                            Python & \multicolumn{2}{M{10cm}|}{Python is the first thought which comes to mind when I think about programming, 
-                            it is my favourite language and I'm yet to find anything which I prefer. Its very versatile and great
-                            for rapid prototyping, the dynamic typing makes It great for coding quickly without worrying too
-                            much about whether you're using a \textit{float32 or float64}. It also has hundreds of libraries
-                            and is very well supported by its developers and the community.}\\
-                        \hline
-                            \multirow{2}*{\minitab[c]{Python \\ Graphical \\ Libraries}} & Pygame & Pygame is a highly customizable and well developed binding of
-                            \textit{Simple DirectMedia Layer} (SDL) Library. It has a full set of 2d drawing tools, along with keyboard and audio
-                            capabilities. I have lots of experience with Pygame so I already have code which I can take from, which will speed up
-                            development when dealing with the Pygame library.\\
-                        \cline{3-3}
-                            &Tkinter & Tkinter provides an interface to the standard \textit{Tcl/Tk GUI Toolkit}, which is available
-                            for most platforms, this makes it highly versatile. Though as my project is not intended as a software
-                            package I dont see this as being an incredibly big selling point. Tkinter will serve mostly the same
-                            purpose as Pygame but give me easier options for Graphical Input, I dont currently plan to add GUI so 
-                            this feature isnt neccesary.\\
-                        \hline
-                            C\# & \multicolumn{2}{M{10cm}|}{C\# is my second favourite language, I have plenty of experience with it from developing games
-                            with Unity. Its faster than Python and is less abstracted, but this speed isn't necessarily required
-                            for my project. With C\# I could utilise the \textit{Unity Game Engine} for my project, but then
-                            I might end-up relying on builtin types and functions rather than developing my own.}\\
-                        \hline
-                    \end{longtable}
-
-                    \pagebreak
-                    \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
-                        \hline
-                        Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
-                        \hline
-                            \multirow{2}*{\minitab[c]{C\# \\ Graphical \\ Libraries}} & Windows Forms & Windows Forms is a relatively simple drag drop
-                            interface for designing your own applications. I've never used it before but I could utilise it with C\# to create my project.
-                            I belive it might be a bit overkill for my needs though, as it includes many, many UI features which I will have no use for.\\
-                        \cline{3-3}
-                            & WPF & WPF or \textit{Windows Presentation Foundation} is a versatile development platform for desktop applications.
-                            It is relatively versatile in its uses and utilises XAML and is the UI Language of Windows Platforms. XAML would be a
-                            new language for me to learn but I have experience with HTML so I dont believe it would be too difficult.
-                            The platform would provide a stable base to my project.\\
-                        \hline
-                            Rust & \multicolumn{2}{M{10cm}|}{Rust is low level language designed for speed and efficiency, I started using it recently
-                            as a side hobby and would like to use it more in future projects of mine. Though I feel like it may be a bit overkill for a Computer 
-                            Science NEA, with it often being used for server side applications rather than general purpose applications.}\\
-                        \hline
-                            \multirow{2}*{\minitab[c]{Rust \\ Graphical \\ Libraries}} & Piston2d & Piston2d is a feature complete 2d graphics library which utilises OpenGl,
-                            I've worked with it briefly before and I believe it would be a good option over Pixels if I needed more complex drawing
-                            methods.\\
-                        \cline{3-3}
-                             & Pixels & Pixels is a lightweight 2d graphics library designed to simply push pixels to the screen, Its relatively simple
-                             and ive used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
-                             a lightweight solution.\\
-                        \hline
+                                \multirow{2}*{\minitab[c]{Python \\ Graphical \\ Libraries}} & Pygame & Pygame is a highly customizable and well developed binding of
+                                \textit{Simple DirectMedia Layer} (SDL) Library. It has a full set of 2d drawing tools, along with keyboard and audio
+                                capabilities. I have lots of experience with Pygame so I already have code which I can take from, which will speed up
+                                development when dealing with the Pygame library.\\
+                            \cline{3-3}
+                                &Tkinter & Tkinter provides an interface to the standard \textit{Tcl/Tk GUI Toolkit}, which is available
+                                for most platforms, this makes it highly versatile. Though as my project is not intended as a software
+                                package I dont see this as being an incredibly big selling point. Tkinter will serve mostly the same
+                                purpose as Pygame but give me easier options for Graphical Input, I dont currently plan to add GUI so 
+                                this feature isnt neccesary.\\
+                            \hline
+                                C\# & \multicolumn{2}{M{10cm}|}{C\# is my second favourite language, I have plenty of experience with it from developing games
+                                with Unity. Its faster than Python and is less abstracted, but this speed isn't necessarily required
+                                for my project. With C\# I could utilise the \textit{Unity Game Engine} for my project, but then
+                                I might end-up relying on builtin types and functions rather than developing my own.}\\
+                            \hline
                         \end{longtable}
-                    \end{flushleft}
-            \end{enumerate}
 
+                        \pagebreak
+                        \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
+                            \hline
+                            Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
+                            \hline
+                                \multirow{2}*{\minitab[c]{C\# \\ Graphical \\ Libraries}} & Windows Forms & Windows Forms is a relatively simple drag drop
+                                interface for designing your own applications. I've never used it before but I could utilise it with C\# to create my project.
+                                I belive it might be a bit overkill for my needs though, as it includes many, many UI features which I will have no use for.\\
+                            \cline{3-3}
+                                & WPF & WPF or \textit{Windows Presentation Foundation} is a versatile development platform for desktop applications.
+                                It is relatively versatile in its uses and utilises XAML and is the UI Language of Windows Platforms. XAML would be a
+                                new language for me to learn but I have experience with HTML so I dont believe it would be too difficult.
+                                The platform would provide a stable base to my project.\\
+                            \hline
+                                Rust & \multicolumn{2}{M{10cm}|}{Rust is low level language designed for speed and efficiency, I started using it recently
+                                as a side hobby and would like to use it more in future projects of mine. Though I feel like it may be a bit overkill for a Computer 
+                                Science NEA, with it often being used for server side applications rather than general purpose applications.}\\
+                            \hline
+                                \multirow{2}*{\minitab[c]{Rust \\ Graphical \\ Libraries}} & Piston2d & Piston2d is a feature complete 2d graphics library which utilises OpenGl,
+                                I've worked with it briefly before and I believe it would be a good option over Pixels if I needed more complex drawing
+                                methods.\\
+                            \cline{3-3}
+                                & Pixels & Pixels is a lightweight 2d graphics library designed to simply push pixels to the screen, Its relatively simple
+                                and ive used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
+                                a lightweight solution.\\
+                            \hline
+                            \end{longtable}
+                        \end{flushleft}
             \pagebreak
-        \item {\Large Prototype} \\
+        \subsection{Prototype}
+            \subsubsection{Terrain Generation and Displaying}
             \large
             \vspace{0.2cm}
             Before starting my Prototype I had to decide upon a short list of objectives I wanted to 
@@ -503,7 +496,7 @@
             
             \vspace{0.5cm}
 
-            {\Large Terrain Generation and Displaying} \\
+            \subsubsection{Terrain Generation and Displaying}
             \vspace{0.25cm}
 
             Starting from the begining of my hierarchy I installed Pygame using \textit{pip} and started creating a window.
@@ -564,7 +557,7 @@ def GenerateMap(self, seed):
 
             \vspace{1cm}
 
-            {\large UpDownNeutralGen Method} \\
+            \paragraph{UpDownNeutralGen Method} \mbox{} \\
             \vspace{0.25cm}
 
             The UpDownNeutralGen method takes a tile, and considers every tile around it. It sums the tile 
@@ -613,7 +606,7 @@ def GenerateMap(self, seed):
             this shown under the Prototype Code Header.
             \vspace{0.5cm}
 
-            {\large Average Method}
+            \paragraph{Average Method} \mbox{} \\
             \vspace{0.25cm}
 
             The Average method takes a tile and considers every tile around it, this time instead of looking at the
@@ -645,7 +638,8 @@ def GenerateMap(self, seed):
 
             \vspace{1cm}
 
-            {\large Finished Terrain Generation} \\
+
+            \subsubsection{Finished Terrain Generation}
             \vspace{0.25cm}
 
             Overall I am happy with the Terrain generation, though I feel as if it could be improved to look more realistic.
@@ -657,7 +651,7 @@ def GenerateMap(self, seed):
             \end{center}
             
             \vspace{1cm}
-            {\Large Matrix Data Structure} \\
+            \subsection{Matrix Data Structure}
             \vspace{0.25cm}
 
             As part of my Matrix Class I made a list of operations which would be key to a Matrix Class, along with being useful
@@ -804,18 +798,18 @@ def GenerateMap(self, seed):
             All code is available under the Prototype Code Header.
             
             \vspace{1cm}
-            {\Large Prototype Evaluation} \\
-            \vspace{0.25cm}
+            \subsubsection{Prototype Evaluation}
+                \vspace{0.25cm}
 
-            Overall I am happy with my prototype, though I feel like some parts need to be improved. I did meet my 
-            objectives for my prototype but there were improvements which can me made when I create my Technical Solution. 
-            Namely the Terrain Generation along with the Matrix class. I feel that Perlin noise would be a better alternative
-            to the two algorithms I used. In theory it should produce better results, and also provice more marks for 
-            complexity. My Matrix class could be rewritten to be more efficient, along with using operator overloading, which
-            I didnt know Python could do at the time. I also feel like having vector inherit from matrix is relatively pointless,
-            there is no need for it when I could just use 1 wide Matrices.
+                Overall I am happy with my prototype, though I feel like some parts need to be improved. I did meet my 
+                objectives for my prototype but there were improvements which can me made when I create my Technical Solution. 
+                Namely the Terrain Generation along with the Matrix class. I feel that Perlin noise would be a better alternative
+                to the two algorithms I used. In theory it should produce better results, and also provice more marks for 
+                complexity. My Matrix class could be rewritten to be more efficient, along with using operator overloading, which
+                I didnt know Python could do at the time. I also feel like having vector inherit from matrix is relatively pointless,
+                there is no need for it when I could just use 1 wide Matrices.
 
-        \item {\Large Second Interview} \\
+        \subsection{Second Interview}
             
             \vspace{0.2cm}
 
@@ -825,7 +819,7 @@ def GenerateMap(self, seed):
 
             \pagebreak
 
-        \item {\Large Objectives} \\
+        \subsection{Objetives}
             \large
             Taking into account my Prototype and Interview, I have formed a list of objectives I feel to be most 
             appropriate for my Investigation.
@@ -905,5 +899,4 @@ def GenerateMap(self, seed):
                         \item Implement Load and Save Functions to save progress during training
                     \end{enumerate}   
             \end{enumerate}
-    \end{enumerate}
 \end{flushleft}

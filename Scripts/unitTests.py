@@ -10,7 +10,7 @@ print("Unsorted List:")
 for item in inputList:
     print(item)
 
-dl = DataCollector("SortingTest", [int, int], False)
+dl = DataLogger("SortingTest", [int, int], False)
 
 dl.LogDataPointBatch(inputList)
 
@@ -22,7 +22,7 @@ for item in sortedList:
 
 print() # 4.2
 
-dl = DataCollector("AddPointTest", [int, int], False)
+dl = DataLogger("AddPointTest", [int, int], False)
 print("Before: ", dl.dataPoints)
 
 dl.LogDataPoint([5, 2])
@@ -31,27 +31,27 @@ print("After: ", dl.dataPoints)
 
 print() # 4.3
 
-dl = DataCollector("Match Single Types", [int, float], False)
+dl = DataLogger("Match Single Types", [int, float], False)
 
 print("Matches Structure: ", dl.CheckMatchStructure([-3, 2.2]))
 
 print() # 4.4
 
-dl = DataCollector("Match Multi Typed", [bool, [float, int]], False)
+dl = DataLogger("Match Multi Typed", [bool, [float, int]], False)
 
 print("Matches Structure: ", dl.CheckMatchStructure([False, 4.5]))
 print("Matches Structure: ", dl.CheckMatchStructure([True, -9]))
 
 print() # 4.5
 
-dl = DataCollector("Match List Type", [bool, str], False)
+dl = DataLogger("Match List Type", [bool, str], False)
 
 print("Matches Structure: ", dl.CheckMatchStructure([True, ["Matt", "Isabel", "Tristan", "Chris"]]))
 
 print() # 4.6
 
 try:
-    dl = DataCollector("Match Data Structure Error", [str, int], False)
+    dl = DataLogger("Match Data Structure Error", [str, int], False)
 
     print("Matches Structure: ", dl.CheckMatchStructure(["Steve Preston", True]))
 except Exception as x:
@@ -64,7 +64,7 @@ print("Random List:")
 for item in inputList:
     print(item)
 
-dl = DataCollector("Select List", [int, int], False)
+dl = DataLogger("Select List", [int, int], False)
 
 dl.LogDataPointBatch(inputList)
 
@@ -81,7 +81,7 @@ print("Saved List:")
 for item in inputList:
     print(item)
 
-dl = DataCollector("Save-Load Test", [int, int], False)
+dl = DataLogger("Save-Load Test", [int, int], False)
 
 dl.LogDataPointBatch(inputList)
 
@@ -89,7 +89,7 @@ dl.SaveDataPoints()
 
 print() # 4.9
 
-dl = DataCollector("Save-Load Test", [int, int], True)
+dl = DataLogger("Save-Load Test", [int, int], True)
 
 print("Loaded List:")
 for item in dl.dataPoints:

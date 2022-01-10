@@ -2,4 +2,96 @@
     \huge
     \textbf{5. Evaluation}
     \vspace{0.1cm}
+
+    \large
+    \begin{enumerate}
+        \item {\Large Evaluation of Objectives} \\
+            \vspace{0.2cm}
+            In this section, I will evaluate all of my objectives I set out to complete.
+            \vspace{0.2cm}
+
+            \begin{enumerate}
+                \item Reading user inputted data \\
+                    \vspace{0.2cm}
+                    The user can input the parameters through a json file, and these parameters are checked against a range file to check they are within
+                    the specified size. All of the parameters are read correctly and utilised within the Program. \\
+                    \vspace{0.2cm}
+                    The Machine Learning Data is read from .dqn files. The Learning is resumed from where it was saved from with all the Weights and
+                    Biases intact. \\
+
+                    \vspace{0.5cm}    
+                \item Generating the Environment \\
+                    \vspace{0.2cm}
+                    At the start of the program an instance of World Class is created and the Generate methods are invoked. These methods utilise Perlin
+                    Noise and Poisson Disc Sampling. The Terrain values are stored in a 2d list of Tile Objects which store the Height, Type and Colour data
+                    for each Tile. The Poisson Disc Sampling Generates a list of points which Trees are then generated at those positions. The Width
+                    of the world and Tile colours are determined by the Input Parameters. \\
+
+                    \vspace{0.5cm}    
+                \item Displaying the world to a Pygame Window \\
+                    \vspace{0.2cm}
+                    Upon generating the Map Data the Terrain is displayed in a grid to the Pygame Window, it is represented as a grid of tiles of the pixel 
+                    width loaded in by the Inputted Parameters. The Agent and Enemies are Drawn at their according positions, taking up entire Tile. If Debug
+                    mode is enabled, a representation of the Neural Network will be displayed on the right hand side of the window. \\
+
+                    \vspace{0.5cm}   
+                \item Simple Agent with a set of Actions \\
+                    \vspace{0.2cm}
+                    
+
+                    \vspace{0.5cm}   
+                \item Matrix class with Standard Operations \\
+                    \vspace{0.2cm}
+                    A Matrix can be created using 3 different methods. First using a Tuple of Integers, a new Matrix will be created of that size, with initialised
+                    0 values. Second using a prexisting 2d list of values, a new Matrix will be created with these dimensions and values. Thirdly a 1d list of
+                    values can be used to create a 1 wide Vector of values, where it reads each value into the 1st position of each row. \\
+                    \vspace{0.2cm}
+                    All standard operations for the Matrix Object are implemented using Operator Overloading to make code less bloated. All are written 
+                    efficiently utilising minimum complexity algorithms. Addition can be carried out utilising the $+$ Operator. Subtraction can be carried out
+                    utilising the $-$ Operator. Multiplication and Scalar Multiplication are both carried out utilising the $*$ Operator. Power Operation is
+                    carried out utilising the $\string^$ operator. A Matrix can be converted to a Formatted String implicitly by using it in a string context. \\
+                    \vspace{0.2cm}
+                    All Matrice Operations have appropriate Exceptions with descriptive Error Messages. They will throw errors when incorrect Data is provided to
+                    the specified Operation. \\
+
+                    \vspace{0.5cm}   
+                \item Creation of a Reinforcement Learning Model \\
+                    \vspace{0.2cm}
+                    A Dual Neural Network can be created as an object, which stores two Neural Network Objects, Main and Target. The Dual Neural Network
+                    contains the Primary Method \textbf{Step} which invokes a Series of Lower Level Methods to perform a singular Time Step. The Neural 
+                    Network Object store a List of Layers Objects which are dynamically created from the Input Parameters. Each Layer contains a Weight 
+                    Matrix, Bias Vector, and Output Vector. The Lowest Level methods for Forward and Back Propagation are contained within the Layer Object. \\
+                    \vspace{0.2cm}
+                    First Forward Propagation occurs on the Main and Target Network. Then results of the Main Network are taken to choose the action for the Agent. 
+                    Epsilon Greedy is implemented to determine whether to choose the random or predicted result. This Action is then fed to the Agent, along with 
+                    calculating the reward for that Action. The Loss of the Main Network is then calculated using a modified Bellman Equation for Dual Neural 
+                    Networks. This Loss is used for Back Propagating the Main Neural Network. The Main Networks Weights are copied to the Target Network
+                    every specified ammount of steps. Every specified ammount of steps, Experience Replay is performed to learn from past experiences again. \\
+                    \vspace{0.2cm}
+                    The combination of these steps form a functional Dual Neural Network utilising a Reinforcement Learning Model. \\
+
+                    \vspace{0.5cm}   
+                \item Creation of a Data Logger \\
+                    \vspace{0.2cm}
+                    A Data Logger Class can be used to Log and Store Data Points at various parts of the Program. Each Data Point is stored as a Tuple of Values
+                    as part of a .data file. These files are stored as Binary Files, and are Read into the Program upon launch. \\
+                    \vspace{0.2cm}
+                    As part of the Data Logger you can sort points utilising a Heap Sort to sort through Data. \\
+
+                    \vspace{0.5cm}   
+            \end{enumerate}
+
+            \vspace{0.5cm}
+        \item {\Large Answering my Investigations Question} \\
+        \vspace{0.2cm}
+        As part of my Machine Learning Investigation I proposed the Question:
+
+        \vspace{0.3cm}\begin{center}
+        \textbf{Can you train a Machine Learning algorithm to survive in a pseudo random, open-world environment?}
+        \end{center}\vspace{0.3cm}
+
+        I aimed to answer this question by designing and creating a Deep Reinforcement Learning Model utilising a Deep Neural Network, along 
+        with designing a Simple Simulation for a Machine Learning Agent to survive in. This simulation
+
+    \end{enumerate}
 \end{flushleft}

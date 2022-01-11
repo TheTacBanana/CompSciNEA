@@ -1,0 +1,229 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{worldClass} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{k+kn}{from} \PYG{n+nn}{random} \PYG{k+kn}{import} \PYG{n}{shuffle}
+\PYG{k+kn}{from} \PYG{n+nn}{matrix} \PYG{k+kn}{import} \PYG{n}{Matrix}
+
+\PYG{k}{class} \PYG{n+nc}{Agent}\PYG{p}{():}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{location}\PYG{p}{,} \PYG{n}{params}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary} \PYG{o}{=} \PYG{n}{params}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{n}{location}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{k+kc}{True}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{emptyInventory} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}Wood\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mi}{0}\PYG{p}{\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inventory} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{emptyInventory}
+
+\PYG{c+c1}{\PYGZsh{} Methods for tile vectors}
+    \PYG{k}{def} \PYG{n+nf}{GetTileVector}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{,} \PYG{n}{enemyList}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns a Vector of Tile Datatype}
+        \PYG{n}{offset} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLOffset\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{sideLength} \PYG{o}{=} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}
+        \PYG{n}{tileVec} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{((}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{sideLength}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{))}
+
+        \PYG{n}{blankOceanTile} \PYG{o}{=} \PYG{n}{Tile}\PYG{p}{()}
+        \PYG{n}{blankOceanTile}\PYG{o}{.}\PYG{n}{InitValues}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourWater\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Blank ocean tile for edge case}
+
+        \PYG{n}{enemyLocList} \PYG{o}{=} \PYG{p}{[}\PYG{n}{enemyList}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{location} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{enemyList}\PYG{p}{))} \PYG{k}{if} \PYG{n}{enemyList}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{]}
+
+        \PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{offset}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Loop through Tiles in surrounding area}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{offset}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{):}
+                \PYG{k}{if} \PYG{l+m+mi}{0} \PYG{o}{\PYGZlt{}=} \PYG{n}{x} \PYG{o+ow}{and} \PYG{n}{x} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{l+m+mi}{0} \PYG{o}{\PYGZlt{}=} \PYG{n}{y} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                    \PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}
+                    \PYG{k}{if} \PYG{p}{[}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{]} \PYG{o+ow}{in} \PYG{n}{enemyLocList}\PYG{p}{:}
+                        \PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{WriteEnemy}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} Writes enemies to tile if they exist}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{blankOceanTile} \PYG{c+c1}{\PYGZsh{} Write water tile when out of range of the world \PYGZhy{} Literal edge case}
+                \PYG{n}{n} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{k}{return} \PYG{n}{tileVec}
+
+    \PYG{k}{def} \PYG{n+nf}{TileVectorPostProcess}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{tileVec}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns 2 Vectors, 1 of tile types, 1 of grayscale values}
+        \PYG{n}{tileTypeVec} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)}
+        \PYG{n}{tileGrayscaleVec} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{n} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Converts vector to grayscale and type vectors}
+            \PYG{n}{tileTypeVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType}
+
+            \PYG{k}{if} \PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Enemy will overwrite tile colour if they are within that tile}
+                \PYG{n}{tileGrayscaleVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ColourToGrayscale}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourEnemy\PYGZdq{}}\PYG{p}{])}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{tileGrayscaleVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ColourToGrayscale}\PYG{p}{(}\PYG{n}{tileVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{n}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileColour}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{tileTypeVec}\PYG{p}{,} \PYG{n}{tileGrayscaleVec}
+
+    \PYG{k}{def} \PYG{n+nf}{ColourToGrayscale}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{colourTuple}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Converts colour value (255,255,255) to grayscale (0\PYGZhy{}1)}
+        \PYG{n}{grayscale} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mf}{0.299} \PYG{o}{*} \PYG{n}{colourTuple}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mf}{0.587} \PYG{o}{*} \PYG{n}{colourTuple}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mf}{0.114} \PYG{o}{*} \PYG{n}{colourTuple}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{])} \PYG{o}{/} \PYG{l+m+mi}{255} 
+        \PYG{k}{return} \PYG{n}{grayscale}
+
+\PYG{c+c1}{\PYGZsh{} Action Methods}
+    \PYG{k}{def} \PYG{n+nf}{CommitAction}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{action}\PYG{p}{,} \PYG{n}{tileObjVec}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{,} \PYG{n}{enemyList}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Commits the given Action}
+        \PYG{n}{offset} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLOffset\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{sideLength} \PYG{o}{=} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}
+
+        \PYG{k}{if} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Move}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Move Up}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Move}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Move Right}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Move}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Move Down}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{3}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Move}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Move Left}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{4} \PYG{o+ow}{and} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasObject} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Pickup item}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PickupItem}\PYG{p}{(}\PYG{n}{worldMap}\PYG{p}{)}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{5}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Attack Surroundings}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Attack}\PYG{p}{(}\PYG{n}{enemyList}\PYG{p}{)}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{6}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Noop/Null action}
+            \PYG{k}{pass}
+            \PYG{c+c1}{\PYGZsh{}print(\PYGZdq{}Noop\PYGZdq{})}
+
+    \PYG{k}{def} \PYG{n+nf}{Move}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{direction}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Moves agent in given Direction}
+        \PYG{k}{if} \PYG{n}{direction} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Move Up}
+        \PYG{k}{elif} \PYG{n}{direction} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{c+c1}{\PYGZsh{} Move Right}
+        \PYG{k}{elif} \PYG{n}{direction} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Move Down}
+        \PYG{k}{elif} \PYG{n}{direction} \PYG{o}{==} \PYG{l+m+mi}{3}\PYG{p}{:} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{c+c1}{\PYGZsh{} Move Left}
+           
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CheckIfValidStandTile}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{alive}\PYG{p}{:} \PYG{k}{return}
+
+        \PYG{k}{if} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{explored} \PYG{o}{==} \PYG{k+kc}{False}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks if tile is explored or not}
+            \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{explored} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf}{CheckIfValidStandTile}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{location}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Checks if tile will murder the agent}
+        \PYG{n}{x} \PYG{o}{=} \PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n}{y} \PYG{o}{=} \PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{k}{if} \PYG{l+m+mi}{0} \PYG{o}{\PYGZlt{}=} \PYG{n}{x} \PYG{o+ow}{and} \PYG{n}{x} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{l+m+mi}{0} \PYG{o}{\PYGZlt{}=} \PYG{n}{y} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{k}{pass}
+        \PYG{k}{else}\PYG{p}{:} 
+            \PYG{k}{return} \PYG{k+kc}{False}
+
+        \PYG{k}{if} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks if tile is water}
+            \PYG{k}{return} \PYG{k+kc}{False}
+
+        \PYG{k}{return} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf}{PickupItem}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Pickup Item in the same tile as Agent}
+        \PYG{k}{if} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{hasObject}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inventory}\PYG{p}{[}\PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{objectType}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+            \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{ClearObject}\PYG{p}{()}
+
+    \PYG{k}{def} \PYG{n+nf}{Attack}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{enemyList}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Attacks in a given Area surrounding Agent}
+        \PYG{n}{enemyLocList} \PYG{o}{=} \PYG{p}{[}\PYG{n}{enemyList}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{location} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{enemyList}\PYG{p}{))]}
+
+        \PYG{n}{AAR} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}AgentAttackRange\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{AAR}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{AAR} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Loop through Tiles in surrounding area}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{AAR}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{n}{AAR} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{):} 
+                \PYG{k}{if} \PYG{p}{[}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{]} \PYG{o+ow}{in} \PYG{n}{enemyLocList}\PYG{p}{:}
+                    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{enemyLocList}\PYG{p}{)):}
+                        \PYG{k}{if} \PYG{n}{enemyLocList}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{p}{[}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{p}{]:}
+                            \PYG{n}{enemyList}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{None}
+
+        \PYG{n}{enemyList} \PYG{o}{=} \PYG{p}{[}\PYG{n}{x} \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n}{enemyList} \PYG{k}{if} \PYG{n}{x} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Clears enemy list of None type}
+
+\PYG{c+c1}{\PYGZsh{} Reward Method}
+    \PYG{k}{def} \PYG{n+nf}{GetReward}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{action}\PYG{p}{,} \PYG{n}{tileObjVec}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Gets reward given action and tile vector}
+        \PYG{n}{offset} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLOffset\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{sideLength} \PYG{o}{=} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}
+
+        \PYG{n}{cumReward} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{if} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Move Up}
+            \PYG{n}{tile} \PYG{o}{=} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MoveReward}\PYG{p}{(}\PYG{n}{tile}\PYG{p}{)}
+            
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Move Right}
+            \PYG{n}{tile} \PYG{o}{=} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MoveReward}\PYG{p}{(}\PYG{n}{tile}\PYG{p}{)} 
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Move Down}
+            \PYG{n}{tile} \PYG{o}{=} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MoveReward}\PYG{p}{(}\PYG{n}{tile}\PYG{p}{)} 
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{3}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Move Left}
+            \PYG{n}{tile} \PYG{o}{=} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MoveReward}\PYG{p}{(}\PYG{n}{tile}\PYG{p}{)} 
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{4}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Pickup Item}
+            \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasObject}\PYG{p}{:}
+                \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}CollectItemReward\PYGZdq{}}\PYG{p}{]}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}NoopReward\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{5}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Attack}
+            \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CombatReward}\PYG{p}{(}\PYG{n}{tileObjVec}\PYG{p}{)}
+
+        \PYG{k}{elif} \PYG{n}{action} \PYG{o}{==} \PYG{l+m+mi}{6}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} No action/Noop/Idle}
+            \PYG{n}{cumReward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}NoopReward\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{k}{return} \PYG{n}{cumReward}
+
+    \PYG{k}{def} \PYG{n+nf}{MoveReward}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{tileObj}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Gets Reward given Agent moving into a tile}
+        \PYG{n}{reward} \PYG{o}{=} \PYG{l+m+mi}{0} 
+        \PYG{k}{if} \PYG{n}{tileObj}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{tileObj}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:}   \PYG{c+c1}{\PYGZsh{} Adds death reward if enemy or water}
+            \PYG{n}{reward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DeathReward\PYGZdq{}}\PYG{p}{]}
+        \PYG{k}{else}\PYG{p}{:}                                           \PYG{c+c1}{\PYGZsh{} Else adds explore and move reward}
+            \PYG{k}{if} \PYG{n}{tileObj}\PYG{o}{.}\PYG{n}{explored} \PYG{o}{==} \PYG{k+kc}{False}\PYG{p}{:}
+                \PYG{n}{reward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ExploreReward\PYGZdq{}}\PYG{p}{]}
+            \PYG{n}{reward} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}MoveReward\PYGZdq{}}\PYG{p}{]}
+        \PYG{k}{return} \PYG{n}{reward}
+            
+    \PYG{k}{def} \PYG{n+nf}{CombatReward}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{tileObjVec}\PYG{p}{):}
+        \PYG{n}{killReward} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}AttackReward\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{offset} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLOffset\PYGZdq{}}\PYG{p}{]}
+        \PYG{n}{sideLength} \PYG{o}{=} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}
+
+        \PYG{n}{reward} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{c+c1}{\PYGZsh{} Checks tiles around agent for enemies, adding reward where neccesary}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:} \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:}     \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:} \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:}       \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:}           \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{n}{offset}\PYG{p}{)} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:}       \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:} \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:}     \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+        \PYG{k}{if} \PYG{n}{tileObjVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[(}\PYG{n}{sideLength} \PYG{o}{*} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{o}{+} \PYG{n}{offset} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasEnemy}\PYG{p}{:} \PYG{n}{reward} \PYG{o}{+=} \PYG{n}{killReward}
+
+        \PYG{k}{if} \PYG{n}{reward} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{k}{return} \PYG{n}{reward} 
+        \PYG{k}{else}\PYG{p}{:} \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}AttackFailedReward\PYGZdq{}}\PYG{p}{]}
+
+    \PYG{k}{def} \PYG{n+nf}{GetRewardVector}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{tileObjVec}\PYG{p}{,} \PYG{n}{outputs}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns Vector of Reward Values Per action}
+        \PYG{n}{returnVec} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{((}\PYG{n}{outputs}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{))}
+
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{outputs}\PYG{p}{):}
+            \PYG{n}{returnVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{GetReward}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{tileObjVec}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{returnVec}
+
+    \PYG{k}{def} \PYG{n+nf}{MaxQ}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{rewardVec}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Used to get Max Reward from reward Vector}
+        \PYG{k}{return} \PYG{n+nb}{max}\PYG{p}{([}\PYG{n}{rewardVec}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{rewardVec}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])])} \PYG{c+c1}{\PYGZsh{} Utilises List Comprehension}
+
+\PYG{c+c1}{\PYGZsh{} Miscellaneous Methods}
+    \PYG{k}{def} \PYG{n+nf}{Reset}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Resets Inventory and Location of Agent}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{inventory} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{emptyInventory}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{n}{Agent}\PYG{o}{.}\PYG{n}{SpawnPosition}\PYG{p}{(}\PYG{n}{worldMap}\PYG{p}{)}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def} \PYG{n+nf}{SpawnPosition}\PYG{p}{(}\PYG{n}{worldMap}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns a coord in which the Agent can spawn}
+        \PYG{n}{spawnList} \PYG{o}{=} \PYG{p}{[]}
+
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+                    \PYG{n}{spawnList}\PYG{o}{.}\PYG{n}{append}\PYG{p}{([}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{])}
+
+        \PYG{n}{shuffle}\PYG{p}{(}\PYG{n}{spawnList}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{spawnList}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+\end{Verbatim}

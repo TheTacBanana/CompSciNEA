@@ -1,8 +1,7 @@
 \begin{flushleft}
     \Large
     \section{Design}
-    \begin{enumerate}
-        \item {\Large System Flow Charts} \\
+        \subsection{System Flow Charts}
             \large
             \vspace{0.2cm}
             Below is shown the Flow Chart Overview of my Entire Project. This flowchart is very abstracted without going into
@@ -19,11 +18,11 @@
             \centerline{\includegraphics[width=\textwidth]{Images/Design/RewardActionStructure.png}}
             \vspace{0.5cm}
 
-        \item {\Large Class Diagrams}
+        \subsection{Class Diagrams}
             \large
             \vspace{0.2cm}
             Below is shown the Class Diagram of the entire Technical Solution. The Data Logger is listed seperately for clarity, as
-            in practice multiple sections of the Program will aggregate with it.
+            in practice multiple sections of the Program will aggregate with it. \\
 
             \vspace{0.5cm}
             \centerline{\includegraphics[width=\textwidth]{Images/Design/ClassDiagram.png}}
@@ -31,21 +30,19 @@
             \centerline{\includegraphics[width=.65\textwidth]{Images/Design/DataLoggerDiagram.png}}
             \vspace{0.5cm}
 
-        \item {\Large Choice of Programming Language and Libraries}
+        \subsection{Choice of Programming Language and Libraries}
             \large
             \vspace{0.2cm}  
             During my Analysis I outlined a list of possible Programming Languages and Associated Libraries. I chose Python
-            and Pygame as part of my prototype. I found this combination to be very easy to use and iteratively develop my prototype.
-            
+            and Pygame as part of my prototype. I found this combination to be very easy to use and iteratively develop my prototype. \\
 
-        \item {\Large Description of Algorithms} \\
+        \subsection{Description of Algorithms}
             \large
             \vspace{0.2cm}
             In this section, I will describe the algorithms I intend to use in my Technical Solution. I will also include generalised
             Pseudocode as part of my description.
 
-            \begin{enumerate}[label=\arabic*)]
-                \item Matrix Addition \\
+            \subsubsection{Matrix Addition}
                 This algorithm is a Mathematical Operation to add 2 Matrices together. To Add together 2 Matrices their Orders
                 must be the same. To perform the Operation you must Sum each element in Matrix A with the corresponding element 
                 in Matrix B, placing the result of each Sum in the resultant Matrix.
@@ -53,18 +50,18 @@
                 \vspace{0.2cm}
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} MatrixAddition(Matrix1, Matrix2)|
-    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
+    |TemporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
     |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
         |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]|
-            |temporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] + Matrix2[Row, Column]|
+            |TemporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] + Matrix2[Row, Column]|
         |\textbf{END FOR}|
     |\textbf{END FOR}|
-    |\textbf{RETURN} temporaryMatrix|
+    |\textbf{RETURN} TemporaryMatrix|
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Matrix Subtraction \\
+            \subsubsection{Matrix Subtraction}
                 This algorithm is a Mathematical Operation to subtract 2 Matrices. To Subtract 2 Matrices their Orders
                 must be the same. To perform the Operation you must Sum each element in Matrix A with the negative of the 
                 corresponding element in Matrix B, placing the result of each Sum in the resultant Matrix.
@@ -72,18 +69,18 @@
                 \vspace{0.2cm}
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} MatrixSubtraction(Matrix1, Matrix2)|
-    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
+    |TemporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
     |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
         |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]|
-            |temporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] - Matrix2[Row, Column]|
+            |TemporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] - Matrix2[Row, Column]|
         |\textbf{END FOR}|
     |\textbf{END FOR}|
-    |\textbf{RETURN} temporaryMatrix|
+    |\textbf{RETURN} TemporaryMatrix|
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Matrix Multiplication \\
+            \subsubsection{Matrix Multiplication}
                 This algorithm is a Mathematical Operation to find the product of 2 Matrices. To Multiply 2 Matrices
                 the number of Columns in the Matrix A must be equal to the number of Rows in Matrix B. Where Matrix A has
                 dimensions of $m$ x $n$ and Matrix B has dimensions of $j$ x $k$, the resultant Matrix will have dimensions of 
@@ -106,7 +103,7 @@
                 \end{pseudocode}   
 
                 \vspace{0.5cm}
-                \item Matrix Scalar Multiplication \\
+            \subsubsection{Matrix Scalar Multiplication}
                 This algorithm is a Mathematical Operation to find the product between a Matrix and a Scalar.
                 The result can be found by Multiplying each element of the Matrix by the Scalar Value to form the Resultant 
                 Matrix.
@@ -114,18 +111,18 @@
                 \vspace{0.2cm}
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} MatrixScalarMultiplication(Scalar, Matrix)|
-    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)|
+    |TemporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)|
     |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix.Order[0]|
         |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix.Order[1]|
-            |temporaryMatrix[Row, Column] \leftarrow Scalar * Matrix[Row, Column]|
+            |TemporaryMatrix[Row, Column] \leftarrow Scalar * Matrix[Row, Column]|
         |\textbf{END FOR}|
     |\textbf{END FOR}|
-    |\textbf{RETURN} temporaryMatrix|
+    |\textbf{RETURN} TemporaryMatrix|
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}   
                 
                 \vspace{0.5cm}
-                \item Matrix Hadamard Product \\
+            \subsubsection{Matrix Hadamard Product}
                 This algorithm is a Mathematical Operation to another way to find the product between 2 Matrices. Instead of
                 applying the Dot Product between Rows and Columns, you find the product between each element in Matrix A
                 with the corresponding element in Matrix B, placing the result in the resultant Matrix.
@@ -133,18 +130,18 @@
                 \vspace{0.2cm}
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} MatrixHadamardProduct(Matrix1, Matrix2)|
-    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
+    |TemporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)|
     |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]|
         |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]|
-            |temporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] * Matrix2[Row, Column]|
+            |TemporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] * Matrix2[Row, Column]|
         |\textbf{END FOR}|
     |\textbf{END FOR}|
-    |\textbf{RETURN} temporaryMatrix|
+    |\textbf{RETURN} TemporaryMatrix|
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}   
 
                 \vspace{0.5cm}
-                \item Matrix Power \\
+            \subsubsection{Matrix Power}
                 This algorithm is a Mathematical Operation to find the power of a Matrix. The given Matrix needs to have square dimensions.
                 The result can be found by multiplying the given Matrix by itself $n$ ammount of times where $n$ is the given power.
                 
@@ -160,17 +157,17 @@
                 \end{pseudocode}  
 
                 \vspace{0.5cm}
-                \item Matrix Transpose \\
+            \subsubsection{Matrix Transpose}
                 This algorithm is a Mathematical Operation used to Flip a Matrix across its Diagonal. The Transpose of any Matrix
                 can be found by converting each Row of the Matrix into a Column. An $m$ x $n$ Matrix will turn into an $n$ x $m$ Matrix.
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} MatrixTranspose(Matrix)|
-    |temporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)|
+    |TemporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix.Order)|
     |\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix.Order[0]|
         |\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix.Order[1]|
-            |temporaryMatrix[Row, Column] \leftarrow Matrix[Column, Row]|
+            |TemporaryMatrix[Row, Column] \leftarrow Matrix[Column, Row]|
         |\textbf{END FOR}|
     |\textbf{END FOR}|
     |\textbf{RETURN} temporaryMatrix|
@@ -178,7 +175,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Activation Function SoftMax \\
+            \subsubsection{Activation Function SoftMax}
                 This algorithm is a logistic function that creates a probability distribution from a set of points. This probability 
                 distribution sums to 1. It applies the standard Exponential Function to each element, then normalises this value by dividing
                 by the sum of all these Exponentials.
@@ -199,7 +196,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Neural Network Forward Propagation \\
+            \subsubsection{Neural Network Forward Propagation}
                 This algorithm is used to obtain the outputs of a Neural Network. It uses Matrix Multiplication to propagate the inputs
                 of the network from Layer to Layer, eventually reaching the Output Layer. My Multiplying the Weight Matrix and the outputs
                 of the previous Layer, and then adding the Bias. We can obtain the output of the layer.
@@ -218,14 +215,14 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Neural Network Loss Function \\
+            \subsubsection{Neural Network Loss Function}
                 The algorithm for to calculate the Loss of a Dual Neural Network can calculated by using a variation of the Bellman Equation.
                 The Bellman Equation is neccesary for Mathematically Optimising in this case. It determines the Value of a decision at a certain 
                 point in time, in terms of the Payoff from the Inital Action and the Value of the Potential Payoff after taking that Initial
                 Action. 
                 
                 \vspace{0.5cm}
-                \item Neural Network Backwards Propagation \\
+            \subsubsection{Neural Network Backwards Propagation}
                 This algorithm is used within a Neural Network to adjust its Weights and Biases, allowing it to more accurately predict the
                 best outcome. In Reinforcement Learning, the Network is trained using an estimate for what is the best action given a situation.
                 Using this estimate, we can train the Network to predict this outcome by converging the series of Weights and Biases towards a
@@ -233,7 +230,7 @@
                 This derivative is then subtracted from the existing weight or bias, eventually converging on the best possible value.
 
                 \vspace{0.5cm}
-                \item Agent Get Tile Vector \\
+            \subsubsection{Agent Get Tile Vector}
                 This algorithm takes the current World Data of the simulation, and produces a Vector of Tile Data surrounding the Agent. This can
                 be done using a nested For Loop rather simply.
 
@@ -244,8 +241,8 @@
     |SideLength \leftarrow 2 * Offset + 1|
     |TileVector \leftarrow \textbf{NEW} Matrix((Math.pow(sideLength, 2), 1))|
     |Num \leftarrow 0|
-    |\textbf{FOR} i \leftarrow Agent.Pos[1] - Offset \textbf{TO} Agent.Pos[1] + offset + 1|
-        |\textbf{FOR} j \leftarrow Agent.Pos[0] - offset \textbf{TO} Agent.Pos[1] + offset + 1|
+    |\textbf{FOR} i \leftarrow Agent.Pos[1] - Offset \textbf{TO} Agent.Pos[1] + Offset + 1|
+        |\textbf{FOR} j \leftarrow Agent.Pos[0] - Offset \textbf{TO} Agent.Pos[1] + Offset + 1|
             |TileVector[Num, 0] \leftarrow WorldMap[j, i]|
             |Num \leftarrow Num + 1|
         |\textbf{END FOR}|
@@ -255,7 +252,7 @@
                 \end{pseudocode}
                 
                 \vspace{0.5cm}
-                \item Agent Convert to Grayscale \\
+            \subsubsection{Agent Convert to Grayscale}
                 This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value. The Red, Green and Blue elements of
                 the colour value are multiplied by the specific values $0.299$, $0.587$ and $0.114$. You then sum the results, and divide by 
                 $255$.
@@ -272,7 +269,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Agent Post Process Tile Vector \\
+            \subsubsection{Agent Post Process Tile Vector}
                 This algorithm will convert the Tile Vector into a Vector of Grayscale values, which can be used as the input for the Neural
                 Network.
 
@@ -288,7 +285,7 @@
                 \end{pseudocode}
                 
                 \vspace{0.5cm}
-                \item Agent Spawn Position \\
+            \subsubsection{Agent Spawn Position}
                 This algorithm will create a list of spawnable tiles for which the Agent could spawn on, and then randomnly select a specific
                 tile as its spawn position.
 
@@ -310,7 +307,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Enemy Spawn Position \\
+            \subsubsection{Enemy Spawn Position}
                 This algorithm will create a list of spawnable tiles for which Enemies can spawn on, then select tiles randomnly, if they dont
                 already contain an enemy or the agent it will create an Enemy Object with that position. It will do this $n$ ammount of times 
                 where $n$ is the limit to how many enemies can spawn.
@@ -339,7 +336,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Enemy Move \\
+            \subsubsection{Enemy Move}
                 The algorithm I have designed for the Enemy Pathfinding is rather simple, and wont take up much runtime in my solution.
                 First it calculates the distance between itself and the Agent in both Axis. The Enemy will then converge upon the Agents
                 position by moving in the direction with the greatest distance, effectively finding the nearest diagonal and following it.
@@ -372,7 +369,7 @@
                 \end{pseudocode}
                 
                 \vspace{0.5cm}
-                \item Poisson Disc Sampling \\
+            \subsubsection{Poisson Disc Sampling}
                 Poisson Disc Sampling is used to sample a set of points in N Dimensional Space. It takes two parameters, $r$ and $k$, where
                 $r$ is the minimum distance a specified point must be from every other point, and $k$ is the limit of samples to choose
                 before rejection. It starts by creating an N Dimensional Grid which accelerates spacial searches. An initial sample is then
@@ -391,7 +388,7 @@
         |Sample \leftarrow PointList[RandomInt(0, PointList.Length - 1)]|
         |Result \leftarrow CheckPointDistance(Sample, PickedPoints)|
         |\textbf{IF} Result == True|
-            |PickedPoints[Sample[0], Sample[1]] \leftarrow = True|
+            |PickedPoints[Sample[0], Sample[1]] \leftarrow True|
             |SampleNum \leftarrow 0|
             |\textbf{CONTINUE}|
         |\textbf{ELSE}|
@@ -404,7 +401,7 @@
                 \end{pseudocode}
                 
                 \vspace{0.5cm}
-                \item Perlin Noise \\
+            \subsubsection{Perlin Noise}
                 Perlin Noise is a method of generating a procedural texture depending upon input parameters. It defines an n-dimensional
                 grid of Vectors, each grid intersection contains a fixed, random unit vector. To sample Perlin Noise, the grid cell which
                 the point lies in must be found. The Vectors between the sampled point, and the corners of the cell. We then take the Dot
@@ -466,7 +463,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Octave Perlin Noise \\
+            \subsubsection{Octave Perlin Noise}
                 Octave Perlin Noise takes the existing Perlin Noise algorithm, but adds rescaled clones of itself into itself, to create
                 what is known as Fractal Noise. Creating this Fractal Noise is common practice because it reduces the sharp edges encountered
                 with just the regular Perlin Noise Algorithm.
@@ -492,7 +489,7 @@
 |\textbf{ENDSUBROUTINE}|            
                 \end{pseudocode}
 
-                \item Heap Heapify \\
+            \subsubsection{Heap Heapify}
                 The Heapify algorithm converts a Binary Tree of values into a valid Heap. The Heap Property is defined in Description of Data
                 Structures below. This algorithm works by repeatedly performing Sift Down Operations for \textbf{$\lfloor$(N-1)/2$\rfloor$} times.
                 Where N is the Number of elements in the Tree. A Sift Down Operation will swap elements which don't conform to the Heap Property.
@@ -526,7 +523,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Heap Extraction \\
+            \subsubsection{Heap Extraction}
                 This algorithm extracts the Root Element from a valid Heap. It does this by swapping the Root Element and Final Element, and then
                 popping the new Final Element (Originally the Root) from the list. 
                 \vspace{0.2cm}
@@ -545,7 +542,7 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-                \item Heap Sort \\
+            \subsubsection{Heap Sort}
                 The Heap Sort algorithm relys on the prior two algorithms to fully order a list in Worst and Best case $O(nlog(n))$ Time Complexity. It 
                 is also $O(1)$ Space Complexity due to it being an In-Place Sorting algorithm. The sort will iteratively shrink the unsorted region by 
                 performing the following steps: Apply Heapify to the Unsorted Region, Extract the Root Element from the Heap, Insert the Extracted Element 
@@ -566,10 +563,8 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-            \end{enumerate}
-
         \vspace{0.5cm}
-        \item {\Large Description of Data Structures} \\
+        \subsection{Description of Data Structures}
             \large
             \vspace{0.2cm}
             \begin{enumerate}
@@ -618,7 +613,7 @@
             \end{enumerate}
 
         \vspace{0.5cm}
-        \item {\Large File Structure} \\
+        \subsection{File Structure}
             \large
             \vspace{0.2cm}
             \begin{enumerate}
@@ -762,8 +757,5 @@
             
                 \vspace{0.5cm}
             \end{enumerate}
-        
-
-    \end{enumerate}
     \vspace{0.1cm}
 \end{flushleft}

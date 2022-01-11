@@ -1,0 +1,109 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pickle}\PYG{o}{,} \PYG{n+nn}{random}
+\PYG{k+kn}{from} \PYG{n+nn}{heap} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{k+kn}{from} \PYG{n+nn}{time} \PYG{k+kn}{import} \PYG{n}{time}
+
+\PYG{c+c1}{\PYGZsh{} Data Logger Class for logging information for analysis}
+\PYG{k}{class} \PYG{n+nc}{DataLogger}\PYG{p}{():}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{name}\PYG{p}{,} \PYG{n}{dataStructure}\PYG{p}{,} \PYG{n}{load}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Constructor Method}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{name} \PYG{o}{=} \PYG{n}{name}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure} \PYG{o}{=} \PYG{n}{dataStructure}
+
+        \PYG{k}{if} \PYG{n}{load}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Loads Data if available but else create blank}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints} \PYG{o}{=} \PYG{n}{DataLogger}\PYG{o}{.}\PYG{n}{LoadDataPoints}\PYG{p}{(}\PYG{n}{name}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{def} \PYG{n+nf}{LogDataPointBatch}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{dataPoints}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Logs a Batch of Data Points}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoints}\PYG{p}{)):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{LogDataPoint}\PYG{p}{(}\PYG{n}{dataPoints}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+
+    \PYG{k}{def} \PYG{n+nf}{LogDataPoint}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{dataPoint}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Logs Data Point to Data Point list}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CheckMatchStructure}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{)}
+
+
+    \PYG{k}{def} \PYG{n+nf}{CheckMatchStructure}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{dataPoint}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Checks the given Data Point is in the correct Form}
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{)} \PYG{o}{!=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Throws error if lengths dont match}
+            \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Structure of Data Point does not match Collector Specified Structure\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{)):}
+            \PYG{n}{t1} \PYG{o}{=} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Type 1 }
+            \PYG{n}{t2} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Type 2}
+
+            \PYG{k}{if} \PYG{n}{t1} \PYG{o}{==} \PYG{n+nb}{list} \PYG{o+ow}{and} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)} \PYG{o}{!=} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks if list is all of same type}
+                \PYG{n}{flag} \PYG{o}{=} \PYG{k+kc}{False}
+
+                \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])):}
+                    \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{x}\PYG{p}{])} \PYG{o}{!=} \PYG{n}{t2}\PYG{p}{:}
+                        \PYG{n}{flag} \PYG{o}{=} \PYG{k+kc}{True}
+                \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{flag}\PYG{p}{:}
+                    \PYG{k}{continue}
+
+            \PYG{k}{elif} \PYG{n}{t1} \PYG{o}{==} \PYG{n+nb}{list} \PYG{o+ow}{and} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks list against list}
+                \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{o}{==} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{):}
+                    \PYG{n}{flag} \PYG{o}{=} \PYG{k+kc}{False}
+                    \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])):}
+                        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{dataPoint}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{x}\PYG{p}{])} \PYG{o}{!=} \PYG{n}{t2}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]:}
+                            \PYG{n}{flag} \PYG{o}{=} \PYG{k+kc}{True}
+
+                    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{flag}\PYG{p}{:}
+                        \PYG{k}{continue}
+
+            \PYG{k}{elif} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks Multiple types against t1}
+                \PYG{n}{flag} \PYG{o}{=} \PYG{k+kc}{False}
+
+                \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{t2}\PYG{p}{)):}
+                    \PYG{k}{if} \PYG{n}{t1} \PYG{o}{==} \PYG{n}{t2}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]:}
+                        \PYG{n}{flag} \PYG{o}{=} \PYG{k+kc}{True}
+                \PYG{k}{if} \PYG{n}{flag}\PYG{p}{:}
+                    \PYG{k}{continue}
+
+            \PYG{k}{else}\PYG{p}{:}                \PYG{c+c1}{\PYGZsh{} Checks Singular type against t1}
+                \PYG{k}{if} \PYG{n}{t1} \PYG{o}{==} \PYG{n}{t2}\PYG{p}{:}
+                    \PYG{k}{continue}
+
+            \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{((}\PYG{l+s+s2}{\PYGZdq{}Type: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{ != Data Structure Type: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{t1}\PYG{p}{,} \PYG{n}{t2}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{))}
+        \PYG{k}{return} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf}{HeapSort}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{parameterIndex}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} O(n*log n) sorting algorithm utilising a Heap Data structure, Sorts the data points by the specified parameter}
+        \PYG{c+c1}{\PYGZsh{} 1000 Items \PYGZhy{}\PYGZgt{} 0.13}
+        \PYG{c+c1}{\PYGZsh{} 10000 Items \PYGZhy{}\PYGZgt{} 12.1}
+        \PYG{c+c1}{\PYGZsh{} 100000 Items \PYGZhy{}\PYGZgt{} 1646 or 27.4 minutes}
+
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{parameterIndex}\PYG{p}{])} \PYG{o}{==} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if data structure element is List}
+            \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Cannot sort by structure: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{parameterIndex}\PYG{p}{])))}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{parameterIndex}\PYG{p}{]} \PYG{o}{==} \PYG{n+nb}{bool}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if data structure element is Bool}
+            \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Cannot sort by structure: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{parameterIndex}\PYG{p}{]))}
+
+        \PYG{n}{sortedList} \PYG{o}{=} \PYG{p}{[]}
+
+        \PYG{n}{heap} \PYG{o}{=} \PYG{n}{Heap}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints}\PYG{p}{,} \PYG{n}{parameterIndex}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Creates a new heap}
+
+        \PYG{k}{while} \PYG{n}{heap}\PYG{o}{.}\PYG{n}{Length}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{sortedList}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{heap}\PYG{o}{.}\PYG{n}{RemoveTop}\PYG{p}{())} \PYG{c+c1}{\PYGZsh{} Loops popping and appending greatest element from Heap}
+
+        \PYG{k}{return} \PYG{n}{sortedList}
+
+    \PYG{k}{def} \PYG{n+nf}{Select}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{searchIndex}\PYG{p}{,} \PYG{n}{searchContents}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Select a specified element with contents from data points}
+        \PYG{n}{returnedList} \PYG{o}{=} \PYG{p}{[]}
+
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints}\PYG{p}{)):}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{searchIndex}\PYG{p}{]} \PYG{o+ow}{in} \PYG{n}{searchContents}\PYG{p}{:}
+                \PYG{n}{returnedList}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+
+        \PYG{k}{return} \PYG{n}{returnedList}
+
+    \PYG{c+c1}{\PYGZsh{} Using Pickle to Save/Load}
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def} \PYG{n+nf}{LoadDataPoints}\PYG{p}{(}\PYG{n}{file}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns stored dataPoints}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}DataLogger}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{file} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}.data\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+            \PYG{n}{temp} \PYG{o}{=} \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{temp}
+
+    \PYG{k}{def} \PYG{n+nf}{SaveDataPoints}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Saves dataPoints to a file}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}DataLogger}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{name} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}.data\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}wb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+            \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{dump}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints}\PYG{p}{,} \PYG{n}{f}\PYG{p}{)}
+\end{Verbatim}

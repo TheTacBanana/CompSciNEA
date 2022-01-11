@@ -1,181 +1,175 @@
 \begin{flushleft}
     \huge
-    \textbf{5. Evaluation}
+    \section{Evaluation}
     \vspace{0.1cm}
 
     \large
-    \begin{enumerate}
-        \item {\Large Evaluation of Objectives} \\
+    \subsection{Evaluation of Objectives}
+        \vspace{0.2cm}
+        In this section, I will evaluate all of my objectives I set out to complete.
+        \vspace{0.2cm}
+
+        \subsubsection{Reading user inputted data}
             \vspace{0.2cm}
-            In this section, I will evaluate all of my objectives I set out to complete.
+            The user can input the parameters through a json file, and these parameters are checked against a range file to check they are within
+            the specified size. All of the parameters are read correctly and utilised within the Program. \\
             \vspace{0.2cm}
+            The Machine Learning Data is read from .dqn files. The Learning is resumed from where it was saved from with all the Weights and
+            Biases intact. \\
 
-            \begin{enumerate}
-                \item Reading user inputted data \\
-                    \vspace{0.2cm}
-                    The user can input the parameters through a json file, and these parameters are checked against a range file to check they are within
-                    the specified size. All of the parameters are read correctly and utilised within the Program. \\
-                    \vspace{0.2cm}
-                    The Machine Learning Data is read from .dqn files. The Learning is resumed from where it was saved from with all the Weights and
-                    Biases intact. \\
-
-                    \vspace{0.5cm}    
-                \item Generating the Environment \\
-                    \vspace{0.2cm}
-                    At the start of the program an instance of World Class is created and the Generate methods are invoked. These methods utilise Perlin
-                    Noise and Poisson Disc Sampling. The Terrain values are stored in a 2d list of Tile Objects which store the Height, Type and Colour data
-                    for each Tile. The Poisson Disc Sampling Generates a list of points which Trees are then generated at those positions. The Width
-                    of the world and Tile colours are determined by the Input Parameters. \\
-
-                    \vspace{0.5cm}    
-                \item Displaying the world to a Pygame Window \\
-                    \vspace{0.2cm}
-                    Upon generating the Map Data the Terrain is displayed in a grid to the Pygame Window, it is represented as a grid of tiles of the pixel 
-                    width loaded in by the Inputted Parameters. The Agent and Enemies are Drawn at their according positions, taking up entire Tile. If Debug
-                    mode is enabled, a representation of the Neural Network will be displayed on the right hand side of the window. \\
-
-                    \vspace{0.5cm}   
-                \item Simple Agent with a set of Actions \\
-                    \vspace{0.2cm}
-                    An Agent can be created as an object and works along side the Dual Neural Network Object to enable interactions between the environment and
-                    the Network. The Agent can collect the surroundng Tile Data using the \textbf{GetTileVector} Method, this can then be converted into the
-                    Networks Input Vector using the \textbf{TileVectorPostProcess} Method. There exists Methods to Take a given Action, normally outputted by
-                    the Network. Along with Methods to Calculate Reward for an Action given a State, or the Maximum Possible Reward Given a State. \\
-                    \vspace{0.2cm}
-                    There also exists Methods to Reset the Agent to its default values. Along with Determining the Agents Spawn Position when given a WorldMap
-                    Object. \\
-
-                    \vspace{0.5cm}   
-                \item Matrix class with Standard Operations \\
-                    \vspace{0.2cm}
-                    A Matrix can be created using 3 different methods. First using a Tuple of Integers, a new Matrix will be created of that size, with initialised
-                    0 values. Second using a prexisting 2d list of values, a new Matrix will be created with these dimensions and values. Thirdly a 1d list of
-                    values can be used to create a 1 wide Vector of values, where it reads each value into the 1st position of each row. \\
-                    \vspace{0.2cm}
-                    All standard operations for the Matrix Object are implemented using Operator Overloading to make code less bloated. All are written 
-                    efficiently utilising minimum complexity algorithms. Addition can be carried out utilising the $+$ Operator. Subtraction can be carried out
-                    utilising the $-$ Operator. Multiplication and Scalar Multiplication are both carried out utilising the $*$ Operator. Power Operation is
-                    carried out utilising the $\string^$ operator. A Matrix can be converted to a Formatted String implicitly by using it in a string context. \\
-                    \vspace{0.2cm}
-                    All Matrice Operations have appropriate Exceptions with descriptive Error Messages. They will throw errors when incorrect Data is provided to
-                    the specified Operation. \\
-
-                    \vspace{0.5cm}   
-                \item Creation of a Reinforcement Learning Model \\
-                    \vspace{0.2cm}
-                    A Dual Neural Network can be created as an object, which stores two Neural Network Objects, Main and Target. The Dual Neural Network
-                    contains the Primary Method \textbf{Step} which invokes a Series of Lower Level Methods to perform a singular Time Step. The Neural 
-                    Network Object store a List of Layers Objects which are dynamically created from the Input Parameters. Each Layer contains a Weight 
-                    Matrix, Bias Vector, and Output Vector. The Lowest Level methods for Forward and Back Propagation are contained within the Layer Object. \\
-                    \vspace{0.2cm}
-                    First Forward Propagation occurs on the Main and Target Network. Then results of the Main Network are taken to choose the action for the Agent. 
-                    Epsilon Greedy is implemented to determine whether to choose the random or predicted result. This Action is then fed to the Agent, along with 
-                    calculating the reward for that Action. The Loss of the Main Network is then calculated using a modified Bellman Equation for Dual Neural 
-                    Networks. This Loss is used for Back Propagating the Main Neural Network. The Main Networks Weights are copied to the Target Network
-                    every specified ammount of steps. Every specified ammount of steps, Experience Replay is performed to learn from past experiences again. \\
-                    \vspace{0.2cm}
-                    The combination of these steps form a functional Dual Neural Network utilising a Reinforcement Learning Model. \\
-
-                    \vspace{0.5cm}   
-                \item Creation of a Data Logger \\
-                    \vspace{0.2cm}
-                    A Data Logger Class can be used to Log and Store Data Points at various parts of the Program. Each Data Point is stored as a Tuple of Values
-                    as part of a .data file. These files are stored as Binary Files, and are Read into the Program upon launch. \\
-                    \vspace{0.2cm}
-                    As part of the Data Logger you can sort points utilising a Heap Sort to sort through Data. \\
-
-                    \vspace{0.5cm}   
-            \end{enumerate}
-
-            \vspace{0.5cm}
-        \item {\Large Answering my Investigations Question} \\
+            \vspace{0.5cm}    
+        \subsubsection{Generating the Environment}
             \vspace{0.2cm}
-            As part of my Machine Learning Investigation I proposed the Question:
+            At the start of the program an instance of World Class is created and the Generate methods are invoked. These methods utilise Perlin
+            Noise and Poisson Disc Sampling. The Terrain values are stored in a 2d list of Tile Objects which store the Height, Type and Colour data
+            for each Tile. The Poisson Disc Sampling Generates a list of points which Trees are then generated at those positions. The Width
+            of the world and Tile colours are determined by the Input Parameters. \\
 
-            \vspace{0.3cm}\begin{center}
-            \textbf{Can you train a Machine Learning algorithm to survive in a pseudo random, open-world environment?}
-            \end{center}\vspace{0.3cm}
-
-            I aimed to answer this question by designing and creating a Deep Reinforcement Learning Model utilising a Deep Neural Network, along 
-            with designing a Simple Simulation for a Machine Learning Agent to survive in. This simulation
-
-            \vspace{0.5cm}
-
-        \item {\Large Expert Feedback} \\
+            \vspace{0.5cm}    
+        \subsubsection{Displaying the world to a Pygame Window}
             \vspace{0.2cm}
-            I went back to my Expert Shaun in order to collect feedback on my finalised Technical Solution. I asked him a few Questions about my
-            project, paraphrased where neccesary. \\
-            \vspace{0.5cm}
+            Upon generating the Map Data the Terrain is displayed in a grid to the Pygame Window, it is represented as a grid of tiles of the pixel 
+            width loaded in by the Inputted Parameters. The Agent and Enemies are Drawn at their according positions, taking up entire Tile. If Debug
+            mode is enabled, a representation of the Neural Network will be displayed on the right hand side of the window. \\
 
-            \begin{enumerate}
-                \item What do you think of the Program? \\
-                    \vspace{0.2cm}
-                    "Overall I think your project is incredibly visually interesting to look at, I could stare at the graphical output for hours
-                    just rooting for the Agent to better itself and kill the Generated Enemies. The User Inputted Parameters are easy to change
-                    through the json file, and it is helpful that they are locked between certain ranges to stop the User from crashing their Pc
-                    from allocating too much memory. The Terrain generation looks pretty good for just a 4 coloured map generated from Perlin Noise.
-                    The Neural Network works as intended, although \textbf{NOT FINISHED}"
-
-                \item Does my Tehnical Solution achieve all of the Set Goals and Objectives? \\
-                    \vspace{0.2cm}
-                    "The Program achieves all of the objectives you set out to complete, and it is clear alot of hard work went into completing your
-                    project. Lots of research needs to be carried out in order to understand the complexity behind Reinforcement Learning and all
-                    of its individual parts. Debugging this process also becomes increasingly difficult, due to the complex calculations, this 
-                    demonstrates you have the ability to solve problems independently. \\
-                    \vspace{0.2cm}
-                    You've also implemented an entire simulation ontop of the Dual Neural Network. Which uses even more complex algorithms, this demonstrates
-                    you can develop multiple Vertical Slices of a project, and intertwine them together in order to create one bigger project. This
-                    takes planning skill and a good understanding of OOP in order to pull off." \\
-
-                    \vspace{0.5cm}
-                \item What Criticisms/Improvements would you suggest? \\
-                    \vspace{0.2cm}
-                    "Considering the scope of the project, youve carried out your completion of this task very well. The only suggestion I would have is
-                    to implement a Convolution, which might solve your Training Accuracy Problems. Otherwise a Description of your Project could be
-                    printed to console when the main file is run, or a 'Readme' text file included in the project files would useful to any users who 
-                    have little to no experience with Reinforcement Learning." \\
-
-                    \vspace{0.5cm}
-            \end{enumerate}
-
-
-            \vspace{0.5cm}
-        \item {\Large Evaluation of Expert Feedback} \\
+            \vspace{0.5cm}   
+        \subsubsection{Simple Agent with a set of Actions}
             \vspace{0.2cm}
+            An Agent can be created as an object and works along side the Dual Neural Network Object to enable interactions between the environment and
+            the Network. The Agent can collect the surroundng Tile Data using the \textbf{GetTileVector} Method, this can then be converted into the
+            Networks Input Vector using the \textbf{TileVectorPostProcess} Method. There exists Methods to Take a given Action, normally outputted by
+            the Network. Along with Methods to Calculate Reward for an Action given a State, or the Maximum Possible Reward Given a State. \\
+            \vspace{0.2cm}
+            There also exists Methods to Reset the Agent to its default values. Along with Determining the Agents Spawn Position when given a WorldMap
+            Object. \\
+
+            \vspace{0.5cm}   
+        \subsubsection{Matrix Class with Standard Operations}
+            \vspace{0.2cm}
+            A Matrix can be created using 3 different methods. First using a Tuple of Integers, a new Matrix will be created of that size, with initialised
+            0 values. Second using a prexisting 2d list of values, a new Matrix will be created with these dimensions and values. Thirdly a 1d list of
+            values can be used to create a 1 wide Vector of values, where it reads each value into the 1st position of each row. \\
+            \vspace{0.2cm}
+            All standard operations for the Matrix Object are implemented using Operator Overloading to make code less bloated. All are written 
+            efficiently utilising minimum complexity algorithms. Addition can be carried out utilising the $+$ Operator. Subtraction can be carried out
+            utilising the $-$ Operator. Multiplication and Scalar Multiplication are both carried out utilising the $*$ Operator. Power Operation is
+            carried out utilising the $\string^$ operator. A Matrix can be converted to a Formatted String implicitly by using it in a string context. \\
+            \vspace{0.2cm}
+            All Matrice Operations have appropriate Exceptions with descriptive Error Messages. They will throw errors when incorrect Data is provided to
+            the specified Operation. \\
+
+            \vspace{0.5cm}   
+        \subsubsection{Creation of a Reinforcement Learning Model}
+            \vspace{0.2cm}
+            A Dual Neural Network can be created as an object, which stores two Neural Network Objects, Main and Target. The Dual Neural Network
+            contains the Primary Method \textbf{Step} which invokes a Series of Lower Level Methods to perform a singular Time Step. The Neural 
+            Network Object store a List of Layers Objects which are dynamically created from the Input Parameters. Each Layer contains a Weight 
+            Matrix, Bias Vector, and Output Vector. The Lowest Level methods for Forward and Back Propagation are contained within the Layer Object. \\
+            \vspace{0.2cm}
+            First Forward Propagation occurs on the Main and Target Network. Then results of the Main Network are taken to choose the action for the Agent. 
+            Epsilon Greedy is implemented to determine whether to choose the random or predicted result. This Action is then fed to the Agent, along with 
+            calculating the reward for that Action. The Loss of the Main Network is then calculated using a modified Bellman Equation for Dual Neural 
+            Networks. This Loss is used for Back Propagating the Main Neural Network. The Main Networks Weights are copied to the Target Network
+            every specified ammount of steps. Every specified ammount of steps, Experience Replay is performed to learn from past experiences again. \\
+            \vspace{0.2cm}
+            The combination of these steps form a functional Dual Neural Network utilising a Reinforcement Learning Model. \\
+
+            \vspace{0.5cm}   
+        \subsubsection{Creation of a Data Logger}
+            \vspace{0.2cm}
+            A Data Logger Class can be used to Log and Store Data Points at various parts of the Program. Each Data Point is stored as a Tuple of Values
+            as part of a .data file. These files are stored as Binary Files, and are Read into the Program upon launch. \\
+            \vspace{0.2cm}
+            As part of the Data Logger you can sort points utilising a Heap Sort to sort through Data. \\
+
+            \vspace{0.5cm}   
+
+        \vspace{0.5cm}
+    \subsection{Answering my Investigations Question}
+        \vspace{0.2cm}
+        As part of my Machine Learning Investigation I proposed the Question:
+
+        \vspace{0.3cm}\begin{center}
+        \textbf{Can you train a Machine Learning algorithm to survive in a pseudo random, open-world environment?}
+        \end{center}\vspace{0.3cm}
+
+        I aimed to answer this question by designing and creating a Deep Reinforcement Learning Model utilising a Deep Neural Network, along 
+        with designing a Simple Simulation for a Machine Learning Agent to survive in. This simulation
+
+        \vspace{0.5cm}
+
+    \subsection{Expert Feedback}
+        \vspace{0.2cm}
+        I went back to my Expert Shaun in order to collect feedback on my finalised Technical Solution. I asked him a few Questions about my
+        project, paraphrased where neccesary. \\
+        \vspace{0.5cm}
+
+        \begin{enumerate}
+            \item What do you think of the Program? \\
+                \vspace{0.2cm}
+                "Overall I think your project is incredibly visually interesting to look at, I could stare at the graphical output for hours
+                just rooting for the Agent to better itself and kill the Generated Enemies. The User Inputted Parameters are easy to change
+                through the json file, and it is helpful that they are locked between certain ranges to stop the User from crashing their Pc
+                from allocating too much memory. The Terrain generation looks pretty good for just a 4 coloured map generated from Perlin Noise.
+                The Neural Network works as intended, although \textbf{NOT FINISHED}"
+
+            \item Does my Tehnical Solution achieve all of the Set Goals and Objectives? \\
+                \vspace{0.2cm}
+                "The Program achieves all of the objectives you set out to complete, and it is clear alot of hard work went into completing your
+                project. Lots of research needs to be carried out in order to understand the complexity behind Reinforcement Learning and all
+                of its individual parts. Debugging this process also becomes increasingly difficult, due to the complex calculations, this 
+                demonstrates you have the ability to solve problems independently. \\
+                \vspace{0.2cm}
+                You've also implemented an entire simulation ontop of the Dual Neural Network. Which uses even more complex algorithms, this demonstrates
+                you can develop multiple Vertical Slices of a project, and intertwine them together in order to create one bigger project. This
+                takes planning skill and a good understanding of OOP in order to pull off." \\
+
+                \vspace{0.5cm}
+            \item What Criticisms/Improvements would you suggest? \\
+                \vspace{0.2cm}
+                "Considering the scope of the project, youve carried out your completion of this task very well. The only suggestion I would have is
+                to implement a Convolution, which might solve your Training Accuracy Problems. Otherwise a Description of your Project could be
+                printed to console when the main file is run, or a 'Readme' text file included in the project files would useful to any users who 
+                have little to no experience with Reinforcement Learning." \\
+
+                \vspace{0.5cm}
+        \end{enumerate}
+
+
+        \vspace{0.5cm}
+    \subsection{Evaluation of Expert Feedback}
+        \vspace{0.2cm}
+        
+
+        \vspace{0.5cm}
+
+    \subsection{System Improvements}
+        \vspace{0.2cm}
+        Overall I am happy with my Technical Solution. I achieved all the objectives I set out to complete in my Analyis. I have definitely achieved
+        my primary goal of gaining a deeper understanding about the Maths and Logic behind how Neural Networks work. This has given me a Window into
+        the field of Machine Learning and Artificial Intelligence, which I intend to pursue as part of my later Studies. \\
+        \vspace{0.2cm}
+        The Improvements I would like to make to my Technical Solution are: \\
+        \vspace{0.5cm}
+
+        \begin{enumerate}
+            \item The Implementation of a Convolutional Neural Network was something I came across in my Initial Research and was mentioned by my Expert.
+            Convolution carries out Pre-Processing on the inputted data before it is even touched by the Neural Network. This in theory would increase
+            the training accuracy of my Network leading to better Results. \\
             
-
-            \vspace{0.5cm}
-
-        \item {\Large System Improvements} \\
             \vspace{0.2cm}
-            Overall I am happy with my Technical Solution. I achieved all the objectives I set out to complete in my Analyis. I have definitely achieved
-            my primary goal of gaining a deeper understanding about the Maths and Logic behind how Neural Networks work. This has given me a Window into
-            the field of Machine Learning and Artificial Intelligence, which I intend to pursue as part of my later Studies. \\
+            \item The Optimisation of my Matrix Class by compiling it into $C$ through the use of Cython would help speed up the training of the Neural
+            Network. Due to Python being an interpretted language it is comparatively slow compared to the other programming languages I considered
+            using. $C$ is a compiled language so it is comparatively alot faster, about 45 times faster according to some sources online. This could
+            provide an easy way to optimise my Program without having to convert my entire Codebase into a different Language. \\
+
             \vspace{0.2cm}
-            The Improvements I would like to make to my Technical Solution are: \\
-            \vspace{0.5cm}
+            \item An increase in complexity of my simulation would provide a greater challenge towards my Agent and Neural Network. I could add a basic
+            crafting system to convert the collected Wood into a sword, or a Hunger Bar so the Agent has to collect food and water in order to survive.
+            I feel as though the Network wouldnt be able to solve these problems effectively though without the implementation of my first improvement,
+            a Convolutional Neural Network. \\
 
-            \begin{enumerate}
-                \item The Implementation of a Convolutional Neural Network was something I came across in my Initial Research and was mentioned by my Expert.
-                Convolution carries out Pre-Processing on the inputted data before it is even touched by the Neural Network. This in theory would increase
-                the training accuracy of my Network leading to better Results. \\
-                
-                \vspace{0.2cm}
-                \item The Optimisation of my Matrix Class by compiling it into $C$ through the use of Cython would help speed up the training of the Neural
-                Network. Due to Python being an interpretted language it is comparatively slow compared to the other programming languages I considered
-                using. $C$ is a compiled language so it is comparatively alot faster, about 45 times faster according to some sources online. This could
-                provide an easy way to optimise my Program without having to convert my entire Codebase into a different Language. \\
-
-                \vspace{0.2cm}
-                \item An increase in complexity of my simulation would provide a greater challenge towards my Agent and Neural Network. I could add a basic
-                crafting system to convert the collected Wood into a sword, or a Hunger Bar so the Agent has to collect food and water in order to survive.
-                I feel as though the Network wouldnt be able to solve these problems effectively though without the implementation of my first improvement,
-                a Convolutional Neural Network. \\
-
-                \vspace{0.2cm}
-            \end{enumerate}
-
-            \vspace{0.5cm}
-
-    \end{enumerate}
+            \vspace{0.2cm}
+        \end{enumerate}
+        \vspace{0.5cm}
 \end{flushleft}

@@ -4,8 +4,8 @@
     \PYG{esc}{SideLength \leftarrow 2 * Offset + 1}
     \PYG{esc}{TileVector \leftarrow \textbf{NEW} Matrix((Math.pow(sideLength, 2), 1))}
     \PYG{esc}{Num \leftarrow 0}
-    \PYG{esc}{\textbf{FOR} i \leftarrow Agent.Pos[1] - Offset \textbf{TO} Agent.Pos[1] + offset + 1}
-        \PYG{esc}{\textbf{FOR} j \leftarrow Agent.Pos[0] - offset \textbf{TO} Agent.Pos[1] + offset + 1}
+    \PYG{esc}{\textbf{FOR} i \leftarrow Agent.Pos[1] - Offset \textbf{TO} Agent.Pos[1] + Offset + 1}
+        \PYG{esc}{\textbf{FOR} j \leftarrow Agent.Pos[0] - Offset \textbf{TO} Agent.Pos[1] + Offset + 1}
             \PYG{esc}{TileVector[Num, 0] \leftarrow WorldMap[j, i]}
             \PYG{esc}{Num \leftarrow Num + 1}
         \PYG{esc}{\textbf{END FOR}}

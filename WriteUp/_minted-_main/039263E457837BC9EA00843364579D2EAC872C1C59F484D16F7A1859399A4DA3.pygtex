@@ -8,7 +8,7 @@
         \PYG{esc}{Sample \leftarrow PointList[RandomInt(0, PointList.Length - 1)]}
         \PYG{esc}{Result \leftarrow CheckPointDistance(Sample, PickedPoints)}
         \PYG{esc}{\textbf{IF} Result == True}
-            \PYG{esc}{PickedPoints[Sample[0], Sample[1]] \leftarrow = True}
+            \PYG{esc}{PickedPoints[Sample[0], Sample[1]] \leftarrow True}
             \PYG{esc}{SampleNum \leftarrow 0}
             \PYG{esc}{\textbf{CONTINUE}}
         \PYG{esc}{\textbf{ELSE}}

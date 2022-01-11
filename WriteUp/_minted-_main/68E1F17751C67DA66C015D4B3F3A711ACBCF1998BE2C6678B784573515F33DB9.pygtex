@@ -1,0 +1,228 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{json}\PYG{o}{,} \PYG{n+nn}{random}\PYG{o}{,} \PYG{n+nn}{pygame}\PYG{o}{,} \PYG{n+nn}{threading}
+\PYG{k+kn}{import} \PYG{n+nn}{perlinNoise}
+
+\PYG{c+c1}{\PYGZsh{} Class to store Individual Tile Data}
+\PYG{k}{class} \PYG{n+nc}{Tile}\PYG{p}{():} 
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Initialise Tile object}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileColour} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{explored} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasObject} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasEnemy} \PYG{o}{=} \PYG{k+kc}{False}
+
+    \PYG{k}{def} \PYG{n+nf}{InitValues}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{tileType}\PYG{p}{,} \PYG{n}{height}\PYG{p}{,} \PYG{n}{colour}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Set/Initialise Tile Vales}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{=} \PYG{n}{tileType}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{height}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileColour} \PYG{o}{=} \PYG{n}{colour}
+
+    \PYG{k}{def} \PYG{n+nf}{AddObject}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{objectType}\PYG{p}{,} \PYG{n}{objectColour}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Adds an Object to the Tile Object}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasObject} \PYG{o}{=} \PYG{k+kc}{True}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{objectType} \PYG{o}{=} \PYG{n}{objectType}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{objectColour} \PYG{o}{=} \PYG{n}{objectColour}
+    
+    \PYG{k}{def} \PYG{n+nf}{ClearObject}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Clears Object from the Tile Object}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasObject} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{objectType} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{objectColour} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{WriteEnemy}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Write Enemy to tile        }
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasEnemy} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} To String Overload}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasObject}\PYG{p}{:}
+            \PYG{k}{return} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{,}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileType}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{objectType}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{return}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileType}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Class to store world terrain and object data}
+\PYG{k}{class} \PYG{n+nc}{WorldMap}\PYG{p}{():} 
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{seed}\PYG{p}{,} \PYG{n}{params}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Initialise method for creating an instance of the world}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{=} \PYG{n}{params}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{=} \PYG{n}{params}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TileWidth\PYGZdq{}}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{=} \PYG{n}{seed}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER} \PYG{o}{=} \PYG{n}{params}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TileBorder\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray} \PYG{o}{=} \PYG{p}{[[}\PYG{n}{Tile}\PYG{p}{()} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)]} \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)]}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary} \PYG{o}{=} \PYG{n}{params}
+
+\PYG{c+c1}{\PYGZsh{} Non Threaded Terrain Generation}
+    \PYG{k}{def} \PYG{n+nf}{GenerateMap}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Generates terrain \PYGZhy{} Not Threaded }
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{n}{xCoord} \PYG{o}{=} \PYG{n}{x} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
+                \PYG{n}{yCoord} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
+
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{octaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord}\PYG{p}{,} 
+                                                            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}OctavesTerrain\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PersistenceTerrain\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Write Octave Noise values to tile array}
+
+\PYG{c+c1}{\PYGZsh{} Threaded Terrain Generation}
+    \PYG{k}{def} \PYG{n+nf}{GenerateThreadedParent}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Generates terrain using 4 threads}
+        \PYG{n}{threads} \PYG{o}{=} \PYG{p}{[]}
+
+        \PYG{n}{halfMap} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n}{fullMap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}
+
+        \PYG{c+c1}{\PYGZsh{} Create 4 threads for threaded child functions}
+        \PYG{n}{threads}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{threading}\PYG{o}{.}\PYG{n}{Thread}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ThreadedChild}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{halfMap}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{halfMap}\PYG{p}{)))}
+        \PYG{n}{threads}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{threading}\PYG{o}{.}\PYG{n}{Thread}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ThreadedChild}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{halfMap}\PYG{p}{,} \PYG{n}{fullMap}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{halfMap}\PYG{p}{)))}
+        \PYG{n}{threads}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{threading}\PYG{o}{.}\PYG{n}{Thread}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ThreadedChild}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{halfMap}\PYG{p}{,} \PYG{n}{halfMap}\PYG{p}{,} \PYG{n}{fullMap}\PYG{p}{)))}
+        \PYG{n}{threads}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{threading}\PYG{o}{.}\PYG{n}{Thread}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ThreadedChild}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{halfMap}\PYG{p}{,} \PYG{n}{fullMap}\PYG{p}{,} \PYG{n}{halfMap}\PYG{p}{,} \PYG{n}{fullMap}\PYG{p}{)))}
+            
+
+        \PYG{c+c1}{\PYGZsh{} Start all the threads}
+        \PYG{k}{for} \PYG{n}{t} \PYG{o+ow}{in} \PYG{n}{threads}\PYG{p}{:}
+            \PYG{n}{t}\PYG{o}{.}\PYG{n}{start}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} While threads arent finished, pause }
+        \PYG{k}{while} \PYG{n}{threading}\PYG{o}{.}\PYG{n}{activeCount}\PYG{p}{()} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{k}{pass}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderMap}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} Render Map}
+
+    \PYG{k}{def} \PYG{n+nf}{ThreadedChild}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x1}\PYG{p}{,} \PYG{n}{x2}\PYG{p}{,} \PYG{n}{y1}\PYG{p}{,} \PYG{n}{y2}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Child Method to GenerateThreadedParent}
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{y1}\PYG{p}{,} \PYG{n}{y2}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,} \PYG{n}{x2}\PYG{p}{):}
+                \PYG{n}{xCoord} \PYG{o}{=} \PYG{p}{(}\PYG{n}{x} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
+                \PYG{n}{yCoord} \PYG{o}{=} \PYG{p}{(}\PYG{n}{y} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
+
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{octaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{time}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{time}\PYG{p}{,} 
+                                                            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}OctavesTerrain\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PersistenceTerrain\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Write Octave Noise values to tile array}
+
+\PYG{c+c1}{\PYGZsh{} Generate Tree Methods}
+    \PYG{k}{def} \PYG{n+nf}{GenerateTreeArea}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Uses perlin noise to generate the areas for trees to spawn in}
+        \PYG{n}{TSO} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TreeSeedOffset\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{n}{treeList} \PYG{o}{=} \PYG{p}{[]}
+
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{n}{xCoord} \PYG{o}{=} \PYG{n}{x} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}
+                \PYG{n}{yCoord} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}
+
+                \PYG{n}{temp} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{octaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord} \PYG{o}{+} \PYG{n}{TSO}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord} \PYG{o}{+} \PYG{n}{TSO}\PYG{p}{,} 
+                            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}OctavesTrees\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PersistenceTrees\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Sample octave noise}
+
+                \PYG{n}{tileValue} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Clamp}\PYG{p}{(((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{0.5}\PYG{p}{),} \PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Clamp value}
+
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{temp} \PYG{o}{\PYGZgt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TreeHeight\PYGZdq{}}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{tileValue} \PYG{o}{\PYGZgt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Coast\PYGZdq{}}\PYG{p}{]} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TreeBeachOffset\PYGZdq{}}\PYG{p}{]} \PYG{o+ow}{and} 
+                                                                    \PYG{n}{tileValue} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Grass\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TreeBeachOffset\PYGZdq{}}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Check within range}
+                    \PYG{n}{treeList}\PYG{o}{.}\PYG{n}{append}\PYG{p}{([}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{])} 
+        
+        \PYG{n}{poissonArray} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PoissonDiscSampling}\PYG{p}{(}\PYG{n}{treeList}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Get Poisson Disc Sampling values for poisson array}
+
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{ClearObject}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} Clear Existing objects from tile map}
+
+                \PYG{k}{if} \PYG{n}{poissonArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{AddObject}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TreeType\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourTree\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Add Poisson Disc Sample results to tile map}
+
+    \PYG{k}{def} \PYG{n+nf}{PoissonDiscSampling}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{pointList}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} A tweaked version of poisson disc sampling in 2 dimensions}
+        \PYG{n}{k} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PoissonKVal\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{n}{pickedPoints} \PYG{o}{=} \PYG{p}{[[}\PYG{k+kc}{False} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)]} \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)]} \PYG{c+c1}{\PYGZsh{} Blank array of False}
+
+        \PYG{n}{numPoints} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{pointList}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+        \PYG{k}{if} \PYG{n}{numPoints} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Catches if no points}
+            \PYG{k}{return} \PYG{n}{pickedPoints}
+
+        \PYG{n}{sampleNum} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{while} \PYG{n}{sampleNum} \PYG{o}{\PYGZlt{}=} \PYG{n}{k}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} While sampled attempts is less than k}
+            \PYG{n}{sample} \PYG{o}{=} \PYG{n}{pointList}\PYG{p}{[}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{numPoints}\PYG{p}{)]}
+
+            \PYG{n}{result} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{PoissonCheckPoint}\PYG{p}{(}\PYG{n}{sample}\PYG{p}{,} \PYG{n}{pickedPoints}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Check points}
+            \PYG{k}{if} \PYG{n}{result} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:}
+                \PYG{n}{pickedPoints}\PYG{p}{[}\PYG{n}{sample}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n}{sample}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{=} \PYG{k+kc}{True}
+                \PYG{n}{sampleNum} \PYG{o}{=} \PYG{l+m+mi}{0}
+                \PYG{k}{continue}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{sampleNum} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{continue}
+
+        \PYG{k}{return} \PYG{n}{pickedPoints}
+
+    \PYG{k}{def} \PYG{n+nf}{PoissonCheckPoint}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{point}\PYG{p}{,} \PYG{n}{pickedPoints}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Checks Specific points around a point for objects}
+        \PYG{k}{if} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}=} \PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2} \PYG{o+ow}{and} 
+                    \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}=} \PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n}{pickedPoints}\PYG{p}{[}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{k}{return} \PYG{k+kc}{False}
+            \PYG{k}{elif} \PYG{n}{pickedPoints}\PYG{p}{[}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{k}{return} \PYG{k+kc}{False}
+            \PYG{k}{elif} \PYG{n}{pickedPoints}\PYG{p}{[}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{k}{return} \PYG{k+kc}{False}
+            \PYG{k}{elif} \PYG{n}{pickedPoints}\PYG{p}{[}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{k}{return} \PYG{k+kc}{False}
+            \PYG{k}{elif} \PYG{n}{pickedPoints}\PYG{p}{[}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n}{point}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{k}{return} \PYG{k+kc}{False}
+            \PYG{k}{else}\PYG{p}{:} \PYG{k}{return} \PYG{k+kc}{True}
+
+\PYG{c+c1}{\PYGZsh{} Render Methods}
+    \PYG{k}{def} \PYG{n+nf}{RenderMap}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Renders terrain onto Pygame surface}
+        \PYG{n}{resolution} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedMap} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{Surface}\PYG{p}{((}\PYG{n}{resolution}\PYG{p}{,} \PYG{n}{resolution}\PYG{p}{))}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedMap}\PYG{o}{.}\PYG{n}{set\PYGZus{}colorkey}\PYG{p}{((}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{))}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Grayscale\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Renders in grayscale if specified}
+            \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                    \PYG{n}{value} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight}
+                    \PYG{n}{value} \PYG{o}{=} \PYG{p}{(}\PYG{n}{value} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{0.5}
+                    \PYG{n}{value} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Clamp}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{)}
+                    
+                    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedMap}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{255} \PYG{o}{*} \PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{255} \PYG{o}{*} \PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{255} \PYG{o}{*} \PYG{n}{value}\PYG{p}{),} \PYG{p}{((}\PYG{n}{x} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER}\PYG{p}{),} 
+                            \PYG{p}{(}\PYG{n}{y} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER}\PYG{p}{),} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{)))}
+
+        \PYG{k}{else}\PYG{p}{:}                                      \PYG{c+c1}{\PYGZsh{} Else renders in Colour}
+            \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                    \PYG{n}{value} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight}
+                    \PYG{n}{value} \PYG{o}{=} \PYG{p}{(}\PYG{n}{value} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{0.5}
+                    \PYG{n}{value} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Clamp}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Clamps value between 0 and 1}
+                    
+                    \PYG{n}{colour} \PYG{o}{=} \PYG{k+kc}{None}
+
+                    \PYG{k}{if} \PYG{n}{value} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Colour ramp for all available colours}
+                        \PYG{n}{colour} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{)}
+                    \PYG{k}{elif} \PYG{n}{value} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Water\PYGZdq{}}\PYG{p}{]:}
+                        \PYG{n}{colour} \PYG{o}{=} \PYG{n+nb}{tuple}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourWater\PYGZdq{}}\PYG{p}{])}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{=} \PYG{l+m+mi}{0}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileColour} \PYG{o}{=} \PYG{n}{colour}
+                    \PYG{k}{elif} \PYG{n}{value} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Coast\PYGZdq{}}\PYG{p}{]:}
+                        \PYG{n}{colour} \PYG{o}{=} \PYG{n+nb}{tuple}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourCoast\PYGZdq{}}\PYG{p}{])}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{=} \PYG{l+m+mi}{1}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileColour} \PYG{o}{=} \PYG{n}{colour}
+                    \PYG{k}{elif} \PYG{n}{value} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Grass\PYGZdq{}}\PYG{p}{]:}
+                        \PYG{n}{colour} \PYG{o}{=} \PYG{n+nb}{tuple}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourGrass\PYGZdq{}}\PYG{p}{])}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{=} \PYG{l+m+mi}{2}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileColour} \PYG{o}{=} \PYG{n}{colour}
+                    \PYG{k}{elif} \PYG{n}{value} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Mountain\PYGZdq{}}\PYG{p}{]:}
+                        \PYG{n}{colour} \PYG{o}{=} \PYG{n+nb}{tuple}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ColourMountain\PYGZdq{}}\PYG{p}{])}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{=} \PYG{l+m+mi}{3}
+                        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileColour} \PYG{o}{=} \PYG{n}{colour}
+                    
+                    \PYG{c+c1}{\PYGZsh{} Draws correct colour pixel to rendered map \PYGZhy{} takes into account width and border}
+                    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedMap}\PYG{p}{,} \PYG{n}{colour}\PYG{p}{,} \PYG{p}{((}\PYG{n}{x} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER}\PYG{p}{),}
+                            \PYG{p}{(}\PYG{n}{y} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER}\PYG{p}{),} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}BORDER} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{)))}
+
+    \PYG{k}{def} \PYG{n+nf}{RenderInteractables}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Renders interactables onto pygame surface}
+        \PYG{n}{resolution} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedInteractables} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{Surface}\PYG{p}{((}\PYG{n}{resolution}\PYG{p}{,} \PYG{n}{resolution}\PYG{p}{))}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedInteractables}\PYG{o}{.}\PYG{n}{set\PYGZus{}colorkey}\PYG{p}{((}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{))}
+
+        \PYG{n}{ITB} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}InteractableTileBorder\PYGZdq{}}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Draw interactables to rendered image}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hasObject} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:}
+                    \PYG{n}{tile} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}
+                    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedInteractables}\PYG{p}{,} \PYG{n}{tile}\PYG{o}{.}\PYG{n}{objectColour}\PYG{p}{,} \PYG{p}{((}\PYG{n}{x} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{+} \PYG{n}{ITB}\PYG{p}{),}
+                            \PYG{p}{(}\PYG{n}{y} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{+} \PYG{n}{ITB}\PYG{p}{),} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{ITB} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{TILE\PYGZus{}WIDTH} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{ITB} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{)))}
+
+    \PYG{k}{def} \PYG{n+nf}{DrawMap}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{window}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Blits the rendered frames onto the passed through window}
+        \PYG{n}{window}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedMap}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{))}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderInteractables}\PYG{p}{()}
+        \PYG{n}{window}\PYG{o}{.}\PYG{n}{blit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{RenderedInteractables}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{))}
+
+\PYG{c+c1}{\PYGZsh{} Miscellaneous Methods}
+    \PYG{k}{def} \PYG{n+nf}{Clamp}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{val}\PYG{p}{,} \PYG{n}{low}\PYG{p}{,} \PYG{n}{high}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Simple function to clamp a value between two numbers \PYGZhy{} Used to make sure number doesnt go out of bounds}
+        \PYG{k}{return} \PYG{n}{low} \PYG{k}{if} \PYG{n}{val} \PYG{o}{\PYGZlt{}} \PYG{n}{low} \PYG{k}{else} \PYG{n}{high} \PYG{k}{if} \PYG{n}{val} \PYG{o}{\PYGZgt{}} \PYG{n}{high} \PYG{k}{else} \PYG{n}{val}
+\end{Verbatim}

@@ -22,6 +22,7 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -83,6 +84,8 @@ straight connector/.style={connector,to path=--(\tikztotarget) \tikztonodes}
     \end{center}
 \end{titlepage}
 
+\large
+
 \setcounter{tocdepth}{5}
 \tableofcontents
 
@@ -90,15 +93,12 @@ straight connector/.style={connector,to path=--(\tikztotarget) \tikztonodes}
 
 \include{design}
 
-\section{Testing}
 \include{testing}
 
-\section{Evaluation}
 \include{evaluation}
 
 %\include{prototypecode}
 
-\section{Technical Solution}
 \include{technicalsolution}
 
 \end{document}

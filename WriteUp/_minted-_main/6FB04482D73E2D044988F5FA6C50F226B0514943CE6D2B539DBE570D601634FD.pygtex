@@ -1,0 +1,77 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{math}
+
+\PYG{c+c1}{\PYGZsh{} A Binary tree with the heap property, such that for every element, both children are \PYGZlt{}= to the parent}
+\PYG{k}{class} \PYG{n+nc}{Heap}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{elements}\PYG{p}{,} \PYG{n}{indexIn}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Creates a new heap from a list of elements, and assigns an index for which to sort by}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements} \PYG{o}{=} \PYG{n}{elements}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index} \PYG{o}{=} \PYG{n}{indexIn}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Heapify}\PYG{p}{()}
+
+    \PYG{k}{def} \PYG{n+nf}{AddElement}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{element}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Adds Singular element to Heap}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{element}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{SiftUp}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{SiftUp}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{elementIndex}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Sifts a singular element up the heap if possible}
+        \PYG{n}{newElementIndex} \PYG{o}{=} \PYG{n}{elementIndex}
+        \PYG{n}{isHeap} \PYG{o}{=} \PYG{k+kc}{False}
+
+        \PYG{k}{while} \PYG{o+ow}{not} \PYG{n}{isHeap}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Repeat until is a heap again}
+            \PYG{n}{parentIndex} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{((}\PYG{n}{newElementIndex} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{parentIndex} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{newElementIndex} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Base Case}
+                \PYG{n}{isHeap} \PYG{o}{=} \PYG{k+kc}{True}
+
+            \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{newElementIndex}\PYG{p}{][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{parentIndex}\PYG{p}{][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Swaps elements which dont conform to heap property}
+                \PYG{n}{tempSwap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{parentIndex}\PYG{p}{]}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{parentIndex}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{newElementIndex}\PYG{p}{]}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{newElementIndex}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tempSwap}
+
+                \PYG{n}{newElementIndex} \PYG{o}{=} \PYG{n}{parentIndex}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{isHeap} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf}{SiftDown}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{elementIndex}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Sifts a singular element down the heap if possible}
+        \PYG{n}{rootIndex} \PYG{o}{=} \PYG{n}{elementIndex}
+        \PYG{n}{isHeap} \PYG{o}{=} \PYG{k+kc}{False}
+
+        \PYG{n}{end} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+
+        \PYG{k}{while} \PYG{p}{((}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{rootIndex}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{\PYGZlt{}=} \PYG{n}{end}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Repeat until the next root index is outside the dimensions of the heap}
+            \PYG{n}{childIndex} \PYG{o}{=} \PYG{p}{(}\PYG{n}{rootIndex} \PYG{o}{*} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}
+
+            \PYG{k}{if} \PYG{n}{childIndex} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}=} \PYG{n}{end} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{childIndex}\PYG{p}{][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{childIndex} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Checks which child is larger}
+                \PYG{n}{childIndex} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{rootIndex}\PYG{p}{][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{childIndex}\PYG{p}{][}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{index}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Swapping elements which dont conform to Heap rules}
+                \PYG{n}{tempSwap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{childIndex}\PYG{p}{]}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{childIndex}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{rootIndex}\PYG{p}{]}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{n}{rootIndex}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tempSwap}
+
+                \PYG{n}{rootIndex} \PYG{o}{=} \PYG{n}{childIndex}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{k}{break}
+
+    \PYG{k}{def} \PYG{n+nf}{RemoveTop}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Pops top element off of Heap and returns it, heapifies the heap once removed}
+        \PYG{n}{tempSwap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Swaps First and Last elements}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tempSwap}
+
+        \PYG{n}{returnElement} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Stores and deletes the final element}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Heapify}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} Creates Heap again}
+
+        \PYG{k}{return} \PYG{n}{returnElement} \PYG{c+c1}{\PYGZsh{} Returns Top element}
+
+    \PYG{k}{def} \PYG{n+nf}{Peek}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns root/top element}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+
+    \PYG{k}{def} \PYG{n+nf}{Length}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns size of heap}
+        \PYG{k}{return} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{Heapify}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns values to a heap form, where all children of parents are less than or equal too}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{((}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{elements}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{),} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{):}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{SiftDown}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)}
+\end{Verbatim}

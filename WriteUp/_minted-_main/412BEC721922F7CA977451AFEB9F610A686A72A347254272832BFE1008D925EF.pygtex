@@ -1,0 +1,63 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{newAgent} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{k+kn}{from} \PYG{n+nn}{random} \PYG{k+kn}{import} \PYG{n}{randint}
+
+\PYG{k}{class} \PYG{n+nc}{Enemy}\PYG{p}{(}\PYG{n}{Agent}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Enemy inherits from Agent Class}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{location}\PYG{p}{,} \PYG{n}{params}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Constructor for Enemy Class}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary} \PYG{o}{=} \PYG{n}{params}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location} \PYG{o}{=} \PYG{n}{location}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf}{CommitAction}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{agent}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Override of Agent Class method}
+        \PYG{n}{xDif} \PYG{o}{=} \PYG{n}{agent}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n}{yDif} \PYG{o}{=} \PYG{n}{agent}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+        \PYG{k}{if} \PYG{n}{xDif} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{yDif} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks if on Agent \PYGZhy{} If so \PYGZhy{}\PYGZgt{} Kill Agent}
+            \PYG{n}{agent}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{k+kc}{False}
+            \PYG{k}{return}
+
+        \PYG{c+c1}{\PYGZsh{} Basic Path Finding for enemy}
+        \PYG{c+c1}{\PYGZsh{} Calculates difference between agent and player position, and moves in the greatest direction}
+        \PYG{k}{if} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{xDif}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{yDif}\PYG{p}{):}  \PYG{c+c1}{\PYGZsh{} X Dif \PYGZgt{} Y Dif}
+            \PYG{k}{if} \PYG{n}{xDif} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+        \PYG{k}{elif} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{xDif}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n+nb}{abs}\PYG{p}{(}\PYG{n}{yDif}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Y Dif \PYGZgt{} X Dif}
+            \PYG{k}{if} \PYG{n}{yDif} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+        \PYG{k}{else}\PYG{p}{:}                       \PYG{c+c1}{\PYGZsh{} Move random direction when X Dif = Y Dif}
+            \PYG{k}{if} \PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{xDif} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{yDif} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{l+m+mi}{1}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CheckIfValidStandTile}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{location}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Checks if walked into water or not}
+
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def} \PYG{n+nf}{SpawnPosition}\PYG{p}{(}\PYG{n}{worldMap}\PYG{p}{,} \PYG{n}{enemyList}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Generate spawn position for the enemy given worldMap and enemyList \PYGZhy{} Static method}
+        \PYG{n}{spawnList} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{enemyLocList} \PYG{o}{=} \PYG{p}{[}\PYG{n}{enemyList}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{location} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{enemyList}\PYG{p}{))]}
+
+        \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileType} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Checks if tile type is }
+                    \PYG{n}{spawnList}\PYG{o}{.}\PYG{n}{append}\PYG{p}{([}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{])}
+
+        \PYG{n}{shuffle}\PYG{p}{(}\PYG{n}{spawnList}\PYG{p}{)}
+        
+        \PYG{k}{if} \PYG{n}{spawnList}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o+ow}{in} \PYG{n}{enemyLocList}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Select spawn if not already selected}
+            \PYG{k}{return} \PYG{k+kc}{None}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n}{spawnList}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+\end{Verbatim}

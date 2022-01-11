@@ -43,8 +43,9 @@
             as I develop my project. \\
             \vspace{0.2cm}
             He has agreed to answer some questions for my Interview once I have completed my Initial Investigation.
+            \vspace{0.2cm}
 
-
+        \vspace{1cm}
         \subsection{First Interview}
             \large
             \vspace{0.2cm}
@@ -153,7 +154,7 @@
                             as Machine Learning advances over the next few years. This is why I plan to create a simpler simulation which the Agent will
                             be more likely to be able to solve. Below is shown the Success Rate Data for both Algorithms and Human Experts. \\
 
-                            \vspace{0.2cm}
+                            \vspace{0.4cm}
                             \begin{figure}
                                 \centering
                                 \subfloat[\centering Success Rate of Algorithms]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData.PNG}}}
@@ -208,7 +209,7 @@
                         Overall I feel like it would be good to borrow elements from Minecraft's terrain generation, such as its utilisation of Perlin Noise.
                         But the majority of the games systems are way too complex for a Machine Learning algorithm to solve. \\
 
-                    \vspace{1cm}
+                        \vspace{1cm}
                     \paragraph{Conway's Game of Life} \mbox{} \\
                         \vspace{0.2cm}
                         Conway's Game of Life is whats called a Cellular Automaton, which is a discrete computation model formed from a grid of cells along with 
@@ -238,7 +239,7 @@
                         interesting results. Conway's is formed from 4 simple rules, and yet is Turing complete.
 
                     \vspace{1cm}
-                \subsection{Algorithms and Potential Data Types}
+                \subsubsection{Algorithms and Potential Data Types}
                     \large
                     \vspace{0.2cm}
                     \paragraph{Neural Network and Matrices} \mbox{} \\
@@ -252,7 +253,7 @@
                         A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
                         and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be
                         in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$. The functions name in this case is
-                        Forward Propagation. 
+                        Forward Propagation. \\
                         \vspace{0.2cm}
                         We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
                         Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
@@ -262,7 +263,7 @@
                         \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
 
                         Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
-                        layer having an associated Bias. These are used to compute the outcome of a network.
+                        layer having an associated Bias. These are used to compute the outcome of a network. \\
                         \vspace{0.2cm}
                         Forward Propagation is used to compute the outcome of a network, it has a general form and uses 
                         Matrix Multiplication and Addition to achieve this.
@@ -324,8 +325,7 @@
                         
                         \vspace{0.2cm}
                         We then apply an activation function as shown above, in this case we will apply the Sigmoid function: $\sigma(x)$ to $S^{(L)}$. 
-                        The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and
-                        1. Shown Below:
+                        The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and 1. Shown Below:
                         
                         \begin{center}
                             \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
@@ -357,7 +357,7 @@
                         For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
                         which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
                         
-                        \begin{flushleft}
+                        \begin{center}
                             \begin{tabular}{| C{6cm} | C{6cm} |}
                                 \hline
                                 {\Large Post-Processing Algorithms} & {\Large Perlin Noise} \\
@@ -378,7 +378,7 @@
                                 due to it being more widely used. It's a trade-off between time to implement and desired result. \\
                                 \hline
                             \end{tabular}
-                        \end{flushleft}
+                        \end{center}
                         
                         I also discovered an algorithm called Poisson Disc Sampling, this can be used to sample random points 
                         in N dimensional space. It takes in 2 values, the R and K value, these values determine the output of
@@ -819,84 +819,82 @@ def GenerateMap(self, seed):
 
             \pagebreak
 
-        \subsection{Objetives}
+        \subsection{Objectives}
             \large
             Taking into account my Prototype and Interview, I have formed a list of objectives I feel to be most 
             appropriate for my Investigation.
             If all completed they will form a complete solution which will answer my Investigations question.
             Below is the list of objectives split into 6 key sections:
 
-            \begin{enumerate}
-                \item User Input
-                    \begin{enumerate}
-                        \item Read Parameters from a Json formatted file
-                        \item Check Parameters fall within a certain range to prevent errors
-                        \item Give user option to load Neural Network Training progress
-                    \end{enumerate}
-                \item Simulation
-                    \begin{enumerate}
-                        \item Utilise Perlin Noise to generate a 2d List of terrain heights
-                        \item Store Terrain Heights in a Tile Data Type
-                        \item Utilise Threading to generate Terrain Faster
-                        \item Display terrain to a window
-                        \item Map ranges of terrain heights to specific colour bands
-                        \item Utilise Poisson Disc Sampling to generate objects for the Agent to interact with
-                        \item Implement enemies which use basic pathfinding to traverse towards the player
-                        \item Generate multiple enemies upon starting the simulation
-                        \item Allow the enemies to attack the Agent
-                    \end{enumerate}   
-                \item Agent
-                    \begin{enumerate}
-                        \item Implement Movement options for the Agent
-                        \item Implement the ability to pick up the generated Objects
-                        \item Implement the ability to attack the generated enemies
-                        \item Create methods to sample the terrain around the Agent
-                        \item Create methods to convert the sampled Tiles into a grayscale input vector for a neural network
-                        \item Create reward methods to reward the agent given the terrain samples and action
-                    \end{enumerate}   
-                \item Matrix Class
-                    \begin{enumerate}
-                        \item Implement a Dynamic Matrix Class with appropriate Operations such as:
-                            \begin{enumerate}
-                                \item Multiplication
-                                \item Addition
-                                \item Subtraction
-                                \item Transpose
-                                \item Sum
-                                \item Select Row/Column
-                            \end{enumerate}
-                        \item Create appropriate errors to throw when utilising methods the incorrect way
-                    \end{enumerate}   
-                \item Deep Q Learning
-                    \begin{enumerate}
-                        \item Dynamically create a Dual Neural Network model based upon loaded parameters
-                        \item Implement an Abstract Class for Activation Functions
-                        \item Implement Activation Functions inheriting from the Abstract Class such as:
+            \subsubsection*{User Input}
+                \begin{enumerate}
+                    \item Read Parameters from a Json formatted file
+                    \item Check Parameters fall within a certain range to prevent errors
+                    \item Give user option to load Neural Network Training progress
+                \end{enumerate}
+            \subsubsection*{Simulation}
+                \begin{enumerate}
+                    \item Utilise Perlin Noise to generate a 2d List of terrain heights
+                    \item Store Terrain Heights in a Tile Data Type
+                    \item Utilise Threading to generate Terrain Faster
+                    \item Display terrain to a window
+                    \item Map ranges of terrain heights to specific colour bands
+                    \item Utilise Poisson Disc Sampling to generate objects for the Agent to interact with
+                    \item Implement enemies which use basic pathfinding to traverse towards the player
+                    \item Generate multiple enemies upon starting the simulation
+                    \item Allow the enemies to attack the Agent
+                \end{enumerate}   
+            \subsubsection*{Agent}
+                \begin{enumerate}
+                    \item Implement Movement options for the Agent
+                    \item Implement the ability to pick up the generated Objects
+                    \item Implement the ability to attack the generated enemies
+                    \item Create methods to sample the terrain around the Agent
+                    \item Create methods to convert the sampled Tiles into a grayscale input vector for a neural network
+                    \item Create reward methods to reward the agent given the terrain samples and action
+                \end{enumerate}   
+            \subsubsection*{Matrix Class}
+                \begin{enumerate}
+                    \item Implement a Dynamic Matrix Class with appropriate Operations such as:
                         \begin{enumerate}
-                            \item ReLu
-                            \item Sigmoid
-                            \item SoftMax
+                            \item Multiplication
+                            \item Addition
+                            \item Subtraction
+                            \item Transpose
+                            \item Sum
+                            \item Select Row/Column
                         \end{enumerate}
-                        \item Create methods to Forward Propagate the neural network
-                        \item Create methods to calculate the loss of the network using the Bellman Equation
-                        \item Create methods to Back Propagate calculated error through the neural network
-                        \item Create methods to update weights and biases within the network to converge on a well trained network
-                        \item Utilise the outlined Matrix class to perform the mathematical operations in the specified methods
-                        \item Implement Load and Save Methods to save progress in training
-                        \item Implement a Double Ended Queue/Deque Data Type
-                        \item Implement Experience Replay utilising the Deque Data Type to increase training accuracy
-                    \end{enumerate}   
-                \item Data Logger
+                    \item Create appropriate errors to throw when utilising methods the incorrect way
+                \end{enumerate}   
+            \subsubsection*{Deep Q Learning}
+                \begin{enumerate}
+                    \item Dynamically create a Dual Neural Network model based upon loaded parameters
+                    \item Implement an Abstract Class for Activation Functions
+                    \item Implement Activation Functions inheriting from the Abstract Class such as:
                     \begin{enumerate}
-                        \item Be able to create a Data Logger class to log data points across training
-                        \item Be able to create a Data Structure for the Data Logger
-                        \item Allow multiple types specified types for a single parameter
-                        \item When adding a new Data Point the Logger will check it to make sure it matches the given Data Structure
-                        \item Implement a Heap Data Type
-                        \item Implement a Heap sort using the Heap Data Type
-                        \item Be able to sort by a parameter in the Data Structure
-                        \item Be able to select a single parameter from the data points
-                        \item Implement Load and Save Functions to save progress during training
-                    \end{enumerate}   
-            \end{enumerate}
+                        \item ReLu
+                        \item Sigmoid
+                        \item SoftMax
+                    \end{enumerate}
+                    \item Create methods to Forward Propagate the neural network
+                    \item Create methods to calculate the loss of the network using the Bellman Equation
+                    \item Create methods to Back Propagate calculated error through the neural network
+                    \item Create methods to update weights and biases within the network to converge on a well trained network
+                    \item Utilise the outlined Matrix class to perform the mathematical operations in the specified methods
+                    \item Implement Load and Save Methods to save progress in training
+                    \item Implement a Double Ended Queue/Deque Data Type
+                    \item Implement Experience Replay utilising the Deque Data Type to increase training accuracy
+                \end{enumerate}   
+            \subsubsection*{Data Logger}
+                \begin{enumerate}
+                    \item Be able to create a Data Logger class to log data points across training
+                    \item Be able to create a Data Structure for the Data Logger
+                    \item Allow multiple types specified types for a single parameter
+                    \item When adding a new Data Point the Logger will check it to make sure it matches the given Data Structure
+                    \item Implement a Heap Data Type
+                    \item Implement a Heap sort using the Heap Data Type
+                    \item Be able to sort by a parameter in the Data Structure
+                    \item Be able to select a single parameter from the data points
+                    \item Implement Load and Save Functions to save progress during training
+                \end{enumerate}   
 \end{flushleft}

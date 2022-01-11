@@ -29,6 +29,78 @@
             \vspace{0.5cm}
             \centerline{\includegraphics[width=.65\textwidth]{Images/Design/DataLoggerDiagram.png}}
             \vspace{0.5cm}
+            \pagebreak
+
+        \subsection{Individual Classes}
+            Below is shown a simplified Class Diagram, and the Individual Classes with Descriptions as to their Role in the Program. \\
+            \centerline{\includegraphics[width=.65\textwidth]{Images/Design/SimplifiedClassDiagram.png}}
+            \vspace{0.5cm}
+
+            \begin{center}
+                The Simulation Class is used to compose the 3 Main Sections of the Program into a Single Interface Class, it contains all the 
+                Setup, Display and Forward Methods. \\
+                \includegraphics[width=.6\textwidth]{Images/Design/Classes/Simulation.png} \\
+                \vspace{0.2cm}
+                
+                The DoubleNeuralNet Class combines together two Neural Networks to create a more complex Machine Learning Model. \\
+                \includegraphics[width=.70\textwidth]{Images/Design/Classes/DoubleNeuralNet.png} \\
+                \vspace{0.2cm}
+
+                The NeuralNet Class contains all the methods needed for a Functional Neural Network. \\
+                \includegraphics[width=.80\textwidth]{Images/Design/Classes/NeuralNet.png} \\
+                \vspace{0.2cm}
+                
+                The NeuralNetwork Class contains an Array of Layer objects. They are integral to the function of the Neural Network. \\
+                \includegraphics[width=.75\textwidth]{Images/Design/Classes/Layer.png} \\
+                \vspace{0.2cm}
+
+                The Matrix Class is a key part of the Program, being used within the Neural Networks Logic. \\
+                \includegraphics[width=.55\textwidth]{Images/Design/Classes/Matrix.png} \\
+                \vspace{0.2cm}
+
+                The Deque Class is used as part of the Experience Replay Algorithm. \\
+                \includegraphics[width=.50\textwidth]{Images/Design/Classes/Deque.png} \\
+                \vspace{0.2cm}
+
+                The Experience Class is stored within the Deque Object. \\
+                \includegraphics[width=.30\textwidth]{Images/Design/Classes/Experience.png} \\
+                \vspace{0.2cm}
+
+                The Activation Class is an Abstract Base Class, in which the Neural Network Activations can inherit from, implementing
+                their own definitions for Activation and Derivative. \\
+                \includegraphics[width=.65\textwidth]{Images/Design/Classes/Activation.png} \\
+                \vspace{0.2cm}
+
+                The Agent Class is used to store the Agents Location, along with implementing Action and Reward Methods. \\
+                \includegraphics[width=.65\textwidth]{Images/Design/Classes/Agent.png} \\
+                \vspace{0.2cm}
+
+                The Enemy Class inherits methods from Agent, Implementing its own CommitAction and SpawnPosition Methods. \\
+                \includegraphics[width=.80\textwidth]{Images/Design/Classes/Enemy.png} \\
+                \vspace{0.2cm}
+
+                The WorldMap Class generates and stores all Terrain Data for the current Simulation. \\
+                \includegraphics[width=.65\textwidth]{Images/Design/Classes/WorldMap.png} \\
+                \vspace{0.2cm}
+
+                The Perlin Noise Class contains only methods and is used to Sample Gradient Noise based on a Seed. \\
+                \includegraphics[width=.45\textwidth]{Images/Design/Classes/PerlinNoise.png} \\
+                \vspace{0.2cm}
+
+                The Tile Class is used to Store and Manipulate Data per Tile.
+                \includegraphics[width=.35\textwidth]{Images/Design/Classes/Tile.png} \\
+                \vspace{0.2cm}
+                
+                The DataLogger Class is used to log Data Points across the Program. \\
+                \includegraphics[width=.75\textwidth]{Images/Design/Classes/DataLogger.png} \\
+                \vspace{0.2cm}
+
+                The Heap Class is used as part of the Heap Sort implemented by the DataLogger. \\
+                \includegraphics[width=.45\textwidth]{Images/Design/Classes/Heap.png} \\
+                \vspace{0.2cm}
+            \end{center}
+            
+
 
         \subsection{Choice of Programming Language and Libraries}
             \large

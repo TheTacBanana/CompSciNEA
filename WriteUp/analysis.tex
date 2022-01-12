@@ -452,7 +452,7 @@
                         \end{flushleft}
             \pagebreak
         \subsection{Prototype}
-            \subsubsection{Terrain Generation and Displaying}
+            \subsubsection{Prototype Objectives}
             \large
             \vspace{0.2cm}
             Before starting my Prototype I had to decide upon a short list of objectives I wanted to 
@@ -496,7 +496,7 @@
             
             \vspace{0.5cm}
 
-            \subsubsection{Terrain Generation and Displaying}
+            \subsubsection{Terrain Generation and Displaying to Window}
             \vspace{0.25cm}
 
             Starting from the begining of my hierarchy I installed Pygame using \textit{pip} and started creating a window.
@@ -651,7 +651,7 @@ def GenerateMap(self, seed):
             \end{center}
             
             \vspace{1cm}
-            \subsection{Matrix Data Structure}
+            \subsubsection{Matrix Data Structure}
             \vspace{0.25cm}
 
             As part of my Matrix Class I made a list of operations which would be key to a Matrix Class, along with being useful
@@ -897,4 +897,130 @@ def GenerateMap(self, seed):
                     \item Be able to select a single parameter from the data points
                     \item Implement Load and Save Functions to save progress during training
                 \end{enumerate}   
+
+        \subsection{Modelling of the Problem}
+            \large
+            \vspace{0.2cm}
+            In this section I will define and derive all the Mathematical Formulae relating to my Project. This includes all Matrix Operations 
+            and the General Forms of Forward Propagation and Back Propagation. \\
+            \vspace{0.2cm}
+
+            \subsubsection{Matrices}
+                \chapter{Overview}
+                Matrices are a Mathematical Data Structure, storing elements in the shape of a Rectangle. They are arranged Rows and Columns.
+                An $m$ x $n$ Matrix will have $m$ Rows and $n$ Columns.
+                \vspace{0.2cm}
+                As part of defining the Matrix Operations, below is defined Matrix $A$ and Matrix $B$ and can be of any size.
+                \vspace{0.5cm}
+
+                $
+                \begin{bmatrix}
+                    a_{1,1} & a_{1,2} & \hdots  & a_{1,m} \\
+                    a_{2,1} & a_{2,2} & \hdots  & a_{2,m} \\
+                    \vdots  & \vdots  & \ddots  & \vdots  \\
+                    a_{n,1} & a_{n,2} & \hdots  & a_{n,m} \\
+                \end{bmatrix}
+                $
+                \vspace{0.2cm}
+                $
+                \begin{bmatrix}
+                    b_{1,1} & b_{1,2} & \hdots  & b_{1,m} \\
+                    b_{2,1} & b_{2,2} & \hdots  & b_{2,m} \\
+                    \vdots  & \vdots  & \ddots  & \vdots  \\
+                    b_{n,1} & b_{n,2} & \hdots  & b_{n,m} \\
+                \end{bmatrix}
+                $
+
+                \chapter{Matrix Addition}
+                    \vspace{0.2cm}
+                    Matrix Addition is the Operation of adding two Matrices by adding the Corresponding Elements together. Matrix Addition is Commutative. 
+                    Below is A added to B. \\
+                    $
+                    A + B =
+                    \begin{bmatrix}
+                        a_{1,1} + b_{1,1} & a_{1,2} + b_{1,2} & \hdots  & a_{1,m} + b_{1,m} \\
+                        a_{2,1} + b_{2,1} & a_{2,2} + b_{2,2} & \hdots  & a_{2,m} + b_{2,m} \\
+                        \vdots            & \vdots            & \ddots  & \vdots            \\
+                        a_{n,1} + b_{n,1} & a_{n,2} + b_{n,2} & \hdots  & a_{n,m} + b_{n,m} \\
+                    \end{bmatrix}
+                    $
+
+                \chapter{Matrix Subtraction}
+                    \vspace{0.2cm}
+                    Matrix Subtraction is the Operation of subtracting two Matrices by adding the Corresponding Elements together, with the 2nd Matrix's element 
+                    being Negated. Below is B Subtracted from A. \\
+                    $
+                    A - B =
+                    \begin{bmatrix}
+                        a_{1,1} - b_{1,1} & a_{1,2} - b_{1,2} & \hdots  & a_{1,m} - b_{1,m} \\
+                        a_{2,1} - b_{2,1} & a_{2,2} - b_{2,2} & \hdots  & a_{2,m} - b_{2,m} \\
+                        \vdots            & \vdots            & \ddots  & \vdots            \\
+                        a_{n,1} - b_{n,1} & a_{n,2} - b_{n,2} & \hdots  & a_{n,m} - b_{n,m} \\
+                    \end{bmatrix}
+                    $
+                \chapter{Matrix Multiplication}
+                    \vspace{0.2cm}
+                    Matrix Multiplication calculates the Dot Product between the Rows in Matrix $A$ and Columns in Matrix $B$. The Dot Product is a Vector Operation
+                    which takes two equal-length series of Numbers and returns a single Number. Each element in the 1st series of Numbers is Multiplied with the opposing element
+                    in the 2nd series, these are then summed to find the Dot Product. \\
+                    $
+                    AB = 
+                    \begin{bmatrix}
+                        c_{1,1} & c_{1,2} & \hdots  & c_{1,m} \\
+                        c_{2,1} & c_{2,2} & \hdots  & c_{2,m} \\
+                        \vdots  & \vdots  & \ddots  & \vdots  \\
+                        c_{n,1} & c_{n,2} & \hdots  & c_{n,m} \\
+                    \end{bmatrix}
+                    $
+                    Such that $c_{i,j} = a_{i,1}b_{1,j} + a_{i,2}b_{2,j} + \hdots + a_{i,n}b_{n,j} = \sum^{n}_{k=1}a_{i,k}b_{k,j}$
+                \chapter{Matrix Scalar Multiplication}
+                    \vspace{0.2cm}
+                    Scalar Multiplication Multiplies each element by a single Scalar, in this case $k$. \\
+                    $
+                    k * A = 
+                    \begin{bmatrix}
+                        ka_{1,1} & ka_{1,2} & \hdots  & ka_{1,m} \\
+                        ka_{2,1} & ka_{2,2} & \hdots  & ka_{2,m} \\
+                        \vdots  & \vdots  & \ddots  & \vdots  \\
+                        ka_{n,1} & ka_{n,2} & \hdots  & ka_{n,m} \\
+                    \end{bmatrix}
+                    $
+                \chapter{Matrix Hadamard Product}
+                    \vspace{0.2cm}
+                    The Hadamard Product calculates the element-wise product between two equally sized Matrices. \\
+                    $
+                    A \odot B =
+                    \begin{bmatrix}
+                        a_{1,1}b_{1,1} & a_{1,2}b_{1,2} & \hdots  & a_{1,m}b_{1,m} \\
+                        a_{2,1}b_{2,1} & a_{2,2}b_{2,2} & \hdots  & a_{2,m}b_{2,m} \\
+                        \vdots         & \vdots         & \ddots  & \vdots         \\
+                        a_{n,1}b_{n,1} & a_{n,2}b_{n,2} & \hdots  & a_{n,m}b_{n,m} \\
+                    \end{bmatrix}
+                    $
+                \chapter{Matrix Transpose}
+                    \vspace{0.2cm}
+                    The Transpose of a Matrix flips the given Matrix over the Diagonal, effectively Rows become Columns. \\
+                    $
+                    B^{T} = 
+                    \begin{bmatrix}
+                        b_{1,1} & b_{2,1} & \hdots  & b_{n,1} \\
+                        b_{1,2} & b_{2,2} & \hdots  & b_{n,2} \\
+                        \vdots  & \vdots  & \ddots  & \vdots  \\
+                        b_{1,m} & b_{2,m} & \hdots  & b_{n,m} \\
+                    \end{bmatrix}
+                    $
+            \subsubsection{Forward Propagation}
+                \chapter{Overview}
+                \chapter{General Form}
+            \subsubsection{Activation Functions}
+                \chapter{Overview}
+                \chapter{ReLu}
+                \chapter{Sigmoid}
+                \chapter{TanH}
+                \chapter{SoftMax}
+            \subsubsection{Back Propagation}
+                \chapter{Overview}
+                \chapter{Differentiation}
+                \chapter{General Form}
+
 \end{flushleft}

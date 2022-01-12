@@ -23,6 +23,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
+\usepackage{scrextend}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -47,6 +48,8 @@
 \newcommand{\minitab}[2][l]{\begin{tabular}{#1}#2\end{tabular}}
 
 \newminted[pseudocode]{markdown}{escapeinside=||,mathescape=true,frame=leftline,linenos,fontsize=\normalsize}
+
+\def\mathLarge#1{\mbox{\huge $#1$}}
 
 \tikzset{
 decision/.style={diamond,draw,text width=4em,text badly centered,inner sep=0pt},

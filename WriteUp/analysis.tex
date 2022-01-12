@@ -906,141 +906,185 @@ def GenerateMap(self, seed):
             \vspace{0.2cm}
 
             \subsubsection{Matrices}
-                \chapter{Overview}
+                \paragraph{Overview} \mbox{} \\
                 Matrices are a Mathematical Data Structure, storing elements in the shape of a Rectangle. They are arranged Rows and Columns.
-                An $m$ x $n$ Matrix will have $m$ Rows and $n$ Columns.
+                An $m$ x $n$ Matrix will have $m$ Rows and $n$ Columns. \\
                 \vspace{0.2cm}
-                As part of defining the Matrix Operations, below is defined Matrix $A$ and Matrix $B$ and can be of any size.
+                As part of defining the Matrix Operations, below is defined Matrix $A$ and Matrix $B$ and can be of any size. \\
                 \vspace{0.5cm}
 
-                $
-                \begin{bmatrix}
-                    a_{1,1} & a_{1,2} & \hdots  & a_{1,m} \\
-                    a_{2,1} & a_{2,2} & \hdots  & a_{2,m} \\
-                    \vdots  & \vdots  & \ddots  & \vdots  \\
-                    a_{n,1} & a_{n,2} & \hdots  & a_{n,m} \\
-                \end{bmatrix}
-                $
+                \begin{center}
+                    $
+                    A = 
+                    \begin{bmatrix}
+                        a_{1,1} & a_{1,2} & \hdots  & a_{1,m} \\
+                        a_{2,1} & a_{2,2} & \hdots  & a_{2,m} \\
+                        \vdots  & \vdots  & \ddots  & \vdots  \\
+                        a_{n,1} & a_{n,2} & \hdots  & a_{n,m} \\
+                    \end{bmatrix}
+                    $
+                \end{center}
                 \vspace{0.2cm}
-                $
-                \begin{bmatrix}
-                    b_{1,1} & b_{1,2} & \hdots  & b_{1,m} \\
-                    b_{2,1} & b_{2,2} & \hdots  & b_{2,m} \\
-                    \vdots  & \vdots  & \ddots  & \vdots  \\
-                    b_{n,1} & b_{n,2} & \hdots  & b_{n,m} \\
-                \end{bmatrix}
-                $
+                \begin{center}
+                    $
+                    B = 
+                    \begin{bmatrix}
+                        b_{1,1} & b_{1,2} & \hdots  & b_{1,m} \\
+                        b_{2,1} & b_{2,2} & \hdots  & b_{2,m} \\
+                        \vdots  & \vdots  & \ddots  & \vdots  \\
+                        b_{n,1} & b_{n,2} & \hdots  & b_{n,m} \\
+                    \end{bmatrix}
+                    $
+                \end{center}
 
-                \chapter{Matrix Addition}
+                \paragraph{Matrix Addition} \mbox{} \\
                     \vspace{0.2cm}
                     Matrix Addition is the Operation of adding two Matrices by adding the Corresponding Elements together. Matrix Addition is Commutative. 
                     Below is A added to B. \\
-                    $
-                    A + B =
-                    \begin{bmatrix}
-                        a_{1,1} + b_{1,1} & a_{1,2} + b_{1,2} & \hdots  & a_{1,m} + b_{1,m} \\
-                        a_{2,1} + b_{2,1} & a_{2,2} + b_{2,2} & \hdots  & a_{2,m} + b_{2,m} \\
-                        \vdots            & \vdots            & \ddots  & \vdots            \\
-                        a_{n,1} + b_{n,1} & a_{n,2} + b_{n,2} & \hdots  & a_{n,m} + b_{n,m} \\
-                    \end{bmatrix}
-                    $
 
-                \chapter{Matrix Subtraction}
+                    \begin{center}
+                        $
+                        A + B =
+                        \begin{bmatrix}
+                            a_{1,1} + b_{1,1} & a_{1,2} + b_{1,2} & \hdots  & a_{1,m} + b_{1,m} \\
+                            a_{2,1} + b_{2,1} & a_{2,2} + b_{2,2} & \hdots  & a_{2,m} + b_{2,m} \\
+                            \vdots            & \vdots            & \ddots  & \vdots            \\
+                            a_{n,1} + b_{n,1} & a_{n,2} + b_{n,2} & \hdots  & a_{n,m} + b_{n,m} \\
+                        \end{bmatrix}
+                        $
+                    \end{center}
+
+                \paragraph{Matrix Subtraction} \mbox{} \\
                     \vspace{0.2cm}
                     Matrix Subtraction is the Operation of subtracting two Matrices by adding the Corresponding Elements together, with the 2nd Matrix's element 
                     being Negated. Below is B Subtracted from A. \\
-                    $
-                    A - B =
-                    \begin{bmatrix}
-                        a_{1,1} - b_{1,1} & a_{1,2} - b_{1,2} & \hdots  & a_{1,m} - b_{1,m} \\
-                        a_{2,1} - b_{2,1} & a_{2,2} - b_{2,2} & \hdots  & a_{2,m} - b_{2,m} \\
-                        \vdots            & \vdots            & \ddots  & \vdots            \\
-                        a_{n,1} - b_{n,1} & a_{n,2} - b_{n,2} & \hdots  & a_{n,m} - b_{n,m} \\
-                    \end{bmatrix}
-                    $
-                \chapter{Matrix Multiplication}
+
+                    \begin{center}
+                        $
+                        A - B =
+                        \begin{bmatrix}
+                            a_{1,1} - b_{1,1} & a_{1,2} - b_{1,2} & \hdots  & a_{1,m} - b_{1,m} \\
+                            a_{2,1} - b_{2,1} & a_{2,2} - b_{2,2} & \hdots  & a_{2,m} - b_{2,m} \\
+                            \vdots            & \vdots            & \ddots  & \vdots            \\
+                            a_{n,1} - b_{n,1} & a_{n,2} - b_{n,2} & \hdots  & a_{n,m} - b_{n,m} \\
+                        \end{bmatrix}
+                        $
+                    \end{center}
+
+                \paragraph{Matrix Multiplication} \mbox{} \\
                     \vspace{0.2cm}
                     Matrix Multiplication calculates the Dot Product between the Rows in Matrix $A$ and Columns in Matrix $B$. The Dot Product is a Vector Operation
                     which takes two equal-length series of Numbers and returns a single Number. Each element in the 1st series of Numbers is Multiplied with the opposing element
                     in the 2nd series, these are then summed to find the Dot Product. \\
-                    $
-                    AB = 
-                    \begin{bmatrix}
-                        c_{1,1} & c_{1,2} & \hdots  & c_{1,m} \\
-                        c_{2,1} & c_{2,2} & \hdots  & c_{2,m} \\
-                        \vdots  & \vdots  & \ddots  & \vdots  \\
-                        c_{n,1} & c_{n,2} & \hdots  & c_{n,m} \\
-                    \end{bmatrix}
-                    $
-                    Such that $c_{i,j} = a_{i,1}b_{1,j} + a_{i,2}b_{2,j} + \hdots + a_{i,n}b_{n,j} = \sum^{n}_{k=1}a_{i,k}b_{k,j}$
-                \chapter{Matrix Scalar Multiplication}
-                    \vspace{0.2cm}
-                    Scalar Multiplication Multiplies each element by a single Scalar, in this case $k$. \\
-                    $
-                    k * A = 
-                    \begin{bmatrix}
-                        ka_{1,1} & ka_{1,2} & \hdots  & ka_{1,m} \\
-                        ka_{2,1} & ka_{2,2} & \hdots  & ka_{2,m} \\
-                        \vdots  & \vdots  & \ddots  & \vdots  \\
-                        ka_{n,1} & ka_{n,2} & \hdots  & ka_{n,m} \\
-                    \end{bmatrix}
-                    $
-                \chapter{Matrix Hadamard Product}
-                    \vspace{0.2cm}
-                    The Hadamard Product calculates the element-wise product between two equally sized Matrices. \\
-                    $
-                    A \odot B =
-                    \begin{bmatrix}
-                        a_{1,1}b_{1,1} & a_{1,2}b_{1,2} & \hdots  & a_{1,m}b_{1,m} \\
-                        a_{2,1}b_{2,1} & a_{2,2}b_{2,2} & \hdots  & a_{2,m}b_{2,m} \\
-                        \vdots         & \vdots         & \ddots  & \vdots         \\
-                        a_{n,1}b_{n,1} & a_{n,2}b_{n,2} & \hdots  & a_{n,m}b_{n,m} \\
-                    \end{bmatrix}
-                    $
-                \chapter{Matrix Transpose}
-                    \vspace{0.2cm}
-                    The Transpose of a Matrix flips the given Matrix over the Diagonal, effectively Rows become Columns. \\
-                    $
-                    B^{T} = 
-                    \begin{bmatrix}
-                        b_{1,1} & b_{2,1} & \hdots  & b_{n,1} \\
-                        b_{1,2} & b_{2,2} & \hdots  & b_{n,2} \\
-                        \vdots  & \vdots  & \ddots  & \vdots  \\
-                        b_{1,m} & b_{2,m} & \hdots  & b_{n,m} \\
-                    \end{bmatrix}
-                    $
-            \subsubsection{Forward Propagation}
-                \chapter{Overview}
-                    \vspace{0.2cm}
-                    A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
-                    and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be
-                    in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$. The functions name in this case is
-                    Forward Propagation. \\
-                    \vspace{0.2cm}
-                    We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
-                    Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
-                    the following layer. In the below image is represented a Neural Network with a layer structure of $[3, 5, 2]$.
 
-                    \vspace{0.1cm}
-                    \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
-
-                    Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
-                    layer having an associated Bias. These are used to compute the outcome of a Network. \\
-                    \vspace{0.2cm}
-                    Forward Propagation is used to compute the outcome of a Network, it has a general form and uses 
-                    Matrix Multiplication and Addition to achieve this.
-                    \vspace{0.2cm}
-                    
-                \chapter{General Form}
-                    \vspace{0.2cm}
                     \begin{center}
                         $
-                        S^{(L)} = 
+                        AB = 
                         \begin{bmatrix}
-                        s^{(L)}_{0} \\
-                        s^{(L)}_{1} \\
+                            c_{1,1} & c_{1,2} & \hdots  & c_{1,m} \\
+                            c_{2,1} & c_{2,2} & \hdots  & c_{2,m} \\
+                            \vdots  & \vdots  & \ddots  & \vdots  \\
+                            c_{n,1} & c_{n,2} & \hdots  & c_{n,m} \\
+                        \end{bmatrix}
+                        $
+                    \end{center}
+                    \vspace{0.2cm}
+                    \begin{center}
+                        Such that \[ c_{i,j} = a_{i,1}b_{1,j} + a_{i,2}b_{2,j} + \hdots + a_{i,n}b_{n,j} = \sum^{n}_{k=1}a_{i,k}b_{k,j} \]
+                    \end{center}
+
+                \paragraph{Matrix Scalar Multiplication} \mbox{} \\
+                    \vspace{0.2cm}
+                    Scalar Multiplication Multiplies each element by a single Scalar, in this case $k$. \\
+
+                    \begin{center}
+                        $
+                        k * A = 
+                        \begin{bmatrix}
+                            ka_{1,1} & ka_{1,2} & \hdots  & ka_{1,m} \\
+                            ka_{2,1} & ka_{2,2} & \hdots  & ka_{2,m} \\
+                            \vdots  & \vdots  & \ddots  & \vdots  \\
+                            ka_{n,1} & ka_{n,2} & \hdots  & ka_{n,m} \\
+                        \end{bmatrix}
+                        $
+                    \end{center}
+
+                \paragraph{Matrix Hadamard Product} \mbox{} \\
+                    \vspace{0.2cm}
+                    The Hadamard Product calculates the element-wise product between two equally sized Matrices. \\
+
+                    \begin{center}
+                        $
+                        A \odot B =
+                        \begin{bmatrix}
+                            a_{1,1}b_{1,1} & a_{1,2}b_{1,2} & \hdots  & a_{1,m}b_{1,m} \\
+                            a_{2,1}b_{2,1} & a_{2,2}b_{2,2} & \hdots  & a_{2,m}b_{2,m} \\
+                            \vdots         & \vdots         & \ddots  & \vdots         \\
+                            a_{n,1}b_{n,1} & a_{n,2}b_{n,2} & \hdots  & a_{n,m}b_{n,m} \\
+                        \end{bmatrix}
+                        $
+                    \end{center}
+
+                \paragraph{Matrix Transpose} \mbox{} \\
+                    \vspace{0.2cm}
+                    The Transpose of a Matrix flips the given Matrix over the Diagonal, effectively Rows become Columns. \\
+
+                    \begin{center}
+                        $
+                        B^{T} = 
+                        \begin{bmatrix}
+                            b_{1,1} & b_{2,1} & \hdots  & b_{n,1} \\
+                            b_{1,2} & b_{2,2} & \hdots  & b_{n,2} \\
+                            \vdots  & \vdots  & \ddots  & \vdots  \\
+                            b_{1,m} & b_{2,m} & \hdots  & b_{n,m} \\
+                        \end{bmatrix}
+                        $
+                    \end{center}
+                    
+            \subsubsection{Forward Propagation}
+                \paragraph{Overview} \mbox{} \\
+                    \vspace{0.2cm}
+                    Forward Propgation is used in a Neural Network to calculate the output of the Network. It feeds Input Data through each
+                    Layer, leaving each Node with its resultant Activation Value. This is completed in two processes: Pre-Activation and Activation. \\
+                    \vspace{0.4cm}
+                    \centerline{The Standard Notation I will be using to describe the Calculations:}
+
+                    \vspace{0.2cm}
+                    \begin{addmargin}[2em]{0em}                     
+                        $a^{(L)}_{i} = $ The Activation Value for the $i^{th}$ Node in the $L^{th}$ Layer \\
+                        $z^{(L)}_{i} = $ The Pre-Activation Value for the $i^{th}$ Node in the $L^{th}$ Layer \\
+                        $w^{(L)}_{m,n} = $ The Weight between node $n \rightarrow m$ from the $L^{th}$ to the $(L + 1)^{th}$ \\
+                        $b^{(L)}_{i} = $ The Bias Value for the $i^{th}$ Node in the $L^{th}$ Layer \\
+                    \end{addmargin}
+                    \vspace{0.4cm}
+
+                \paragraph{Pre-Activation} \mbox{} \\
+                    \vspace{0.2cm}
+                    The Pre-Activation Value for the $i^{th}$ Node is the Sum of the Preceding Layers Activation Values, Multiplied by the Weight value
+                    between them. This then has the Bias Value added. $M$ is the size the Layer $(L - 1)$.
+
+                    \vspace{0.2cm}
+                    \begin{center}
+                        \[ z^{(L)}_{i} = \sum_{k=1}^{M}(a^{(L-1)}_{i} \times w^{(L-1)}_{k,i}) + b^{(L)}_{i} \]
+                    \end{center}
+                    \vspace{0.4cm}
+
+                    This can also be represented in its Matrix Form rather easily. You take the Vector of Activation Values from $(L - 1)$ and multiply
+                    it by the Weight Matrix from $(L - 1)$. You then add the Vector of Bias Values and that leaves you with the Pre-Activation for Layer
+                    $L$.
+
+                    \begin{center}
+                        \[ Z^{(L)} = W^{(L-1)} \times A^{(L-1)} + B^{(L)}\]
+                    \end{center}
+                    \vspace{0.2cm}
+                    \begin{center}
+                        \[
+                        Z^{(L)} = 
+                        \begin{bmatrix}
+                        z^{(L)}_{0} \\
+                        z^{(L)}_{1} \\
                         \vdots      \\
-                        s^{(L)}_{n} 
+                        z^{(L)}_{n} 
                         \end{bmatrix}
                         = 
                         \begin{bmatrix}
@@ -1062,41 +1106,95 @@ def GenerateMap(self, seed):
                         \vdots      \\
                         b^{(L)}_{n} 
                         \end{bmatrix}
-                        $ 
-
-                        $
-                        \sigma(S^{(L)})
-                        =
-                        \sigma\left(
-                        \begin{bmatrix}
-                        s^{(L)}_{0} \\
-                        s^{(L)}_{1} \\
-                        \vdots      \\
-                        s^{(L)}_{n} 
-                        \end{bmatrix}
-                        \right)
-                        =
-                        \begin{bmatrix}
-                        \sigma(s^{(L)}_{0}) \\
-                        \sigma(s^{(L)}_{1}) \\
-                        \vdots              \\
-                        \sigma(s^{(L)}_{n}) 
-                        \end{bmatrix}
-                        $ 
+                        \]
                     \end{center}
-            \subsubsection{Activation Functions}
-                \chapter{Overview}
                     \vspace{0.2cm}
-                    Activation Functions are used within Neural Networks to help further the Learning, we do this to model Neural Networks
-                    closer towards Human Brains and our Biology. An Activation Function is often a Mathematical Formulae, this has to be
-                    differentiable though in order to enable Back Propagation. 
-                \chapter{ReLu}
-                \chapter{Sigmoid}
-                \chapter{TanH}
-                \chapter{SoftMax}
+
+                \paragraph{Activation} \mbox{} \\
+                    \vspace{0.2cm}
+                    Activation Functions are usually an abstraction representing the rate of "Action Potential" firing in the Node.
+                    The most Common Activations for Neural Networks are the following 3 Activations: \\
+                \paragraph{ReLu} \mbox{} \\
+                    \begin{center}
+                        ReLu$(x) = $ Max$(0, x)$ \\
+                        \vspace{0.2cm}
+                        \begin{tikzpicture}[declare function={ReLu(\x)=max(0, x);}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=bottom,
+                                ytick={0,2,4,6},
+                                axis y line=middle,
+                                samples=100,
+                                domain=-6:6,
+                            ]
+                            \addplot[blue,mark=none]   (x,{ReLu(x)});
+                            \legend{$ReLu(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
+
+                \paragraph{Sigmoid} \mbox{} \\
+                    \begin{center}
+                        Sigmoid$(x) = $ \mathLarge{\frac{1}{1 + e^{-x}}} \\
+                        \vspace{0.2cm}
+                        \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=bottom,
+                                ytick={-1,-.5,0,.5,1},
+                                ymax=1,
+                                axis y line=middle,
+                                samples=100,
+                                domain=-6:6,
+                                range=-1:1
+                                legend style={at={(1,0.9)}}     
+                            ]
+                                \addplot[blue,mark=none]   (x,{sigma(x)});
+                                \legend{Sigmoid$(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
+
+                \paragraph{TanH} \mbox{} \\
+                    \begin{center}
+                        TanH$(x) = $ \mathLarge{\frac{\sinh(x)}{\cosh(x)}} $ = $ \mathLarge{\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}} \\
+                        \vspace{0.4cm}
+                        \begin{tikzpicture}[declare function={TanH(\x)=(exp(\x) - exp(-\x))/(exp(\x) + exp(-\x));}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=middle,
+                                ytick={-1,-.5,0,.5,1},
+                                axis y line=middle,
+                                samples=100,
+                                domain=-3:3,
+                                ymax=1.2,
+                                ymin=-1.2,
+                                legend style={at={(1,0.9)}}     
+                            ]
+                                \addplot[blue,mark=none] (x,{TanH(x)});
+                                \legend{TanH$(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
+
+                \paragraph{SoftMax} \mbox{} \\
+                    SoftMax is an exception to the Activation Functions and is a Generalisation of Sigmoid to Multiple Dimensions. It
+                    takes in a Vector \textbf{z} of $K$ Real Numbers, and normalises it into a probability distribution which Sums to 1. \\ 
+
+                    \begin{center}
+                        \begin{math}
+                            \text{SoftMax}(\textbf{z})_{i} = \mathLarge{\frac{e^{z_{i}}}{\sum_{j=1}^{K} e^{z_{j}}}}
+                        \end{math} \\
+                        \vspace{0.2cm}
+                        For $i = 1, \hdots,K$ And \textbf{z} $ = (z_{1},\hdots,z_{K})$
+                    \end{center}
+                    
             \subsubsection{Back Propagation}
-                \chapter{Overview}
-                \chapter{Differentiation}
-                \chapter{General Form}
+                \paragraph{Overview} \mbox{} \\
+                \paragraph{Differentiation} \mbox{} \\
+                \paragraph{General Form} \mbox{} \\
 
 \end{flushleft}

@@ -1189,12 +1189,212 @@ def GenerateMap(self, seed):
                             \text{SoftMax}(\textbf{z})_{i} = \mathLarge{\frac{e^{z_{i}}}{\sum_{j=1}^{K} e^{z_{j}}}}
                         \end{math} \\
                         \vspace{0.2cm}
-                        For $i = 1, \hdots,K$ And \textbf{z} $ = (z_{1},\hdots,z_{K})$
+                        For $i = 1, \hdots,K$ And \textbf{z} $ = (z_{1},\hdots,z_{K})$ \\
                     \end{center}
                     
+            \subsubsection{Differentiation}
+                \paragraph{Differentiation from First Principles}  \mbox{} \\
+                    \vspace{0.2cm}
+                    Differentiation is the process of finding the Gradient of a Function at a specific point. In the case of a Neural Network,
+                    this can be used to measure the sensitivity of the Function Output, in respect to the Input. This derivative is known as said 
+                    Functions' Gradient Function. \\
+                    \vspace{0.2cm}
+                    
+                    With a simple straight line graph we can find the gradient as {\Large$\frac{\Delta y}{\Delta x}$, $\Delta$} (Delta) is used to 
+                    represent a fininite increment. \\
+                    \vspace{0.2cm}
+
+                    When find the Derivative of a more Complex Function we can use Two Points. Point $P : (x, f(x))$ and Point $Q : (x + h, f(x + h))$.
+                    The variable $h$ tends towards 0, so Points $Q$ will eventually be ontop of point $P$. This is called Differentiation from First
+                    Principles.
+                    \vspace{0.4cm}
+
+                    \begin{eqnarray*}
+                        \frac{\Delta y}{\Delta x} &=& \lim_{h\to0} \left(\frac{f(x + h) - f(x)}{(x + h) - x}\right) \\
+                        &=& \lim_{h\to0} \left(\frac{f(x + h) - f(x)}{h}\right)
+                    \end{eqnarray*}
+                    \vspace{0.6cm}
+
+                    Derivatives are more commonly represented as $f'(x)$ or $\frac{dy}{dx}$
+
+                    \vspace{0.4cm}
+                \paragraph{Standard Differentiation Rules}  \mbox{} \\
+                    \vspace{0.2cm}
+                    Instead of manually using Smaller and Smaller Values of $h$ manually, there are standard Differentiation Rules. These are as follows: \\
+                    \vspace{0.4cm}
+
+                    \begin{eqnarray*}
+                        y = x^{k} &\rightarrow& \frac{dy}{dx} = kx^{k-1} \\
+                        y = k &\rightarrow& \frac{dy}{dx} = 0 \\
+                        y = e^{kx} &\rightarrow& \frac{dy}{dx} = ke^{kx} \\
+                        y = f(x)g(x) &\rightarrow& f(x)g'(x) + f'(x)g(x) \\
+                        f(x) = \frac{g(x)}{h(x)} &\rightarrow& f'(x) = \frac{g'(x)h(x) - g(x)h'(x)}{h(x)^{2}} \\
+                    \end{eqnarray*}
+                    \vspace{0.4cm}
+
+                    These rules are applied to each component of the Function to find the Derivative. 
+
+                \paragraph{Chain Rule}  \mbox{} \\
+                    \vspace{0.2cm}
+                    The Chain Rule is used to compute the derivative of Nested Functions such as $f(x) = g(h(x))$. The derivative of this Function can be expressed as: \\
+                    \vspace{0.4cm}
+
+                    \[f'(x) =  g'(h(x))h'(x)\]
+
+                    \vspace{0.4cm}
+
+                    This can be applied to an infinite number of Functions, where $f(x) = g_{1}(g_{2}(\hdots(g_{n}(x))))$. By this rule we can represent the derivative as
+                    a Series of Derivatives Multiplied together:
+
+                    \[
+                        \frac{df}{dx} = \frac{df}{df_{1}} \frac{df_{1}}{df_{2}} \frac{df_{2}}{df_{3}} \hdots \frac{df_{n}}{df_{x}}
+                    \]
+
+                \paragraph{Partial Derivatives}  \mbox{} \\
+                    \vspace{0.2cm}
+                    Partial Derivatives are used when the Function in question contains Multiple Variables. They utilise the same rules, except the Variables
+                    which aren't being derived get treated as constants. The Derivative of $f(x, y)$ with respect to $x$ is expressed as $f_{x}'(x,y)$ or 
+                    {\Large $\frac{\partial f}{\partial x}$}. 
+
             \subsubsection{Back Propagation}
                 \paragraph{Overview} \mbox{} \\
-                \paragraph{Differentiation} \mbox{} \\
-                \paragraph{General Form} \mbox{} \\
+                    \vspace{0.2cm}
+                    Back Propagation is the algorithm used to adjust Weights and Bias' in a Neural Network. Through using this algorithm you can successfully "train"
+                    the Network to recognise certain patterns in data. The Input Data gets propagated through the Network using Forward Propagation, and then the output
+                    is yeeted into the Loss Function.
+
+                \paragraph{The Bellman Equation} \mbox{} \\
+                    \vspace{0.2cm}
+                    The Bellman Equation is a method of optimisation, and is used for dynamic programming. In the context of Machine Learning we can utilise it
+                    to reinforce good behaviour and negate bad behaviour. By writing the relationships between two states in the form of an action, we can optimise this
+                    by choosing the best action when given a state. If we let $s_{t}$ be the current state, we can define all the possible actions from that state as
+                    $a_{t} \in \Gamma(s_{t})$. Where $\Gamma(s_{t})$ represents all given actions from a state. We can also define the State Transition from $s_{t} \to s_{t+1}$ 
+                    as $T(s_{t}, a)$ when action $a$ has been taken. The Reward from this is given as $R(s_{t}, a)$. A Discount Factor $0 < \gamma < 1$ is also defined to assume
+                    impatience, compounding the effects of $\gamma$ the further in the future the Reward is. \\
+                    \vspace{0.2cm}
+                    With these definitions, an infinite-horizon problem is formed: \\
+
+                    \[ V(s_{0}) = \max_{\{a_{t}\}_{t=0}^{\infty}} \sum_{t=0}^{\infty} \gamma^{t} \cdot R(s_{t},a_{t}) \]
+                    \vspace{0.2cm}
+
+                    We can form this into another Equation which uses the Principle of Optimality, such that: \\
+                    \vspace{0.2cm}
+
+                    \begin{center}
+                        \textit{An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an 
+                        optimal policy with regard to the state resulting from the first decision.} - Richard E. Bellman
+                    \end{center}
+                    \vspace{0.2cm}
+
+                    We will consider the first decision seperately to all future reward, and then collect the future decisions within the brackets, which the infinite-horizon problem
+                    above is equivalent too.
+
+                    \[ \max_{a_{0}} \left\{ R(s_0, a_0) + \gamma \cdot \left[ \max_{\{a_{t}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \gamma^{t-1} \cdot R(s_{t},a_{t})\right] \right\} \]
+                    \vspace{0.2cm}
+
+                    This at first glance has only made the problem uglier but infact has made our lives easier. It can be condensed further into a Recursively Defined Function:
+                    \vspace{0.2cm}
+
+                    \[ V(s_{0}) = \max_{a_{0}} \{ R(s_{0}, a_{0}) + \gamma \cdot V(x_{1}) \} \] 
+                    \centerline{When subjected to: $ x_{1} = T(s_{0}, a_{0})$}
+                    \vspace{0.2cm}
+
+                \paragraph{Loss Function} \mbox{} \\
+                    \vspace{0.2cm}
+                    The Loss Function of a Network represents how well a Neural Network is performing. The aim of the Back Propagation is to minimise this Functions output. When using
+                    a standard Neural Network and you're training on a labelled data set, you can be certain about the Expected Output. The standard Loss Function is as follows: \\ 
+                    \vspace{0.2cm}
+                    
+                    \begin{eqnarray*}
+                        Loss_{i} &=& \frac{1}{2} \cdot (Expected Output_{i} - Actual Output_{i})^{2} \\
+                        &=& \frac{1}{2} \cdot (y_{i} - \hat{y}_{i})^{2}
+                    \end{eqnarray*}
+                    \vspace{0.2cm}
+
+                    This is whats called the Half Square Difference. This Differentiates nicely which is why it is commonly used. \\
+                    \vspace{0.2cm}
+
+                    To finally use Bellman Equation as a Loss Function we need to convert it into a Loss Function: \\
+                    \vspace{0.2cm}
+
+                    \[Q(s_t, a_t) = R(s_t, a_t) + \gamma \cdot \max_{a_{t+1}} Q(s_{t+1}, a_{t+1})\]
+                    \[Loss = \left( R(s_t, a_t) + \gamma \cdot \max_{a_{t+1}} Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t) \right)^2\]
+
+                \paragraph{Gradient Descent} \mbox{} \\ 
+                    \vspace{0.2cm}   
+                    To minimise the Loss Function, the Weights and Bias' in the Network need to be algorithmically adjusted to converge towards the expected outputs. You can
+                    calculate these adjustments by using Partial Derivatives. You can take the Derivative of every Weight and Bias with respect to the Loss Function. The Derivatives
+                    of each weight can vary, such as one weight being 0.5 and the other being 3, the Second Weight affects the Loss Function 10$\times$ as much. This process is
+                    known as Gradient Descent. \\
+
+                \paragraph{Activation Function Derivatives} \mbox{} \\ 
+                    \vspace{0.2cm}
+
+                    \begin{center}
+                        ReLu$(x) = $ Max$(0, x)$ \\
+                        \vspace{0.2cm}
+                        \begin{tikzpicture}[declare function={ReLu(\x)=max(0, x);}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=bottom,
+                                ytick={0,1,2,3,4},
+                                axis y line=middle,
+                                samples=1000,
+                                domain=-4:4,
+                                legend style={at={(0.01,0.99)},anchor=north west}  
+                            ]
+                            \addplot[blue,mark=none]   (x,{ReLu(x)});
+                            \addplot [red,mark=none] {ifthenelse(x>0,1,0)};
+                            \legend{$ReLu(x)$, $Relu'(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+
+                        Sigmoid$(x) = $ \mathLarge{\frac{1}{1 + e^{-x}}} \\
+                        \vspace{0.2cm}
+                        \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}, declare function={sigmaDer(\x)=sigma(\x)*(1 - sigma(\x));}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=bottom,
+                                ytick={-1,-.5,0,.5,1, 1.5},
+                                ymax=1.5,
+                                ymin=0,
+                                axis y line=middle,
+                                samples=100,
+                                domain=-6:6,
+                                legend style={at={(0.01,0.99)},anchor=north west},
+                            ]
+                                \addplot[blue,mark=none]   (x,{sigma(x)});
+                                \addplot[red,mark=none]   (x,{sigmaDer(x)});
+                                \legend{Sigmoid$(x)$, Sigmoid'$(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+
+                        TanH$(x) = $ \mathLarge{\frac{\sinh(x)}{\cosh(x)}} $ = $ \mathLarge{\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}} \\
+                        \vspace{0.4cm}
+                        \begin{tikzpicture}[declare function={TanH(\x)=(exp(\x) - exp(-\x))/(exp(\x) + exp(-\x));}, declare function={TanHDer(\x)=1 - TanH(x)^2;}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=middle,
+                                ytick={-2,-1,0,1,2},
+                                axis y line=middle,
+                                samples=100,
+                                domain=-3:3,
+                                ymax=2,
+                                ymin=-2,
+                                legend style={at={(0.01,0.99)},anchor=north west}    
+                            ]
+                                \addplot[blue,mark=none] (x,{TanH(x)});
+                                \addplot[red,mark=none] (x,{TanHDer(x)});
+                                \legend{TanH$(x)$, TanH'$(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
+
+
+
+                    
 
 \end{flushleft}

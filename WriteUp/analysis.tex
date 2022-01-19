@@ -1,7 +1,6 @@
 \begin{flushleft}
     \Large
     \section{Analysis}
-
         \subsection{Statement of Investigation}
             \large
             \vspace{0.2cm}
@@ -416,7 +415,7 @@
                                 this feature isnt neccesary.\\
                             \hline
                                 C\# & \multicolumn{2}{M{10cm}|}{C\# is my second favourite language, I have plenty of experience with it from developing games
-                                with Unity. Its faster than Python and is less abstracted, but this speed isn't necessarily required
+                                with Unity. It's faster than Python and is less abstracted, but this speed isn't necessarily required
                                 for my project. With C\# I could utilise the \textit{Unity Game Engine} for my project, but then
                                 I might end-up relying on builtin types and functions rather than developing my own.}\\
                             \hline
@@ -445,7 +444,7 @@
                                 methods.\\
                             \cline{3-3}
                                 & Pixels & Pixels is a lightweight 2d graphics library designed to simply push pixels to the screen, Its relatively simple
-                                and ive used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
+                                and i've used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
                                 a lightweight solution.\\
                             \hline
                             \end{longtable}
@@ -495,7 +494,6 @@
             language which makes it versatile for protyping and fast, iterative development.
             
             \vspace{0.5cm}
-
             \subsubsection{Terrain Generation and Displaying to Window}
             \vspace{0.25cm}
 
@@ -637,8 +635,6 @@ def GenerateMap(self, seed):
             The code for this shown under the Prototype Code Header.
 
             \vspace{1cm}
-
-
             \subsubsection{Finished Terrain Generation}
             \vspace{0.25cm}
 
@@ -652,177 +648,197 @@ def GenerateMap(self, seed):
             
             \vspace{1cm}
             \subsubsection{Matrix Data Structure}
-            \vspace{0.25cm}
-
-            As part of my Matrix Class I made a list of operations which would be key to a Matrix Class, along with being useful
-            for Machine Learning. A Matrix is an abstract data type, commonly used in Maths, but has practical uses in the world
-            of Computer Science. It holds a 2d array of values such as: \\ 
-            \begin{center}
-            $\begin{pmatrix}
-                a & b\\
-                c & d
-            \end{pmatrix}$ 
-            $\begin{pmatrix}
-                a & b & c \\
-                d & e & f \\
-                g & h & i 
-            \end{pmatrix}$ 
-            $\begin{pmatrix}
-                a \\
-                b \\
-                c  
-            \end{pmatrix}$ 
-            $\begin{pmatrix}
-                a & b & c & d\\
-                e & f & g & h
-            \end{pmatrix}$ 
-            \end{center}
-            The values in a Matrix can be manipulated using common operations such as $+ - *$ as long as the orders of the 2 Matrices
-            match up. Along with other, non-standard operations which have other purposes.
-
-            \vspace{0.25cm}
-            As part of my Matrix Class, I implemented the following operators:
-            \begin{enumerate}
-                \item Addition/Subtraction \\
-                    Implementing Addition didnt take too long, I utilised a nested for loop to iterate over every value in both Matrices.
-                    Adding the two values together into a temporary Matrix which the method then returned. 
-                    \vspace{0.25cm}
-                    \begin{center}
-                        $\begin{pmatrix}
-                            a & b\\
-                            c & d
-                        \end{pmatrix} +
-                        \begin{pmatrix}
-                            e & f\\
-                            g & h
-                        \end{pmatrix} =
-                        \begin{pmatrix}
-                            a+e & b+f\\
-                            c+g & d+h
-                        \end{pmatrix}$
-                    \end{center}
-                    \vspace{0.25cm}
-
-                \item Multiplication \\
-                    Multiplication of Matrices is slightly more complicated, it is of $O(n^3)$ complexity, utilising a triple nested for loop.
-                    It multiplies the row of a $M1$, by the column in $M2$. Summing the calculation into the element in the new Matrix $M3$. \\
-                    
-                    \vspace{0.25cm}
-                    \begin{center}
-                        $\begin{pmatrix}
-                            a & b\\
-                            c & d
-                        \end{pmatrix} *
-                        \begin{pmatrix}
-                            e & f\\
-                            g & h
-                        \end{pmatrix} =
-                        \begin{pmatrix}
-                            a*e + b*g & a*f + b*h\\
-                            c*e + d*g & c*f + d*h
-                        \end{pmatrix}$
-                    \end{center}
-                    There is also Scalar Multiplication which multiples each value of a Matrix by the Scalar.
-                    \begin{center}
-                        $k *
-                        \begin{pmatrix}
-                            a & b\\
-                            c & d
-                        \end{pmatrix} =
-                        \begin{pmatrix}
-                            ka & kb\\
-                            kc & kd
-                        \end{pmatrix}$
-                    \end{center}
-                    \vspace{0.25cm}
-
-                \item Determinant \\
-                    Calculating the Determinant of an NxN Matrix is a recursive algorithm. With the base case being the Determinant of a 2x2
-                    Matrix. When calculating the Determinant of a 3x3 Matrix you create a Matrix of Cofactors, and multiply each 
-                    value by the corresponding value in the Sin Matrix (\textit{Formed from repeating 1's and -1's}). Summing the values from
-                    a singular Row or Column will then give you the Determinant. For a 4x4 you simply calculate the Determinant of the corresponding
-                    3x3's to get the Cofactors.
-                    
-                    \begin{center}
-                        $
-                        \begin{vmatrix}
-                            a & b\\
-                            c & d
-                        \end{vmatrix} = 
-                            a*d - b*c
-                        $
-                    \end{center}
-                    \vspace{0.25cm}
-                    \begin{center}
-                        $\begin{vmatrix}
-                            a & b & c \\
-                            d & e & f \\
-                            g & h & i 
-                        \end{vmatrix}  = a*
-                        \begin{vmatrix}
-                            e & f\\
-                            h & i
-                        \end{vmatrix}
-                        -b*
-                        \begin{vmatrix}
-                            d & f\\
-                            g & i
-                        \end{vmatrix}
-                        +c*
-                        \begin{vmatrix}
-                            d & e\\
-                            g & h
-                        \end{vmatrix}$
-                    \end{center}
-                    \vspace{0.25cm}
-
-                \item Dot Product \\
-                    The Dot Product occurs between two vectors, and can be used to calculate the angle between them. 
-                    Its a relatively simple operation only taking a few lines of code.
-                    \begin{center}
-                        $
-                        \begin{pmatrix}
-                            a \\
-                            b \\
-                            c
-                        \end{pmatrix} .
-                        \begin{pmatrix}
-                            d \\
-                            e \\
-                            f
-                        \end{pmatrix} = 
-                        a*d + b*e + c*f$
-                    \end{center}
-            \end{enumerate}
-
-            All code is available under the Prototype Code Header.
-            
-            \vspace{1cm}
-            \subsubsection{Prototype Evaluation}
                 \vspace{0.25cm}
 
+                As part of my Matrix Class I made a list of operations which would be key to a Matrix Class, along with being useful
+                for Machine Learning. A Matrix is an abstract data type, commonly used in Maths, but has practical uses in the world
+                of Computer Science. It holds a 2d array of values such as: \\ 
+                \begin{center}
+                $\begin{pmatrix}
+                    a & b\\
+                    c & d
+                \end{pmatrix}$ 
+                $\begin{pmatrix}
+                    a & b & c \\
+                    d & e & f \\
+                    g & h & i 
+                \end{pmatrix}$ 
+                $\begin{pmatrix}
+                    a \\
+                    b \\
+                    c  
+                \end{pmatrix}$ 
+                $\begin{pmatrix}
+                    a & b & c & d\\
+                    e & f & g & h
+                \end{pmatrix}$ 
+                \end{center}
+                The values in a Matrix can be manipulated using common operations such as $+ - *$ as long as the orders of the 2 Matrices
+                match up. Along with other, non-standard operations which have other purposes.
+
+                \vspace{0.25cm}
+                As part of my Matrix Class, I implemented the following operators:
+                \begin{enumerate}
+                    \item Addition/Subtraction \\
+                        Implementing Addition didnt take too long, I utilised a nested for loop to iterate over every value in both Matrices.
+                        Adding the two values together into a temporary Matrix which the method then returned. 
+                        \vspace{0.25cm}
+                        \begin{center}
+                            $\begin{pmatrix}
+                                a & b\\
+                                c & d
+                            \end{pmatrix} +
+                            \begin{pmatrix}
+                                e & f\\
+                                g & h
+                            \end{pmatrix} =
+                            \begin{pmatrix}
+                                a+e & b+f\\
+                                c+g & d+h
+                            \end{pmatrix}$
+                        \end{center}
+                        \vspace{0.25cm}
+
+                    \item Multiplication \\
+                        Multiplication of Matrices is slightly more complicated, it is of $O(n^3)$ complexity, utilising a triple nested for loop.
+                        It multiplies the row of a $M1$, by the column in $M2$. Summing the calculation into the element in the new Matrix $M3$. \\
+                        
+                        \vspace{0.25cm}
+                        \begin{center}
+                            $\begin{pmatrix}
+                                a & b\\
+                                c & d
+                            \end{pmatrix} *
+                            \begin{pmatrix}
+                                e & f\\
+                                g & h
+                            \end{pmatrix} =
+                            \begin{pmatrix}
+                                a*e + b*g & a*f + b*h\\
+                                c*e + d*g & c*f + d*h
+                            \end{pmatrix}$
+                        \end{center}
+                        There is also Scalar Multiplication which multiples each value of a Matrix by the Scalar.
+                        \begin{center}
+                            $k *
+                            \begin{pmatrix}
+                                a & b\\
+                                c & d
+                            \end{pmatrix} =
+                            \begin{pmatrix}
+                                ka & kb\\
+                                kc & kd
+                            \end{pmatrix}$
+                        \end{center}
+                        \vspace{0.25cm}
+
+                    \item Determinant \\
+                        Calculating the Determinant of an NxN Matrix is a recursive algorithm. With the base case being the Determinant of a 2x2
+                        Matrix. When calculating the Determinant of a 3x3 Matrix you create a Matrix of Cofactors, and multiply each 
+                        value by the corresponding value in the Sin Matrix (\textit{Formed from repeating 1's and -1's}). Summing the values from
+                        a singular Row or Column will then give you the Determinant. For a 4x4 you simply calculate the Determinant of the corresponding
+                        3x3's to get the Cofactors.
+                        
+                        \begin{center}
+                            $
+                            \begin{vmatrix}
+                                a & b\\
+                                c & d
+                            \end{vmatrix} = 
+                                a*d - b*c
+                            $
+                        \end{center}
+                        \vspace{0.25cm}
+                        \begin{center}
+                            $\begin{vmatrix}
+                                a & b & c \\
+                                d & e & f \\
+                                g & h & i 
+                            \end{vmatrix}  = a*
+                            \begin{vmatrix}
+                                e & f\\
+                                h & i
+                            \end{vmatrix}
+                            -b*
+                            \begin{vmatrix}
+                                d & f\\
+                                g & i
+                            \end{vmatrix}
+                            +c*
+                            \begin{vmatrix}
+                                d & e\\
+                                g & h
+                            \end{vmatrix}$
+                        \end{center}
+                        \vspace{0.25cm}
+
+                    \item Dot Product \\
+                        The Dot Product occurs between two vectors, and can be used to calculate the angle between them. 
+                        Its a relatively simple operation only taking a few lines of code.
+                        \begin{center}
+                            $
+                            \begin{pmatrix}
+                                a \\
+                                b \\
+                                c
+                            \end{pmatrix} .
+                            \begin{pmatrix}
+                                d \\
+                                e \\
+                                f
+                            \end{pmatrix} = 
+                            a*d + b*e + c*f$
+                        \end{center}
+                \end{enumerate}
+                \vspace{1cm}
+            \subsubsection{Prototype Evaluation}
+                \vspace{0.2cm}
                 Overall I am happy with my prototype, though I feel like some parts need to be improved. I did meet my 
                 objectives for my prototype but there were improvements which can me made when I create my Technical Solution. 
                 Namely the Terrain Generation along with the Matrix class. I feel that Perlin noise would be a better alternative
-                to the two algorithms I used. In theory it should produce better results, and also provice more marks for 
+                to the two algorithms I used. In theory it should produce better results, and also provide more marks for 
                 complexity. My Matrix class could be rewritten to be more efficient, along with using operator overloading, which
-                I didnt know Python could do at the time. I also feel like having vector inherit from matrix is relatively pointless,
-                there is no need for it when I could just use 1 wide Matrices.
-
+                I didnt know Python could do at the time. I also feel like having Vector inherit from Matrix is relatively pointless,
+                there is no need for it when I could just use 1 wide Matrices instead.
         \subsection{Second Interview}
-            
+            \vspace{0.2cm}
+            I asked a few more questions to my Expert regarding my project at this point. Receiving feedback on my Prototype and gaining a
+            greater understanding of the Machine Learning Model I'm intending to use. \\
             \vspace{0.2cm}
 
             \begin{enumerate}
-                \item 
+                \item What are your thoughts on my prototype? \\ 
+                    \vspace{0.2cm}
+                    "I think your prototype is good, but could be improved. The use of Operator Overloading would improve your Matrix Class,
+                    and optimising some of your algorithms would be useful. The Terrain generation looks good, but I think its a bit
+                    water heavy, this is where Perlin Noise might help you to achieve better results. Would also be more fine tunable to
+                    your liking."
+
+                \item Is a Dual Neural Network a good model to choose? \\
+                    \vspace{0.2cm}
+                    "A Dual Neural Network should in theory be a complex enough Model for your project. The concern I have is whether your
+                    Network will be able to generalise enough in order to sufficiently 'solve' the simulation you design. There are some
+                    algorithms you could implement in order to tackle this though. You could do some research into these before finalising 
+                    your design."
+
+                \item Which Activation Functions should I implement? \\
+                    \vspace{0.2cm}
+                    "The most commonly used are Sigmoid, TanH, ReLu and SoftMax. They are relatively simple so wont take long to implement.
+                    Those would be a good starting point for testing your Neural Network."
+                
+                \item What type of Reward system should I use? \\
+                    \vspace{0.2cm}
+                    "As far as I'm aware there are two types of reward systems, Sparse and Dense. I think that Sparse would be better suited
+                    to your project. Sparse is where the reward given to the Agent is 0 for most actions. Compared to dense where reward
+                    is given for most most actions."
             \end{enumerate}
 
             \pagebreak
-
         \subsection{Objectives}
             \large
             Taking into account my Prototype and Interview, I have formed a list of objectives I feel to be most 
-            appropriate for my Investigation.
+            appropriate for my Investigation.\\
+            \vspace{0.2cm}
             If all completed they will form a complete solution which will answer my Investigations question.
             Below is the list of objectives split into 6 key sections:
 
@@ -866,14 +882,15 @@ def GenerateMap(self, seed):
                         \end{enumerate}
                     \item Create appropriate errors to throw when utilising methods the incorrect way
                 \end{enumerate}   
-            \subsubsection*{Deep Q Learning}
+            \subsubsection*{Deep Reinforcement Learning}
                 \begin{enumerate}
                     \item Dynamically create a Dual Neural Network model based upon loaded parameters
                     \item Implement an Abstract Class for Activation Functions
                     \item Implement Activation Functions inheriting from the Abstract Class such as:
                     \begin{enumerate}
-                        \item ReLu
                         \item Sigmoid
+                        \item TanH
+                        \item ReLu
                         \item SoftMax
                     \end{enumerate}
                     \item Create methods to Forward Propagate the neural network
@@ -897,12 +914,11 @@ def GenerateMap(self, seed):
                     \item Be able to select a single parameter from the data points
                     \item Implement Load and Save Functions to save progress during training
                 \end{enumerate}   
-
         \subsection{Modelling of the Problem}
             \large
             \vspace{0.2cm}
-            In this section I will define and derive all the Mathematical Formulae relating to my Project. This includes all Matrix Operations 
-            and the General Forms of Forward Propagation and Back Propagation. \\
+            In this section I will define and derive all the Mathematical Formulae relating to my Project. This includes all the Matrix Operations 
+            I plan to use and the General Forms of Forward Propagation and Back Propagation. \\
             \vspace{0.2cm}
 
             \subsubsection{Matrices}
@@ -1120,7 +1136,7 @@ def GenerateMap(self, seed):
                             \text{ReLu}(x) =  \begin{cases}
                                                 x < 0 & 0 \\
                                                 x > 0 & x
-                                                \end{cases} \\
+                                                \end{cases}
                         \]
                         
                         \vspace{0.2cm}
@@ -1333,20 +1349,23 @@ def GenerateMap(self, seed):
                     of each weight can vary, such as one weight being 0.5 and the other being 3, the Second Weight affects the Loss Function 10$\times$ as much. This process is
                     known as Gradient Descent. \\
 
-                \paragraph{Activation Function Derivatives} \mbox{} \\ 
+                \paragraph{Differentiating Activation Functions} \mbox{} \\ 
                     \vspace{0.2cm}
-                    When Deriving the ReLu Function we derive both parts seperately. The derivative of 0 is just 0, and the derivative of x is 1.
+                    As part of Back Propgation we need to derive all the Activation Functions we use within our Layer structure. The Derivatives are shown below. \\
+                    \vspace{0.2cm}
+                    The ReLu Derivative:
                     \vspace{0.2cm}
                     \[
                         \text{ReLu}(x) =  \begin{cases}
                                             0 & x < 0 \\
                                             x & x > 0
-                                            \end{cases} \\
-
+                                            \end{cases} 
+                    \]
+                    \[
                         \text{Relu'}(x) = \begin{cases}
                                             0 & x < 0 \\
                                             1 & x > 0
-                                            \end{cases} \\
+                                            \end{cases}
                     \]
                     \vspace{0.2cm}
                     \begin{center}
@@ -1358,8 +1377,10 @@ def GenerateMap(self, seed):
                                 ytick={0,1,2,3,4},
                                 axis y line=middle,
                                 samples=1000,
-                                domain=-4:4,
-                                legend style={at={(0.01,0.99)},anchor=north west}  
+                                domain=-2:2,
+                                legend style={at={(0.01,0.99)},anchor=north west},
+                                ymax=2,
+                                ymin=0,
                             ]
                             \addplot[blue,mark=none]   (x,{ReLu(x)});
                             \addplot [red,mark=none] {ifthenelse(x>0,1,0)};
@@ -1368,7 +1389,7 @@ def GenerateMap(self, seed):
                         \end{tikzpicture}
                     \end{center}
 
-                    We can derive the Sigmoid Function by using our standard Differentiations and the Chain Rule.
+                    The Sigmoid Function Derivative:
                     \vspace{0.2cm}
                     \begin{eqnarray*}
                         \text{Sigmoid}(x) &=& \mathLarge{\frac{1}{1 + e^{-x}}} \\
@@ -1403,11 +1424,12 @@ def GenerateMap(self, seed):
                         \end{tikzpicture}
                     \end{center}
 
+                    The TanH Derivative:
                     \vspace{0.2cm}
                     \begin{eqnarray*}
-                        \text(TanH)(x) &=& \mathLarge{\frac{\sinh(x)}{\cosh(x)}}  \\
+                        \text{TanH}(x) &=& \mathLarge{\frac{\sinh(x)}{\cosh(x)}}  \\
                                         &=& \mathLarge{\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}} \\
-                        \text(TanH')(x)&=& \mathLarge{\frac{(e^{x} + e^{-x})(e^{x} + e^{-x}) - (e^{x} - e^{-x})(e^{x} - e^{-x})}{(e^{x} + e^{-x})^{2}}} \\
+                        \text{TanH'}(x)&=& \mathLarge{\frac{(e^{x} + e^{-x})(e^{x} + e^{-x}) - (e^{x} - e^{-x})(e^{x} - e^{-x})}{(e^{x} + e^{-x})^{2}}} \\
                                         &=& \mathLarge{\frac{(e^{x} + e^{-x})^{2}}{(e^{x} + e^{-x})^{2}} - \frac{(e^{x} - e^{-x})^{2}}{(e^{x} + e^{-x})^{2}}} \\
                                         &=& 1 - \text{TanH}^{2}(x) \\
                     \end{eqnarray*}

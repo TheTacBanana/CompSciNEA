@@ -114,10 +114,8 @@ class Agent():
     def Attack(self, enemyList): # Attacks in a given Area surrounding Agent
         enemyLocList = [enemyList[i].location for i in range(len(enemyList))]
 
-        AAR = self.paramDictionary["AgentAttackRange"]
-
-        for y in range(self.location[1] - AAR, self.location[1] + AAR + 1): # Loop through Tiles in surrounding area
-            for x in range(self.location[0] - AAR, self.location[0] + AAR + 1): 
+        for y in range(self.location[1] - 1, self.location[1] + 2): # Loop through Tiles in surrounding area
+            for x in range(self.location[0] - 1, self.location[0] + 2): 
                 if [x,y] in enemyLocList:
                     for i in range(len(enemyLocList)):
                         if enemyLocList[i] == [x,y]:

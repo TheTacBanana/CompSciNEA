@@ -240,28 +240,26 @@
     \hline
     {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
         \hline\hline
-        \rn & Creation of Agent & Run progam as normal & Agent is created as an instance of the Agent Class & - & - \\
+        \rn & Creation of Agent & Run progam as normal & Agent is created as an instance of the Agent Class & Pass & 5.1 \\
         \hline
-        \rn & Creation of Enemies & Run program as normal with the "StartEnemyCount" Parameter $\greatereq 1$ & Up to the ammount of specified Enemies are created & - & - \\
+        \rn & Creation of Enemies & Run program as normal with the "StartEnemyCount" Parameter $\greatereq 1$ & Up to the ammount of specified Enemies are created & Pass & 5.2 \\
         \hline
-        \rn & Enemies Pathfind towards Agent & Run program as normal with "StartEnemyCount" Parameter $\greatereq 1$ & The spawned enemies pathfind towards the agnet 
+        \rn & Enemies Pathfind towards Agent & Run program as normal with "StartEnemyCount" Parameter $\greatereq 1$ & The spawned enemies pathfind towards the agent 
         using the defined pathfinding algorithm & - & - \\
         \hline
         \rn & Getting Tile Data & Call .GetTileVector(worldMap, enemyList[]) with arguments for worldMap and the list of current Enemies & Returns a Vector of the 
-        surrounding tile objects & - & - \\
+        surrounding tile objects & Pass & 5.4 \\
         \hline
         \rn & Convert Tile Data & Call .TileVectorPostProcess(tileVec) with argument of the result from the Test Above & Converts Tile Data into two vectors, Grayscale 
-        Colour and Tile Type & - & - \\
+        Colour and Tile Type & Pass & 5.5 \\
         \hline
-        \rn & Reward System Test Basic Reward & - & Expected reward is given to agent & - & - \\
+        \rn & Reward System Test & - & Expected reward is given to agent & Pass & 5.6 \\
         \hline
-        \rn & Reward System Test Complex Reward & - & Expected reward is given to agent & - & - \\
+        \rn & World Generates to an Acceptable Standard & Run program as normal & Generates 2d Terrain which roughly looks realistic & Pass & 5.7 \\
         \hline
-        \rn & World Generates to an Acceptable Standard & Run program as normal & Generates 2d Terrain which roughly looks realistic & - & - \\
+        \rn & World Generation Conforms to Parameters & Utilise inputted parameters to identify the effect they have on the world Generation & Terrain changes depending on inputting Parameters & Pass & 5.8 \\
         \hline
-        \rn & World Generation Conforms to Parameters & Utilise inputted parameters to identify the effect they have on the world Generation & Terrain changes depending on inputting Parameters & - & - \\
-        \hline
-        \rn & Perlin Noise retains Continuity & Generate two worlds with the same seed & Perlin Noise returns same value when using the same seed twice & - & - \\
+        \rn & Perlin Noise retains Continuity & Generate two worlds with the same seed & Perlin Noise returns same value when using the same seed twice & Pass & 5.9 \\
         \hline
     \end{longtable}
     
@@ -650,4 +648,64 @@ for item in dl.dataPoints:
         \vspace{1cm}
     \end{center}
    
+
+    \setcounter{magicrownumbers}{0}
+    \begin{center}
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        The Agent Object stored in Memory \\
+        \includegraphics[width=9cm]{Images/Testing/T5.1.1.PNG} \\
+        \vspace{1cm}
+    
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        The Enemy Objects stored in Memory \\
+        \includegraphics[width=9cm]{Images/Testing/T5.2.1.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        Video Evidence
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        Tile Data Objects are returned in a Vector \\
+        \includegraphics[width=6cm]{Images/Testing/T5.4.1.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        Grayscale Values in a Vector \\
+        \includegraphics[width=4cm]{Images/Testing/T5.5.1.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        Reward on Left, and the chosen action on Right \\
+        \includegraphics[width=2cm]{Images/Testing/T5.6.1.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        World Generated, is of an Acceptable Standard \\
+        \includegraphics[width=8cm]{Images/Testing/T5.7.1.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        Changed Water Value creates no Water and more Beach \\
+        \includegraphics[width=8cm]{Images/Testing/T5.8.1.PNG} \\
+        \vspace{1cm}
+
+        {\large Evidence 5.\rn } \\ 
+        \vspace{0.3cm}
+        Generated with seed 420 \\
+        \includegraphics[width=8cm]{Images/Testing/T5.9.1.PNG} \\
+        Generated again with the seed 420. Note different Trees, Enemy and Agent Positions, due to them not being
+        tied to the Terrain Seed. \\
+        \includegraphics[width=8cm]{Images/Testing/T5.9.2.PNG} \\
+        \vspace{1cm}
+        
+    \end{center}
 \end{flushleft}

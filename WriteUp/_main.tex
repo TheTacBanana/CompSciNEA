@@ -1,13 +1,7 @@
 \documentclass{article}
 \usepackage[a4paper]{geometry}
 
-\geometry{
-    a4paper,
-    total={170mm,257mm},
-    left=20mm,
-    right=20mm,
-    top=20mm,
-    }
+\geometry{a4paper, total={170mm,257mm} ,left=20mm ,right=20mm ,top=20mm}
 \usepackage{enumitem}
 \usepackage{array}
 \usepackage{tikz}
@@ -30,7 +24,7 @@
 \rhead{\large \rightmark}
 \lhead{\large Machine Learning Investigation}
 \rfoot{\large Page \thepage}
-\lfoot{\large Name: \\ Candidate Number: }
+\lfoot{\large Name: Eris Brabham\\ Candidate Number: }
 
 \newcounter{magicrownumbers}
 \newcommand\rn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
@@ -51,22 +45,13 @@
 
 \def\mathLarge#1{\mbox{\huge $#1$}}
 
-\tikzset{
-decision/.style={diamond,draw,text width=4em,text badly centered,inner sep=0pt},
-block/.style={rectangle,draw,text width=10em,text badly centered,rounded corners},
-cloud/.style={draw,ellipse,minimum height=2em},
-descr/.style={fill=white,inner sep=2.5pt},
-connector/.style={-latex,font=\scriptsize},
-rectangle connector/.style={connector,to path={(\tikztostart) -- ++(#1,0pt) \tikztonodes |- (\tikztotarget) },pos=0.5},
-rectangle connector/.default=-2cm,
-straight connector/.style={connector,to path=--(\tikztotarget) \tikztonodes}
-}
+\tikzset{block/.style={rectangle,draw,text width=10em,text badly centered,rounded corners}}
 
 \begin{document}
 
 \begin{titlepage}
     \begin{center}
-        \vspace{1cm}
+        \vspace{4cm}
         \Huge
         
         \textbf{An Investigation into Machine Learning and Neural Networks through the Simulation of Human Survival}
@@ -78,9 +63,9 @@ straight connector/.style={connector,to path=--(\tikztotarget) \tikztonodes}
         \vfill
         
         \large
-        \textbf{Name:} \\
+        \textbf{Name:} Eris Brabham \\
         \textbf{Candidate Number:} \\
-        
+        \vspace{0.2cm}
         \textbf{Centre Name:} Barton Peveril College\\
         \textbf{Centre Number:} 58231\\
         \pagebreak
@@ -99,8 +84,6 @@ straight connector/.style={connector,to path=--(\tikztotarget) \tikztonodes}
 \include{testing}
 
 \include{evaluation}
-
-%\include{prototypecode}
 
 \include{technicalsolution}
 

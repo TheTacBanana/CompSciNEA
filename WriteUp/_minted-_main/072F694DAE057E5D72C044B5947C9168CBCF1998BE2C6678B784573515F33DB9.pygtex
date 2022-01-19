@@ -30,12 +30,6 @@
     \PYG{k}{def} \PYG{n+nf}{WriteEnemy}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Write Enemy to tile        }
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasEnemy} \PYG{o}{=} \PYG{k+kc}{True}
 
-    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} To String Overload}
-        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{hasObject}\PYG{p}{:}
-            \PYG{k}{return} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{,}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileType}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{objectType}\PYG{p}{)}
-        \PYG{k}{else}\PYG{p}{:}
-            \PYG{k}{return}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileType}\PYG{p}{)}
-
 \PYG{c+c1}{\PYGZsh{} Class to store world terrain and object data}
 \PYG{k}{class} \PYG{n+nc}{WorldMap}\PYG{p}{():} 
     \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{seed}\PYG{p}{,} \PYG{n}{params}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Initialise method for creating an instance of the world}

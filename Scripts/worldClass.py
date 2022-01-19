@@ -29,12 +29,6 @@ class Tile():
     def WriteEnemy(self): # Write Enemy to tile        
         self.hasEnemy = True
 
-    def __str__(self): # To String Overload
-        if self.hasObject:
-            return ("{},{}").format(self.tileType, self.objectType)
-        else:
-            return("{}").format(self.tileType)
-
 # Class to store world terrain and object data
 class WorldMap(): 
     def __init__(self, seed, params): # Initialise method for creating an instance of the world

@@ -2,6 +2,7 @@ from heap import *
 from datalogger import *
 from deepqlearning import Deque
 import random
+from matrix import *
 
 # 4.1
 
@@ -143,3 +144,168 @@ print() # 3.13
 
 # Activation Derivatives
 
+print() # 2.1
+
+matrix = Matrix((3, 4))
+print(matrix)
+
+print() # 2.2
+
+values = [[3, 4],
+          [1, 2]]
+matrix = Matrix(values)
+print(matrix)
+
+print() # 2.3
+
+values = [1, 2, 3, 4]
+matrix = Matrix(values)
+print(matrix)
+
+print() # 2.4
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+print(matrix)
+
+print() # 2.5
+
+matrix = Matrix((2, 2), random=True)
+print(matrix)
+
+print() # 2.6
+
+matrix = Matrix((3, 3), identity=True)
+print(matrix)
+
+print() # 2.7
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+values2 = [[3, 4],
+          [1, 2]]
+matrix2 = Matrix(values2)
+
+result = matrix + matrix2
+print(result)
+
+print() # 2.8
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+values2 = [[3, 4],
+          [1, 2]]
+matrix2 = Matrix(values2)
+
+result = matrix - matrix2
+print(result)
+
+print() # 2.9
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+values2 = [[3, 4],
+          [1, 2]]
+matrix2 = Matrix(values2)
+
+result = matrix * matrix2
+print(result)
+
+print() # 2.10
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+
+result = matrix * 3 
+print(result)
+
+print() # 2.11
+
+values = [1, 2, 3, 4]
+vector = Matrix(values)
+
+values = [4, 3, 2, 1]
+vector2 = Matrix(values)
+
+result = vector * vector2
+print(result)
+
+print() # 2.12
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+
+result = matrix ** 5
+print(result)
+
+print() # 2.13
+
+values = [[4, 3],
+          [2, 1]]
+matrix = Matrix(values)
+
+result = matrix.Transpose()
+print(result)
+
+print() # 2.14
+
+values = [[4, 3, 6],
+          [2, 1, 5]]
+matrix = Matrix(values)
+
+result = matrix.SelectColumn(1)
+print(result)
+
+print() # 2.15
+
+values = [[4, 3, 6],
+          [2, 1, 5]]
+matrix = Matrix(values)
+
+result = matrix.SelectRow(0)
+print(result)
+
+print() # 2.16
+
+values = [4, 3, 6, 1, 2, 5]
+vector = Matrix(values)
+
+result = vector.MaxInVector()
+print(result)
+
+print() # 2.17
+
+values = [[4, 3, 6],
+          [2, 1, 5]]
+matrix = Matrix(values)
+
+matrix.Clear()
+print(matrix)
+
+print() # 2.18
+
+values = [1, 2, 3, 4]
+vector = Matrix(values)
+
+values = [4, 3, 2, 1]
+vector2 = Matrix(values)
+
+vectorList = [vector, vector2]
+
+result = Matrix.CombineVectorsHor(vectorList)
+print(result)
+
+print() # 2.19
+
+values = [[4, 3, 6],
+          [2, 1, 5]]
+matrix = Matrix(values)
+
+result = matrix.Sum()
+print(result)

@@ -31,6 +31,9 @@ while running:
             if event.key == pygame.K_F2: # Force Kill agent
                 gameSim.agent.alive = False
 
+    if gameSim.step > params["DQLearningMaxSteps"]:
+        running = False
+
     gameSim.TimeStep() # Perform a timestep
     time.sleep(stepDelay) # Sleep if needed
 

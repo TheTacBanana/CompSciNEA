@@ -2,6 +2,7 @@ import random, pickle, math
 from matrix import Matrix
 import activations
 from copy import copy
+from datalogger import *
 
 class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
     def __init__(self, layers, params, load=False, loadName="DQNetwork"): # Constructor for a Double Neural Network
@@ -28,6 +29,12 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.activations = (self.layerActivation, self.finalLayerActivation) # Tuple of activations
 
         self.batchReward = 0
+        self.maxBatchReward = 0
+        self.batchLoss = 0
+        self.dataPoints = []
+
+                                                        # BatchReward, MaxBatchReward, PercentageDifference, Step
+        self.actionTracker = DataLogger("ActionTracker", [[float, int], [float, int], [float, int], int], False)
 
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
         self.step += 1
@@ -58,13 +65,18 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         else:
             action = outputMax[1] # Choose best action
 
+        action = random.randint(0, self.paramDictionary["DeepQLearningLayers"][-1] - 1)
+
         rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
         reward = rewardVector.matrixVals[action][0] # Get reward given action
         self.cumReward += reward
         self.batchReward += reward
-        print(reward, action)
+        self.maxBatchReward += rewardVector.MaxInVector()[0]
+        #print(reward, rewardVector.MaxInVector()[0], action)
 
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
+
+        #self.dataPoints.append([reward, rewardVector.MaxInVector()[0], 0, self.step])
 
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
@@ -80,9 +92,13 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         # Back Propagation
         LossVector = self.LossFunctionV2(output, tempExp, agent) # Calculating Loss
+
+        self.batchLoss += LossVector.matrixVals[action][0]
+        print(LossVector.matrixVals[action][0])
+
         self.MainNetwork.layers[-1].errSignal = LossVector
 
-        self.MainNetwork.BackPropagationV2(self.activations) # Back Propagating the loss
+        #self.MainNetwork.BackPropagationV2(self.activations) # Back Propagating the loss
 
         # Do things every X steps passed
         if self.step % self.paramDictionary["TargetReplaceRate"] == 0: # Replace Weights in Target Network
@@ -95,13 +111,22 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         # Actions to run after every Batch
         if self.step % self.paramDictionary["DQLEpoch"] == 0: 
             print(self.step, self.cumReward, self.epsilon)
-            self.actions = [0 for i in range(7)]
-            self.batchReward = 0
 
-            self.MainNetwork.UpdateWeightsAndBiases(self.paramDictionary["DQLEpoch"]) # Update weights and biases
+            #self.MainNetwork.UpdateWeightsAndBiases(self.paramDictionary["DQLEpoch"]) # Update weights and biases
 
             if self.paramDictionary["SaveWeights"]: # Saves weights if specified
                 self.SaveState(self.fileName)
+
+            #Log Action
+            self.actionTracker.LogDataPoint([self.batchReward, self.maxBatchReward, self.batchLoss, self.step])
+            #self.actionTracker.LogDataPointBatch(self.dataPoints)
+
+            self.dataPoints = []
+            self.actionTracker.SaveDataPoints()
+
+            self.batchReward = 0
+            self.maxBatchReward = 0
+            self.batchLoss = 0
 
     def SampleExperienceReplay(self, agent): # Samples the Experience Replay Buffer, Back Propagating its Findings
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])

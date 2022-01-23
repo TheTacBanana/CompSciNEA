@@ -3,6 +3,7 @@
 \PYG{k+kn}{from} \PYG{n+nn}{matrix} \PYG{k+kn}{import} \PYG{n}{Matrix}
 \PYG{k+kn}{import} \PYG{n+nn}{activations}
 \PYG{k+kn}{from} \PYG{n+nn}{copy} \PYG{k+kn}{import} \PYG{n}{copy}
+\PYG{k+kn}{from} \PYG{n+nn}{datalogger} \PYG{k+kn}{import} \PYG{o}{*}
 
 \PYG{k}{class} \PYG{n+nc}{DoubleNeuralNet}\PYG{p}{():} \PYG{c+c1}{\PYGZsh{} Wraps a Main and Target Neural Network together}
     \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{layers}\PYG{p}{,} \PYG{n}{params}\PYG{p}{,} \PYG{n}{load}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{loadName}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}DQNetwork\PYGZdq{}}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Constructor for a Double Neural Network}
@@ -29,6 +30,12 @@
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{activations} \PYG{o}{=} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{layerActivation}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{finalLayerActivation}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Tuple of activations}
 
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchReward} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{maxBatchReward} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchLoss} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints} \PYG{o}{=} \PYG{p}{[]}
+
+                                                        \PYG{c+c1}{\PYGZsh{} BatchReward, MaxBatchReward, PercentageDifference, Step}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{actionTracker} \PYG{o}{=} \PYG{n}{DataLogger}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}ActionTracker\PYGZdq{}}\PYG{p}{,} \PYG{p}{[[}\PYG{n+nb}{float}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{p}{[}\PYG{n+nb}{float}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{p}{[}\PYG{n+nb}{float}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{n+nb}{int}\PYG{p}{],} \PYG{k+kc}{False}\PYG{p}{)}
 
     \PYG{k}{def} \PYG{n+nf}{TakeStep}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{agent}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{,} \PYG{n}{enemyList}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Takes a step forward in time}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{step} \PYG{o}{+=} \PYG{l+m+mi}{1}
@@ -59,13 +66,18 @@
         \PYG{k}{else}\PYG{p}{:}
             \PYG{n}{action} \PYG{o}{=} \PYG{n}{outputMax}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Choose best action}
 
+        \PYG{n}{action} \PYG{o}{=} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DeepQLearningLayers\PYGZdq{}}\PYG{p}{][}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+
         \PYG{n}{rewardVector} \PYG{o}{=} \PYG{n}{agent}\PYG{o}{.}\PYG{n}{GetRewardVector}\PYG{p}{(}\PYG{n}{agentSurround}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DeepQLearningLayers\PYGZdq{}}\PYG{p}{][}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{])}
         \PYG{n}{reward} \PYG{o}{=} \PYG{n}{rewardVector}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{action}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Get reward given action}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cumReward} \PYG{o}{+=} \PYG{n}{reward}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchReward} \PYG{o}{+=} \PYG{n}{reward}
-        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{reward}\PYG{p}{,} \PYG{n}{action}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{maxBatchReward} \PYG{o}{+=} \PYG{n}{rewardVector}\PYG{o}{.}\PYG{n}{MaxInVector}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{c+c1}{\PYGZsh{}print(reward, rewardVector.MaxInVector()[0], action)}
 
         \PYG{n}{agent}\PYG{o}{.}\PYG{n}{CommitAction}\PYG{p}{(}\PYG{n}{action}\PYG{p}{,} \PYG{n}{agentSurround}\PYG{p}{,} \PYG{n}{worldMap}\PYG{p}{,} \PYG{n}{enemyList}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Take Action}
+
+        \PYG{c+c1}{\PYGZsh{}self.dataPoints.append([reward, rewardVector.MaxInVector()[0], 0, self.step])}
 
         \PYG{c+c1}{\PYGZsh{} Epsilon Regression}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{epsilon} \PYG{o}{*=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLEpisonRegression\PYGZdq{}}\PYG{p}{]} 
@@ -81,9 +93,13 @@
 
         \PYG{c+c1}{\PYGZsh{} Back Propagation}
         \PYG{n}{LossVector} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{LossFunctionV2}\PYG{p}{(}\PYG{n}{output}\PYG{p}{,} \PYG{n}{tempExp}\PYG{p}{,} \PYG{n}{agent}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Calculating Loss}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchLoss} \PYG{o}{+=} \PYG{n}{LossVector}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{action}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{LossVector}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{action}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{])}
+
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MainNetwork}\PYG{o}{.}\PYG{n}{layers}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{errSignal} \PYG{o}{=} \PYG{n}{LossVector}
 
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MainNetwork}\PYG{o}{.}\PYG{n}{BackPropagationV2}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{activations}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Back Propagating the loss}
+        \PYG{c+c1}{\PYGZsh{}self.MainNetwork.BackPropagationV2(self.activations) \PYGZsh{} Back Propagating the loss}
 
         \PYG{c+c1}{\PYGZsh{} Do things every X steps passed}
         \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{step} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}TargetReplaceRate\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Replace Weights in Target Network}
@@ -96,13 +112,22 @@
         \PYG{c+c1}{\PYGZsh{} Actions to run after every Batch}
         \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{step} \PYG{o}{\PYGZpc{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLEpoch\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:} 
             \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{step}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{cumReward}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{epsilon}\PYG{p}{)}
-            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{actions} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{)]}
-            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchReward} \PYG{o}{=} \PYG{l+m+mi}{0}
 
-            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MainNetwork}\PYG{o}{.}\PYG{n}{UpdateWeightsAndBiases}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLEpoch\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Update weights and biases}
+            \PYG{c+c1}{\PYGZsh{}self.MainNetwork.UpdateWeightsAndBiases(self.paramDictionary[\PYGZdq{}DQLEpoch\PYGZdq{}]) \PYGZsh{} Update weights and biases}
 
             \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}SaveWeights\PYGZdq{}}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Saves weights if specified}
                 \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{SaveState}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{fileName}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{}Log Action}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{actionTracker}\PYG{o}{.}\PYG{n}{LogDataPoint}\PYG{p}{([}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchReward}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{maxBatchReward}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchLoss}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{step}\PYG{p}{])}
+            \PYG{c+c1}{\PYGZsh{}self.actionTracker.LogDataPointBatch(self.dataPoints)}
+
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataPoints} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{actionTracker}\PYG{o}{.}\PYG{n}{SaveDataPoints}\PYG{p}{()}
+
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchReward} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{maxBatchReward} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{batchLoss} \PYG{o}{=} \PYG{l+m+mi}{0}
 
     \PYG{k}{def} \PYG{n+nf}{SampleExperienceReplay}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{agent}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Samples the Experience Replay Buffer, Back Propagating its Findings}
         \PYG{n}{samples} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{ExperienceReplay}\PYG{o}{.}\PYG{n}{Sample}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}ERSampleSize\PYGZdq{}}\PYG{p}{])}

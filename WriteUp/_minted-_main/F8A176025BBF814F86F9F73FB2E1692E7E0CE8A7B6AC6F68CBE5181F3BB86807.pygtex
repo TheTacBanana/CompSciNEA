@@ -1,7 +1,6 @@
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{import} \PYG{n+nn}{pickle}\PYG{o}{,} \PYG{n+nn}{random}
 \PYG{k+kn}{from} \PYG{n+nn}{heap} \PYG{k+kn}{import} \PYG{o}{*}
-\PYG{k+kn}{from} \PYG{n+nn}{time} \PYG{k+kn}{import} \PYG{n}{time}
 
 \PYG{c+c1}{\PYGZsh{} Data Logger Class for logging information for analysis}
 \PYG{k}{class} \PYG{n+nc}{DataLogger}\PYG{p}{():}

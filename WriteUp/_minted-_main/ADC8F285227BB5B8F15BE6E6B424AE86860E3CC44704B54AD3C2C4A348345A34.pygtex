@@ -32,6 +32,9 @@
             \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{key} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{K\PYGZus{}F2}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Force Kill agent}
                 \PYG{n}{gameSim}\PYG{o}{.}\PYG{n}{agent}\PYG{o}{.}\PYG{n}{alive} \PYG{o}{=} \PYG{k+kc}{False}
 
+    \PYG{k}{if} \PYG{n}{gameSim}\PYG{o}{.}\PYG{n}{step} \PYG{o}{\PYGZgt{}} \PYG{n}{params}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLearningMaxSteps\PYGZdq{}}\PYG{p}{]:}
+        \PYG{n}{running} \PYG{o}{=} \PYG{k+kc}{False}
+
     \PYG{n}{gameSim}\PYG{o}{.}\PYG{n}{TimeStep}\PYG{p}{()} \PYG{c+c1}{\PYGZsh{} Perform a timestep}
     \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{n}{stepDelay}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Sleep if needed}
 

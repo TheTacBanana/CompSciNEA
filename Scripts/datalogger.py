@@ -1,6 +1,5 @@
 import pickle, random
 from heap import *
-from time import time
 
 # Data Logger Class for logging information for analysis
 class DataLogger():

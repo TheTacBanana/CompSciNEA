@@ -108,8 +108,9 @@
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CreateWorld}\PYG{p}{()}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{CreateAgent}\PYG{p}{()}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{enemyList} \PYG{o}{=} \PYG{p}{[]}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{SpawnEnemies}\PYG{p}{()}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{step} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}EnableEnemies\PYGZdq{}}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Spawns Enemies if specified}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{SpawnEnemies}\PYG{p}{()}
 
 \PYG{c+c1}{\PYGZsh{} Render Methods}
     \PYG{k}{def} \PYG{n+nf}{RenderToCanvas}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{window}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Render Content to Canvas}

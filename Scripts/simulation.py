@@ -107,8 +107,9 @@ class Simulation():
         self.CreateWorld()
         self.CreateAgent()
         self.enemyList = []
-        self.SpawnEnemies()
-        self.step = 0
+
+        if self.paramDictionary["EnableEnemies"]: # Spawns Enemies if specified
+            self.SpawnEnemies()
 
 # Render Methods
     def RenderToCanvas(self, window): # Render Content to Canvas

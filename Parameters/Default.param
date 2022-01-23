@@ -1,7 +1,7 @@
 {
     "EnterValues": 1,
     "GenerateThreaded": 0,
-    "EnableEnemies": 1,
+    "EnableEnemies": 0,
     "SaveWeights": 1,
     "StepDelay": 0,
     "Debug": 1,
@@ -50,7 +50,7 @@
     "NoopReward": 0,
 
     "TargetReplaceRate": 5,
-    "EREnabled": 1,
+    "EREnabled": 0,
     "ERBuffer": 1000,
     "ERSampleRate": 100,
     "ERSampleSize": 10,
@@ -61,6 +61,6 @@
     "DQLOffset": 3,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
-    "DQLLearningRate": 0.75,
+    "DQLLearningRate": 0.5,
     "DQLGamma": 0.8
 }

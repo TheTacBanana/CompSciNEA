@@ -42,11 +42,11 @@
     "ColourEnemy": [207, 2, 2],
 
     "MoveReward": 0,
-    "CollectItemReward": 0.1,
+    "CollectItemReward": 1,
     "DeathReward": -0.1,
     "ExploreReward": 0.01,
     "AttackReward": 0.5,
-    "AttackFailedReward": -0.1,
+    "AttackFailedReward": 0,
     "NoopReward": 0,
 
     "TargetReplaceRate": 5,
@@ -57,7 +57,7 @@
 
     "DeepQLearningLayers" : [49, 64, 32, 16, 7],
     "DQLEpoch": 100,
-    "DQLearningMaxSteps": 10000,
+    "DQLearningMaxSteps": 50000,
     "DQLOffset": 3,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,

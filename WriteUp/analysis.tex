@@ -1505,4 +1505,31 @@ def GenerateMap(self, seed):
                     \begin{eqnarray*}
                         \frac{\partial c}{\partial w_{1}} &=& (y - a_3) \cdot (1 - \tanh^{2}(a_3)) \cdot w_2 \cdot a_2 \cdot (1 - \tanh^{2}(a_2)) \cdot a_1
                     \end{eqnarray*}
+
+                    We can generalise this into the form below for layers $1,2, \hdots, n$:
+                    \begin{eqnarray*}
+                        \frac{\partial c}{\partial w_{l}} &=& a_l \cdot \sigma'(z_{l+1}) \cdot \frac{\partial c}{\partial a_{l+1}} \\
+                        \frac{\partial c}{\partial a_{l}} &=&
+                        \begin{cases}
+                            y - \hat{y} & l = n \\
+                            w_l \cdot \sigma'(z_{l+1}) \cdot \frac{\partial c}{\partial a_{l+1}} & Else \\
+                        \end{cases} 
+                    \end{eqnarray*}
+
+                \paragraph{Complex Network} \mbox{} \\ 
+                    For a Complex Network, with multiple Neurons per layer, it is quite similar. An example of this is shown below: \\
+
+                    \centerline{\includegraphics[width=14cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+
+                    When deriving an Activation value we instead need to consider all weight derivatives connected to the next layer. 
+                    We can generalise this into the weight update form for layers $1,2, \hdots, n$:
+                    \begin{eqnarray*}
+                        \Delta w_{i \to j} &=& -\eta\delta_j z_i \\
+                        \delta_i &=& 
+                        \begin{cases}
+                            \sigma'(z_i) \cdot (y_i - \hat{y}_i) & \text{Node $i$ in Final Layer} \\
+                            \sigma'(z_i) \sum_{k\in\text{outs}(i)}  \delta_k w_{i \to k} & Else \\
+                        \end{cases}
+                    \end{eqnarray*}
+                    This should be all that is needed to perform Back Propagation.
 \end{flushleft}

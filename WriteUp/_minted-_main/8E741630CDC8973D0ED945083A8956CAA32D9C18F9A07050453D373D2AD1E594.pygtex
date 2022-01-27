@@ -1,0 +1,47 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{UpNeutralDownGen}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+    \PYG{n}{dupMap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}
+    \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize}\PYG{p}{):}
+        \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize}\PYG{p}{):}
+            \PYG{n}{up} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n}{down} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n}{neutral} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n}{pointArr} \PYG{o}{=} \PYG{p}{[]}
+
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{y} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{y} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{pointArr}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])}
+
+            \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{pointArr}\PYG{p}{)):}
+                \PYG{k}{if} \PYG{n}{pointArr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mf}{0.1}\PYG{p}{:}
+                    \PYG{n}{up} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{elif} \PYG{n}{pointArr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZlt{}=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{0.1}\PYG{p}{:}
+                    \PYG{n}{down} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n}{neutral} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+            \PYG{k}{if} \PYG{p}{(}\PYG{n}{up} \PYG{o}{\PYGZgt{}} \PYG{n}{down}\PYG{p}{)} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n}{up} \PYG{o}{\PYGZgt{}} \PYG{n}{neutral}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Up}
+                \PYG{n}{value} \PYG{o}{=} \PYG{l+m+mf}{0.09} \PYG{o}{*} \PYG{n}{up}
+            \PYG{k}{elif} \PYG{p}{(}\PYG{n}{down} \PYG{o}{\PYGZgt{}} \PYG{n}{up}\PYG{p}{)} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n}{down} \PYG{o}{\PYGZgt{}} \PYG{n}{neutral}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Down}
+                \PYG{n}{value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.08} \PYG{o}{*} \PYG{n}{down}
+            \PYG{k}{else}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Neutral}
+                \PYG{n}{value} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+            \PYG{n}{dupMap}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{+=} \PYG{n}{value}
+            \PYG{n}{dupMap}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Clamp}\PYG{p}{(}\PYG{n}{dupMap}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{],} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray} \PYG{o}{=} \PYG{n}{dupMap}
+\end{Verbatim}

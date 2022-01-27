@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{AverageGen}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+    \PYG{n}{dupMap} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}
+    \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize}\PYG{p}{):}
+        \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize}\PYG{p}{):}
+            \PYG{n}{total} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{y} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{k}{if} \PYG{n}{y} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{arraySize} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+            \PYG{n}{dupMap}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{total} \PYG{o}{/} \PYG{n}{count}
+    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{heightArray} \PYG{o}{=} \PYG{n}{dupMap}
+\end{Verbatim}

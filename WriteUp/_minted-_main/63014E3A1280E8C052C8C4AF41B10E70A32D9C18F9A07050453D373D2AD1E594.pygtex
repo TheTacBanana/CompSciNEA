@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nd}{@staticmethod}
+\PYG{k}{def} \PYG{n+nf}{DotProduct}\PYG{p}{(}\PYG{n}{v1}\PYG{p}{,}\PYG{n}{v2}\PYG{p}{):}
+    \PYG{n}{total} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{v1}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+        \PYG{n}{total} \PYG{o}{+=} \PYG{n}{v1}\PYG{o}{.}\PYG{n}{Val}\PYG{p}{()[}\PYG{n}{i}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{*} \PYG{n}{v2}\PYG{o}{.}\PYG{n}{Val}\PYG{p}{()[}\PYG{n}{i}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{k}{return} \PYG{n}{total}
+\end{Verbatim}

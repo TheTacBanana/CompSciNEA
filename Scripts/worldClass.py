@@ -48,7 +48,7 @@ class WorldMap():
                 xCoord = x / self.MAP_SIZE * self.paramDictionary["WorldScale"]
                 yCoord = y / self.MAP_SIZE * self.paramDictionary["WorldScale"]
 
-                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord, self.MAP_SEED + yCoord, 
+                self.tileArray[x][y].tileHeight = perlinNoise.OctaveNoise(self.MAP_SEED + xCoord, self.MAP_SEED + yCoord, 
                                                             self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"]) # Write Octave Noise values to tile array
 
 # Threaded Terrain Generation
@@ -81,7 +81,7 @@ class WorldMap():
                 xCoord = (x / self.MAP_SIZE) * self.paramDictionary["WorldScale"]
                 yCoord = (y / self.MAP_SIZE) * self.paramDictionary["WorldScale"]
 
-                self.tileArray[x][y].tileHeight = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
+                self.tileArray[x][y].tileHeight = perlinNoise.OctaveNoise(self.MAP_SEED + xCoord + self.time, self.MAP_SEED + yCoord + self.time, 
                                                             self.paramDictionary["OctavesTerrain"], self.paramDictionary["PersistenceTerrain"]) # Write Octave Noise values to tile array
 
 # Generate Tree Methods
@@ -95,7 +95,7 @@ class WorldMap():
                 xCoord = x / self.MAP_SIZE
                 yCoord = y / self.MAP_SIZE
 
-                temp = perlinNoise.octaveNoise(self.MAP_SEED + xCoord + TSO, self.MAP_SEED + yCoord + TSO, 
+                temp = perlinNoise.OctaveNoise(self.MAP_SEED + xCoord + TSO, self.MAP_SEED + yCoord + TSO, 
                             self.paramDictionary["OctavesTrees"], self.paramDictionary["PersistenceTrees"]) # Sample octave noise
 
                 tileValue = self.Clamp(((self.tileArray[x][y].tileHeight / 2) + 0.5), 0.0, 1.0) # Clamp value

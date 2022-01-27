@@ -15,14 +15,14 @@ p = [151,160,137,91,90,15,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180]
 p = p + p
 
-def octaveNoise(x, y, octaves, persistence): # Sums multiple levels of perlin noise
+def OctaveNoise(x, y, octaves, persistence): # Sums multiple levels of perlin noise
     total = 0
     frequency = 1
     amplitude = 1
     maxValue = 0
 
     for i in range(octaves): # Combines Multiple octaves of perlin noise
-        total += ((noise(x * frequency, y * frequency)) * amplitude)
+        total += ((Noise(x * frequency, y * frequency)) * amplitude)
 
         maxValue += amplitude
 
@@ -31,7 +31,7 @@ def octaveNoise(x, y, octaves, persistence): # Sums multiple levels of perlin no
 
     return total / maxValue
 
-def noise(x, y): # Returns a value of the perlin noise function at (x, y) coordinate
+def Noise(x, y): # Returns a value of the perlin noise function at (x, y) coordinate
     xi = math.floor(x) % 255
     yi = math.floor(y) % 255
 
@@ -43,21 +43,21 @@ def noise(x, y): # Returns a value of the perlin noise function at (x, y) coordi
     xf = x - math.floor(x)
     yf = y - math.floor(y)
 
-    d1 = grad(g1, xf, yf)
-    d2 = grad(g2, xf - 1, yf)
-    d3 = grad(g3, xf, yf - 1)
-    d4 = grad(g4, xf - 1, yf - 1)
+    d1 = Grad(g1, xf, yf)
+    d2 = Grad(g2, xf - 1, yf)
+    d3 = Grad(g3, xf, yf - 1)
+    d4 = Grad(g4, xf - 1, yf - 1)
 
-    u = fade(xf)
-    v = fade(yf)
+    u = Fade(xf)
+    v = Fade(yf)
 
-    x1Inter = lerp(u, d1, d2)
-    x2Inter = lerp(u, d3, d4)
-    yInter = lerp(v, x1Inter, x2Inter)
+    x1Inter = Lerp(u, d1, d2)
+    x2Inter = Lerp(u, d3, d4)
+    yInter = Lerp(v, x1Inter, x2Inter)
 
     return yInter
 
-def grad(hash, x, y): # Gradient Function defined as part of the algorithm
+def Grad(hash, x, y): # Gradient Function defined as part of the algorithm
     temp = hash & 3
     if temp == 0:
         return x + y
@@ -70,8 +70,8 @@ def grad(hash, x, y): # Gradient Function defined as part of the algorithm
     else:
         return 0
 
-def lerp(ammount, left, right): # Linear interpolation of values
+def Lerp(ammount, left, right): # Linear interpolation of values
     return ((1 - ammount) * left + ammount * right)
 
-def fade(t): # Fade Function defined as part of the algorithm
+def Fade(t): # Fade Function defined as part of the algorithm
     return t * t * t * (t * (t * 6 - 15) + 10)

@@ -293,6 +293,11 @@
                 point in time, in terms of the Payoff from the Inital Action and the Value of the Potential Payoff after taking that Initial
                 Action. 
                 
+                \vspace{0.2cm}
+                \begin{pseudocode}
+
+                \end{pseudocode}
+
                 \vspace{0.5cm}
             \subsubsection{Neural Network Backwards Propagation}
                 This algorithm is used within a Neural Network to adjust its Weights and Biases, allowing it to more accurately predict the
@@ -300,6 +305,30 @@
                 Using this estimate, we can train the Network to predict this outcome by converging the series of Weights and Biases towards a
                 local minimum. This is done by calculating partial derivates for every weight and bias value with respect to the cost function.
                 This derivative is then subtracted from the existing weight or bias, eventually converging on the best possible value.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+
+                \end{pseudocode}
+
+                \vspace{0.5cm}
+            \subsubsection{Experience Replay}
+                This algorithm samples a Double Ended Queue of (State, Action, Reward, State') Tuples and performs the Back Propagation Algorithm
+                on the data. This process is designed to immitate the recall of previous experiences stored in the agents figurative Memory.
+
+                \vspace{0.2cm}
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} ExperienceReplay(SampleSize)|
+    |Samples \leftarrow \textbf{NEW} List()|
+    |\textbf{FOR} i \leftarrow 0 \textbf{TO} SampleSize|
+        |Samples.Add(Buffer.RandomSample())|
+    |\textbf{END FOR}|
+
+    |\textbf{FOR} i \leftarrow 0 \textbf{TO} SampleSize|
+        |NeuralNetwork.BackPropagate(Samples[i])|
+    |\textbf{END FOR}|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
 
                 \vspace{0.5cm}
             \subsubsection{Agent Get Tile Vector}

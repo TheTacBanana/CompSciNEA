@@ -32,8 +32,10 @@
             \vspace{0.2cm}
             I am investigating Machine Learning because I've been wanting to try my hand at it for a while, this Project
             will allow me to gain a broad understanding of Neural Networks and their applications, along with an understanding
-            of procedural generation.
-
+            of procedural generation. Machine Learning is an evolving field, with mere infinite applications from Image Recognition
+            to Self Driving Cars. \\
+            \vspace{0.2cm}
+            \textbf{Old} \\ 
             I am investigating this area of Computer Science because I've been interesting in attempting a form of
             Machine Learning for a while now but havent had a reason to dive into it. Machine Learning is an evolving
             field, with mere infinite applications such as Image Recognition, Chat Bots, Self Driving Cars, 
@@ -50,8 +52,7 @@
             a much better understanding of Machine Learning than me currently, so hopefully he will be a good resource 
             as I develop my project. \\
 
-            \vspace{0.2cm}
-            
+            \vspace{0.2cm}        
         \subsection{Initial Research}
             \subsubsection{First Interview}
                 \large
@@ -113,16 +114,16 @@
                 \subsubsection{Existing Investigations} 
                     \paragraph{Crafter} \mbox{} \\
                         \vspace{0.2cm}
-                            In my research on the Internet I discovered a project called $Crafter$. \\
+                            In my research on the Internet I discovered a project called \textit{Crafter}. \\
 
                             \vspace{0.2cm}
                             \centerline{\textit{https://github.com/danijar/crafter}}
                             \vspace{0.2cm}
 
                             Crafter is described to be \textit{"Benchmarking the Spectrum of Agent Capabilities"}, and is utlised
-                            in conjunction with Machine Learning Algoriths such as $DreamerV2$, $PPO$ and $Rainbow$. Crafter poses significant
+                            in conjunction with Machine Learning Algorithms such as \textit{DreamerV2}, \textit{PPO} and \textit{Rainbow}. Crafter poses significant
                             challenge towards its Player, requiring high levels of generalisation, long-term reasoning, and complex 
-                            problem solving. If the machine Learning algorithm in question fails to achieve one of these aspects it will 
+                            problem solving. If the Machine Learning algorithm in question fails to achieve one of these aspects it will 
                             struggle to full "Solve" the simulation. \\
 
                             \vspace{0.2cm}
@@ -157,25 +158,22 @@
                             as Machine Learning advances over the next few years. This is why I plan to create a simpler simulation which the Agent will
                             be more likely to be able to solve. Below is shown the Success Rate Data for both Algorithms and Human Experts. \\
 
-                            \vspace{0.4cm}
-                            \begin{figure}
+                            \begin{figure}[h]
                                 \centering
                                 \subfloat[\centering Success Rate of Algorithms]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData.PNG}}}
                                 \qquad
                                 \subfloat[\centering Comparison Against Human Data]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData+Human.PNG}}}
                             \end{figure}
-                            \vspace{0.2cm}
 
                             While I would love to create a simulation similar to crafter, it is very complex and would take a long time to develop. Yet
                             would not net many marks in the process. Overall I feel like Crafter is a good example that my project is possible, but will
                             require a complex Machine Learning Model in order to achieve reliable results from my Investigation.
 
-                        \vspace{1cm}
                     \paragraph{Minecraft} \mbox{} \\
                         \vspace{0.2cm}
                         Minecraft is a \textit{very} popular Game. It's a sandbox game, meaning that the player can do almost anything they want.
                         The game is formed from blocks which can be broken or placed, along with a plethera of items, enemies, passive animals
-                        and more. It has infinite terrain generation, and explicity uses Perlin Noise, and is generated from a seed. The seed determines
+                        and more. It has infinite terrain generation, and explicity uses Perlin Noise. The seed of the noise determines
                         all the terrain generation, loot tables, random structures, caves, etc. \\
                         
                         \vspace{0.2cm}
@@ -191,17 +189,13 @@
                         These worms dig through the terrain carving out caves which can then be traversed by the player. Within these Caves spawn water
                         sources, pools of lava, useful ores. All of these are deterministically generated by the original seed. \\ 
 
-                        \vspace{0.2cm}
-                        \begin{center}
-                        \includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg} \\
-                        Example of Minecraft's terrain generation in a Swamp Biome \\ 
-                        \vspace{0.2cm}
 
-                        \includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg} \\ 
-                        Example of a Sunken Pirate Ship Structure \\
-                        \vspace{0.2cm}
-                        \end{center}
-                        \vspace{0.2cm}
+                        \begin{figure}[h]
+                            \centering
+                            \subfloat[\centering Example of Minecraft's terrain generation in a Swamp Biome]{{\includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg}}}
+                            \qquad
+                            \subfloat[\centering Example of a Sunken Pirate Ship Structure]{{\includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg}}}
+                        \end{figure}
 
                         Minecraft itself is too complex and dynamic to be solved by current Machine Learning algorithms, along with there is no quantifiable 
                         metric for performance due to it's sandbox nature. There exist data sets for Minecraft, in the form of captured gameplay footage, but
@@ -212,7 +206,6 @@
                         Overall I feel like it would be good to borrow elements from Minecraft's terrain generation, such as its utilisation of Perlin Noise.
                         But the majority of the games systems are way too complex for a Machine Learning algorithm to solve. \\
 
-                        \vspace{1cm}
                     \paragraph{Conway's Game of Life} \mbox{} \\
                         \vspace{0.2cm}
                         Conway's Game of Life is whats called a Cellular Automaton, which is a discrete computation model formed from a grid of cells along with 
@@ -221,27 +214,28 @@
                         \vspace{0.2cm}
                         The rules of Conway's are such that: \\
 
-                        
-                        \begin{center}
-                            \normalsize
+                        \vspace{0.2cm}
+                        \begin{addmargin}[2em]{0em}
+                            \large
                             1. Any live cell with fewer than two live neighbours dies, as if by underpopulation. \\
                             2. Any live cell with two or three live neighbours lives on to the next generation. \\
                             3. Any live cell with more than three live neighbours dies, as if by overpopulation. \\
                             4. Any dead cell with exactly three live neighbours becomes a live cell. \\
-                        \end{center}
+                        \end{addmargin}
 
                         \vspace{0.2cm}
                         It is rather interesting that such complicated Machines can be formed from such a simple ruleset, as an example 
                         here is a Turing Machine formed from 34 Thousand Cells: \\
 
-                        \vspace{0.5cm}
-                        \centerline{\includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
-                        \vspace{0.2cm}
+                        \begin{figure}[h]
+                            \centering
+                            \subfloat[\centering Turing Machine built in Conways Game of Life]{
+                                \includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
+                        \end{figure}
 
                         Overall, I think this shows that my simulation doesnt need to have complex rules in order to achieve 
                         interesting results. Conway's is formed from 4 simple rules, and yet is Turing complete.
 
-                    \vspace{1cm}
                 \subsubsection{Algorithms and Potential Data Types}
                     \large
                     \vspace{0.2cm}
@@ -249,14 +243,14 @@
                         As part of developing a Machine Learning Algorithm, I will need to implement a Matrix class in order to
                         implement a Neural Network. Matrices are commonly used to represent individual layers of a network. Along
                         with making calculations much easier, condensing them into performing operations on matrices, rather than
-                        nested using nested for loops and lists. As part of my Initial Research I have taken the time to understand
+                        using nested for loops and lists. As part of my Initial Research I have taken the time to understand
                         how a Neural Network functions, it turns out I have already learned most of the Maths needed to understand
                         how it works in my A Level Maths and Further Maths courses. \\
                         \vspace{0.2cm}
                         A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
-                        and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be
-                        in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$. The functions name in this case is
-                        Forward Propagation. \\
+                        and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be represented
+                        in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$, should you adopt the black box approach. 
+                        The functions name in this case is Forward Propagation. \\
                         \vspace{0.2cm}
                         We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
                         Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
@@ -352,31 +346,26 @@
 
                         Matrices can be used for all parts of a Neural Network implementation, and will prove very useful in my Technical
                         Solution. \\
-                        \vspace{0.5cm}
-                        
-                        \pagebreak
+
                     \paragraph{Procedural Generation} \mbox{} \\
                         \vspace{0.2cm}
                         For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
                         which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
                         
                         \begin{center}
-                            \begin{tabular}{| C{6cm} | C{6cm} |}
+                            \begin{tabular}{| L{6cm} | L{6cm} |}
                                 \hline
-                                {\Large Post-Processing Algorithms} & {\Large Perlin Noise} \\
+                                {\large Post-Processing Algorithms} & {\large Perlin Noise} \\
                                 \hline
                                 I discovered two post processing algorithms often used for simple 2d terrain generation. 1 Averages squares 
                                 around the selected square, and the other pulls it up or down the gradient its currently on.
                                 I find these interesting because they're relatively simple, and I'm not quite sure whether they will produce good results or not. 
-                                \vspace{0.2cm}\linebreak
                                 So it would be interesting to test out implementing these in my prototype.
                                 &
                                 Perlin Noise is an algorithm developed by Ken Perlin for use in the digital generation of noise.
                                 This noise can be combined to create \textit{realistic} looking height maps for world generation.
                                 Perlin Noise retains continuity and is seeded so the generation can be entirely controlled.
                                 By "retains continuity" I mean that you can sample the same point and retrieve the same value. 
-                                \vspace{0.2cm}\linebreak
-                                
                                 If I was to implement Perlin noise it would take longer, but also might end up with a better result
                                 due to it being more widely used. It's a trade-off between time to implement and desired result. \\
                                 \hline
@@ -390,70 +379,74 @@
                         will be rejected and another will be selected. The K value determines how many rejected are needed before 
                         the algorithm will stop attempting to choose a new point.
                         
-                        \vspace{0.5cm}
                     \paragraph{Proposed Programming Language and Associated Libraries} \mbox{} \\
                         \vspace{0.2cm}
                         When selecting a Programming Language and associated Graphical Libraries I took into consideration a few options.
                         Below I have weighed up 3 options for Programming Language, along with 2 graphical libraries per language
                         
-                        \begin{flushleft}
-                            \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
-                            \hline
-                            Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
-                            \hline
-                                Python & \multicolumn{2}{M{10cm}|}{Python is the first thought which comes to mind when I think about programming, 
-                                it is my favourite language and I'm yet to find anything which I prefer. Its very versatile and great
-                                for rapid prototyping, the dynamic typing makes It great for coding quickly without worrying too
-                                much about whether you're using a \textit{float32 or float64}. It also has hundreds of libraries
-                                and is very well supported by its developers and the community.}\\
-                            \hline
-                                \multirow{2}*{\minitab[c]{Python \\ Graphical \\ Libraries}} & Pygame & Pygame is a highly customizable and well developed binding of
-                                \textit{Simple DirectMedia Layer} (SDL) Library. It has a full set of 2d drawing tools, along with keyboard and audio
-                                capabilities. I have lots of experience with Pygame so I already have code which I can take from, which will speed up
-                                development when dealing with the Pygame library.\\
-                            \cline{3-3}
-                                &Tkinter & Tkinter provides an interface to the standard \textit{Tcl/Tk GUI Toolkit}, which is available
-                                for most platforms, this makes it highly versatile. Though as my project is not intended as a software
-                                package I dont see this as being an incredibly big selling point. Tkinter will serve mostly the same
-                                purpose as Pygame but give me easier options for Graphical Input, I dont currently plan to add GUI so 
-                                this feature isnt neccesary.\\
-                            \hline
-                                C\# & \multicolumn{2}{M{10cm}|}{C\# is my second favourite language, I have plenty of experience with it from developing games
-                                with Unity. It's faster than Python and is less abstracted, but this speed isn't necessarily required
-                                for my project. With C\# I could utilise the \textit{Unity Game Engine} for my project, but then
-                                I might end-up relying on builtin types and functions rather than developing my own.}\\
-                            \hline
-                        \end{longtable}
+                        \begin{center}
+                            \begin{tabular}{|M{2cm}|M{2cm}|M{8cm}|}
+                                \hline
+                                    Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
+                                \hline
+                                    Python & \multicolumn{2}{M{10cm}|}{Python is the first thought which comes to mind when I think about programming, 
+                                    it is my favourite language and I'm yet to find anything which I prefer. Its very versatile and great
+                                    for rapid prototyping, the dynamic typing makes It great for coding quickly without worrying too
+                                    much about whether you're using a \textit{float32 or float64}. It also has hundreds of libraries
+                                    and is very well supported by its developers and the community.}\\
+                                \hline
+                                    \multirow{2}*{\minitab[c]{Python \\ Graphical \\ Libraries}} & Pygame & Pygame is a highly customizable and well developed binding of
+                                    \textit{Simple DirectMedia Layer} (SDL) Library. It has a full set of 2d drawing tools, along with keyboard and audio
+                                    capabilities. I have lots of experience with Pygame so I already have code which I can take from, which will speed up
+                                    development when dealing with the Pygame library.\\
+                                \cline{3-3}
+                                    &Tkinter & Tkinter provides an interface to the standard \textit{Tcl/Tk GUI Toolkit}, which is available
+                                    for most platforms, this makes it highly versatile. Though as my project is not intended as a software
+                                    package I dont see this as being an incredibly big selling point. Tkinter will serve mostly the same
+                                    purpose as Pygame but give me easier options for Graphical Input, I dont currently plan to add GUI so 
+                                    this feature isnt neccesary.\\
+                                \hline
+                            \end{tabular}
 
-                        \pagebreak
-                        \begin{longtable}{|M{2cm}|M{2cm}|M{8cm}|}
-                            \hline
-                            Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
-                            \hline
-                                \multirow{2}*{\minitab[c]{C\# \\ Graphical \\ Libraries}} & Windows Forms & Windows Forms is a relatively simple drag drop
-                                interface for designing your own applications. I've never used it before but I could utilise it with C\# to create my project.
-                                I belive it might be a bit overkill for my needs though, as it includes many, many UI features which I will have no use for.\\
-                            \cline{3-3}
-                                & WPF & WPF or \textit{Windows Presentation Foundation} is a versatile development platform for desktop applications.
-                                It is relatively versatile in its uses and utilises XAML and is the UI Language of Windows Platforms. XAML would be a
-                                new language for me to learn but I have experience with HTML so I dont believe it would be too difficult.
-                                The platform would provide a stable base to my project.\\
-                            \hline
-                                Rust & \multicolumn{2}{M{10cm}|}{Rust is low level language designed for speed and efficiency, I started using it recently
-                                as a side hobby and would like to use it more in future projects of mine. Though I feel like it may be a bit overkill for a Computer 
-                                Science NEA, with it often being used for server side applications rather than general purpose applications.}\\
-                            \hline
-                                \multirow{2}*{\minitab[c]{Rust \\ Graphical \\ Libraries}} & Piston2d & Piston2d is a feature complete 2d graphics library which utilises OpenGl,
-                                I've worked with it briefly before and I believe it would be a good option over Pixels if I needed more complex drawing
-                                methods.\\
-                            \cline{3-3}
-                                & Pixels & Pixels is a lightweight 2d graphics library designed to simply push pixels to the screen, Its relatively simple
-                                and i've used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
-                                a lightweight solution.\\
-                            \hline
-                            \end{longtable}
-                        \end{flushleft}
-            \pagebreak
+                            \begin{tabular}{|M{2cm}|M{2cm}|M{8cm}|}
+                                \hline
+                                    Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
+                                \hline
+                                    C\# & \multicolumn{2}{M{10cm}|}{C\# is my second favourite language, I have plenty of experience with it from developing games
+                                    with Unity. It's faster than Python and is less abstracted, but this speed isn't necessarily required
+                                    for my project. With C\# I could utilise the \textit{Unity Game Engine} for my project, but then
+                                    I might end-up relying on builtin types and functions rather than developing my own.}\\
+                                \hline
+                                    \multirow{2}*{\minitab[c]{C\# \\ Graphical \\ Libraries}} & Windows Forms & Windows Forms is a relatively simple drag drop
+                                    interface for designing your own applications. I've never used it before but I could utilise it with C\# to create my project.
+                                    I belive it might be a bit overkill for my needs though, as it includes many, many UI features which I will have no use for.\\
+                                \cline{3-3}
+                                    & WPF & WPF or \textit{Windows Presentation Foundation} is a versatile development platform for desktop applications.
+                                    It is relatively versatile in its uses and utilises XAML and is the UI Language of Windows Platforms. XAML would be a
+                                    new language for me to learn but I have experience with HTML so I dont believe it would be too difficult.
+                                    The platform would provide a stable base to my project.\\
+                                \hline
+                            \end{tabular}
+
+                            \begin{tabular}{|M{2cm}|M{2cm}|M{8cm}|}
+                                \hline
+                                    Proposed Solution & \multicolumn{2}{M{10cm}|}{Benefits and Downsides of Proposed Solution} \\
+                                \hline
+                                    Rust & \multicolumn{2}{M{10cm}|}{Rust is low level language designed for speed and efficiency, I started using it recently
+                                    as a side hobby and would like to use it more in future projects of mine. Though I feel like it may be a bit overkill for a Computer 
+                                    Science NEA, with it often being used for server side applications rather than general purpose applications.}\\
+                                \hline
+                                    \multirow{2}*{\minitab[c]{Rust \\ Graphical \\ Libraries}} & Piston2d & Piston2d is a feature complete 2d graphics library which utilises OpenGl,
+                                    I've worked with it briefly before and I believe it would be a good option over Pixels if I needed more complex drawing
+                                    methods.\\
+                                \cline{3-3}
+                                    & Pixels & Pixels is a lightweight 2d graphics library designed to simply push pixels to the screen, Its relatively simple
+                                    and i've used it for making a simple \textit{Falling Sand Game} before, could be a good little option if I wanted to develop
+                                    a lightweight solution.\\
+                                \hline
+                            \end{tabular}
+                        \end{center}
+
         \subsection{Prototype}
             \subsubsection{Prototype Objectives}
             \large
@@ -462,11 +455,11 @@
             complete/investigate as part of it. These boiled down to a few things:
 
             \vspace{0.2cm}
-            \begin{enumerate}
+            \begin{itemize}
                 \item Terrain Generation
                 \item Displaying the Generated Terrain using a Graphics Library
                 \item Matrix and Vector implementation
-            \end{enumerate}
+            \end{itemize}
             \vspace{0.2cm}
 
             For my Prototype, I first created a GitHub Repository, available here: 
@@ -494,19 +487,16 @@
             \end{center}
 
             I decided to use Python for developing my Prototype, this seemed like a good fit due to me 
-            having lots of experience with the language. Python is a Dynamically Typed and Interpretted 
-            language which makes it versatile for protyping and fast, iterative development.
+            having lots of experience with the language. Python is a Dynamically Typed and interpreted 
+            which makes it versatile for protyping and fast, iterative development.
             
-            \vspace{0.5cm}
             \subsubsection{Terrain Generation and Displaying to Window}
-            \vspace{0.25cm}
-
             Starting from the begining of my hierarchy I installed Pygame using \textit{pip} and started creating a window.
             This was a relatively simple task only taking a few lines:
             \vspace{0.5cm}
 
             \normalsize
-            \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+            \begin{pythoncode}
 import pygame
 
 simSize = 128
@@ -520,7 +510,7 @@ while running == True:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
-            \end{minted}
+            \end{pythoncode}
 
             \vspace{0.5cm}
 
@@ -534,13 +524,13 @@ while running == True:
             Following the hierarchy I then added noise generation by generating random numbers and 
             assigning them to a 2d List. Shown here: 
             
-            \begin{minted}[frame=leftline,framesep=2mm,baselinestretch=1.2,fontsize=\footnotesize,linenos]{python}
+            \begin{pythoncode}
 def GenerateMap(self, seed):
     random.seed(seed)
     for y in range(0, self.arraySize):
         for x in range(0, self.arraySize):
             self.heightArray[x][y] = round(random.random(),2)
-            \end{minted}
+        \end{pythoncode}
 
             \vspace{0.5cm}
 
@@ -594,19 +584,67 @@ def GenerateMap(self, seed):
             \vspace{0.5cm}
 
             This leads us to calculating the \textit{pullValue}, respectively for each case:
-            \begin{center}
-                $Up -> pullValue = upTiles * 0.09$ \\
-                $Down -> pullValue = upTiles * -0.08$ \\
-                $Neutral -> pullValue = 0$ \\
-                \vspace{0.5cm}
-                $Value[x][y] \pluseq pullValue$\\
-            \end{center}
+            \begin{eqnarray*}
+                \text{pullValue } &=& 
+                \begin{cases}
+                    \text{upTiles} \times 0.09 & \text{Most Up Tiles} \\
+                    \text{downTiles} \times -0.08 & \text{Most Down Tiles} \\
+                    0 & \text{Most Neutral Tiles} 
+                \end{cases} \\
+                \text{Value}[x][y] &=& \text{pullValue}
+            \end{eqnarray*}
             
             \vspace{0.5cm}
 
-            We then add the pullValue to the original square value, leaving us with the updated value. The code for 
-            this shown under the Prototype Code Header.
-            \vspace{0.5cm}
+            We then add the pullValue to the original square value, leaving us with the updated value.
+            The code for this is shown below:
+            \begin{pythoncode}
+def UpNeutralDownGen(self):
+    dupMap = self.heightArray
+    for y in range(0, self.arraySize):
+        for x in range(0, self.arraySize):
+            up = 0
+            down = 0
+            neutral = 0
+            pointArr = []
+
+            if x != 0 and y != 0:
+                pointArr.append(self.heightArray[x - 1][y - 1])
+            if x != 0 and y != self.arraySize - 1:
+                pointArr.append(self.heightArray[x - 1][y + 1])
+            if x != self.arraySize - 1 and y != self.arraySize - 1:
+                pointArr.append(self.heightArray[x + 1][y + 1])
+            if x != self.arraySize - 1 and y != 0:
+                pointArr.append(self.heightArray[x + 1][y - 1])
+            if x != 0:
+                pointArr.append(self.heightArray[x - 1][y])
+            if y != 0:
+                pointArr.append(self.heightArray[x][y - 1])
+            if x != self.arraySize - 1:
+                pointArr.append(self.heightArray[x + 1][y])
+            if y != self.arraySize - 1:
+                pointArr.append(self.heightArray[x][y + 1])
+
+            for i in range(len(pointArr)):
+                if pointArr[i] >= self.heightArray[x][y] + 0.1:
+                    up += 1
+                elif pointArr[i] <= self.heightArray[x][y] - 0.1:
+                    down += 1
+                else:
+                    neutral += 1
+
+            if (up > down) and (up > neutral): # Up
+                value = 0.09 * up
+            elif (down > up) and (down > neutral): # Down
+                value = -0.08 * down
+            else: # Neutral
+                value = 0
+
+            dupMap[x][y] += value
+            dupMap[x][y] = self.Clamp(dupMap[x][y], 0, 1)
+
+    self.heightArray = dupMap
+            \end{pythoncode}
 
             \paragraph{Average Method} \mbox{} \\
             \vspace{0.25cm}
@@ -627,30 +665,65 @@ def GenerateMap(self, seed):
                 \end{tabular}
                 \vspace{0.25cm}
 
-                Summing these and dividing by the total grants us the average:
+                Summing these and dividing by the total ammount of tiles grants us the average:
 
-                \[
-                \frac{0.83 + 0.93 + 0.64 + 0.07 + 0.38 + 0.21 + 0.95 + 0.33 + 0.94}{9} = 0.586
-                \]
-                $Value[x][y] = 0.586$
+                \begin{eqnarray*}
+                    \frac{0.83 + 0.93 + 0.64 + 0.07 + 0.38 + 0.21 + 0.95 + 0.33 + 0.94}{9} &=& 0.586 \\
+                    Value[x][y] &=& 0.586
+                \end{eqnarray*}
             \end{center}
             \vspace{0.25cm}
 
-            The code for this shown under the Prototype Code Header.
+            The code for this is shown below:
+            \begin{pythoncode}
+def AverageGen(self):
+    dupMap = self.heightArray
+    for y in range(0, self.arraySize):
+        for x in range(0, self.arraySize):        
+            total = 0
+            count = 0
+            if x != 0 and y != 0:
+                total += self.heightArray[x - 1][y - 1]
+                count += 1
+            if x != 0 and y != self.arraySize - 1:
+                total += self.heightArray[x - 1][y + 1]
+                count += 1
+            if x != self.arraySize - 1 and y != self.arraySize - 1:
+                total += self.heightArray[x + 1][y + 1]
+                count += 1
+            if x != self.arraySize - 1 and y != 0:
+                total += self.heightArray[x + 1][y - 1]
+                count += 1
+            if x != 0:
+                total += self.heightArray[x - 1][y]
+                count += 1
+            if y != 0:
+                total += self.heightArray[x][y - 1]
+                count += 1
+            if x != self.arraySize - 1:
+                total += self.heightArray[x + 1][y]
+                count += 1
+            if y != self.arraySize - 1:
+                total += self.heightArray[x][y + 1]
+                count += 1
 
-            \vspace{1cm}
+            dupMap[x][y] = total / count
+    self.heightArray = dupMap
+            \end{pythoncode}
+
             \subsubsection{Finished Terrain Generation}
             \vspace{0.25cm}
 
             Overall I am happy with the Terrain generation, though I feel as if it could be improved to look more realistic.
             The difference between the original random noise and the Colour Mapped Terrain looks so much better.
 
-            \begin{center}
-                \includegraphics[width=6cm]{Images/Prototype/Seed420 Grayscale.png}
-                \includegraphics[width=6cm]{Images/Prototype/Seed420 Colour.png} 
-            \end{center}
+            \begin{figure}[h]
+                \centering
+                \subfloat[\centering Grayscale Terrain Generation]{{\includegraphics[width=6cm]{Images/Prototype/Seed420 Grayscale.png}}}
+                \qquad
+                \subfloat[\centering Colour Bands applied to the Terrain Generation]{{\includegraphics[width=6cm]{Images/Prototype/Seed420 Colour.png} }}
+            \end{figure}
             
-            \vspace{1cm}
             \subsubsection{Matrix Data Structure}
                 \vspace{0.25cm}
 
@@ -658,24 +731,24 @@ def GenerateMap(self, seed):
                 for Machine Learning. A Matrix is an abstract data type, commonly used in Maths, but has practical uses in the world
                 of Computer Science. It holds a 2d array of values such as: \\ 
                 \begin{center}
-                $\begin{pmatrix}
+                $\begin{bmatrix}
                     a & b\\
                     c & d
-                \end{pmatrix}$ 
-                $\begin{pmatrix}
+                \end{bmatrix}$ 
+                $\begin{bmatrix}
                     a & b & c \\
                     d & e & f \\
                     g & h & i 
-                \end{pmatrix}$ 
-                $\begin{pmatrix}
+                \end{bmatrix}$ 
+                $\begin{bmatrix}
                     a \\
                     b \\
                     c  
-                \end{pmatrix}$ 
-                $\begin{pmatrix}
+                \end{bmatrix}$ 
+                $\begin{bmatrix}
                     a & b & c & d\\
                     e & f & g & h
-                \end{pmatrix}$ 
+                \end{bmatrix}$ 
                 \end{center}
                 The values in a Matrix can be manipulated using common operations such as $+ - *$ as long as the orders of the 2 Matrices
                 match up. Along with other, non-standard operations which have other purposes.
@@ -688,20 +761,35 @@ def GenerateMap(self, seed):
                         Adding the two values together into a temporary Matrix which the method then returned. 
                         \vspace{0.25cm}
                         \begin{center}
-                            $\begin{pmatrix}
+                            $\begin{bmatrix}
                                 a & b\\
                                 c & d
-                            \end{pmatrix} +
-                            \begin{pmatrix}
+                            \end{bmatrix} +
+                            \begin{bmatrix}
                                 e & f\\
                                 g & h
-                            \end{pmatrix} =
-                            \begin{pmatrix}
+                            \end{bmatrix} =
+                            \begin{bmatrix}
                                 a+e & b+f\\
                                 c+g & d+h
-                            \end{pmatrix}$
+                            \end{bmatrix}$
                         \end{center}
                         \vspace{0.25cm}
+
+                        The written code is shown below:
+                        \begin{pythoncode}
+@staticmethod
+def MatrixAddSubtract(m1, m2, subtract = False):
+    m1Dims = m1.Dimensions()
+    newMat = Matrix(m1Dims[0], m1Dims[1])
+    for y in range(0, m1Dims[0]):
+        for x in range(0, m1Dims[1]):
+            if subtract:
+                newMat.matrixArr[y][x] = m1.Val()[y][x] - m2.Val()[y][x]
+            else:
+                newMat.matrixArr[y][x] = m1.Val()[y][x] + m2.Val()[y][x]
+    return newMat
+                        \end{pythoncode}
 
                     \item Multiplication \\
                         Multiplication of Matrices is slightly more complicated, it is of $O(n^3)$ complexity, utilising a triple nested for loop.
@@ -709,32 +797,61 @@ def GenerateMap(self, seed):
                         
                         \vspace{0.25cm}
                         \begin{center}
-                            $\begin{pmatrix}
+                            $\begin{bmatrix}
                                 a & b\\
                                 c & d
-                            \end{pmatrix} *
-                            \begin{pmatrix}
+                            \end{bmatrix} \times
+                            \begin{bmatrix}
                                 e & f\\
                                 g & h
-                            \end{pmatrix} =
-                            \begin{pmatrix}
+                            \end{bmatrix} =
+                            \begin{bmatrix}
                                 a*e + b*g & a*f + b*h\\
                                 c*e + d*g & c*f + d*h
-                            \end{pmatrix}$
+                            \end{bmatrix}$
                         \end{center}
                         There is also Scalar Multiplication which multiples each value of a Matrix by the Scalar.
                         \begin{center}
                             $k *
-                            \begin{pmatrix}
+                            \begin{bmatrix}
                                 a & b\\
                                 c & d
-                            \end{pmatrix} =
-                            \begin{pmatrix}
+                            \end{bmatrix} =
+                            \begin{bmatrix}
                                 ka & kb\\
                                 kc & kd
-                            \end{pmatrix}$
+                            \end{bmatrix}$
                         \end{center}
                         \vspace{0.25cm}
+
+                        The written code is shown below:
+                        \begin{pythoncode}
+@staticmethod                        
+def ScalarMultiply(s, m1):
+    m1Dims = m1.Dimensions()
+    newMat = Matrix(m1Dims[0], m2Dims[1])
+    for y in range(0, m1Dims[0]):
+        for x in range(0, m1Dims[1]):
+            newMat.matrixArr[y][x] = m1.matrixArr[y][x] * s
+
+@staticmethod
+def MatrixMultiply(m1, m2):
+    m1Dims = m1.Dimensions()
+    m2Dims = m2.Dimensions()
+    newMat = Matrix(m1Dims[0], m2Dims[1])
+    for row in range(0, m1Dims[1]):
+        subRow = m1.Val()[row][0:m1Dims[1]]
+        for col in range(0, m2Dims[1]):
+            subCol = []
+            for i in range(0, m1Dims[0]):
+                print(i)
+                subCol.append(m2.Val()[i][col])
+            total = 0
+            for x in range(0, len(subRow)):
+                total += subRow[x] * subCol[x]
+            newMat.matrixArr[row][col] = total
+    return newMat
+                        \end{pythoncode}
 
                     \item Determinant \\
                         Calculating the Determinant of an NxN Matrix is a recursive algorithm. With the base case being the Determinant of a 2x2
@@ -776,25 +893,83 @@ def GenerateMap(self, seed):
                         \end{center}
                         \vspace{0.25cm}
 
+                        The written code is shown below:
+                        \begin{pythoncode}
+def SubMatrixList(self, rowList, colList):
+    newMat = Matrix(self.Dimensions()[0] - len(rowList),self.Dimensions()[1] - len(colList))
+    xoffset = 0
+    yoffset = 0
+    yRowList = []
+
+    for y in range(0, self.Dimensions()[0]):
+        for x in range(0, self.Dimensions()[1]):
+            if x in colList and y in rowList:
+                xoffset += 1
+                yoffset += 1
+                continue
+            elif x in colList:
+                xoffset += 1
+                continue
+            elif y in rowList and y not in yRowList:
+                yoffset += 1
+                yRowList.append(y)
+                continue
+            else:
+                newMat.matrixArr[y - yoffset][x - xoffset] = self.matrixArr[y][x]
+        xoffset = 0
+    return newMat
+
+@staticmethod
+def Determinant(m):
+    dims = m.Dimensions()
+    if dims[1] <= 2:
+        det = (m.matrixArr[0][0] * m.matrixArr[1][1]) - (m.matrixArr[0][1] * m.matrixArr[1][0])
+        return (det)
+    elif dims[1] != 2:
+        det = 0
+        subtract = False
+        tempMat = m.SubMatrixList([0],[])
+        for i in range(0, dims[1]):
+            subMat = None
+            subMat = m.SubMatrixList([0],[i])
+            if subtract == False:
+                det += m.matrixArr[0][i] * Matrix.Determinant(subMat)
+                subtract = True
+            elif subtract == True:
+                det -= m.matrixArr[0][i] * Matrix.Determinant(subMat)
+                subtract = False
+        return det
+                        \end{pythoncode}
+
                     \item Dot Product \\
                         The Dot Product occurs between two vectors, and can be used to calculate the angle between them. 
                         Its a relatively simple operation only taking a few lines of code.
                         \begin{center}
                             $
-                            \begin{pmatrix}
+                            \begin{bmatrix}
                                 a \\
                                 b \\
                                 c
-                            \end{pmatrix} .
-                            \begin{pmatrix}
+                            \end{bmatrix} .
+                            \begin{bmatrix}
                                 d \\
                                 e \\
                                 f
-                            \end{pmatrix} = 
-                            a*d + b*e + c*f$
+                            \end{bmatrix} = 
+                            a \times d + b \times e + c \times f$
                         \end{center}
+                        \vspace{0.25cm}
+
+                        The written code is shown below:
+                        \begin{pythoncode}
+@staticmethod
+def DotProduct(v1,v2):
+    total = 0
+    for i in range(v1.Dimensions()[0]):
+        total += v1.Val()[i][0] * v2.Val()[i][0]
+    return total
+                        \end{pythoncode}
                 \end{enumerate}
-                \vspace{1cm}
             \subsubsection{Prototype Evaluation}
                 \vspace{0.2cm}
                 Overall I am happy with my prototype, though I feel like some parts need to be improved. I did meet my 
@@ -876,14 +1051,14 @@ def GenerateMap(self, seed):
             \subsubsection*{Matrix Class}
                 \begin{enumerate}
                     \item Implement a Dynamic Matrix Class with appropriate Operations such as:
-                        \begin{enumerate}
+                        \begin{itemize}
                             \item Multiplication
                             \item Addition
                             \item Subtraction
                             \item Transpose
                             \item Sum
                             \item Select Row/Column
-                        \end{enumerate}
+                        \end{itemize}
                     \item Create appropriate errors to throw when utilising methods the incorrect way
                 \end{enumerate}   
             \subsubsection*{Deep Reinforcement Learning}
@@ -891,12 +1066,12 @@ def GenerateMap(self, seed):
                     \item Dynamically create a Dual Neural Network model based upon loaded parameters
                     \item Implement an Abstract Class for Activation Functions
                     \item Implement Activation Functions inheriting from the Abstract Class such as:
-                    \begin{enumerate}
+                    \begin{itemize}
                         \item Sigmoid
                         \item TanH
                         \item ReLu
                         \item SoftMax
-                    \end{enumerate}
+                    \end{itemize}
                     \item Create methods to Forward Propagate the neural network
                     \item Create methods to calculate the loss of the network using the Bellman Equation
                     \item Create methods to Back Propagate calculated error through the neural network
@@ -1340,11 +1515,11 @@ def GenerateMap(self, seed):
                     This is whats called the Half Square Difference. This Differentiates nicely which is why it is commonly used. \\
                     \vspace{0.2cm}
 
-                    To finally use Bellman Equation as a Loss Function we need to convert it into a Loss Function: \\
+                    We use the Bellman Equation to calculate the expected value for the loss function.: \\
                     \vspace{0.2cm}
 
                     \[Q(s_t, a_t) = R(s_t, a_t) + \gamma \cdot \max_{a_{t+1}} Q(s_{t+1}, a_{t+1})\]
-                    \[Loss = \left( R(s_t, a_t) + \gamma \cdot \max_{a_{t+1}} Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t) \right)^2\]
+                    \[y = \left( R(s_t, a_t) + \gamma \cdot \max_{a_{t+1}} Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t) \right)^2\]
 
                 \paragraph{Gradient Descent} \mbox{} \\ 
                     \vspace{0.2cm}   

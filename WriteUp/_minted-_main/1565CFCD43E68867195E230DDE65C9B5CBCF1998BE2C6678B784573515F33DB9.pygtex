@@ -49,7 +49,7 @@
                 \PYG{n}{xCoord} \PYG{o}{=} \PYG{n}{x} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
                 \PYG{n}{yCoord} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
 
-                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{octaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord}\PYG{p}{,} 
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{OctaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord}\PYG{p}{,} 
                                                             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}OctavesTerrain\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PersistenceTerrain\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Write Octave Noise values to tile array}
 
 \PYG{c+c1}{\PYGZsh{} Threaded Terrain Generation}
@@ -82,7 +82,7 @@
                 \PYG{n}{xCoord} \PYG{o}{=} \PYG{p}{(}\PYG{n}{x} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
                 \PYG{n}{yCoord} \PYG{o}{=} \PYG{p}{(}\PYG{n}{y} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}\PYG{p}{)} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{]}
 
-                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{octaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{time}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{time}\PYG{p}{,} 
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{OctaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{time}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord} \PYG{o}{+} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{time}\PYG{p}{,} 
                                                             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}OctavesTerrain\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PersistenceTerrain\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Write Octave Noise values to tile array}
 
 \PYG{c+c1}{\PYGZsh{} Generate Tree Methods}
@@ -96,7 +96,7 @@
                 \PYG{n}{xCoord} \PYG{o}{=} \PYG{n}{x} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}
                 \PYG{n}{yCoord} \PYG{o}{=} \PYG{n}{y} \PYG{o}{/} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SIZE}
 
-                \PYG{n}{temp} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{octaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord} \PYG{o}{+} \PYG{n}{TSO}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord} \PYG{o}{+} \PYG{n}{TSO}\PYG{p}{,} 
+                \PYG{n}{temp} \PYG{o}{=} \PYG{n}{perlinNoise}\PYG{o}{.}\PYG{n}{OctaveNoise}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{xCoord} \PYG{o}{+} \PYG{n}{TSO}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{MAP\PYGZus{}SEED} \PYG{o}{+} \PYG{n}{yCoord} \PYG{o}{+} \PYG{n}{TSO}\PYG{p}{,} 
                             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}OctavesTrees\PYGZdq{}}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}PersistenceTrees\PYGZdq{}}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Sample octave noise}
 
                 \PYG{n}{tileValue} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Clamp}\PYG{p}{(((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{tileArray}\PYG{p}{[}\PYG{n}{x}\PYG{p}{][}\PYG{n}{y}\PYG{p}{]}\PYG{o}{.}\PYG{n}{tileHeight} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{0.5}\PYG{p}{),} \PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Clamp value}

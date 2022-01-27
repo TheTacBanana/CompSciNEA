@@ -1,0 +1,46 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{SubMatrixList}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{rowList}\PYG{p}{,} \PYG{n}{colList}\PYG{p}{):}
+    \PYG{n}{newMat} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{rowList}\PYG{p}{),}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{colList}\PYG{p}{))}
+    \PYG{n}{xoffset} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{yoffset} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{yRowList} \PYG{o}{=} \PYG{p}{[]}
+
+    \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+        \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+            \PYG{k}{if} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n}{colList} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n}{rowList}\PYG{p}{:}
+                \PYG{n}{xoffset} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{n}{yoffset} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{continue}
+            \PYG{k}{elif} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n}{colList}\PYG{p}{:}
+                \PYG{n}{xoffset} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{k}{continue}
+            \PYG{k}{elif} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n}{rowList} \PYG{o+ow}{and} \PYG{n}{y} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{yRowList}\PYG{p}{:}
+                \PYG{n}{yoffset} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{n}{yRowList}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}
+                \PYG{k}{continue}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{newMat}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{yoffset}\PYG{p}{][}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{xoffset}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{n}{y}\PYG{p}{][}\PYG{n}{x}\PYG{p}{]}
+        \PYG{n}{xoffset} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{return} \PYG{n}{newMat}
+
+\PYG{n+nd}{@staticmethod}
+\PYG{k}{def} \PYG{n+nf}{Determinant}\PYG{p}{(}\PYG{n}{m}\PYG{p}{):}
+    \PYG{n}{dims} \PYG{o}{=} \PYG{n}{m}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()}
+    \PYG{k}{if} \PYG{n}{dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{n}{det} \PYG{o}{=} \PYG{p}{(}\PYG{n}{m}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{*} \PYG{n}{m}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{m}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{*} \PYG{n}{m}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{])}
+        \PYG{k}{return} \PYG{p}{(}\PYG{n}{det}\PYG{p}{)}
+    \PYG{k}{elif} \PYG{n}{dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{!=} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{n}{det} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n}{subtract} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n}{tempMat} \PYG{o}{=} \PYG{n}{m}\PYG{o}{.}\PYG{n}{SubMatrixList}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{],[])}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+            \PYG{n}{subMat} \PYG{o}{=} \PYG{k+kc}{None}
+            \PYG{n}{subMat} \PYG{o}{=} \PYG{n}{m}\PYG{o}{.}\PYG{n}{SubMatrixList}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{],[}\PYG{n}{i}\PYG{p}{])}
+            \PYG{k}{if} \PYG{n}{subtract} \PYG{o}{==} \PYG{k+kc}{False}\PYG{p}{:}
+                \PYG{n}{det} \PYG{o}{+=} \PYG{n}{m}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]} \PYG{o}{*} \PYG{n}{Matrix}\PYG{o}{.}\PYG{n}{Determinant}\PYG{p}{(}\PYG{n}{subMat}\PYG{p}{)}
+                \PYG{n}{subtract} \PYG{o}{=} \PYG{k+kc}{True}
+            \PYG{k}{elif} \PYG{n}{subtract} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:}
+                \PYG{n}{det} \PYG{o}{\PYGZhy{}=} \PYG{n}{m}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]} \PYG{o}{*} \PYG{n}{Matrix}\PYG{o}{.}\PYG{n}{Determinant}\PYG{p}{(}\PYG{n}{subMat}\PYG{p}{)}
+                \PYG{n}{subtract} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{k}{return} \PYG{n}{det}
+\end{Verbatim}

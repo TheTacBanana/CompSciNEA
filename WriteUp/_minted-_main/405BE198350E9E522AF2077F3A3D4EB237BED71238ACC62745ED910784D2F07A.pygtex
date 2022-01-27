@@ -16,14 +16,14 @@
     \PYG{l+m+mi}{138}\PYG{p}{,}\PYG{l+m+mi}{236}\PYG{p}{,}\PYG{l+m+mi}{205}\PYG{p}{,}\PYG{l+m+mi}{93}\PYG{p}{,}\PYG{l+m+mi}{222}\PYG{p}{,}\PYG{l+m+mi}{114}\PYG{p}{,}\PYG{l+m+mi}{67}\PYG{p}{,}\PYG{l+m+mi}{29}\PYG{p}{,}\PYG{l+m+mi}{24}\PYG{p}{,}\PYG{l+m+mi}{72}\PYG{p}{,}\PYG{l+m+mi}{243}\PYG{p}{,}\PYG{l+m+mi}{141}\PYG{p}{,}\PYG{l+m+mi}{128}\PYG{p}{,}\PYG{l+m+mi}{195}\PYG{p}{,}\PYG{l+m+mi}{78}\PYG{p}{,}\PYG{l+m+mi}{66}\PYG{p}{,}\PYG{l+m+mi}{215}\PYG{p}{,}\PYG{l+m+mi}{61}\PYG{p}{,}\PYG{l+m+mi}{156}\PYG{p}{,}\PYG{l+m+mi}{180}\PYG{p}{]}
 \PYG{n}{p} \PYG{o}{=} \PYG{n}{p} \PYG{o}{+} \PYG{n}{p}
 
-\PYG{k}{def} \PYG{n+nf}{octaveNoise}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{octaves}\PYG{p}{,} \PYG{n}{persistence}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Sums multiple levels of perlin noise}
+\PYG{k}{def} \PYG{n+nf}{OctaveNoise}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{octaves}\PYG{p}{,} \PYG{n}{persistence}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Sums multiple levels of perlin noise}
     \PYG{n}{total} \PYG{o}{=} \PYG{l+m+mi}{0}
     \PYG{n}{frequency} \PYG{o}{=} \PYG{l+m+mi}{1}
     \PYG{n}{amplitude} \PYG{o}{=} \PYG{l+m+mi}{1}
     \PYG{n}{maxValue} \PYG{o}{=} \PYG{l+m+mi}{0}
 
     \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{octaves}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Combines Multiple octaves of perlin noise}
-        \PYG{n}{total} \PYG{o}{+=} \PYG{p}{((}\PYG{n}{noise}\PYG{p}{(}\PYG{n}{x} \PYG{o}{*} \PYG{n}{frequency}\PYG{p}{,} \PYG{n}{y} \PYG{o}{*} \PYG{n}{frequency}\PYG{p}{))} \PYG{o}{*} \PYG{n}{amplitude}\PYG{p}{)}
+        \PYG{n}{total} \PYG{o}{+=} \PYG{p}{((}\PYG{n}{Noise}\PYG{p}{(}\PYG{n}{x} \PYG{o}{*} \PYG{n}{frequency}\PYG{p}{,} \PYG{n}{y} \PYG{o}{*} \PYG{n}{frequency}\PYG{p}{))} \PYG{o}{*} \PYG{n}{amplitude}\PYG{p}{)}
 
         \PYG{n}{maxValue} \PYG{o}{+=} \PYG{n}{amplitude}
 
@@ -32,7 +32,7 @@
 
     \PYG{k}{return} \PYG{n}{total} \PYG{o}{/} \PYG{n}{maxValue}
 
-\PYG{k}{def} \PYG{n+nf}{noise}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns a value of the perlin noise function at (x, y) coordinate}
+\PYG{k}{def} \PYG{n+nf}{Noise}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns a value of the perlin noise function at (x, y) coordinate}
     \PYG{n}{xi} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{255}
     \PYG{n}{yi} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{255}
 
@@ -44,21 +44,21 @@
     \PYG{n}{xf} \PYG{o}{=} \PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
     \PYG{n}{yf} \PYG{o}{=} \PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}
 
-    \PYG{n}{d1} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{g1}\PYG{p}{,} \PYG{n}{xf}\PYG{p}{,} \PYG{n}{yf}\PYG{p}{)}
-    \PYG{n}{d2} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{g2}\PYG{p}{,} \PYG{n}{xf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{yf}\PYG{p}{)}
-    \PYG{n}{d3} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{g3}\PYG{p}{,} \PYG{n}{xf}\PYG{p}{,} \PYG{n}{yf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
-    \PYG{n}{d4} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{g4}\PYG{p}{,} \PYG{n}{xf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{yf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{d1} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g1}\PYG{p}{,} \PYG{n}{xf}\PYG{p}{,} \PYG{n}{yf}\PYG{p}{)}
+    \PYG{n}{d2} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g2}\PYG{p}{,} \PYG{n}{xf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{yf}\PYG{p}{)}
+    \PYG{n}{d3} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g3}\PYG{p}{,} \PYG{n}{xf}\PYG{p}{,} \PYG{n}{yf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{d4} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g4}\PYG{p}{,} \PYG{n}{xf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{yf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
 
-    \PYG{n}{u} \PYG{o}{=} \PYG{n}{fade}\PYG{p}{(}\PYG{n}{xf}\PYG{p}{)}
-    \PYG{n}{v} \PYG{o}{=} \PYG{n}{fade}\PYG{p}{(}\PYG{n}{yf}\PYG{p}{)}
+    \PYG{n}{u} \PYG{o}{=} \PYG{n}{Fade}\PYG{p}{(}\PYG{n}{xf}\PYG{p}{)}
+    \PYG{n}{v} \PYG{o}{=} \PYG{n}{Fade}\PYG{p}{(}\PYG{n}{yf}\PYG{p}{)}
 
-    \PYG{n}{x1Inter} \PYG{o}{=} \PYG{n}{lerp}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{d1}\PYG{p}{,} \PYG{n}{d2}\PYG{p}{)}
-    \PYG{n}{x2Inter} \PYG{o}{=} \PYG{n}{lerp}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{d3}\PYG{p}{,} \PYG{n}{d4}\PYG{p}{)}
-    \PYG{n}{yInter} \PYG{o}{=} \PYG{n}{lerp}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{x1Inter}\PYG{p}{,} \PYG{n}{x2Inter}\PYG{p}{)}
+    \PYG{n}{x1Inter} \PYG{o}{=} \PYG{n}{Lerp}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{d1}\PYG{p}{,} \PYG{n}{d2}\PYG{p}{)}
+    \PYG{n}{x2Inter} \PYG{o}{=} \PYG{n}{Lerp}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{d3}\PYG{p}{,} \PYG{n}{d4}\PYG{p}{)}
+    \PYG{n}{yInter} \PYG{o}{=} \PYG{n}{Lerp}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{x1Inter}\PYG{p}{,} \PYG{n}{x2Inter}\PYG{p}{)}
 
     \PYG{k}{return} \PYG{n}{yInter}
 
-\PYG{k}{def} \PYG{n+nf}{grad}\PYG{p}{(}\PYG{n+nb}{hash}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Gradient Function defined as part of the algorithm}
+\PYG{k}{def} \PYG{n+nf}{Grad}\PYG{p}{(}\PYG{n+nb}{hash}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Gradient Function defined as part of the algorithm}
     \PYG{n}{temp} \PYG{o}{=} \PYG{n+nb}{hash} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{3}
     \PYG{k}{if} \PYG{n}{temp} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
         \PYG{k}{return} \PYG{n}{x} \PYG{o}{+} \PYG{n}{y}
@@ -71,9 +71,9 @@
     \PYG{k}{else}\PYG{p}{:}
         \PYG{k}{return} \PYG{l+m+mi}{0}
 
-\PYG{k}{def} \PYG{n+nf}{lerp}\PYG{p}{(}\PYG{n}{ammount}\PYG{p}{,} \PYG{n}{left}\PYG{p}{,} \PYG{n}{right}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Linear interpolation of values}
+\PYG{k}{def} \PYG{n+nf}{Lerp}\PYG{p}{(}\PYG{n}{ammount}\PYG{p}{,} \PYG{n}{left}\PYG{p}{,} \PYG{n}{right}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Linear interpolation of values}
     \PYG{k}{return} \PYG{p}{((}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{ammount}\PYG{p}{)} \PYG{o}{*} \PYG{n}{left} \PYG{o}{+} \PYG{n}{ammount} \PYG{o}{*} \PYG{n}{right}\PYG{p}{)}
 
-\PYG{k}{def} \PYG{n+nf}{fade}\PYG{p}{(}\PYG{n}{t}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Fade Function defined as part of the algorithm}
+\PYG{k}{def} \PYG{n+nf}{Fade}\PYG{p}{(}\PYG{n}{t}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Fade Function defined as part of the algorithm}
     \PYG{k}{return} \PYG{n}{t} \PYG{o}{*} \PYG{n}{t} \PYG{o}{*} \PYG{n}{t} \PYG{o}{*} \PYG{p}{(}\PYG{n}{t} \PYG{o}{*} \PYG{p}{(}\PYG{n}{t} \PYG{o}{*} \PYG{l+m+mi}{6} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{15}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{10}\PYG{p}{)}
 \end{Verbatim}

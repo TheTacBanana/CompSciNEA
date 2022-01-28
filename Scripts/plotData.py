@@ -1,30 +1,43 @@
-from cProfile import label
 import matplotlib.pyplot as plt
 import pickle
+from os import listdir
+from os.path import isfile, join
+from typing import DefaultDict
 
-file = input()
-#file2 = input()
+def LoadFileList(dir): # Locating files in directory and returning them as a dictionary
+    validFiles = [f for f in listdir(dir) if isfile(join(dir, f))]
 
-dataPoints = []
-with open("DataLogger\\" + file + ".data", "rb") as f:
-    dataPoints = pickle.load(f)
+    fileDict = DefaultDict(str)
 
-#dataPoints2 = []
-#with open("DataLogger\\" + file2 + ".data", "rb") as f:
-#    dataPoints2 = pickle.load(f) 
+    for i in range(len(validFiles)):
+        fileDict[i] = validFiles[i]
 
-averageLoss = [dataPoints[i][2] / 100 for i in range(len(dataPoints))]
-#averageLoss2 = [dataPoints2[i][2] / 100 for i in range(len(dataPoints2))]
-step = [dataPoints[i][3] for i in range(len(dataPoints))]
-#step2 = [dataPoints2[i][3] for i in range(len(dataPoints2))]
+    return fileDict
 
-#plt.plot(step, batch)
-#plt.plot(step, maxbatch)
+def PickChoice(fileDict): # Pick choice from file dictionary
+    print("List of Data Files:")
+    for file in fileDict:
+        print(str(file) + " : " + fileDict[file])
+
+    inp = eval(input())
+    return fileDict[inp]
+
+def LoadPoints(file): # Load Data Points from file
+    dataPoints = []
+    with open("DataLogger\\" + file, "rb") as f:
+        dataPoints = pickle.load(f)
+    return dataPoints
+
+fileDictionary = LoadFileList("DataLogger\\")
+file = PickChoice(fileDictionary)
+dataPoints = LoadPoints(file)
+
+averageLoss = [dataPoints[i][2] / 100 for i in range(len(dataPoints)) if i % 5 == 0]
+step = [dataPoints[i][3] for i in range(len(dataPoints)) if i % 5 == 0]
+
 plt.plot(step, averageLoss)
-#plt.plot(step2, averageLoss2, label="Neural Network")
 
 plt.xlabel("Step Count")
 plt.ylabel("Average Loss per Step")
 
-plt.legend()
 plt.show()

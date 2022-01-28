@@ -46,7 +46,7 @@
     "DeathReward": -0.1,
     "ExploreReward": 0.01,
     "AttackReward": 0.5,
-    "AttackFailedReward": 0,
+    "AttackFailedReward": -0.1,
     "NoopReward": 0,
 
     "TargetReplaceRate": 5,
@@ -55,12 +55,12 @@
     "ERSampleRate": 100,
     "ERSampleSize": 10,
 
-    "DeepQLearningLayers" : [49, 64, 32, 16, 7],
+    "DeepQLearningLayers" : [49, 64, 32, 16, 6],
     "DQLEpoch": 100,
-    "DQLearningMaxSteps": 50000,
+    "DQLearningMaxSteps": 500000,
     "DQLOffset": 3,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
-    "DQLLearningRate": 0.5,
+    "DQLLearningRate": 0.75,
     "DQLGamma": 0.8
 }

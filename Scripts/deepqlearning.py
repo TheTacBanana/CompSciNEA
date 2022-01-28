@@ -1,4 +1,6 @@
+from audioop import bias
 import random, pickle, math
+from typing import final
 from matrix import Matrix
 import activations
 from copy import copy
@@ -19,7 +21,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             self.step = 0
             self.cumReward = 0.0
             
-            self.layerActivation = activations.TanH()
+            self.layerActivation = activations.Sigmoid()
             self.finalLayerActivation = activations.SoftMax()
         else:
             self.LoadState(loadName) # Load values from saved data
@@ -46,7 +48,8 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         
         self.MainNetwork.ForwardPropagation(netInput, self.activations) # Forward Prop the Main Network
 
-        output = self.MainNetwork.layers[-1].outputVector
+        output = self.MainNetwork.layers[-1].activations
+        #print(output)
         outputMax = output.MaxInVector()
 
         # Action Taking and Reward
@@ -94,11 +97,12 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         LossVector = self.LossFunctionV2(output, tempExp, agent) # Calculating Loss
 
         LossVector = self.Expected(output, LossVector)
+        #print(LossVector)
 
         self.batchLoss += LossVector.matrixVals[action][0]
         #print(LossVector.matrixVals[action][0])
 
-        self.MainNetwork.layers[-1].errSignal = LossVector
+        self.MainNetwork.layers[-1].errSignal = LossVector * self.layerActivation.Derivative(copy(self.MainNetwork.layers[-1].preactivations))
 
         self.MainNetwork.BackPropagationV2(self.activations) # Back Propagating the loss
 
@@ -159,6 +163,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         #stateNew = agent.TileVectorPostProcess(tempExp.stateNew) # Create new state input
         self.TargetNetwork.ForwardPropagation(agent.TileVectorPostProcess(tempExp.state)[1], self.activations) # Apply input to Target Network
+        
         tempRewardVec = agent.GetRewardVector(tempExp.stateNew, self.paramDictionary["DeepQLearningLayers"][-1]) # Gets reward vector from the new state
         maxQTNet = agent.MaxQ(tempRewardVec) # Max of Target network
 
@@ -188,82 +193,95 @@ class NeuralNet(): # Neural Network Implementation
     def __init__(self, layersIn, params): # Constructor for a Single Neural Network
         self.paramDictionary = params
 
+        newLayersIn = copy(layersIn)
+
+        newLayersIn.append(1)
+
         self.layers = []
 
-        for i in range(len(layersIn)):
-            if i == 0:
-                self.layers.append(Layer(0, layersIn[0], True))
-            else:
-                self.layers.append(Layer(layersIn[i - 1], layersIn[i]))
+        for i in range(len(newLayersIn) - 1):
+            print(newLayersIn[i])
+            self.layers.append(Layer(newLayersIn[i], newLayersIn[i + 1]))
 
     def ForwardPropagation(self, inputVector, activations): # Iterates through Forward Propagation
-        self.layers[0].outputVector = inputVector
+        self.layers[0].activations = inputVector
 
-        for i in range(1, len(self.layers) - 1):
-            self.layers[i].ForwardPropagation(self.layers[i-1], activations)
+        for i in range(0, len(self.layers) - 1):
+            self.layers[i].ForwardPropagation(self.layers[i+1], activations)
 
-        self.layers[-1].ForwardPropagation(self.layers[-2], activations, finalLayer=True)
+        #self.layers[-1].ForwardPropagation(self.layers[-2], activations, finalLayer=True)
 
     def BackPropagationV2(self, activations): # Iterates through Back Propagation V2
-        self.layers[-1].BackPropagationV2(self.layers[-2], self.paramDictionary["DQLLearningRate"], activations, finalLayer=True)
+        self.layers[-2].BackPropagationV2(self.layers[-1], self.paramDictionary["DQLLearningRate"], activations)
 
-        for i in range(len(self.layers) - 2, 0, -1):
-            self.layers[i].BackPropagationV2(self.layers[i-1], self.paramDictionary["DQLLearningRate"], activations)
+        for i in range(len(self.layers) - 3, 0, -1):
+            self.layers[i].BackPropagationV2(self.layers[i+1], self.paramDictionary["DQLLearningRate"], activations)
 
     def UpdateWeightsAndBiases(self, epochCount): # Update Weights and biases
         for i in range(1, len(self.layers)):
             self.layers[i].UpdateWeightsAndBiases(epochCount)
 
 class Layer(): # Layer for a Neural Network
-    def __init__(self, prevSize, size, inputLayer=False): # Constructor for a Layer Object
+    def __init__(self, size, nextSize, inputLayer=False): # Constructor for a Layer Object
         if inputLayer == False: # Additional objects if not the input layer
-            self.weightMatrix = Matrix((size, prevSize), random=True)
+            pass
 
-            self.biasVector = Matrix((size, 1), random=False)
+        self.weightMatrix = Matrix((nextSize, size), random=True)
+        self.biasVector = Matrix((nextSize, 1), random=False)
 
-            self.weightUpdates = Matrix((size, prevSize))
+        self.weightUpdates = Matrix((nextSize, size))
+        self.biasUpdates = Matrix((nextSize, 1))
 
-            self.biasUpdates = Matrix((size, 1))
+        self.errSignal = Matrix((nextSize, 1))
+        self.preactivations = Matrix((size, 1))
+        self.activations = Matrix((size, 1))
 
-            self.errSignal = Matrix((size, 1))
-        
-        self.sVector = Matrix((size, 1))
-        self.outputVector = Matrix((size, 1))
+    def ForwardPropagation(self, nextLayer, activations): # Forward Propagates the Neural Network
+        self.preactivations = self.weightMatrix * self.activations + self.biasVector
 
-    def ForwardPropagation(self, prevLayer, activations, finalLayer=False): # Forward Propagates the Neural Network
-        weightValueProduct = self.weightMatrix * prevLayer.outputVector
+        nextLayer.activations = activations[0].Activation(copy(self.preactivations))
 
-        self.sVector = weightValueProduct + self.biasVector
+    def BackPropagationV2(self, prevLayer, lr, layerActivations): # 2nd Revision of Back Propagation
+        deltaWeightProduct = (prevLayer.weightMatrix.Transpose() * prevLayer.errSignal)
+        self.errSignal = deltaWeightProduct * layerActivations[0].Derivative(copy(self.preactivations))
 
-        if not finalLayer: # Apply different activation if Output Layer 
-            self.outputVector = activations[0].Activation(copy(self.sVector))
-        else:
-            self.outputVector = activations[1].Activation(copy(self.sVector))
+        #print(prevLayer.weightMatrix.Transpose().order)
+        #print(prevLayer.errSignal.order)
+        #print(deltaWeightProduct.order)
+        #print(layerActivations[0].Derivative(copy(self.preactivations)).order)
+        #print(self.errSignal.order)
 
-    def BackPropagationV2(self, prevLayer, lr, layerActivations, finalLayer=False): # 2nd Revision of Back Propagation
+
+        weightDerivatives = self.errSignal * self.activations.Transpose()
+        biasUpdates = self.errSignal
+
+        #print(self.weightMatrix.order, self.weightUpdates.order, weightDerivatives.order)
+        #print(prevLayer.weightmatrix)
+        #print(prevLayer.weightUpdates)
+        #print(weightDerivatives)
+        self.weightUpdates += weightDerivatives * lr
+        self.biasUpdates += biasUpdates * lr
+
         # Calculating Next Error Signal
-        halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
+        #halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
 
-        if finalLayer:
-            zDerivative = layerActivations[1].Derivative(copy(prevLayer.sVector)) 
-        else:
-            zDerivative = layerActivations[0].Derivative(copy(prevLayer.sVector)) # Applying derivative functions to the output of a layerN
+        #zDerivative = layerActivations[0].Derivative(copy(prevLayer.sVector)) # Applying derivative functions to the output of a layerN
 
-        errSignal = halfErrSignal * zDerivative # Hadamard Product to get error signal for previous layer
-        prevLayer.errSignal = errSignal
+        #errSignal = halfErrSignal * zDerivative # Hadamard Product to get error signal for previous layer
+        #prevLayer.errSignal = errSignal
 
         # Calculating Weight updates
-        updatedWeightVectors = []
-        for delta in range(self.errSignal.order[0]):
-            errSignal = self.errSignal.matrixVals[delta][0]
+        #updatedWeightVectors = []
+        #for delta in range(self.errSignal.order[0]):
+        #    errSignal = self.errSignal.matrixVals[delta][0]
 
-            selectedColumn = self.weightMatrix.Transpose().SelectColumn(delta)
-            updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
+        #    selectedColumn = self.weightMatrix.Transpose().SelectColumn(delta)
+        #    updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
 
         # Combining the weight updates into a matrix and adding it to the weight updates Matrix
-        self.weightUpdates += Matrix.CombineVectorsHor(updatedWeightVectors).Transpose()
+        #self.weightUpdates += Matrix.CombineVectorsHor(updatedWeightVectors).Transpose()
 
-        self.biasUpdates += self.errSignal * lr # Bias Updates
+        #self.biasUpdates += self.errSignal * lr # Bias Updates
 
     def UpdateWeightsAndBiases(self, epochCount): # Update Weights and Biases
         self.weightMatrix -= (self.weightUpdates * (1 / epochCount))

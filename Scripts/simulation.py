@@ -118,8 +118,8 @@ class Simulation():
 
         if self.paramDictionary["Debug"]: # Renders debug info for Neural Network if specified
             for i in range(len(self.network.MainNetwork.layers)):
-                for k in range(self.network.MainNetwork.layers[i].outputVector.order[0]):
-                    value = self.network.MainNetwork.layers[i].outputVector.matrixVals[k][0]
+                for k in range(self.network.MainNetwork.layers[i].activations.order[0]):
+                    value = self.network.MainNetwork.layers[i].activations.matrixVals[k][0]
                     newVal = (math.tanh(value) + 1) / 2
                     colourTuple = (255 * newVal, 255 * newVal, 255 * newVal)
 

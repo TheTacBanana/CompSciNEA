@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} BackPropagation(PreviousLayer, LearningRate, Activation)}
+    \PYG{esc}{WeightTranspose \leftarrow PreviousLayer.WeightMatrix.Transpose()}
+    \PYG{esc}{DeltaWeightProduct \leftarrow WeightTranspose * PreviousLayer.ErrorSignal}
+    \PYG{esc}{This.ErrorSignal \leftarrow DeltaWeightProduct * Activation.Derivative(This.PreActivations)}
+
+    \PYG{esc}{WeightDerivatives \leftarrow This.ErrorSignal * This.Activations.Transpose()}
+    \PYG{esc}{BiasDerivatives \leftarrow This.ErrorSignal}
+
+    \PYG{esc}{This.WeightUpdates \leftarrow This.WeightUpdates + (WeightDerivatives * LearningRate)}
+    \PYG{esc}{This.BiasUpdates \leftarrow This.BiasUpdates + (BiasDerivatives * LearningRate)}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

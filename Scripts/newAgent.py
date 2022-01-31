@@ -1,6 +1,7 @@
 from worldClass import *
 from random import shuffle
 from matrix import Matrix
+from copy import copy
 
 class Agent():
     def __init__(self, location, params):
@@ -28,7 +29,7 @@ class Agent():
         for y in range(self.location[1] - offset, self.location[1] + offset + 1): # Loop through Tiles in surrounding area
             for x in range(self.location[0] - offset, self.location[0] + offset + 1):
                 if 0 <= x and x <= self.paramDictionary["WorldSize"] - 1 and 0 <= y and y <= self.paramDictionary["WorldSize"] - 1:
-                    tileVec.matrixVals[n][0] = worldMap.tileArray[x][y]
+                    tileVec.matrixVals[n][0] = copy(worldMap.tileArray[x][y])
                     if [x,y] in enemyLocList:
                         tileVec.matrixVals[n][0].WriteEnemy() # Writes enemies to tile if they exist
                 else:

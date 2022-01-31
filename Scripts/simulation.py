@@ -26,7 +26,7 @@ class Simulation():
 
         if self.paramDictionary["EnableEnemies"]: # If enemies enabled then update enemies
             self.UpdateEnemies()
-
+            
         self.step += 1 
 
     def UpdateEnemies(self): # Updates Enemies

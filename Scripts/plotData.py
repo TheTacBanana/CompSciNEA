@@ -5,7 +5,8 @@ from os.path import isfile, join
 from typing import DefaultDict
 
 def LoadFileList(dir): # Locating files in directory and returning them as a dictionary
-    validFiles = [f for f in listdir(dir) if isfile(join(dir, f))]
+    directoryList = listdir(dir)
+    validFiles = [f for f in directoryList if isfile(join(dir, f))]
 
     fileDict = DefaultDict(str)
 
@@ -20,7 +21,10 @@ def PickChoice(fileDict): # Pick choice from file dictionary
         print(str(file) + " : " + fileDict[file])
 
     inp = eval(input())
-    return fileDict[inp]
+    if isinstance(inp, int):
+        return fileDict[inp]
+    else:
+        raise Exception("Not a valid input")
 
 def LoadPoints(file): # Load Data Points from file
     dataPoints = []
@@ -28,15 +32,19 @@ def LoadPoints(file): # Load Data Points from file
         dataPoints = pickle.load(f)
     return dataPoints
 
+# Logic
 fileDictionary = LoadFileList("DataLogger\\")
 file = PickChoice(fileDictionary)
 dataPoints = LoadPoints(file)
 
-averageLoss = [dataPoints[i][2] / 100 for i in range(len(dataPoints)) if i % 5 == 0]
-step = [dataPoints[i][3] for i in range(len(dataPoints)) if i % 5 == 0]
+print("Plot: ")
+inp = eval(input())
 
-plt.plot(step, averageLoss)
+plottedData = [dataPoints[i][inp] / 100 for i in range(len(dataPoints))]
+step = [dataPoints[i][-1] for i in range(len(dataPoints))]
 
+# Setup Plot
+plt.plot(step, plottedData)
 plt.xlabel("Step Count")
 plt.ylabel("Average Loss per Step")
 

@@ -1070,6 +1070,7 @@ def DotProduct(v1,v2):
                         \item Sigmoid
                         \item TanH
                         \item ReLu
+                        \item Leaky ReLu
                         \item SoftMax
                     \end{itemize}
                     \item Create methods to Forward Propagate the neural network
@@ -1308,7 +1309,7 @@ def DotProduct(v1,v2):
                 \paragraph{Activation} \mbox{} \\
                     \vspace{0.2cm}
                     Activation Functions are usually an abstraction representing the rate of "Action Potential" firing in the Node.
-                    The most Common Activations for Neural Networks are the following 3 Activations: \\
+                    The most Common Activations for Neural Networks are the following 4 Activations: \\
                 \paragraph{ReLu} \mbox{} \\
                     \begin{center}
                         \[
@@ -1334,6 +1335,34 @@ def DotProduct(v1,v2):
                         \end{axis}
                         \end{tikzpicture}
                     \end{center}
+ 
+                \paragraph{Leaky ReLu} \mbox{} \\
+                \begin{center}
+                    \[
+                        \text{ReLu}(x) =  \begin{cases}
+                                            x < 0 & 0.1 \times x \\
+                                            x > 0 & x
+                                            \end{cases}
+                    \]
+                    
+                    \vspace{0.2cm}
+                    \begin{tikzpicture}[declare function={LeakyReLu(\x)=max(0.1*x, x);}]
+                    \begin{axis}
+                        [
+                            grid=major,     
+                            ytick={-2,0,2},
+                            axis x line=middle,
+                            axis y line=middle,
+                            samples=100,
+                            domain=-3:3,
+                            ymin=-2,
+                            ymax=4,
+                        ]
+                        \addplot[blue,mark=none]   (x,{LeakyReLu(x)});
+                        \legend{$LeakyReLu(x)$}
+                    \end{axis}
+                    \end{tikzpicture}
+                \end{center}
 
                 \paragraph{Sigmoid} \mbox{} \\
                     \begin{center}

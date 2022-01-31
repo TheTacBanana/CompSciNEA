@@ -5,6 +5,7 @@ from matrix import Matrix
 import activations
 from copy import copy
 from datalogger import *
+import time
 
 class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
     def __init__(self, layers, params, load=False, loadName="DQNetwork"): # Constructor for a Double Neural Network
@@ -38,6 +39,8 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
                                                         # BatchReward, MaxBatchReward, PercentageDifference, Step
         self.actionTracker = DataLogger("ActionTracker", [[float, int], [float, int], [float, int], int], False)
 
+        self.startTime = time.time()
+
     def TakeStep(self, agent, worldMap, enemyList): # Takes a step forward in time
         self.step += 1
 
@@ -53,34 +56,26 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         outputMax = output.MaxInVector()
 
         # Action Taking and Reward
-        if random.random() < self.epsilon: # Epsilon slowly regresses, leaving a greater chance for a random action to be explored
-            if type(self.finalLayerActivation) == activations.SoftMax: # Sum softmax distribution values and choose a random action from that set
-                action = random.randint(0, 6)
-                val = random.random()
-                totalled = 0
-                for i in range(output.order[0]):
-                    totalled += output.matrixVals[i][0]
-                    if totalled >= val:
-                        action = i
-                        break
-            else:
-                action = random.randint(0, 6)
+        if random.random() > self.epsilon:
+            softmaxxed = self.finalLayerActivation.Activation(copy(output))
+            action = random.randint(0, self.paramDictionary["DeepQLearningLayers"][-1] - 1)
+            val = random.random()
+            totalled = 0
+            for i in range(softmaxxed.order[0]):
+                totalled += softmaxxed.matrixVals[i][0]
+                if totalled >= val:
+                    action = i
+                    break
         else:
-            action = outputMax[1] # Choose best action
-
-        #action = random.randint(0, self.paramDictionary["DeepQLearningLayers"][-1] - 1)
+            action = random.randint(0, self.paramDictionary["DeepQLearningLayers"][-1] - 1)
 
         rewardVector = agent.GetRewardVector(agentSurround, self.paramDictionary["DeepQLearningLayers"][-1])
         reward = rewardVector.matrixVals[action][0] # Get reward given action
         self.cumReward += reward
         self.batchReward += reward
         self.maxBatchReward += rewardVector.MaxInVector()[0]
-        #print(reward, rewardVector.MaxInVector()[0], action)
 
         agent.CommitAction(action, agentSurround, worldMap, enemyList) # Take Action
-
-        #self.dataPoints.append([reward, rewardVector.MaxInVector()[0], 0, self.step])
-
         # Epsilon Regression
         self.epsilon *= self.paramDictionary["DQLEpisonRegression"] 
 
@@ -94,15 +89,13 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.ExperienceReplay.PushFront(copy(tempExp))
 
         # Back Propagation
-        LossVector = self.LossFunctionV2(output, tempExp, agent) # Calculating Loss
+        expectedValues = self.ExpectedValue(output, tempExp, agent) # Calculating Loss
 
-        LossVector = self.Expected(output, LossVector)
-        #print(LossVector)
+        Cost = self.HalfSquareDiff(output, expectedValues)
 
-        self.batchLoss += LossVector.matrixVals[action][0]
-        #print(LossVector.matrixVals[action][0])
+        self.batchLoss += Cost.Sum()
 
-        self.MainNetwork.layers[-1].errSignal = LossVector * self.layerActivation.Derivative(copy(self.MainNetwork.layers[-1].preactivations))
+        self.MainNetwork.layers[-1].errSignal = Cost * self.layerActivation.Derivative(copy(self.MainNetwork.layers[-1].preactivations))
 
         self.MainNetwork.BackPropagationV2(self.activations) # Back Propagating the loss
 
@@ -116,7 +109,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
         # Actions to run after every Batch
         if self.step % self.paramDictionary["DQLEpoch"] == 0: 
-            print(self.step, self.cumReward, self.epsilon)
+            print(self.step, self.cumReward, self.epsilon, time.time() - self.startTime)
 
             self.MainNetwork.UpdateWeightsAndBiases(self.paramDictionary["DQLEpoch"]) # Update weights and biases
 
@@ -143,27 +136,31 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
 
             self.MainNetwork.ForwardPropagation(netInput, self.activations) # Forward Prop the Main Network
 
-            output = self.MainNetwork.layers[-1].outputVector
+            output = self.MainNetwork.layers[-1].activations
 
-            Loss = self.LossFunctionV2(output, sample, agent) # Generate Loss for the sample
+            expectedValues = self.ExpectedValue(output, sample, agent) # Calculating Loss
 
-            self.MainNetwork.layers[-1].errSignal = Loss
+            Cost = self.HalfSquareDiff(output, expectedValues)
 
-            self.MainNetwork.BackPropagationV2(self.activations) # Back Propagate the error
+            self.MainNetwork.layers[-1].errSignal = Cost * self.layerActivation.Derivative(copy(self.MainNetwork.layers[-1].preactivations))
 
-    def Expected(self, networkOutput, QValVector):
-        return ((QValVector - networkOutput) ** 2) * 0.5
+            self.MainNetwork.BackPropagationV2(self.activations) # Back Propagating the loss
 
-    def LossFunctionV2(self, output, tempExp, agent):
+    def HalfSquareDiff(self, networkOutput, expected):
+        return ((expected - networkOutput) ** 2) * 0.5
+
+    def ExpectedValue(self, output, tempExp, agent):
         # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
         # Loss = ((Reward[] + Gamma * MaxQ(s', a'; TNet)) - Q(s, a)[]) ^ 2
 
         Reward = tempExp.reward
         Gamma = self.paramDictionary["DQLGamma"]
 
-        #stateNew = agent.TileVectorPostProcess(tempExp.stateNew) # Create new state input
-        self.TargetNetwork.ForwardPropagation(agent.TileVectorPostProcess(tempExp.state)[1], self.activations) # Apply input to Target Network
+        #self.TargetNetwork.ForwardPropagation(agent.TileVectorPostProcess(tempExp.state)[1], self.activations) # Apply input to Target Network
         
+        #targetNetAction = self.TargetNetwork.layers[-1].activations.MaxInVector()[1]
+
+
         tempRewardVec = agent.GetRewardVector(tempExp.stateNew, self.paramDictionary["DeepQLearningLayers"][-1]) # Gets reward vector from the new state
         maxQTNet = agent.MaxQ(tempRewardVec) # Max of Target network
 
@@ -245,43 +242,11 @@ class Layer(): # Layer for a Neural Network
         deltaWeightProduct = (prevLayer.weightMatrix.Transpose() * prevLayer.errSignal)
         self.errSignal = deltaWeightProduct * layerActivations[0].Derivative(copy(self.preactivations))
 
-        #print(prevLayer.weightMatrix.Transpose().order)
-        #print(prevLayer.errSignal.order)
-        #print(deltaWeightProduct.order)
-        #print(layerActivations[0].Derivative(copy(self.preactivations)).order)
-        #print(self.errSignal.order)
-
-
         weightDerivatives = self.errSignal * self.activations.Transpose()
-        biasUpdates = self.errSignal
+        biasDerivatives = self.errSignal
 
-        #print(self.weightMatrix.order, self.weightUpdates.order, weightDerivatives.order)
-        #print(prevLayer.weightmatrix)
-        #print(prevLayer.weightUpdates)
-        #print(weightDerivatives)
         self.weightUpdates += weightDerivatives * lr
-        self.biasUpdates += biasUpdates * lr
-
-        # Calculating Next Error Signal
-        #halfErrSignal = (self.weightMatrix.Transpose() * self.errSignal)
-
-        #zDerivative = layerActivations[0].Derivative(copy(prevLayer.sVector)) # Applying derivative functions to the output of a layerN
-
-        #errSignal = halfErrSignal * zDerivative # Hadamard Product to get error signal for previous layer
-        #prevLayer.errSignal = errSignal
-
-        # Calculating Weight updates
-        #updatedWeightVectors = []
-        #for delta in range(self.errSignal.order[0]):
-        #    errSignal = self.errSignal.matrixVals[delta][0]
-
-        #    selectedColumn = self.weightMatrix.Transpose().SelectColumn(delta)
-        #    updatedWeightVectors.append(selectedColumn * errSignal * (-lr))
-
-        # Combining the weight updates into a matrix and adding it to the weight updates Matrix
-        #self.weightUpdates += Matrix.CombineVectorsHor(updatedWeightVectors).Transpose()
-
-        #self.biasUpdates += self.errSignal * lr # Bias Updates
+        self.biasUpdates += biasDerivatives * lr
 
     def UpdateWeightsAndBiases(self, epochCount): # Update Weights and Biases
         self.weightMatrix -= (self.weightUpdates * (1 / epochCount))

@@ -95,15 +95,83 @@
 
         I aimed to answer this question by designing and creating a Deep Reinforcement Learning Model utilising a Deep Neural Network, along 
         with designing a Simple Simulation for a Machine Learning Agent to survive in. \\
-        \vspace{0.5cm}
-
-        With the Machine Learning Model I implemented, the Agent was unable to fully solve the simulation. After being trained to ----
+        \vspace{0.2cm}
+        With the Machine Learning Model I implemented, the Agent was unable to solve the simulation. After being trained to 500000
         steps, the accuracy of the Network Improves in comparison to randomly taking actions, but fails to reach higher levels. 
-        I attempted to train the Network with varying parameters and Network Structures, but this yielded similar results. This follows 
-        suit with one of the Existing Investigations I researched. Crafter only manages to achieve 10\% accuracy with the best algorithm, 
+        I attempted to train the Network with varying parameters and Network Structures, but this yielded similar results. The baseline Loss
+        is minimised, but the loss still peaks back to the original value on a regular basis. \\
+        \vspace{0.2cm}
+        This follows suit with one of the Existing Investigations I researched. Crafter only manages to achieve 10\% accuracy with the best algorithm, 
         the rest achieving below 5\%. In comparison to Human Experts which achieved near 60\% accuracy, this is statistically little. \\
-        \vspace{0.5cm}
-        Below is shown the collected Data plotted to Graphs: \\
+
+    \subsection{Analysis of Training Data}
+        I found that the Network is sensitive to its reward structure and Network architecture. When the Reward Structure has an action which
+        gains 0 but also loses 0 reward, the Back Propagation will minimise the Network into purely taking this action. An example of this
+        is when "Noop" or the Null Action is enabled. This ended up in the graph just flatlining towards 0 average loss, where the Network
+        only took the null action 99\% of the time. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=12cm]{Images/Evaluation/NullActionFlatline.png}
+            \caption*{Neural Network flatlining towards 0 loss by only picking "Noop"}
+            \caption*{Large network architecture with 49 Input Nodes} 
+            \caption*{Enemies Disabled}
+        \end{figure}
+
+        I am unsure as to what the spikes are, I believe it is due to instabilities in the training architecture. Following on from this failed attempt
+        to train the Network, I removed Noop from the action set. This led to overall weird results, the baseline Loss trends down, but doesnt manage to
+        overall minimise it. I believe this is a sign that the simulation is too complex for the Network architecture to solve. 
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=12cm]{Images/Evaluation/AttemptedMinimiseLargeNetwork.png}
+            \caption*{Neural Network attempts to minimise network but fails to solve the simulation}
+            \caption*{Large network architecture with 49 Input Nodes} 
+            \caption*{Enemies Disabled, Attack and Noop action disabled}
+        \end{figure}
+
+        I then enabled the enemies with the same Network architecture, this led to different results. The Network clearly places a signifcance on their
+        existence, but fails to overcome them as a problem. I observed during this training session that the Agent does manage to kill enemies sometimes.
+        but fails to do this consistently. I believe this might be due to the high sensory input.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=12cm]{Images/Evaluation/EnemiesEnabled.png}
+            \caption*{Neural Network struggles with Enemies}
+            \caption*{Large network architecture with 49 Input Nodes} 
+            \caption*{Noop action disabled}
+        \end{figure}
+
+        I also attempted training using different Network architectures, this led to much better results compared to the previous training session with 49 Inputs.
+        This as stated previously may be due to the high sensory input of a larger Network. I think the 25 Input Network performs ever so slightly better than
+        the 9 Input, but this may only be due to random chance.
+
+        \begin{figure}[H]
+            \centering
+            \subfloat[\centering 25 Input Nodes]{{\includegraphics[width=7cm]{Images/Evaluation/25InputNetwork.png}}}
+            \qquad
+            \subfloat[\centering 9 Input Nodes]{{\includegraphics[width=7cm]{Images/Evaluation/9InputNetwork.png}}}
+        \end{figure}
+
+        I then chose the best performing Network out of the 3 I tested, which has 25 Inputs, and tried it with all the Activation Functions I've implemented. Previously
+        I had just been using the standard Sigmoid Activation funtion. This is an attempt to find the best possible Network $\rightleftharpoons$ Activation Combination.
+
+        \begin{figure}[H]
+            \centering
+            \subfloat[\centering Sigmoid Activation Function]{{\includegraphics[width=8cm]{Images/Evaluation/9InputNetwork.png}}}
+            \qquad
+            \subfloat[\centering TanH Activation Function]{{\includegraphics[width=8cm]{Images/Evaluation/9InputNetworkTanH.png}}}
+            \qquad
+            \subfloat[\centering ReLu Activation Function]{{\includegraphics[width=8cm]{Images/Evaluation/9InputNetworkReLu.png}}}
+            \qquad
+            \subfloat[\centering Leaky ReLu Activation Function]{{\includegraphics[width=8cm]{Images/Evaluation/9InputNetworkLeakyReLu.png}}}
+        \end{figure}
+
+        As shown above Sigmoid is clearly the best Activation Function to use for the problem. TanH exhibits weird behaviour which I can't explain. 
+        ReLu and Leaky ReLu preform similarly, with Leaky ReLu being slightly better but both may as well be random. \\
+        \vspace{0.2cm}
+        Leaving us with the best Network Architecture with a layer structure of $[25,32,16,8,6]$, utilising the Sigmoid Activation Function.
+
 
     \subsection{Expert Feedback}
         \vspace{0.2cm}
@@ -121,7 +189,7 @@
                 The Neural Network works as intended, although it's a shame that the Machine Learning Model isn't advanced enough to 'Solve' the
                 Simulation you've designed."
 
-            \item Does my Tehnical Solution achieve all of the Set Goals and Objectives? \\
+            \item Does my Technical Solution achieve all of the Set Goals and Objectives? \\
                 \vspace{0.2cm}
                 "The Program achieves all of the objectives you set out to complete, and it is clear alot of hard work went into completing your
                 project. Lots of research needs to be carried out in order to understand the complexity behind Reinforcement Learning and all
@@ -156,12 +224,14 @@
         \vspace{0.2cm}
         Overall I am happy with my Technical Solution. I achieved all the objectives I set out to complete in my Analyis. I have definitely achieved
         my primary goal of gaining a deeper understanding about the Maths and Logic behind how Neural Networks work. This has given me a Window into
-        the field of Machine Learning and Artificial Intelligence, which I intend to pursue as part of my later Studies. \\
+        the field of Machine Learning and Artificial Intelligence, which I intend to pursue as part of my later Studies. If I were to complete my NEA
+        again I would apply Machine Learning to a different sector of problem, because Reinforcement Learning has been a tough challenge. It has been
+        kindof dissapointing as well that the Network has been failed to solve the simulation I built. \\
         \vspace{0.2cm}
         The Improvements I would like to make to my Technical Solution are: \\
         \vspace{0.5cm}
 
-        \begin{enumerate}
+        \begin{itemize}
             \item The Implementation of a Convolutional Neural Network was something I came across in my Initial Research and was mentioned by my Expert.
             Convolution carries out Pre-Processing on the inputted data before it is even touched by the Neural Network. This in theory would increase
             the training accuracy of my Network leading to better Results. \\
@@ -170,7 +240,8 @@
             \item The Optimisation of my Matrix Class by compiling it into $C$ through the use of Cython would help speed up the training of the Neural
             Network. Due to Python being an interpretted language it is comparatively slow compared to the other programming languages I considered
             using. $C$ is a compiled language so it is comparatively alot faster, about 45 times faster according to some sources online. This could
-            provide an easy way to optimise my Program without having to convert my entire Codebase into a different Language. \\
+            provide an easy way to optimise my Program without having to convert my entire Codebase into a different Language. Although I wish I
+            had used a different language for my Technical Solution, I think Rust would've been the correct choice for this project. \\
 
             \vspace{0.2cm}
             \item An increase in complexity of my simulation would provide a greater challenge towards my Agent and Neural Network. I could add a basic
@@ -179,6 +250,6 @@
             a Convolutional Neural Network. \\
 
             \vspace{0.2cm}
-        \end{enumerate}
+        \end{itemize}
         \vspace{0.5cm}
 \end{flushleft}

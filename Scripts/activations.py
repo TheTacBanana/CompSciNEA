@@ -32,7 +32,7 @@ class LeakyReLu(Activation): # Leaky ReLu
 
     def Activation(self, x): # Returns value if greater than 0, else a apply a gradient to x and return it
         for row in range(x.order[0]):
-            x.matrixVals[row][0] = max(x.matrixVals[row][0] * 0.01, x.matrixVals[row][0])
+            x.matrixVals[row][0] = max(x.matrixVals[row][0] * 0.1, x.matrixVals[row][0])
         return x
 
     def Derivative(self, x): # If value is greater than 0 return 1, else return 0.01
@@ -94,7 +94,7 @@ class NullActivation(Activation): # No activation function
         return x
 
     def Derivative(self, x): # Returns the same values
-        return x
+        return 1
 
 class TanH(Activation): # TanH
     def __init__(self):

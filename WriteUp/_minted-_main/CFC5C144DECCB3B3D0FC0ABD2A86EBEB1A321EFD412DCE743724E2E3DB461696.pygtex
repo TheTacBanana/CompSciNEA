@@ -1,0 +1,53 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{pickle}
+\PYG{k+kn}{from} \PYG{n+nn}{os} \PYG{k+kn}{import} \PYG{n}{listdir}
+\PYG{k+kn}{from} \PYG{n+nn}{os.path} \PYG{k+kn}{import} \PYG{n}{isfile}\PYG{p}{,} \PYG{n}{join}
+\PYG{k+kn}{from} \PYG{n+nn}{typing} \PYG{k+kn}{import} \PYG{n}{DefaultDict}
+
+\PYG{k}{def} \PYG{n+nf}{LoadFileList}\PYG{p}{(}\PYG{n+nb}{dir}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Locating files in directory and returning them as a dictionary}
+    \PYG{n}{directoryList} \PYG{o}{=} \PYG{n}{listdir}\PYG{p}{(}\PYG{n+nb}{dir}\PYG{p}{)}
+    \PYG{n}{validFiles} \PYG{o}{=} \PYG{p}{[}\PYG{n}{f} \PYG{k}{for} \PYG{n}{f} \PYG{o+ow}{in} \PYG{n}{directoryList} \PYG{k}{if} \PYG{n}{isfile}\PYG{p}{(}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{dir}\PYG{p}{,} \PYG{n}{f}\PYG{p}{))]}
+
+    \PYG{n}{fileDict} \PYG{o}{=} \PYG{n}{DefaultDict}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{)}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{validFiles}\PYG{p}{)):}
+        \PYG{n}{fileDict}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{validFiles}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}
+
+    \PYG{k}{return} \PYG{n}{fileDict}
+
+\PYG{k}{def} \PYG{n+nf}{PickChoice}\PYG{p}{(}\PYG{n}{fileDict}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Pick choice from file dictionary}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}List of Data Files:\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{file} \PYG{o+ow}{in} \PYG{n}{fileDict}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{file}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} : \PYGZdq{}} \PYG{o}{+} \PYG{n}{fileDict}\PYG{p}{[}\PYG{n}{file}\PYG{p}{])}
+
+    \PYG{n}{inp} \PYG{o}{=} \PYG{n+nb}{eval}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{())}
+    \PYG{k}{if} \PYG{n+nb}{isinstance}\PYG{p}{(}\PYG{n}{inp}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{):}
+        \PYG{k}{return} \PYG{n}{fileDict}\PYG{p}{[}\PYG{n}{inp}\PYG{p}{]}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Not a valid input\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{LoadPoints}\PYG{p}{(}\PYG{n}{file}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Load Data Points from file}
+    \PYG{n}{dataPoints} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}DataLogger}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{file}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{dataPoints} \PYG{o}{=} \PYG{n}{pickle}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{dataPoints}
+
+\PYG{c+c1}{\PYGZsh{} Logic}
+\PYG{n}{fileDictionary} \PYG{o}{=} \PYG{n}{LoadFileList}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}DataLogger}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{file} \PYG{o}{=} \PYG{n}{PickChoice}\PYG{p}{(}\PYG{n}{fileDictionary}\PYG{p}{)}
+\PYG{n}{dataPoints} \PYG{o}{=} \PYG{n}{LoadPoints}\PYG{p}{(}\PYG{n}{file}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Plot: \PYGZdq{}}\PYG{p}{)}
+\PYG{n}{inp} \PYG{o}{=} \PYG{n+nb}{eval}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{())}
+
+\PYG{n}{plottedData} \PYG{o}{=} \PYG{p}{[}\PYG{n}{dataPoints}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{inp}\PYG{p}{]} \PYG{o}{/} \PYG{l+m+mi}{100} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoints}\PYG{p}{))]}
+\PYG{n}{step} \PYG{o}{=} \PYG{p}{[}\PYG{n}{dataPoints}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{dataPoints}\PYG{p}{))]}
+
+\PYG{c+c1}{\PYGZsh{} Setup Plot}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{step}\PYG{p}{,} \PYG{n}{plottedData}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Step Count\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Average Loss per Step\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\end{Verbatim}

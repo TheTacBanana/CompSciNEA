@@ -287,8 +287,18 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-            \subsubsection{Neural Network Loss Function}
-                The algorithm for to calculate the Loss of a Dual Neural Network can calculated by using a variation of the Bellman Equation.
+            \subsubsection{Half Square Difference}  
+                This algorithm is the Cost Function of the Neural Network used in tandem with Bellman Equation. It takes the network output
+                awway from the expected value, squares and then halfs it, per output node.
+
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} HalfSquareDiff(NetworkOutput, Expected)|  
+    |\textbf{RETURN} 0.5 * Math.pow((Expected - NetworkOutput, 2)|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
+            \subsubsection{Neural Network Bellman Equation}
+                This algorithm calculates the expected value of the Neural Network. This is calculated using a variation of the Bellman Equation.
                 The Bellman Equation is neccesary for Mathematically Optimising in this case. It determines the Value of a decision at a certain 
                 point in time, in terms of the Payoff from the Inital Action and the Value of the Potential Payoff after taking that Initial
                 Action. 
@@ -308,7 +318,17 @@
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
+|\textbf{SUBROUTINE} BackPropagation(PreviousLayer, LearningRate, Activation)|
+    |WeightTranspose \leftarrow PreviousLayer.WeightMatrix.Transpose()|
+    |DeltaWeightProduct \leftarrow WeightTranspose * PreviousLayer.ErrorSignal|
+    |This.ErrorSignal \leftarrow DeltaWeightProduct * Activation.Derivative(This.PreActivations)|
 
+    |WeightDerivatives \leftarrow This.ErrorSignal * This.Activations.Transpose()|
+    |BiasDerivatives \leftarrow This.ErrorSignal|
+
+    |This.WeightUpdates \leftarrow This.WeightUpdates + (WeightDerivatives * LearningRate)|
+    |This.BiasUpdates \leftarrow This.BiasUpdates + (BiasDerivatives * LearningRate)|
+|\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}
 
                 \vspace{0.5cm}
@@ -318,14 +338,30 @@
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
-|\textbf{SUBROUTINE} ExperienceReplay(SampleSize)|
+|\textbf{SUBROUTINE} ExperienceReplay(SampleSize, Agent)|
     |Samples \leftarrow \textbf{NEW} List()|
     |\textbf{FOR} i \leftarrow 0 \textbf{TO} SampleSize|
         |Samples.Add(Buffer.RandomSample())|
     |\textbf{END FOR}|
 
-    |\textbf{FOR} i \leftarrow 0 \textbf{TO} SampleSize|
-        |NeuralNetwork.BackPropagate(Samples[i])|
+    |\textbf{FOR} Sample \textbf{IN} Samples|
+        |PostProcessedSurround \leftarrow Agent.TileVectorPostProcess(sample.state)|
+
+        |NetInput \leftarrow PostProcessedSurround[1]|
+
+        |This.MainNetwork.ForwardPropagation(NetInput, This.Activation)|
+
+        |Output \leftarrow This.MainNetwork.Layers[-1].Activations|
+
+        |ExpectedValues \leftarrow This.ExpectedValue(Output, Sample, Agent)|
+
+        |Cost \leftarrow This.HalfSquareDiff(Output, ExpectedValues)|
+
+        |Preactivations \leftarrow This.MainNetwork.Layers[-1].Preactivations|
+        |PreactivationsDerivative \leftarrow This.Activation.Derivative(Preactivations)|
+        |This.MainNetwork.Layers.ErrSignal \leftarrow Cost * PreactivationsDerivative|
+
+        |This.MainNetwork.BackPropagation(This.Activation)|
     |\textbf{END FOR}|
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}

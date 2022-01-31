@@ -1,7 +1,7 @@
 {
     "EnterValues": 1,
     "GenerateThreaded": 0,
-    "EnableEnemies": 0,
+    "EnableEnemies": 1,
     "SaveWeights": 1,
     "StepDelay": 0,
     "Debug": 1,
@@ -55,10 +55,10 @@
     "ERSampleRate": 100,
     "ERSampleSize": 10,
 
-    "DeepQLearningLayers" : [49, 64, 32, 16, 6],
+    "DeepQLearningLayers" : [25, 32, 16, 8, 6],
     "DQLEpoch": 100,
     "DQLearningMaxSteps": 500000,
-    "DQLOffset": 3,
+    "DQLOffset": 2,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,
     "DQLLearningRate": 0.75,

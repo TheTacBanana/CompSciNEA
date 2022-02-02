@@ -85,25 +85,6 @@
             \vspace{0.5cm}   
 
         \vspace{0.5cm}
-    \subsection{Answering the Proposed Question}
-        \vspace{0.2cm}
-        As part of my Machine Learning Investigation I proposed the Question:
-
-        \vspace{0.3cm}\begin{center}
-        \textbf{Can I develop a Machine Learning Algorithm to survive in a pseudorandom, open-world environment?}
-        \end{center}\vspace{0.3cm}
-
-        I aimed to answer this question by designing and creating a Deep Reinforcement Learning Model utilising a Deep Neural Network, along 
-        with designing a Simple Simulation for a Machine Learning Agent to survive in. \\
-        \vspace{0.2cm}
-        With the Machine Learning Model I implemented, the Agent was unable to solve the simulation. After being trained to 500000
-        steps, the accuracy of the Network Improves in comparison to randomly taking actions, but fails to reach higher levels. 
-        I attempted to train the Network with varying parameters and Network Structures, but this yielded similar results. The baseline Loss
-        is minimised, but the loss still peaks back to the original value on a regular basis. \\
-        \vspace{0.2cm}
-        This follows suit with one of the Existing Investigations I researched. Crafter only manages to achieve 10\% accuracy with the best algorithm, 
-        the rest achieving below 5\%. In comparison to Human Experts which achieved near 60\% accuracy, this is statistically little. \\
-
     \subsection{Analysis of Training Data}
         I found that the Network is sensitive to its reward structure and Network architecture. When the Reward Structure has an action which
         gains 0 but also loses 0 reward, the Back Propagation will minimise the Network into purely taking this action. An example of this
@@ -168,10 +149,88 @@
         \end{figure}
 
         As shown above Sigmoid is clearly the best Activation Function to use for the problem. TanH exhibits weird behaviour which I can't explain. 
-        ReLu and Leaky ReLu preform similarly, with Leaky ReLu being slightly better but both may as well be random. \\
+        ReLu and Leaky ReLu preform similarly, with Leaky ReLu being slightly better but both may as well be random. Leaving us with the best Network 
+        Architecture with a layer structure of $[25,32,16,8,6]$, utilising the Sigmoid Activation Function. \\
         \vspace{0.2cm}
-        Leaving us with the best Network Architecture with a layer structure of $[25,32,16,8,6]$, utilising the Sigmoid Activation Function.
+        In an attempt to reduce the complexity of the simulation I created, I altered the simulation slightly. I turned off the Enemies movement,
+        this was an attempt to reduce the difficulty of the problem for the Agent. I also spawned 30 rather than 5 enemies at the start of a created
+        world. This resulted in somewhat better results when compared to previous results, the baseline loss minimises towards 0 quicker. This is 
+        definitely because the Network finds static threats easier to deal with. I also noticed in the previous test that the Agent didn't appear 
+        to have a problem avoiding the Static Enemies, so I kept this for the next test.
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=12cm]{Images/Evaluation/StaticEnemiesExtra.png}
+            \caption*{Altered Simulation Data using Static Enemies}
+            \caption*{25 Input Nodes}
+        \end{figure}
+
+        This next test involved me changing the Colour of the Water to the same colour as the Enemies. I figured that this would improve the Networks
+        Ability to determine what is a threat to its Survival. Instead of having to form a relationship between two colours, it was only one. This
+        performed quite well in comparison to previous tests. The overall average loss is less than every other test, and shows that the Network is 
+        actually capable of determining relationships between the input values and correct outputs.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{Images/Evaluation/RedWaterTest.PNG}
+            \caption*{Altered Simulation using Static Enemies and Red Water}
+            \includegraphics[width=12cm]{Images/Evaluation/RedWaterStaticExtra.png}
+            \caption*{Simulation Data}
+            \caption*{25 Input Nodes}
+        \end{figure}
+
+    \pagebreak
+    \subsection{Answering the Proposed Questions}
+        \vspace{0.2cm}
+        As part of my Machine Learning Investigation I proposed the Question:
+
+        \vspace{0.3cm}\begin{center}
+        \textbf{Can I develop a Machine Learning Algorithm to survive in a pseudorandom, open-world environment?}
+        \end{center}\vspace{0.3cm}
+
+        I aimed to answer this question by designing and creating a Deep Reinforcement Learning Model utilising a Deep Neural Network, along 
+        with designing a Simple Simulation for a Machine Learning Agent to survive in. \\
+        \vspace{0.2cm}
+        With the Machine Learning Model I implemented, the Agent was unable to fully solve the simulation. After being trained to 500000
+        steps with multiple different layer structures and parameters, it fails to achieve a true solution to the problem at any given time step.
+        The Average Loss of of the Network for most of my tests trends downwards, but still remains highly innacurate. The graphed data shows
+        that the Average Loss (Plotted per 100 Steps) constantly peaks and drops back down to the baseline. This baseline for most of the tests
+        I performed trends downwards as a curve. All the Tests Data is shown above. \\
+        \vspace{0.2cm}
+        Because the implemented algorithm has not managed to fully solve the problem, I have answered the sub-questions I outlined in my 
+        \textit{Statement of Investigation}: \\
+
+        \begin{itemize}
+            \item The Algorithm quite clearly forms a link between specific elements in the simulation and danger, even if it doesnt manage to avoid them
+            always. This can be shown by the Network managing to identify and kill the Enemies, along with performing better in my test where I altered 
+            the Colour of the Water to be the same as the enemies colour. With this in place the Network manages to perform better, showing a clear
+            link between the inputted colour Red and the danger associated with it. This answers the 1st sub-question, \textit{Does the Algorithm draw 
+            links between specific elements and danger?}. \\
+            \vspace{0.2cm}
+
+            \item The Algorithm does manage to pickup the occasional item when attempting to solve the simulation. But it is unclear wether this is by random
+            chance or if this is the intended action of the Algorithm. There is not enough evidence to suggest that the Algorithm can perform well with
+            specific collection tasks of the items in the Simulation. Therefore answering the 2nd sub-question, \textit{How well does the Algorithm perform 
+            with specific tasks?}. \\
+            \vspace{0.2cm}
+
+            \item I tested the Network with different Activation Functions and Layer Structures, I found that some tests performed better than others.
+            This shows that the Algorithm can perform better when tuning the parameters, answering the 4th sub-question I proposed, 
+            \textit{"Can I fine tune the Algorithms Parameters to get better results?"}. \\
+            \vspace{0.2cm}
+
+            \item I performed tests where I altered the simulation in order to reduce the complexity for the Algorithm. This included making the 
+            Enemies Static, and changing the Colour of the Water. Both of these appeared to show the Average Loss of the Network Decrease at
+            a faster rate, and a reduction of peaks in the Average Loss. The Water Colour change appeared to show the best Training results out of all
+            the test results. This shows that when reducing the complexity of the problem, the Algorithm manages to better solve the given problem,
+            answering the 3rd sub-question I proposed, \textit{"If the problem is altered to be simpler does the Algorithm perform better?"}.\\
+            \vspace{0.2cm}
+        \end{itemize}
+
+        Overall the Algorithm implemented shows it can solve individual parts of the problem, but when combined together the complexity
+        is too much for it to solve completely. I believe that the main problem here is the generalisation needed to solve a pseudorandomly
+        generated environment. If the Algorithm was facing the exact same problem each time, with a linear path forward, it would most likely
+        have more success when attempting to solve that problem.
 
     \subsection{Expert Feedback}
         \vspace{0.2cm}

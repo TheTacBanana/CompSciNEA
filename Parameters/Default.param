@@ -31,9 +31,9 @@
 
     "TreeType": "Wood",
 
-    "StartEnemyCount": 5,
+    "StartEnemyCount": 20,
 
-    "ColourWater": [18, 89, 144],
+    "ColourWater": [207, 2, 2],
     "ColourCoast": [245, 234, 146],
     "ColourGrass": [26, 148, 49],
     "ColourMountain": [136, 140, 141],
@@ -57,7 +57,7 @@
 
     "DeepQLearningLayers" : [25, 32, 16, 8, 6],
     "DQLEpoch": 100,
-    "DQLearningMaxSteps": 500000,
+    "DQLearningMaxSteps": 1000000,
     "DQLOffset": 2,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,

@@ -32,6 +32,8 @@ class Simulation():
     def UpdateEnemies(self): # Updates Enemies
         self.enemyList = [x for x in self.enemyList if x is not None] # Clears None type from list
 
+        return
+
         for i in range(len(self.enemyList)): # Commits each Enemies actions and sets to None if they died in that step
             self.enemyList[i].CommitAction(self.agent, self.worldMap)
 

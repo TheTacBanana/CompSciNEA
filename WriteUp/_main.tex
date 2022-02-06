@@ -11,6 +11,7 @@
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{pgfplots}
+\usepackage{pgf}
 \usepackage{minted}[cache=false]
 \usepackage{subfig}
 \usepackage{csvsimple}
@@ -35,7 +36,7 @@
 \newcommand\rn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
 \newcommand\nrn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
 \newcommand{\random}{\rand\arabic{rand}}
-\usetikzlibrary{matrix,shapes,arrows,positioning,chains}
+\usetikzlibrary{matrix,shapes,arrows,positioning,chains,decorations,automata,backgrounds,petri,bending,shapes.multipart}
 
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -52,7 +53,13 @@
 
 \def\mathLarge#1{\mbox{\huge $#1$}}
 
-\tikzset{block/.style={rectangle,draw,text width=10em,text badly centered,rounded corners}}
+\tikzset{
+  block/.style = {rectangle,draw,text width=10em,text badly centered,rounded corners},
+  treenode/.style = {shape=circle, rounded corners,draw, align=center},
+  badtreenode/.style = {shape=circle, rounded corners,draw, align=center, fill=red},
+  selectedtreenode/.style = {shape=circle, rounded corners,draw, align=center, fill=green},
+  graynode/.style = {fill=gray},
+  normal/.style     = {treenode, font=\Large, bottom color=white}}
 
 \titleformat{\section}
   {\normalfont\fontsize{12}{17}\sffamily\bfseries}

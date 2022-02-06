@@ -552,7 +552,6 @@
     |\textbf{RETURN} 0.5 * Math.pow((Expected - NetworkOutput, 2)|
 |\textbf{ENDSUBROUTINE}|
                 \end{pseudocode}
-
             \subsubsection{Neural Network Bellman Equation}
                 This algorithm calculates the expected value of the Neural Network. This is calculated using a variation of the Bellman Equation.
                 The Bellman Equation is neccesary for Mathematically Optimising in this case. It determines the Value of a decision at a certain 
@@ -881,10 +880,9 @@
     |\textbf{RETURN} Total / MaxValue|
 |\textbf{ENDSUBROUTINE}|            
                 \end{pseudocode}
-
             \subsubsection{Heap Heapify}
-                The Heapify algorithm converts a Binary Tree of values into a valid Heap. The Heap Property is defined in Description of Data
-                Structures below. This algorithm works by repeatedly performing Sift Down Operations for \textbf{$\lfloor$(N-1)/2$\rfloor$} times.
+                The Heapify algorithm converts a Binary Tree of values into a valid Heap. A Diagram for this process, along with the Heap Property is shown when descibing the Heap 
+                Data Structure under Description of Data Structures. This algorithm works by repeatedly performing Sift Down Operations for \textbf{$\lfloor$(N-1)/2$\rfloor$} times.
                 Where N is the Number of elements in the Tree. A Sift Down Operation will swap elements which don't conform to the Heap Property.
                 This operation relys on the fact that Children of an Index are located at \textbf{2i + 1} and \textbf{2i + 2}.
                 \vspace{0.2cm}
@@ -956,42 +954,261 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-        \vspace{0.5cm}
+            \subsubsection{Deque Push Front}
+                This Algorithm pushes an item to to the front of a Double Ended Queue. If an Item exists in the new position, it will be overwritten by
+                the new Item. A Diagram for this process is shown when descibing the Deque Data Structure under Description of Data Structures.
+                \vspace{0.2cm}
+
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} PushFront(Item)|
+    |This.FrontPointer \leftarrow (This.FrontPointer + 1) % This.Length|
+
+    |\textbf{IF} This.IsFull()|
+        |This.BackPointer = (This.FrontPointer + 1) % This.Length|
+    |\textbf{END IF}|
+    
+    |This.Queue[This.FrontPointer] = Item|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
+                \vspace{0.5cm}
+            \subsubsection{Deque Full}
+                This simple Algorithm Determines if a Double Ended Queue is Full or Not. It simply checks if the next position in front of the
+                Front Pointer is free or not.
+                \vspace{0.2cm}
+
+                \begin{pseudocode}
+|\textbf{SUBROUTINE} IsFull()|
+    |\textbf{IF} This.Queue[(This.FrontPointer + 1) % This.Length] != None|
+        |\textbf{RETURN} \textbf{TRUE}|
+    |\textbf{END IF}|
+    |\textbf{RETURN} \textbf{FALSE}|
+|\textbf{ENDSUBROUTINE}|
+                \end{pseudocode}
+
+                \vspace{0.5cm}
         \subsection{Description of Data Structures}
             \subsubsection{Matrices}
-                As part of developing a Neural Network, I will extensively use Matrices, as they are an integral part of the algorithms
-                used for Machine Learning. After creating a prototype Matrix class as part of my prototype, I will represent it in the
-                same format. A Matrix can be represented simply using a 2D Array, but they can have Mathematical Operations performed
-                between them. Explanations and the formulae can be found in the Modelling of the Problem Analysis Section. \\
+                A Matrix is a rectangular array of numbers which can be used in arithmetic operations such as Addition and Multiplication.
+                They are essentially a 2d Array of Values, as shown below. \\
+                \begin{center}
+                    $\begin{bmatrix}
+                        a & b\\
+                        c & d
+                    \end{bmatrix}$ 
+                    $\begin{bmatrix}
+                        a & b & c \\
+                        d & e & f \\
+                        g & h & i 
+                    \end{bmatrix}$ 
+                    $\begin{bmatrix}
+                        a \\
+                        b \\
+                        c  
+                    \end{bmatrix}$ 
+                    $\begin{bmatrix}
+                        a & b & c & d\\
+                        e & f & g & h
+                    \end{bmatrix}$ 
+                \end{center}    
+                They are commonly used within Computer Science due to their efficient implementations, this is specifically helpful
+                within the field of Machine Learning due to being able to store the various elements of a Neural Network within Matrices.
+                This allows us to perform Matrix Operations between these elements in order to speed up the Forward and Back Propagation 
+                Process. \\
                 \vspace{0.2cm}
-                To avoid repeating code in some places, Matrices will have multiple Constructors. The main Constructors are in the form 
-                of an (Int, Int) Tuple, or an pre-existing 2D Array. Other less used examples could be an Integer for creating 
-                a Vector of that length. \\
+                In my Program Matrices will be able to be defined by multiple different Methods. Such as a Tuple of Integers, existing 2d
+                List or existing 1d List (as per \textbf{Objective 3.3}). This will allows Matrices to be created easily and efficiently
+                within the Program, without having to populate them with values manually. Matrices will also be able to populated automatically
+                with random values (as per \textbf{Objective 3.4}), this will be used when generating untrained Weights and Biases for the 
+                Neural Network implementation. \\
                 \vspace{0.2cm}
-                Operator Overloading will be useful when implementing a Matrix Class, as it allows classes to have implementations for
-                operators such as Multiplication, Addition, Subtraction etc. This avoids the need to rely on Static Methods for Operator
-                Implementations and makes code much more readable overall. \\
-                \vspace{0.2cm}
-                As part of a Neural Network Matrices are used heavily in the calculations. So it will be important to optimise the
-                implemented algorithms to make sure their Algorithmic Time Complexity is minimised. \\
+                When using Matrices as part of Arithmetic Operations, the use of Operator Overloading for the Standard Operations will be
+                useful to make Code Cleaner and more Readable (as per \textbf{Objective 3.8}).
             \subsubsection{Double Ended Queue} 
-                A Double Ended Queue (Commonly referred to as a {\textbf{Deque}}) is an Abstract Data Type, which is a generalisation of 
+                A Double Ended Queue (Commonly referred to as a Deque) is an Abstract Data Type, which is a generalisation of 
                 a Queue. Elements can be added to the Front/Head or Back/Tail. Deques are commonly implemented using an Array, and two
-                pointers, one for Front and Back.
+                pointers, one for Front and Back. The Deque in my program will be utilised within the Experience Replay Algorithm (as per 
+                \textbf{Objective 5.12})\\
+                \vspace{0.2cm}
+                Below is shown an example of a Double Ended Queue:\\ 
+                \vspace{1cm}
+
+                \begin{center}
+                    \begin{tabular}{ C{1cm} C{1cm} C{1cm} C{1cm} C{1cm} C{1cm} }
+                        & \centerline{Back Pointer} &  &  & \centerline{Front Pointer} & \\ 
+                        \rule{0pt}{1.2cm}% %
+                         & {\Huge $\Downarrow$} &  &  & {\Huge $\Downarrow$} & \\ 
+                        \hline
+                        \multicolumn{1}{|C{1cm}|}{} & \multicolumn{1}{C{1cm}|}{3} & \multicolumn{1}{C{1cm}|}{6} & \multicolumn{1}{C{1cm}|}{4} & \multicolumn{1}{C{1cm}|}{2} & \multicolumn{1}{C{1cm}|}{} \\ \hline
+                    \end{tabular}
+                \end{center}
+
+                The Elements are stored within the Array, with the Front and Back Pointer determining the Range of the actual contained Items.
+                We can Pop/Remove elements from both the Front and Back of the Queue, or Push them. This can be done by incrementing the pointers
+                and overwriting the existing elements should they exist.
+                \begin{center}
+                    \begin{tabular}{ C{1cm} C{1cm} C{1cm} C{1cm} C{1cm} C{1cm} }
+                        & Front & Back &  &  & \\ 
+                        \rule{0pt}{1.2cm}% %
+                         & {\Huge $\Downarrow$} & {\Huge $\Downarrow$} & & & \\ 
+                        \hline
+                        \multicolumn{1}{|C{1cm}|}{9} & \multicolumn{1}{C{1cm}|}{3} & \multicolumn{1}{C{1cm}|}{6} & \multicolumn{1}{C{1cm}|}{4} & \multicolumn{1}{C{1cm}|}{2} & \multicolumn{1}{C{1cm}|}{8} \\ \hline
+                    \end{tabular} \\
+                    \vspace{1cm}
+                    When Push the Item $10$ to the Deque: \\
+                    \begin{tabular}{ C{1cm} C{1cm} C{1cm} C{1cm} C{1cm} C{1cm} }
+                         & & Front & Back &  & \\ 
+                        \rule{0pt}{1.2cm}% %
+                         & & {\Huge $\Downarrow$} & {\Huge $\Downarrow$} & & \\ 
+                        \hline
+                        \multicolumn{1}{|C{1cm}|}{9} & \multicolumn{1}{C{1cm}|}{3} & \multicolumn{1}{C{1cm}|}{10} & \multicolumn{1}{C{1cm}|}{4} & \multicolumn{1}{C{1cm}|}{2} & \multicolumn{1}{C{1cm}|}{8} \\ \hline
+                    \end{tabular}
+                \end{center}             
             \subsubsection{Tile} 
-                A Tile is used to store specific location Data as part of the World Map. It can be initialised without values, and is
+                A Tile is used to store specific location Data as part of the World Map (as per \textbf{Objective 4.2.3}). It can be initialised without values, and is
                 then populated with the relevant information. Methods are attatched to this Class to Add/Remove Items and Enemies as needed.
                 Allowing for the Agent when getting Tile data to get relevant and accurate information.
             \subsubsection{Experience} 
-                An Experience is used to store data for Experience Replay. It is an Empty Class with no Methods. This includes the State, 
+                An Experience is used to store data for Experience Replay (as per \textbf{Objective 5.9}). It is an Empty Class with no Methods. This includes the State, 
                 Action, NewState and Reward, all at the time of assignment. This is used in conjunction with the Experience Replay 
                 Algorithm, described above.
             \subsubsection{Heap} 
                 A Heap is specialised Binary Tree which satisfies the Heap Property: such that for all nodes with Parents, the
-                Parent has a greater value than the Child. A Heap is used as part of a Heap Sort, an $O(nlog(n))$ Sorting Algorithm. The
+                Parent has a greater value than the Child. A Heap is used as part of a Heap Sort (as per \textbf{Objective 7.5}), an $O(nlog(n))$ Sorting Algorithm. The
                 highest priority element is always stored at the Root, with the tree of the structure being considered "Partialy Ordered".
                 Heaps can be stored in an Array, with the Root element at Index 0. Children of an Index are located at \textbf{2i + 1} and
-                \textbf{2i + 2}. The Parent of an Index is located at \textbf{$\lfloor$(i-1)/2$\rfloor$}.
+                \textbf{2i + 2}. The Parent of an Index is located at \textbf{$\lfloor$(i-1)/2$\rfloor$}. Below is shown an example of items
+                stored in a Heap.
+
+                \begin{figure}[H]
+                    \centering
+                    \subfloat
+                    {
+                      \begin{tikzpicture}
+                        [
+                        sibling distance        = 5em,
+                        level distance          = 5em,
+                        edge from parent/.style = {draw, -latex},
+                        every node/.style       = {font=\huge},
+                        level 1/.style={sibling distance=8em},
+                        level 2/.style={sibling distance=4em},
+                        sloped
+                        ]
+                        \node [badtreenode] {5}
+                        child {node [treenode] {7}
+                          child {node [treenode] {4}}
+                          child {node [treenode] {2}}}
+                        child {node [badtreenode] {8}
+                          child {node [treenode] {3}}
+                          child[fill=none] {edge from parent[draw=none]}};
+                      \end{tikzpicture}
+                    }
+                \end{figure}
+
+                But this Binary Tree violates the Heap Property, because 5 is at the Root of the Tree. 8 is Greater than 5
+                so in this case we need to swap these two Items. Once swapped, the actual Heap will look like what is shown below.
+                This is then a valid
+
+                \begin{figure}[H]
+                    \centering
+                    \subfloat
+                    {
+                      \begin{tikzpicture}
+                        [
+                        sibling distance        = 5em,
+                        level distance          = 5em,
+                        edge from parent/.style = {draw, -latex},
+                        every node/.style       = {font=\huge},
+                        level 1/.style={sibling distance=8em},
+                        level 2/.style={sibling distance=4em},
+                        sloped
+                        ]
+                        \node [selectedtreenode] {8}
+                        child {node [treenode] {7}
+                          child {node [treenode] {4}}
+                          child {node [treenode] {2}}}
+                        child {node [selectedtreenode] {5}
+                          child {node [treenode] {3}}
+                          child[fill=none] {edge from parent[draw=none]}};
+                      \end{tikzpicture}
+                    }
+                \end{figure}
+
+                If we were to add a new item to this Heap, it would be appended to the end of the Heaps internal 
+                storage Array, and then Sifted up through the Heap. This process can be seen below.
+
+                \begin{figure}[H]
+                    \centering
+                    \subfloat
+                    {
+                      \begin{tikzpicture}
+                        [
+                        sibling distance        = 5em,
+                        level distance          = 5em,
+                        edge from parent/.style = {draw, -latex},
+                        every node/.style       = {font=\huge},
+                        level 1/.style={sibling distance=8em},
+                        level 2/.style={sibling distance=4em},
+                        sloped
+                        ]
+                        \node [treenode] {8}
+                        child {node [treenode] {7}
+                          child {node [treenode] {4}}
+                          child {node [treenode] {2}}}
+                        child {node [badtreenode] {5}
+                          child {node [treenode] {3}}
+                          child {node [badtreenode] {9}}};
+                      \end{tikzpicture}
+                    }
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \subfloat
+                    {
+                      \begin{tikzpicture}
+                        [
+                        sibling distance        = 5em,
+                        level distance          = 5em,
+                        edge from parent/.style = {draw, -latex},
+                        every node/.style       = {font=\huge},
+                        level 1/.style={sibling distance=8em},
+                        level 2/.style={sibling distance=4em},
+                        sloped
+                        ]
+                        \node [badtreenode] {8}
+                        child {node [treenode] {7}
+                          child {node [treenode] {4}}
+                          child {node [treenode] {2}}}
+                        child {node [badtreenode] {9}
+                          child {node [treenode] {3}}
+                          child {node [selectedtreenode] {5}}};
+                      \end{tikzpicture}
+                    }
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \subfloat
+                    {
+                      \begin{tikzpicture}
+                        [
+                        sibling distance        = 5em,
+                        level distance          = 5em,
+                        edge from parent/.style = {draw, -latex},
+                        every node/.style       = {font=\huge},
+                        level 1/.style={sibling distance=8em},
+                        level 2/.style={sibling distance=4em},
+                        sloped
+                        ]
+                        \node [selectedtreenode] {9}
+                        child {node [treenode] {7}
+                          child {node [treenode] {4}}
+                          child {node [treenode] {2}}}
+                        child {node [selectedtreenode] {8}
+                          child {node [treenode] {3}}
+                          child {node [treenode] {5}}};
+                      \end{tikzpicture}
+                    }
+                \end{figure}
         \subsection{File Structure}
             \subsubsection{User Defined Parameters}
                 As part of my Technical Solution, the User will be able to modify the parameters which dynamically modifies the Simulation

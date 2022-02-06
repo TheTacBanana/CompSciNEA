@@ -2,6 +2,7 @@
 \usepackage[a4paper]{geometry}
 
 \geometry{a4paper, total={170mm,257mm} ,left=20mm ,right=20mm ,top=20mm}
+\usepackage[table]{xcolor}
 \usepackage{enumitem}
 \usepackage{array}
 \usepackage{tikz}
@@ -18,6 +19,10 @@
 \usepackage{fancyhdr}
 \usepackage[hidelinks]{hyperref}
 \usepackage{scrextend}
+\usepackage{titlesec}
+\usepackage{tabularray}
+\usepackage[first=-20, last=10]{lcg}
+\usepackage{hyperref}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -29,6 +34,7 @@
 \newcounter{magicrownumbers}
 \newcommand\rn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
 \newcommand\nrn{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+\newcommand{\random}{\rand\arabic{rand}}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
 
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -47,6 +53,32 @@
 \def\mathLarge#1{\mbox{\huge $#1$}}
 
 \tikzset{block/.style={rectangle,draw,text width=10em,text badly centered,rounded corners}}
+
+\titleformat{\section}
+  {\normalfont\fontsize{12}{17}\sffamily\bfseries}
+  {\thesection}
+  {1em}
+  {}
+
+\titleformat{\subsection}
+  {\normalfont\fontsize{12}{17}\sffamily\bfseries}
+  {\thesubsection}
+  {1em}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalfont\fontsize{11}{14}\sffamily\bfseries}
+  {\thesubsubsection}
+  {1em}
+  {}
+
+\definecolor{Water}{RGB}{18, 89, 144}
+\definecolor{Beach}{RGB}{245, 234, 146}
+\definecolor{Grass}{RGB}{26, 148, 49}
+\definecolor{Mount}{RGB}{136, 140, 141}
+\definecolor{Tree}{RGB}{13, 92, 28}
+\definecolor{Player}{RGB}{233, 182, 14}
+\definecolor{Enemy}{RGB}{207, 2, 2}
 
 \begin{document}
 

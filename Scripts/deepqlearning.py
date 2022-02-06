@@ -52,7 +52,6 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         self.MainNetwork.ForwardPropagation(netInput, self.activations) # Forward Prop the Main Network
 
         output = self.MainNetwork.layers[-1].activations
-        #print(output)
         outputMax = output.MaxInVector()
 
         # Action Taking and Reward
@@ -128,6 +127,7 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
             self.batchLoss = 0
 
     def SampleExperienceReplay(self, agent): # Samples the Experience Replay Buffer, Back Propagating its Findings
+        print("Sampling Experience Replay")
         samples = self.ExperienceReplay.Sample(self.paramDictionary["ERSampleSize"])
 
         for sample in samples:

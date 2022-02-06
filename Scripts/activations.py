@@ -22,8 +22,8 @@ class ReLu(Activation): # ReLu
 
     def Derivative(self, x): # If value is greater than 0 return 1, else return 0
         for row in range(x.order[0]):
-            if x.matrixVals[row][0] > 0: x.matrixVals[row][0] = 1
-            else: 0
+            if x.matrixVals[row][0] >= 0: x.matrixVals[row][0] = 1
+            else: x.matrixVals[row][0] = 0
         return x
 
 class LeakyReLu(Activation): # Leaky ReLu
@@ -37,8 +37,8 @@ class LeakyReLu(Activation): # Leaky ReLu
 
     def Derivative(self, x): # If value is greater than 0 return 1, else return 0.01
         for row in range(x.order[0]):
-            if x.matrixVals[row][0] > 0: x.matrixVals[row][0] = 1
-            else: 0.1
+            if x.matrixVals[row][0] >= 0: x.matrixVals[row][0] = 1
+            else: x.matrixVals[row][0] = 0.1
         return x
 
 class Sigmoid(Activation): # Sigmoid

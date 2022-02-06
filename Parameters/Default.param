@@ -31,9 +31,9 @@
 
     "TreeType": "Wood",
 
-    "StartEnemyCount": 20,
+    "StartEnemyCount": 5,
 
-    "ColourWater": [207, 2, 2],
+    "ColourWater": [18, 89, 144],
     "ColourCoast": [245, 234, 146],
     "ColourGrass": [26, 148, 49],
     "ColourMountain": [136, 140, 141],
@@ -50,14 +50,14 @@
     "NoopReward": 0,
 
     "TargetReplaceRate": 5,
-    "EREnabled": 0,
+    "EREnabled": 1,
     "ERBuffer": 1000,
     "ERSampleRate": 100,
     "ERSampleSize": 10,
 
     "DeepQLearningLayers" : [25, 32, 16, 8, 6],
     "DQLEpoch": 100,
-    "DQLearningMaxSteps": 1000000,
+    "DQLearningMaxSteps": 500000,
     "DQLOffset": 2,
     "DQLEpsilon": 0.5,
     "DQLEpisonRegression": 0.99998,

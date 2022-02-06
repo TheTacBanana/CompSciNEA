@@ -15,6 +15,7 @@ if params["Debug"]:
 else: 
     debugOffset = 0
 window = pygame.display.set_mode((worldResolution + debugOffset, worldResolution))
+pygame.display.set_caption('Comp Sci NEA')
 
 stepDelay = params["StepDelay"] # Time step Delay
 

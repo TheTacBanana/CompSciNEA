@@ -3,6 +3,8 @@ from datalogger import *
 from deepqlearning import Deque
 import random
 from matrix import *
+from activations import *
+from copy import copy
 
 # 4.1
 
@@ -138,11 +140,47 @@ print() # 3.11
 
 print() # 3.12
 
-# Activation Outputs
+'''
+outputVector = Matrix([-1, 0, 1])
+Sigmoid = Sigmoid()
+print("Sigmoid:")
+print(Sigmoid.Activation(copy(outputVector)))
+outputVector = Matrix([-1, 0, 1])
+print("TanH:")
+TanH = TanH()
+print(TanH.Activation(copy(outputVector)))
+outputVector = Matrix([-1, 0, 1])
+print("ReLu:")
+ReLu = ReLu()
+print(ReLu.Activation(copy(outputVector)))
+outputVector = Matrix([-1, 0, 1])
+
+print("LeakyReLu:")
+LeakyReLu = LeakyReLu()
+print(LeakyReLu.Activation(copy(outputVector)))
+'''
 
 print() # 3.13
 
-# Activation Derivatives
+'''
+outputVector = Matrix([-1, 0, 1])
+Sigmoid = Sigmoid()
+print("Sigmoid Derivative:")
+print(Sigmoid.Derivative(copy(outputVector)))
+outputVector = Matrix([-1, 0, 1])
+print("TanH Derivative:")
+TanH = TanH()
+print(TanH.Derivative(copy(outputVector)))
+outputVector = Matrix([-1, 0, 1])
+print("ReLu Derivative:")
+ReLu = ReLu()
+print(ReLu.Derivative(copy(outputVector)))
+outputVector = Matrix([-1, 0, 1])
+
+print("LeakyReLu Derivative:")
+LeakyReLu = LeakyReLu()
+print(LeakyReLu.Derivative(copy(outputVector)))
+'''
 
 print() # 2.1
 

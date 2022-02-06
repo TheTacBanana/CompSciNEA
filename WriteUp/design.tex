@@ -1,6 +1,45 @@
 \begin{flushleft}
-    \Large
+    \large
     \section{Design}
+        \subsection{Programming Language and Libraries}
+            I chose Python for my chosen Programming Language, it's very versatile and I have lots of experience with the language
+            already. It's great for rapid prototyping which I feel is necessary for a project of this scale. I already used it for 
+            my prototype so I will be able to reuse some parts of my previous code base. Such as my Matrix and WorldMap Class'. \\
+            \vspace{0.2cm}
+            Below is a list of key libraries I will be using in my project: \\
+
+            \subsubsection*{Pygame}
+            Pygame is a highly customizable and well developed binding of \textit{Simple DirectMedia Layer} (SDL) Library. 
+            It has a full set of 2d drawing tools, along with keyboard and audio capabilities. I have lots of experience with Pygame 
+            so I already have code which I can take from, which will speed up development when dealing with the Pygame library. \\
+            \vspace{0.2cm}
+            I will be using Pygame to graphically display the Environment I create as part of my Technical Solution. This
+            will be done in a similar way to my prototype, displaying each tile as a specified colour. Pygame is purely a 
+            method to graphically output the current state of the simulation. \\
+            \vspace{0.2cm}
+            This will be used to fulfil the whole of \textbf{Objective 2} \\
+
+            \subsubsection*{Json}
+            The ability to load Json Formatted Files is a key part of my User Input and overall Technical Solution. The Json 
+            Library in Python allows this with relative ease, along with saving Json data where needed. I will be using Json files
+            to store the User Inputted Parameters to the program. These parameters will be things like the size of the Simulation, and 
+            Neural Network Structure. \\
+            \vspace{0.2cm}
+            This will be used to fulfil parts of \textbf{Objective 1}, more specifically \textbf{Objectives 1.1, 1.3, 1.5} \\
+
+            \subsubsection*{Pickle}
+            Pickle will be used to write Binary Files with Python. You can use it to save objects, such as classes
+            or lists, and load them. I will be using pickle to store the Matrix Class when saving the Training Progress of
+            the Neural Network. Each Weight and Bias will need to be stored in order to resume the exact training position of the
+            Network. I will also be storing states for Experience Replay, and the Data Points for plotting Training Data. \\
+            \vspace{0.2cm}
+            This will be used to fulfil \textbf{Objectives 5.11, 7.4, 8.1} \\
+
+            \subsubsection*{MatPlotLib}
+            MatPlotLib is a simple way to visualise Numerical data. You can very easily plot graphs from a set of
+            data points. With my Technical Solution I intend to load data previously stored with Pickle, and plot it with this Library. \\
+            \vspace{0.2cm} 
+            This will be used to fulfil \textbf{Objective 8.3} \\
         \subsection{High Level Overview}
             \large
             The main purpose of the project is to answer my investigations question. I'm answering this question by developing 
@@ -11,12 +50,18 @@
             \vspace{0.2cm}
             The Machine Learning Algorithm will be Deep Q Learning, utilising a Dual Neural Network at its core. A Dual Neural Network
             is formed from 2 Neural Networks, a Main and Target. Within Deep Q Learning we are updating a guess with a guess,
-            this leaves us with instability. To solve this the Target Network is a copy of the Main Network, made every $N$ Steps, and is used to 
-            inform the Bellman Equation (mentioned in Modelling of the Problem) when calculating Expected Values in the Loss Function. \\
-            \vspace{0.2cm}
+            this leaves us with instability. To solve this, the Target Network is a copy of the Main Network, made every $N$ Steps, and is used to 
+            inform the Bellman Equation (mentioned in Modelling of the Problem) when calculating Expected Values in the Loss Function. 
+            Below is shown a diagram of how a Dual Neural Network functions: \\
+            
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=\textwidth]{Images/Design/DualNetwork.png}}
+            \vspace{0.5cm}
+
             The simulated environment will be procedurally generated using Perlin Noise and Poisson Disc Sampling. Perlin Noise will
-            generate a Height Map of values, these values will then get mapped to colour bands (which are specified by the User). These
-            will be displayed to the screen via a Window, similar to my prototype like this: \\
+            generate a Height Map of values, these values will then get mapped to colour bands (which are specified by the User). Poisson
+            Disc Sampling will be used to place Items around the Environment which the Agent will be able to interact with through an Action.
+            The Terrain and Items will be displayed to the screen via a Window, similar to my prototype like this: \\
 
             \begin{figure}[H]
                 \centering
@@ -25,8 +70,66 @@
             \end{figure}
 
             Within the simulated environment are generated Enemies which pathfind towards the Agent in an attempt to hinder the Agents
-            surivival. If these enemies are ever to touch Water, they will die. The Agent will be a character controlled within the 
-            environment by the Deep Q Learning Algorithm. The Agent will have a select Action set defined below:
+            surivival. This can be done using a simple pathfinding algorithm. If these enemies are ever to touch Water, they will die. 
+            The Agent will be a character controlled within the environment by the Deep Q Learning Algorithm, which has a specific set
+            of Actions. Upon picking an action the Agent will be rewarded or penalised depending on which action is picked in which state. If the
+            Agent is ever in a Water Tile or within an Enemy, the Agent will be penalised, and the environment will be generated again.
+
+            To pick the Agents Action the surrounding Terrain is sampled for Grayscale Colour Values. These Grayscale values are then 
+            passed into the Main Neural Network to inform the decision. With the use of the SoftMax Logistics Function, we can generate a 
+            probability distribution from the Neural Network outputs. \\
+            \vspace{0.2cm}
+            With the use of a training method called Epsilon Greedy we can balance Exploration and Exploitation. Epsilon is defined as
+            a value at the start of the Training Session, and is slowly multiplied by a regression value each step. When picking an action
+            a Random Number is generated between 0 and 1, and then compared with the Epsilon Value. If the random value is less than Epsilon
+            we pick a random Action, Exploration. If the random value is greater than Epsilon we use an informed decision, Exploitation. \\
+            \vspace{0.2cm}
+            Below is shown a simplified Flow Chart of the whole process: \\
+            
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=\textwidth]{Images/Design/NEAFlowChart.png}}
+            \vspace{0.5cm}
+        \subsection{User Interface/Graphical Output Design}
+            The Graphical Output for the Program will be a display the current environment as a Grid of Coloured Tiles. I have previously
+            implemented the display of a Grid of Tiles in my Prototype, but I want to expand this to include a Debug Menu at the side.\\
+            \vspace{0.2cm}
+            The Debug Menu will be enabled through the Json File, and will display the Neural Network Activations as grayscale values. 
+            It will scale to the size of the Network, and will be helpful for debugging. Below is shown a UI Screenshot from the final
+            build: \\
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=14cm]{Images/Design/AnnotatedUIExample.PNG}
+            \end{figure}
+        \subsection{Agent Interaction and Reward Design}
+            The Agents interaction with the Algorithm and Simulation is very important. If designed incorrectly the Algorithm will be unable 
+            to grasp the Simulation Properly. \\
+            \vspace{0.2cm}
+            The Agent will sample the surrounding environment for Grayscale colour values of each Tile. This Grayscale data will then be
+            converted into a Vector to utilise it as the Neural Networks input. This works well because Grayscales Values are a value 
+            from $0\to 1$, values like this are often used as Neural Network inputs. Below I have marked the Grayscale values (1 Decimal Place)
+            on each of the colurs from a sample situation. The colour conversion will be done using a simple algorithm which is shown later
+            in Design under Description of Algorithms. \\
+
+            \begin{center}
+                \begin{tabular}{ C{1cm} C{1cm} C{1cm} C{1cm} C{1cm}}
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Water}0.3 & \cellcolor{Water}0.3 & \cellcolor{Beach}0.9 & \cellcolor{Grass}0.4 & \cellcolor{Enemy}0.2 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Water}0.3 & \cellcolor{Beach}0.9 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Beach}0.9 & \cellcolor{Grass}0.4 & \cellcolor{Player}0.7 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 & \cellcolor{Tree}0.2 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Tree}0.2  & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 & \cellcolor{Grass}0.4 \\
+                \end{tabular}
+            \end{center}
+
+            The Agent will have a specific set of actions it can use at any time to interact with the Environment. These actions may be good
+            or bad given each individual situation, that is for the Algorithm to try and decipher through the gains and loss' of Reward. Below
+            is shown a table of actions the Agent will utilise. I designed this action set to be relatively simple as to keep the complexity of the
+            Simulation as little as possible. 
 
             \vspace{0.2cm}
             \begin{center}
@@ -52,152 +155,215 @@
             \end{center}
             \vspace{0.2cm}
             
-            Upon picking an action the Agent will be rewarded or penalised depending on which action is picked in which state. If the
-            Agent is ever in a Water Tile or within an Enemy, the Agent will be penalised, and the environment will be generated again.
-            The relationship between each Action and its associated Reward is modelled in the flow chart below:
+            The Reward Structure for a given Situation is very important, if the Agent is being rewarded incorrectly this could lead to drastic
+            issues with training and calculating expected values. I decided to focus my Reward Structure on Exploration and Motivating the Agent
+            to collect Items while also rewarding successfully eliminating Enemies. This was based off of feedback which was given to me by my
+            Expert in my second Interview. Below is shown a table of the individual Reward values I assigned when initially designing my Project.
 
-            \vspace{0.5cm}
-            \centerline{\includegraphics[width=\textwidth]{Images/Design/RewardActionStructure.png}}
-            \vspace{0.5cm}
-
-            To pick the Agents Action the surrounding Terrain is sampled for Grayscale Colour Values. These Grayscale values are then 
-            passed into the Main Neural Network to inform the decision. With the use of the SoftMax Logistics Function, we can generate a 
-            probability distribution from the Neural Network outputs. \\
             \vspace{0.2cm}
-            With the use of a training method called Epsilon Greedy we can balance Exploration and Exploitation. Epsilon is defined as
-            a value at the start of the Training Session, and is slowly multiplied by a regression value each step. When picking an action
-            a Random Number is generated between 0 and 1, and then compared with the Epsilon Value. If the random value is less than Epsilon
-            we pick a random Action, Exploration. If the random value is greater than Epsilon we use an informed decision, Exploition.\\
+            \begin{center}
+                \begin{tabular}{| L{2cm} | L{1cm} | L{8cm} |}
+                    \hline
+                    Reward Name & Value & Reward Description \\
+                    \hline
+                    Explore Reward & 0.01 & Given to the Agent when it enters a previously unvisited Tile  \\
+                    \hline
+                    Collect Item Reward & 1 & Given to the Agent when it collect an Item \\
+                    \hline
+                    Attack Reward & 0.5 & Given to the Agent upon a successfull Attack \\
+                    \hline
+                    Attack Failed Reward & -0.1 & Given to the Agent when an Attack has failed \\
+                    \hline
+                    Death Reward & -1 & Given to the Agent when it is killed \\
+                    \hline
+                \end{tabular}
+            \end{center}
             \vspace{0.2cm}
 
+            Shown below is shown a Diagram with the appropriate reward values for each Tile in the sample situation. Along with a flow chart 
+            detailing the steps it takes to calculate the reward of a given Action taken by the Agent. All reward gained during the flow process is
+            added to a total and returned as part of the Reward Function.
 
-        \subsection{System Flow Charts}
+            \begin{center}
+                \begin{tabular}{ C{1cm} C{1cm} C{1cm} C{1cm} C{1cm}}
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Water}-0.1 & \cellcolor{Water}-0.1 & \cellcolor{Beach}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Enemy}-0.1 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Water}-0.1 & \cellcolor{Beach}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Beach}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Player}0 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Tree}1 \\
+                        \rule{0pt}{1.2cm}% %
+                        \cellcolor{Tree}1  & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 & \cellcolor{Grass}0.01 \\
+                \end{tabular}
+
+                \includegraphics[width=\textwidth]{Images/Design/RewardActionStructure.png}
+            \end{center}   
+        \subsection{Object Orientated Structure}
             \large
-            \vspace{0.2cm}
-            Below is shown the Flow Chart Overview of my Entire Project. This flowchart is very abstracted without going into
-            the fine detail of each Process. \\
-            
-            \vspace{0.5cm}
-            \centerline{\includegraphics[width=\textwidth]{Images/Design/NEAFlowChart.png}}
-            \vspace{0.5cm}
-
-            
-
-        \subsection{Programming Language and Libraries} \mbox{} \\
-            \vspace{0.2cm}
-            I chose python for my chosen Programming Language, it's very versatile and I have lots of experience with the language
-            already. It's great for rapid prototyping and I already used it for my prototype so I will be able to reuse some parts
-            of my previous code base. \\
-            \vspace{0.2cm}
-            Below is a list of key libraries I will be using in my project: \\
-
-            \subsubsection*{Pygame}
-            Pygame is a highly customizable and well developed binding of \textit{Simple DirectMedia Layer} (SDL) Library. 
-            It has a full set of 2d drawing tools, along with keyboard and audio capabilities. I have lots of experience with Pygame 
-            so I already have code which I can take from, which will speed up development when dealing with the Pygame library. \\
-            \vspace{0.2cm}
-            I will be using Pygame to graphically display the Environment I create as part of my Technical Solution. This
-            will be done in a similar way to my prototype, displaying each tile as a specified colour. Pygame is purely a 
-            method to graphically output the current state of the simulation. \\
-
-            \subsubsection*{Json}
-            The ability to load Json Formatted Files is a key part of my User Input and overall Technical Solution. The Json 
-            Library in Python allows this with relative ease, along with saving Json data where needed. I will be using Json files
-            to store the User Inputted Parameters to the program. These parameters will be things like the size of the Simulation, and 
-            Neural Network Structure. \\
-
-            \subsubsection*{Pickle}
-            Pickle will be used to write Binary Files with Python. You can use it to save objects, such as classes
-            or lists, and load them. I will be using pickle to store the Matrix Class when saving the Training Progress of
-            the Neural Network. Each Weight and Bias will need to be stored in order to resume the exact training position of the
-            Network. I will also be storing states for Experience Replay, and the Data Points for plotting Training Data. \\
-
-            \subsubsection*{MatPlotLib}
-            MatPlotLib is a simple way to visualise Numerical data. You can very easily plot graphs from a set of
-            data points. With my Technical Solution I intend to load data previously stored with Pickle, and plot it with this Library. \\
-
-        \subsection{Class Diagrams}
-            \large
-            \vspace{0.2cm}
-            Below is shown the Class Diagram of the entire Technical Solution. The Data Logger is listed seperately for clarity, as
-            in practice multiple sections of the Program will aggregate with it. \\
+            My project is formed from several classes, each having a specific role. They primarily use composition, due to being tightly linked
+            together. Although some links are more similar to aggregation. I designed my project to primarily break down into two parts, the
+            Neural Network and the Environment. These are split into three primary classes, which link together through the use of a Management
+            class. This management class oversees and organises all Primary aspects of the program, storing instances of its child classes, and
+            passing references to eachother through Methods. It also handles the Setup and Resetting for the entire project, if the Agent is killed
+            it detects this and will signal the Environment to regenerate, create new enemies set the Agents new spawn position. Below is shown an 
+            abstraction of the Full Class Diagram, utilising only the names of the classes due to each class having too many methods to display fully.
+            The Full Class Diagram is shown on its own page at the end of this Section.
 
             \vspace{0.5cm}
-            \centerline{\includegraphics[width=\textwidth]{Images/Design/ClassDiagram.png}}
-            \vspace{0.5cm}
-            \centerline{\includegraphics[width=.65\textwidth]{Images/Design/DataLoggerDiagram.png}}
-            \vspace{0.5cm}
-            \pagebreak
-
-        \subsection{Individual Classes}
-            Below is shown a simplified Class Diagram, and the Individual Classes with Descriptions as to their Role in the Program. \\
             \centerline{\includegraphics[width=.65\textwidth]{Images/Design/SimplifiedClassDiagram.png}}
             \vspace{0.5cm}
 
-            \begin{center}
-                The Simulation Class is used to compose the 3 Main Sections of the Program into a Single Interface Class, it contains all the 
-                Setup, Display and Forward Methods. \\
-                \includegraphics[width=.6\textwidth]{Images/Design/Classes/Simulation.png} \\
-                \vspace{0.2cm}
-                
-                The DoubleNeuralNet Class combines together two Neural Networks to create a more complex Machine Learning Model. \\
-                \includegraphics[width=.70\textwidth]{Images/Design/Classes/DoubleNeuralNet.png} \\
-                \vspace{0.2cm}
+            As you can see from the Class Diagram there is alot of classes within my project, all linked together in various different ways. 
+            Below is shown a more indepth dive into each Class' Purpose, along with Explanations of their Primary Methods.\\
+            \subsubsection{Simulation Class}
+                The Simulation Class is the Management Class of the whole Program. This will be instantiated upon the launch of the program, and all user
+                interactions with the program will be done through it. The Methods within this class are designed to be very abstracted from the core
+                of the program. There are never any direct Matrix Operations or logic performed in this Class except for checking the parameters, and
+                basic setup such as instantiating new Enemies \textit{if they are enabled}. It does however call Methods which then run this logic.
 
-                The NeuralNet Class contains all the methods needed for a Functional Neural Network. \\
-                \includegraphics[width=.80\textwidth]{Images/Design/Classes/NeuralNet.png} \\
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.6\textwidth]{Images/Design/Classes/Simulation.png} 
+                    \caption*{The Simulation Class}
+                \end{figure}
+            \subsubsection{Agent, Enemy and WorldMap Class}
+                Both these Classes will be used by the Simulation Class to form the Environment and its interactions. The World Class will host the
+                Procedural Generation Methods along with storing any Terrain related data. Perlin Noise and Poisson Disc Sampling are used here to
+                generate the Height Map for the Terrain and Generate Objects. The Agent Class is used to interact with the Environment, Methods for 
+                Sampling the Tile Data and processing this into Grayscale Values for use in the Dual Neural Network. The Agent also has Reward Methods
+                for calculating the Reward when given a certain State and Action. This is shown under the Agent Interaction and Reward Design Section. \\
                 \vspace{0.2cm}
-                
-                The NeuralNetwork Class contains an Array of Layer objects. They are integral to the function of the Neural Network. \\
-                \includegraphics[width=.75\textwidth]{Images/Design/Classes/Layer.png} \\
+                The Enemy Class inherits from the Agent Class, implementing its own Commit Action and Spawn Position Method. This inheritance is so 
+                that any Agent Methods which might be needed in the final implementation.
                 \vspace{0.2cm}
+                This fulfils objectives under \textbf{Objective 4} \\
 
-                The Matrix Class is a key part of the Program, being used within the Neural Networks Logic. \\
-                \includegraphics[width=.55\textwidth]{Images/Design/Classes/Matrix.png} \\
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.65\textwidth]{Images/Design/Classes/WorldMap.png}
+                    \caption*{The WorldMap Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.45\textwidth]{Images/Design/Classes/PerlinNoise.png}
+                    \caption*{The PerlinNoise Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.35\textwidth]{Images/Design/Classes/Tile.png}
+                    \caption*{The Tile Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.65\textwidth]{Images/Design/Classes/Agent.png}
+                    \caption*{The Agent Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.80\textwidth]{Images/Design/Classes/Enemy.png}
+                    \caption*{The Enemy Class}
+                \end{figure}
+            \subsubsection{DoubleNeuralNet Class Family}
+                The DoubleNeuralNet Class is instantiated as part of the setup in Simulation. This class is the parent to both the Main and Target 
+                Neural Networks, which are both instances of NeuralNet. DoubleNeuralNet hosts the Top-Level methods for invoking a Time Step
+                within the Network. The TimeStep Method will be called from Simulation, into this method is passed references to the current WorldMap
+                along with the current Agent. This then Forward Propagates the Main and Target Neural Networks, performs the logic for calculating the
+                correct action utilising SoftMax and Epsilon Greedy. The expected values, and subsequently the Loss are calculated, which is then used
+                to Back Propagate the Main Network. \\
                 \vspace{0.2cm}
-
-                The Deque Class is used as part of the Experience Replay Algorithm. \\
-                \includegraphics[width=.50\textwidth]{Images/Design/Classes/Deque.png} \\
+                The NeuralNet Class holds a list of Layer Objects, along with intermediate Forward Prop, Back Prop and Update Methods. Upon initialisation
+                of the NeuralNet Object, it will create the list of Layers with the specified sizes from the User. The contained Methods simply perform
+                the Layer$\to$Layer Logic which is needed for Forward and Back Propagation. \\
                 \vspace{0.2cm}
-
-                The Experience Class is stored within the Deque Object. \\
-                \includegraphics[width=.30\textwidth]{Images/Design/Classes/Experience.png} \\
+                Each Layer Object holds Weight, Bias, Preactivation, and Activation Data. This is all utilised within the Forward and Back Propagation 
+                Process. This data is all stored in Matrices to speed up calculations. \\
                 \vspace{0.2cm}
+                This fulfils objectives under \textbf{Objective 5} \\
 
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.70\textwidth]{Images/Design/Classes/DoubleNeuralNet.png} 
+                    \caption*{The DoubleNeuralNet Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.80\textwidth]{Images/Design/Classes/NeuralNet.png} \\
+                    \caption*{The NeuralNet Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.75\textwidth]{Images/Design/Classes/Layer.png} \\
+                    \caption*{The Layer Class}
+                \end{figure}
+            \subsubsection{Activation Class}
                 The Activation Class is an Abstract Base Class, in which the Neural Network Activations can inherit from, implementing
-                their own definitions for Activation and Derivative. \\
-                \includegraphics[width=.65\textwidth]{Images/Design/Classes/Activation.png} \\
+                their own definitions for Activation and Derivative. There are two Methods which a new Activation needs to implement,
+                Activation and Derivative. The Activations I will implement are shown in Modelling of the Problem, along with shown
+                below in the UML Diagram.\\
                 \vspace{0.2cm}
+                This fulfils objectives under \textbf{Objective 6} \\
 
-                The Agent Class is used to store the Agents Location, along with implementing Action and Reward Methods. \\
-                \includegraphics[width=.65\textwidth]{Images/Design/Classes/Agent.png} \\
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.65\textwidth]{Images/Design/Classes/Activation.png} \\
+                    \caption*{The Activation Base Class and Implemented Activations}
+                \end{figure}
+            \subsubsection{Matrix Class}
+                The Matrix Class will contain the standard Matrix Operations, along with multiple methods of creating different 
+                Matrices. It is used as an integral part of the NeuralNet Class, because it heavily relies on Matrix Operations.
+                These Operations require efficient algorithms, which are outlined under Description of Algorithms. \\
                 \vspace{0.2cm}
+                This fulfils objectives under \textbf{Objective 3} \\
 
-                The Enemy Class inherits methods from Agent, Implementing its own CommitAction and SpawnPosition Methods. \\
-                \includegraphics[width=.80\textwidth]{Images/Design/Classes/Enemy.png} \\
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.55\textwidth]{Images/Design/Classes/Matrix.png} \\
+                    \caption*{The Matrix Class}
+                \end{figure}
+            \subsubsection{Deque Class and Experience Replay}
+                The Deque Class is used as part of the Implementation of Experience Replay. Within the Deque will be stored instances
+                of the Experience Object, which is used to store Individual State Data. The Deque will have Methods to sample states from
+                it's contents, which will then be used within the DoubleNeuralNet Class to Back Propagate the Calculated Loss.\\
                 \vspace{0.2cm}
+                This fulfils objectives under \textbf{Objective 5} \\
+            
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.50\textwidth]{Images/Design/Classes/Deque.png} 
+                    \caption*{The Deque Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.30\textwidth]{Images/Design/Classes/Experience.png}  \\
+                    \caption*{The Experience Class}
+                \end{figure}
+            \subsubsection{Data Logger and Heap Class}
+                The Data Logger Class will be used to Log Data points at certain Points of the Program and then subsequently saving them
+                to a .data File. Each Data Point added to the Logger will be checked against the Loggers Structure, which is stored as
+                a List of Types. \\
+                \vspace{0.2cm}
+                These .data files can then be plotted using a Graphing Library. \\
+                \vspace{0.2cm}
+                This fulfils objectives under \textbf{Objective 8} \\
 
-                The WorldMap Class generates and stores all Terrain Data for the current Simulation. \\
-                \includegraphics[width=.65\textwidth]{Images/Design/Classes/WorldMap.png} \\
-                \vspace{0.2cm}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.75\textwidth]{Images/Design/Classes/DataLogger.png}
+                    \caption*{The Deque Class}
+                \end{figure}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.45\textwidth]{Images/Design/Classes/Heap.png}  \\
+                    \caption*{The Experience Class}
+                \end{figure}
 
-                The Perlin Noise Class contains only methods and is used to Sample Gradient Noise based on a Seed. \\
-                \includegraphics[width=.45\textwidth]{Images/Design/Classes/PerlinNoise.png} \\
-                \vspace{0.2cm}
-
-                The Tile Class is used to Store and Manipulate Data per Tile.
-                \includegraphics[width=.35\textwidth]{Images/Design/Classes/Tile.png} \\
-                \vspace{0.2cm}
-                
-                The DataLogger Class is used to log Data Points across the Program. \\
-                \includegraphics[width=.75\textwidth]{Images/Design/Classes/DataLogger.png} \\
-                \vspace{0.2cm}
-
-                The Heap Class is used as part of the Heap Sort implemented by the DataLogger. \\
-                \includegraphics[width=.45\textwidth]{Images/Design/Classes/Heap.png} \\
-                \vspace{0.2cm}
-            \end{center}
-
+            \pagebreak
+            \vspace{0.5cm}
+            \centerline{\includegraphics[width=18cm]{Images/Design/ClassDiagram.png}}
+            \vspace{0.5cm}
+            \pagebreak
         \subsection{Description of Algorithms}
             \large
             \vspace{0.2cm}
@@ -792,10 +958,7 @@
                 \vspace{0.5cm}
         \vspace{0.5cm}
         \subsection{Description of Data Structures}
-            \large
-            \vspace{0.2cm}
-            \begin{enumerate}
-                \item {\Large Matrices} \\
+            \subsubsection{Matrices}
                 As part of developing a Neural Network, I will extensively use Matrices, as they are an integral part of the algorithms
                 used for Machine Learning. After creating a prototype Matrix class as part of my prototype, I will represent it in the
                 same format. A Matrix can be represented simply using a 2D Array, but they can have Mathematical Operations performed
@@ -811,40 +974,26 @@
                 \vspace{0.2cm}
                 As part of a Neural Network Matrices are used heavily in the calculations. So it will be important to optimise the
                 implemented algorithms to make sure their Algorithmic Time Complexity is minimised. \\
-
-                \vspace{0.5cm}
-                \item {\Large Double Ended Queue} \\
+            \subsubsection{Double Ended Queue} 
                 A Double Ended Queue (Commonly referred to as a {\textbf{Deque}}) is an Abstract Data Type, which is a generalisation of 
                 a Queue. Elements can be added to the Front/Head or Back/Tail. Deques are commonly implemented using an Array, and two
                 pointers, one for Front and Back.
-
-                \vspace{0.5cm}
-                \item {\Large Tile} \\
+            \subsubsection{Tile} 
                 A Tile is used to store specific location Data as part of the World Map. It can be initialised without values, and is
                 then populated with the relevant information. Methods are attatched to this Class to Add/Remove Items and Enemies as needed.
                 Allowing for the Agent when getting Tile data to get relevant and accurate information.
-
-                \vspace{0.5cm}
-                \item {\Large Experience} \\
+            \subsubsection{Experience} 
                 An Experience is used to store data for Experience Replay. It is an Empty Class with no Methods. This includes the State, 
                 Action, NewState and Reward, all at the time of assignment. This is used in conjunction with the Experience Replay 
                 Algorithm, described above.
-
-                \vspace{0.5cm}
-                \item {\Large Heap} \\
-                A Heap is specialised Binary Tree which satisfies the \textbf{Heap Property}: such that for all nodes with Parents, the
+            \subsubsection{Heap} 
+                A Heap is specialised Binary Tree which satisfies the Heap Property: such that for all nodes with Parents, the
                 Parent has a greater value than the Child. A Heap is used as part of a Heap Sort, an $O(nlog(n))$ Sorting Algorithm. The
                 highest priority element is always stored at the Root, with the tree of the structure being considered "Partialy Ordered".
                 Heaps can be stored in an Array, with the Root element at Index 0. Children of an Index are located at \textbf{2i + 1} and
                 \textbf{2i + 2}. The Parent of an Index is located at \textbf{$\lfloor$(i-1)/2$\rfloor$}.
-            \end{enumerate}
-
-        \vspace{0.5cm}
         \subsection{File Structure}
-            \large
-            \vspace{0.2cm}
-            \begin{enumerate}
-                \item {\Large User Defined Parameters} \\
+            \subsubsection{User Defined Parameters}
                 As part of my Technical Solution, the User will be able to modify the parameters which dynamically modifies the Simulation
                 and the Structure of the Double Neural Network. The file is stored in a Json format (Java Script Object Notation).
                 This allows the File to be Human Readable, and easily editable. Each parameter will also have a defined Range alongside it.
@@ -908,7 +1057,7 @@
                     \hline
                     Mountain & Float & 0 - 1 & The cuttoff values for Mountains. \\
                     \hline
-                    TreeType & String & 0 - 1 & The internally used Inventory name for collected Trees. \\
+                    TreeType & String & - & The internally used Inventory name for collected Trees. \\
                     \hline
                     StartEnemyCount & Int & 0 - \infty & The maximum count of Enemies to Spawn upon the creation of a new Map. \\
                     \hline
@@ -969,20 +1118,63 @@
                     DQLGamma & Float & 0 - 1 & The Discount for future gained Reward \\
                     \hline
                 \end{longtable}
-
-                \vspace{0.5cm}
-                \item {\Large .dqn Files} \\
-                \vspace{0.2cm}
+            \subsubsection{.dqn Files}
                 DQN Files are used to store all Data relating to the Dual Neural Network. It is a Binary File. It contains all Layer Data, along
                 with Experience Replay Data, the activations being used, and other important data.
-
-                \vspace{0.5cm}
-                \item {\Large .data Files} \\
-                \vspace{0.2cm}
+            \subsubsection{.data Files}
                 Data Files are used to store all data points created by the Data Loggers. They are Binary Files and are individually created per Data
                 Logger.
-            
-                \vspace{0.5cm}
-            \end{enumerate}
-    \vspace{0.1cm}
+        \subsection{Integrity and Exception Handling}
+            \subsubsection{Ranges}
+                As mentioned above under File Structure, I have implemented a Range Json File, in order to specify the ranges of each parameter the User can
+                input. This is used to help the user avoid breaking the simulation by creating unintended results. Things such as creating a very large Neural
+                Network would take up alot of memory, possibly causing Memory Allocation issues with the Users system. There is no need to implement Exceptions 
+                for most sections of the Project due to the Nature of the system being Dynamically created by the users Json Input. Which is of course sanitised 
+                by the Range File.
+            \subsubsection{Data Logger Structure Matching}   
+                As part of my Data Logger I will implement a system to check if a New Data Point Matches the structure of the Data Logger. This structure will
+                be stored as a List of Types, such as [[Int, Float], String, Int], where a nested list represents a multi-typing scenario. This multi-typing 
+                scenario would be cases like [Int, Float] where they are interchangeable in some cases. If a New Data Point does not match the structure of
+                the Data Logger it will throw an appropriate error.
+            \subsubsection{Matrix Exceptions}    
+                As part of my Matrix Class I made a series of appropriate Exceptions to help while developing and implementing any Matrix related Logic. These
+                Exceptions are thrown when any misintended methods or operations are performed. Such as Multiplying incompatably Matrices, or utilising a non-existant
+                initialisation case. Below is shown a Table of Exceptions I have made:
+
+                \begin{center}
+                    \begin{tabular}{| L{5cm} | L{10cm} |}
+                        \hline
+                        Exception Identifier & Exception Message \\
+                        \hline
+                        \hline
+                        NoMatchingInitCase & No Matching Init case for given parameters \\
+                        \hline
+                        UnableToCreateIdentityMat & Unable to create identity Matrix from given arguments \\
+                        \hline
+                        NotOfTypeVector & Given list of Vectors contains a Matrix \\
+                        \hline
+                        VectorsNotOfSameLength & All Vectors must be the same height \\
+                        \hline
+                        NoMatchingMultiplycase & No matching multiply case found \\
+                        \hline
+                        NoMatchingAdditionCase & No matching addition case found \\
+                        \hline
+                        NoMatchingSubtractionCase & No matching addition case found \\
+                        \hline
+                        NoMatchingPowerCase & No matching power case was found \\
+                        \hline
+                        MismatchOrders & Orders of Matrices do not match \\
+                        \hline
+                        SumOfMatrixReqNumericalVals & The sum of a Matrix requires Numerical values \\
+                        \hline
+                        ColumnOutOfRange & Specified Column out of range of Matrix \\
+                        \hline
+                        ColumnMustBeInteger & Specified Column must be of type Integer \\
+                        \hline
+                        RowOutOfRange & Specified Row out of range of Matrix \\
+                        \hline
+                        RowMustBeInteger & Specified Row must be of type Integer \\
+                        \hline
+                    \end{tabular}
+                \end{center}
 \end{flushleft}

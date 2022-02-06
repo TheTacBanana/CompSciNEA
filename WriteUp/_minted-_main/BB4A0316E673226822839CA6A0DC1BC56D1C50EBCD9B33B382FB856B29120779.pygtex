@@ -1,0 +1,57 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+    \PYG{n+nt}{\PYGZdq{}EnterValues\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}GenerateThreaded\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}EnableEnemies\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}SaveWeights\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}StepDelay\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{k+kc}{null}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}Debug\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DebugScale\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{16}\PYG{p}{,} \PYG{l+m+mi}{1024}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}TileWidth\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}TileBorder\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}OctavesTerrain\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}PersistenceTerrain\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}WorldScale\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mf}{0.1}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}OctavesTrees\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}PersistenceTrees\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}PoissonKVal\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{k+kc}{null}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}TreeSeedOffset\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{k+kc}{null}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}TreeHeight\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}InteractableTileBorder\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}TreeBeachOffset\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}Grayscale\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}Water\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}Coast\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}Grass\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}Mountain\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}StartEnemyCount\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{k+kc}{null}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}MoveReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}CollectItemReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DeathReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}ExploreReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}AttackReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}AttackFailedReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}NoopReward\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{\PYGZhy{}1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}TargetReplaceRate\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{300}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}EREnabled\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}ERBuffer\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1000}\PYG{p}{,} \PYG{l+m+mi}{10000}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}ERSampleRate\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}ERSampleSize\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{1000}\PYG{p}{],}
+
+    \PYG{n+nt}{\PYGZdq{}DQLEpoch\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{1000}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DQLearningMaxSteps\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1000}\PYG{p}{,} \PYG{k+kc}{null}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DQLOffset\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DQLEpsilon\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DQLEpisonRegression\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DQLLearningRate\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+    \PYG{n+nt}{\PYGZdq{}DQLGamma\PYGZdq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

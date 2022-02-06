@@ -32,16 +32,27 @@
             I can determine this by asking more specific questions, proposed below: \\
 
             \begin{enumerate}
-                \item Does the Algorithm draw links between specific elements and danger?
-                \item How well does the Algorithm perform with specific tasks?
-                \item If the problem is altered to be simpler does the Algorithm perform better?
-                \item Can I fine tune the Algorithms Parameters to get better results?
+                \item \textbf{Does the Algorithm draw links between specific elements and danger?}
+                \item \textbf{How well does the Algorithm perform with specific tasks?}
+                \item \textbf{If the problem is altered to be simpler does the Algorithm perform better?}
+                \item \textbf{Can I fine tune the Algorithms Parameters to get better results?}
             \end{enumerate}
 
             These more specific questions will allow me to determine to what extent the Algorithm can solve the problem.
             I hope to dive more in depth into answering these in my Evaluation Section later in the project. \\
-
             \vspace{0.2cm}
+            The First Question I feel is important because it shows a reasonably high level of understanding of the problem
+            if it can somehow make links between specific parts of its input and determine that they are infact dangerous. \\
+            \vspace{0.2cm}
+            The Second Question may be harder to answer, because I will have to somehow determine just how well it 
+            performs doing something like Collecting Items, or Killing Enemies. This can't really be analysed through
+            pure numbers and instead would have to determined through surveying the Algorithm as it works. \\
+            \vspace{0.2cm}
+            The Third Question will definitely be something to test for, I think it will be relatively easy to tell if
+            adjusting the problem shows a noticeable improvement/deterioration in ability to solve the Simulation. \\
+            \vspace{0.2cm}
+            The Fourth Question should be something quite easy to determine if it makes an impact, but overall shall
+            be needed when trying to find the optimal setup for the Algorithm such that it performs its best. \\
         \subsection{Background}
             \vspace{0.2cm}
             I am investigating Machine Learning because I've been wanting to try my hand at it for a while, this Project
@@ -70,7 +81,6 @@
         \subsection{Initial Research}
             \subsubsection{First Interview}
                 \large
-                \vspace{0.2cm}
                 As part of my Investigation I approached my friend Shaun, who has Experience with Machine Learning.
                 I formed a list of questions to ask him, the responses are paraphrased for clarity. I mainly wanted to gain an idea of 
                 what Machine Learning algorithm would suit my project the best. So I targetted my questions towards this. \\
@@ -81,318 +91,381 @@
                     “Your project is definitely very complex and if finished will tick alot of the boxes needed for Full Marks. There are lots
                     of layers of complexity along with room for good Object Orientated Design.”
 
-                    \vspace{0.5cm}
                     \item {\large What Machine Learning Algorithms do you think would be relevant to my project?} \\
                     \vspace{0.2cm}
-                    "Without pushing your complexity too far I think you should look into Deep Reinforcement Learning, I believe it has the
+                    "Without pushing your complexity too far I think you should look into Deep Q Learning, I believe it has the
                     possibility of solving your problem if not too complex. Because of that you may way want to keep your simulation as minimal
                     as possible in order to give your Agent a chance. If you wanted to go further you could implement a Convolutional Neural Network, 
                     but this will add to the Complexity and take more time to program."
 
-                    \vspace{0.5cm}
                     \item {\large Would User Defined Parameters be helpful?} \\
                     \vspace{0.2cm}
                     "The ability to dynamically change the parameters through a json file or similar would be very useful. Epecially to users who
                     have little to no experience with it before hand. The ability to change things like the Procedural Generation, Enemy Counts, 
                     Network Structure etc would be the perfect addition to your project."
 
-                    \vspace{0.5cm}
                     \item {\large What Procedural Generation method would be best for my Project?} \\
                     \vspace{0.2cm}
                     "I only have experience with Perlin Noise but I think that it would be a great fit for your Project. It uses simple vector Maths
                     to calculate Gradient Noise, and is relatively simple to understand and Program. There are other Procedural Generation Methods
                     I'm aware of like Diamond Square or Simplex Noise, but both of those are much more complicated to my understanding."
 
-                    \vspace{0.5cm}
                     \item {\large How complex should I make my Simulation?} \\
                     \vspace{0.2cm}
                     "I would stick to a relatively simple simulation at first, and then if your agent is successful at solving it, you can add more
                     to test the limits of your network after. Dynamic threats like Enemies which follow the Agent which it can attack would provide a base 
                     complex problem to start off with. Other problems could be collecting items or a simple Food Collection system with a Hunger Meter."
 
-                    \vspace{0.5cm}
                     \item {\large How should I determine if my project is successful?} \\
                     \vspace{0.2cm}
                     "You could log a graph of Loss compared to Time, and in theory if your agent is learning it will successfully reduce the average Loss 
-                    the more training it receives. You could use this graphed data as supporting evidence in your Evaluation."
+                    the more training it receives. You could use this graphed data as supporting evidence when evaluating your project. You could probably
+                    save data and plot it using a Graphing Library of some sort, theres bound to be one with your language of choice."
 
-                    \vspace{0.5cm}
                     \item {\large What should I focus my Initial Research on?} \\
                     \vspace{0.2cm}
                     "It would be benefical to you to research the Maths behind Neural Networks, specifically for Forward Propagation
                     and Back Propagation. The Maths behind it can get very complicated, along with being very hard to debug if a small error is made.
                     They both heavily rely on Matrix Operations, so if you're not familiar with those you should get up to speed."
-
-                    \vspace{0.5cm}
                 \end{enumerate}
-                \subsubsection{Existing Investigations} 
-                    \paragraph{Crafter} \mbox{} \\
-                        \vspace{0.2cm}
-                            In my research on the Internet I discovered a project called \textit{Crafter}. \\
+            \subsubsection{Evaluation of First Interview}
+                My Experts input as part of my Initial Research is useful because it gives me a better understanding of the areas I should target my
+                research on. Below is my thoughts on various parts of the Interview:
 
-                            \vspace{0.2cm}
-                            \centerline{\textit{https://github.com/danijar/crafter}}
-                            \vspace{0.2cm}
+                \begin{itemize}
+                    \item I will definitely focus alot of my research on Neural Networks and Deep Q Learning. Though I will look into other
+                    alternatives which I could use.
 
-                            Crafter is described to be \textit{"Benchmarking the Spectrum of Agent Capabilities"}, and is utlised
-                            in conjunction with Machine Learning Algorithms such as \textit{DreamerV2}, \textit{PPO} and \textit{Rainbow}. Crafter poses significant
-                            challenge towards its Player, requiring high levels of generalisation, long-term reasoning, and complex 
-                            problem solving. If the Machine Learning algorithm in question fails to achieve one of these aspects it will 
-                            struggle to full "Solve" the simulation. \\
+                    \item User Defined Parameters will definitely be included in the design of my project. I feel as though this would be
+                    very helpful for testing, being able to find tune needed Parameters without having to chance them in the code would be useful.
 
-                            \vspace{0.2cm}
+                    \item Perlin Noise sounds like a good method of generating Terrain. I will include this as part of my Research into Algorithm 
+                    I might utilise.
 
-                            High levels of generalisation are required when training a Machine Learning algorithm, if this is not achieved then
-                            your network will only lend itself to a single Dataset/Problem. An example of this would be training a network used
-                            to recognise hand written digits on only one way of writing 4's, if presented with an input for a different type of 
-                            4 it may not recognise it and identify it incorrectly. \\
-                            
-                            \vspace{0.2cm}
+                    \item This guide for the complexity of my simulation will be useful when designing it. I also like his idea regarding collecting food to 
+                    stay alive with a hunger bar. Implementing more complex problems like this could be difficult for the Algorithm to solve though. 
+                    
+                    \item Graphing the Average Loss using a Graphing Library would be helpful and support the Evaluation of my Project. It would mean
+                    that I'd need to include a Data Logger as part of the design of my project, as well as a library which can plot this Data.
 
-                            Long-Term reasoning is a complex problem to solve in the context of Machine Learning, current Machine Learning models
-                            struggle to deal with this problem. This is dealt with by using algorithms built to mimic "memory". A common 
-                            implementation of this is Experience Replay which stores states in a queue, and relearns from it after every N ammount
-                            of steps. \\
-
-                            \vspace{0.2cm}
-
-                            A complex reward and action system may take time for an algorithm to learn but it certainly is possible with current
-                            Machine Learning Models. Crafter utilises a complex action system with a flow chart determining which Action can be taken
-                            given the current state of the simulation. Below is shown the Complex Flow Chart of Actions: \\
-
-                            \vspace{0.2cm}
-                            \begin{center}
-                                \includegraphics[width=12cm]{Images/InitialResearch/CrafterComplexActionSystem.PNG} \\
-                                Complex action system as shown in the Paper "Benchmarking the Spectrum of Agent Capabilities" \\
-                            \end{center}
-                            \vspace{0.2cm}
-
-                            Crafter manages to achieve quite high success rates with various Algorithms, but they still fail to overcome, or even match
-                            human standards. This is likely due to the complexity of the problem, and in theory will be solvable within the near future
-                            as Machine Learning advances over the next few years. This is why I plan to create a simpler simulation which the Agent will
-                            be more likely to be able to solve. Below is shown the Success Rate Data for both Algorithms and Human Experts. \\
-
-                            \begin{figure}[h]
-                                \centering
-                                \subfloat[\centering Success Rate of Algorithms]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData.PNG}}}
-                                \qquad
-                                \subfloat[\centering Comparison Against Human Data]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData+Human.PNG}}}
-                            \end{figure}
-
-                            While I would love to create a simulation similar to crafter, it is very complex and would take a long time to develop. Yet
-                            would not net many marks in the process. Overall I feel like Crafter is a good example that my project is possible, but will
-                            require a complex Machine Learning Model in order to achieve reliable results from my Investigation.
-
-                    \paragraph{Minecraft} \mbox{} \\
-                        \vspace{0.2cm}
-                        Minecraft is a \textit{very} popular Game. It's a sandbox game, meaning that the player can do almost anything they want.
-                        The game is formed from blocks which can be broken or placed, along with a plethera of items, enemies, passive animals
-                        and more. It has infinite terrain generation, and explicity uses Perlin Noise. The seed of the noise determines
-                        all the terrain generation, loot tables, random structures, caves, etc. \\
-                        
-                        \vspace{0.2cm}
-
-                        First it starts off on a very broad level, painting a basic topographical map of the world. It uses Perlin Noise to sample
-                        a height value for each chunk, where chunks are 16x16 areas of blocks. Then within these chunks the game uses the Diamond Square
-                        algorithm to interpolate between it and the chunks around it, creating blocks where the terrain should be. This produces an 
-                        entirely deterministic results based upon the seed.\\
-
-                        \vspace{0.2cm}
-
-                        Secondly, the Caves are generated using Perlin Worms, which travel in deterministic directions based on their starting position.
-                        These worms dig through the terrain carving out caves which can then be traversed by the player. Within these Caves spawn water
-                        sources, pools of lava, useful ores. All of these are deterministically generated by the original seed. \\ 
-
-
-                        \begin{figure}[h]
-                            \centering
-                            \subfloat[\centering Example of Minecraft's terrain generation in a Swamp Biome]{{\includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg}}}
-                            \qquad
-                            \subfloat[\centering Example of a Sunken Pirate Ship Structure]{{\includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg}}}
-                        \end{figure}
-
-                        Minecraft itself is too complex and dynamic to be solved by current Machine Learning algorithms, along with there is no quantifiable 
-                        metric for performance due to it's sandbox nature. There exist data sets for Minecraft, in the form of captured gameplay footage, but
-                        there has been little to no success of quantifiably good solutions to solving Machine Learning problems within Minecraft. \\
-
-                        \vspace{0.2cm}
-
-                        Overall I feel like it would be good to borrow elements from Minecraft's terrain generation, such as its utilisation of Perlin Noise.
-                        But the majority of the games systems are way too complex for a Machine Learning algorithm to solve. \\
-
-                    \paragraph{Conway's Game of Life} \mbox{} \\
-                        \vspace{0.2cm}
-                        Conway's Game of Life is whats called a Cellular Automaton, which is a discrete computation model formed from a grid of cells along with 
-                        a ruleset. Conway's is commonly referred to a Zero Player Game, where the input for the Automaton is defined at the start, with no
-                        further adjustment needed for it to run. The game is fully Turing complete and can simulate a Universal Constructor. \\
-                        \vspace{0.2cm}
-                        The rules of Conway's are such that: \\
-
-                        \vspace{0.2cm}
-                        \begin{addmargin}[2em]{0em}
-                            \large
-                            1. Any live cell with fewer than two live neighbours dies, as if by underpopulation. \\
-                            2. Any live cell with two or three live neighbours lives on to the next generation. \\
-                            3. Any live cell with more than three live neighbours dies, as if by overpopulation. \\
-                            4. Any dead cell with exactly three live neighbours becomes a live cell. \\
-                        \end{addmargin}
-
-                        \vspace{0.2cm}
-                        It is rather interesting that such complicated Machines can be formed from such a simple ruleset, as an example 
-                        here is a Turing Machine formed from 34 Thousand Cells: \\
-
-                        \begin{figure}[h]
-                            \centering
-                            \subfloat[\centering Turing Machine built in Conways Game of Life]{
-                                \includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
-                        \end{figure}
-
-                        Overall, I think this shows that my simulation doesnt need to have complex rules in order to achieve 
-                        interesting results. Conway's is formed from 4 simple rules, and yet is Turing complete.
-
-                \subsubsection{Algorithms and Potential Data Types}
-                    \large
+                    \item Pointing me towards learning the complexities behind Forward and Back Propagation is definitely a good starting point
+                    as part of my initial research. He also pointed me towards a few helpful resources for learning these two concepts. I will definitely
+                    read through these.
+                \end{itemize}
+            \subsubsection{Existing Investigations} 
+                \paragraph{Crafter} \mbox{} \\
                     \vspace{0.2cm}
-                    \paragraph{Neural Network and Matrices} \mbox{} \\
-                        As part of developing a Machine Learning Algorithm, I will need to implement a Matrix class in order to
-                        implement a Neural Network. Matrices are commonly used to represent individual layers of a network. Along
-                        with making calculations much easier, condensing them into performing operations on matrices, rather than
-                        using nested for loops and lists. As part of my Initial Research I have taken the time to understand
-                        how a Neural Network functions, it turns out I have already learned most of the Maths needed to understand
-                        how it works in my A Level Maths and Further Maths courses. \\
-                        \vspace{0.2cm}
-                        A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
-                        and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be represented
-                        in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$, should you adopt the black box approach. 
-                        The functions name in this case is Forward Propagation. \\
-                        \vspace{0.2cm}
-                        We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
-                        Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
-                        the following layer. In the below image is represented a Neural Network with a layer structure of $[3, 5, 2]$.
+                        In my research on the Internet I discovered a project called \textit{Crafter}. \\
 
-                        \vspace{0.1cm}
-                        \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+                        \vspace{0.2cm}
+                        \centerline{\textit{https://github.com/danijar/crafter}}
+                        \vspace{0.2cm}
 
-                        Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
-                        layer having an associated Bias. These are used to compute the outcome of a network. \\
+                        Crafter is described to be \textit{"Benchmarking the Spectrum of Agent Capabilities"}, and is utlised
+                        in conjunction with Machine Learning Algorithms such as \textit{DreamerV2}, \textit{PPO} and \textit{Rainbow}. Crafter poses significant
+                        challenge towards its Player, requiring high levels of generalisation, long-term reasoning, and complex 
+                        problem solving. If the Machine Learning algorithm in question fails to achieve one of these aspects it will 
+                        struggle to full "Solve" the simulation. \\
+
                         \vspace{0.2cm}
-                        Forward Propagation is used to compute the outcome of a network, it has a general form and uses 
-                        Matrix Multiplication and Addition to achieve this.
-                        \vspace{0.2cm}
+
+                        High levels of generalisation are required when training a Machine Learning algorithm, if this is not achieved then
+                        your network will only lend itself to a single Dataset/Problem. An example of this would be training a network used
+                        to recognise hand written digits on only one way of writing 4's, if presented with an input for a different type of 
+                        4 it may not recognise it and identify it incorrectly. \\
                         
+                        \vspace{0.2cm}
+
+                        Long-Term reasoning is a complex problem to solve in the context of Machine Learning, current Machine Learning models
+                        struggle to deal with this problem. This is dealt with by using algorithms built to mimic "memory". A common 
+                        implementation of this is Experience Replay which stores states in a queue, and relearns from it after every N ammount
+                        of steps. \\
+
+                        \vspace{0.2cm}
+
+                        A complex reward and action system may take time for an algorithm to learn but it certainly is possible with current
+                        Machine Learning Models. Crafter utilises a complex action system with a flow chart determining which Action can be taken
+                        given the current state of the simulation. Below is shown the Complex Flow Chart of Actions: \\
+
+                        \vspace{0.2cm}
                         \begin{center}
-                            $
-                            S^{(L)} = 
-                            \begin{bmatrix}
-                            s^{(L)}_{0} \\
-                            s^{(L)}_{1} \\
-                            \vdots      \\
-                            s^{(L)}_{n} 
-                            \end{bmatrix}
-                            = 
-                            \begin{bmatrix}
-                            w^{(L-1)}_{0,0} & w^{(L-1)}_{0,1} & \hdots  & w^{(L-1)}_{0,m} \\
-                            w^{(L-1)}_{1,0} & w^{(L-1)}_{1,1} & \hdots  & w^{(L-1)}_{1,m} \\
-                            \vdots          & \vdots          & \ddots  & \vdots          \\
-                            w^{(L-1)}_{n,0} & w^{(L-1)}_{n,1} & \hdots  & w^{(L-1)}_{n,m} \\
-                            \end{bmatrix}
-                            \begin{bmatrix}
-                            a^{(L-1)}_{0} \\
-                            a^{(L-1)}_{1} \\
-                            \vdots      \\
-                            a^{(L-1)}_{n} 
-                            \end{bmatrix}
-                            +
-                            \begin{bmatrix}
-                            b^{(L)}_{0} \\
-                            b^{(L)}_{1} \\
-                            \vdots      \\
-                            b^{(L)}_{n} 
-                            \end{bmatrix}
-                            $ 
+                            \includegraphics[width=12cm]{Images/InitialResearch/CrafterComplexActionSystem.PNG} \\
+                            Complex action system as shown in the Paper "Benchmarking the Spectrum of Agent Capabilities" \\
                         \end{center}
-                        
-                        \begin{center}
-                            $
-                            \sigma(S^{(L)})
-                            =
-                            \sigma\left(
-                            \begin{bmatrix}
-                            s^{(L)}_{0} \\
-                            s^{(L)}_{1} \\
-                            \vdots      \\
-                            s^{(L)}_{n} 
-                            \end{bmatrix}
-                            \right)
-                            =
-                            \begin{bmatrix}
-                            \sigma(s^{(L)}_{0}) \\
-                            \sigma(s^{(L)}_{1}) \\
-                            \vdots              \\
-                            \sigma(s^{(L)}_{n}) 
-                            \end{bmatrix}
-                            $ 
-                        \end{center}
-                        
                         \vspace{0.2cm}
-                        We then apply an activation function as shown above, in this case we will apply the Sigmoid function: $\sigma(x)$ to $S^{(L)}$. 
-                        The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and 1. Shown Below:
-                        
-                        \begin{center}
-                            \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
-                            \begin{axis}%
-                            [
-                                grid=major,     
-                                axis x line=bottom,
-                                ytick={0,.5,1},
-                                ymax=1,
-                                axis y line=middle,
-                                samples=100,
-                                domain=-6:6,
-                                range=0:1
-                                legend style={at={(1,0.9)}}     
-                            ]
-                                \addplot[blue,mark=none]   (x,{sigma(x)});
-                                \legend{$\sigma(x)$}
-                            \end{axis}
-                            \end{tikzpicture}
-                        \end{center}
 
-                        Matrices can be used for all parts of a Neural Network implementation, and will prove very useful in my Technical
-                        Solution. \\
+                        Crafter manages to achieve quite high success rates with various Algorithms, but they still fail to overcome, or even match
+                        human standards. This is likely due to the complexity of the problem, and in theory will be solvable within the near future
+                        as Machine Learning advances over the next few years. This is why I plan to create a simpler simulation which the Agent will
+                        be more likely to be able to solve. Below is shown the Success Rate Data for both Algorithms and Human Experts. \\
 
-                    \paragraph{Procedural Generation} \mbox{} \\
-                        \vspace{0.2cm}
-                        For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
-                        which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
-                        
-                        \begin{center}
-                            \begin{tabular}{| L{6cm} | L{6cm} |}
-                                \hline
-                                {\large Post-Processing Algorithms} & {\large Perlin Noise} \\
-                                \hline
-                                I discovered two post processing algorithms often used for simple 2d terrain generation. 1 Averages squares 
-                                around the selected square, and the other pulls it up or down the gradient its currently on.
-                                I find these interesting because they're relatively simple, and I'm not quite sure whether they will produce good results or not. 
-                                So it would be interesting to test out implementing these in my prototype.
-                                &
-                                Perlin Noise is an algorithm developed by Ken Perlin for use in the digital generation of noise.
-                                This noise can be combined to create \textit{realistic} looking height maps for world generation.
-                                Perlin Noise retains continuity and is seeded so the generation can be entirely controlled.
-                                By "retains continuity" I mean that you can sample the same point and retrieve the same value. 
-                                If I was to implement Perlin noise it would take longer, but also might end up with a better result
-                                due to it being more widely used. It's a trade-off between time to implement and desired result. \\
-                                \hline
-                            \end{tabular}
-                        \end{center}
-                        
-                        I also discovered an algorithm called Poisson Disc Sampling, this can be used to sample random points 
-                        in N dimensional space. It takes in 2 values, the R and K value, these values determine the output of
-                        the function. The R values is the minimum distance a point has to be from another, randomly placed point
-                        which hasn't been selected yet. If the distance between any existing points is less than R, the point
-                        will be rejected and another will be selected. The K value determines how many rejected are needed before 
-                        the algorithm will stop attempting to choose a new point.
+                        \begin{figure}[h]
+                            \centering
+                            \subfloat[\centering Success Rate of Algorithms]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData.PNG}}}
+                            \qquad
+                            \subfloat[\centering Comparison Against Human Data]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData+Human.PNG}}}
+                        \end{figure}
 
+                        While I would love to create a simulation similar to crafter, it is very complex and would take a long time to develop. Yet
+                        would not net many marks in the process. Overall I feel like Crafter is a good example that my project is possible, but will
+                        require a complex Machine Learning Model in order to achieve reliable results from my Investigation.
+
+                \paragraph{Minecraft} \mbox{} \\
+                    \vspace{0.2cm}
+                    Minecraft is a \textit{very} popular Game. It's a sandbox game, meaning that the player can do almost anything they want.
+                    The game is formed from blocks which can be broken or placed, along with a plethera of items, enemies, passive animals
+                    and more. It has infinite terrain generation, and explicity uses Perlin Noise. The seed of the noise determines
+                    all the terrain generation, loot tables, random structures, caves, etc. \\
+                    
+                    \vspace{0.2cm}
+
+                    First it starts off on a very broad level, painting a basic topographical map of the world. It uses Perlin Noise to sample
+                    a height value for each chunk, where chunks are 16x16 areas of blocks. Then within these chunks the game uses the Diamond Square
+                    algorithm to interpolate between it and the chunks around it, creating blocks where the terrain should be. This produces an 
+                    entirely deterministic results based upon the seed.\\
+
+                    \vspace{0.2cm}
+
+                    Secondly, the Caves are generated using Perlin Worms, which travel in deterministic directions based on their starting position.
+                    These worms dig through the terrain carving out caves which can then be traversed by the player. Within these Caves spawn water
+                    sources, pools of lava, useful ores. All of these are deterministically generated by the original seed. \\ 
+
+
+                    \begin{figure}[h]
+                        \centering
+                        \subfloat[\centering Example of Minecraft's terrain generation in a Swamp Biome]{{\includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg}}}
+                        \qquad
+                        \subfloat[\centering Example of a Sunken Pirate Ship Structure]{{\includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg}}}
+                    \end{figure}
+
+                    Minecraft itself is too complex and dynamic to be solved by current Machine Learning algorithms, along with there is no quantifiable 
+                    metric for performance due to it's sandbox nature. There exist data sets for Minecraft, in the form of captured gameplay footage, but
+                    there has been little to no success of quantifiably good solutions to solving Machine Learning problems within Minecraft. \\
+
+                    \vspace{0.2cm}
+
+                    Overall I feel like it would be good to borrow elements from Minecraft's terrain generation, such as its utilisation of Perlin Noise.
+                    But the majority of the games systems are way too complex for a Machine Learning algorithm to solve. \\
+
+                \paragraph{Conway's Game of Life} \mbox{} \\
+                    \vspace{0.2cm}
+                    Conway's Game of Life is whats called a Cellular Automaton, which is a discrete computation model formed from a grid of cells along with 
+                    a ruleset. Conway's is commonly referred to a Zero Player Game, where the input for the Automaton is defined at the start, with no
+                    further adjustment needed for it to run. The game is fully Turing complete and can simulate a Universal Constructor. \\
+                    \vspace{0.2cm}
+                    The rules of Conway's are such that: \\
+
+                    \vspace{0.2cm}
+                    \begin{addmargin}[2em]{0em}
+                        \large
+                        1. Any live cell with fewer than two live neighbours dies, as if by underpopulation. \\
+                        2. Any live cell with two or three live neighbours lives on to the next generation. \\
+                        3. Any live cell with more than three live neighbours dies, as if by overpopulation. \\
+                        4. Any dead cell with exactly three live neighbours becomes a live cell. \\
+                    \end{addmargin}
+
+                    \vspace{0.2cm}
+                    It is rather interesting that such complicated Machines can be formed from such a simple ruleset, as an example 
+                    here is a Turing Machine formed from 34 Thousand Cells: \\
+
+                    \begin{figure}[h]
+                        \centering
+                        \subfloat[\centering Turing Machine built in Conways Game of Life]{
+                            \includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
+                    \end{figure}
+
+                    Overall, I think this shows that my simulation doesnt need to have complex rules in order to achieve 
+                    interesting results. Conway's is formed from 4 simple rules, and yet is Turing complete.
+            \subsubsection{Potential Algorithms}
+                \large
+                \paragraph{Neural Network and Matrices} \mbox{} \\
+                    If I go down the Deep Q Learning Route, I will need to implement a Matrix class in order to
+                    implement a Neural Network. Matrices are commonly used to represent individual layers of a network. Along
+                    with making calculations much easier, condensing them into performing operations on matrices, rather than
+                    using nested for loops and lists. As part of my Initial Research I have taken the time to understand
+                    how a Neural Network functions, it turns out I have already learned most of the Maths needed to understand
+                    how it works in my A Level Maths and Further Maths courses. \\
+                    \vspace{0.2cm}
+                    A Neural Network functions as a series mathematical equations used to recognise relationships between inputs
+                    and desired outputs. They take in a Vector of Input Data, and output a Vector of Output Data. They can be represented
+                    in simple terms as a function: $N(x)$ where: $\{x \in V, N(x) \in V\}$.
+                    The functions name in this case is Forward Propagation. \\
+                    \vspace{0.2cm}
+                    We form a Neural Network with multiple layers of Nodes, the layers being referred to as the Input Layer, 
+                    Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
+                    the following layer. In the below image is represented a Neural Network with a layer structure of $[3, 5, 2]$.
+
+                    \vspace{0.1cm}
+                    \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+
+                    Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
+                    layer having an associated Bias. These are used to compute the outcome of a network. \\
+                    \vspace{0.2cm}
+                    Forward Propagation is used to compute the outcome of a network, it has a general form and uses 
+                    Matrix Multiplication and Addition to achieve this.
+                    \vspace{0.2cm}
+                    
+                    \begin{center}
+                        $
+                        S^{(L)} = 
+                        \begin{bmatrix}
+                        s^{(L)}_{0} \\
+                        s^{(L)}_{1} \\
+                        \vdots      \\
+                        s^{(L)}_{n} 
+                        \end{bmatrix}
+                        = 
+                        \begin{bmatrix}
+                        w^{(L-1)}_{0,0} & w^{(L-1)}_{0,1} & \hdots  & w^{(L-1)}_{0,m} \\
+                        w^{(L-1)}_{1,0} & w^{(L-1)}_{1,1} & \hdots  & w^{(L-1)}_{1,m} \\
+                        \vdots          & \vdots          & \ddots  & \vdots          \\
+                        w^{(L-1)}_{n,0} & w^{(L-1)}_{n,1} & \hdots  & w^{(L-1)}_{n,m} \\
+                        \end{bmatrix}
+                        \begin{bmatrix}
+                        a^{(L-1)}_{0} \\
+                        a^{(L-1)}_{1} \\
+                        \vdots      \\
+                        a^{(L-1)}_{n} 
+                        \end{bmatrix}
+                        +
+                        \begin{bmatrix}
+                        b^{(L)}_{0} \\
+                        b^{(L)}_{1} \\
+                        \vdots      \\
+                        b^{(L)}_{n} 
+                        \end{bmatrix}
+                        $ 
+                    \end{center}
+                    
+                    \begin{center}
+                        $
+                        \sigma(S^{(L)})
+                        =
+                        \sigma\left(
+                        \begin{bmatrix}
+                        s^{(L)}_{0} \\
+                        s^{(L)}_{1} \\
+                        \vdots      \\
+                        s^{(L)}_{n} 
+                        \end{bmatrix}
+                        \right)
+                        =
+                        \begin{bmatrix}
+                        \sigma(s^{(L)}_{0}) \\
+                        \sigma(s^{(L)}_{1}) \\
+                        \vdots              \\
+                        \sigma(s^{(L)}_{n}) 
+                        \end{bmatrix}
+                        $ 
+                    \end{center}
+                    
+                    \vspace{0.2cm}
+                    We then apply an activation function as shown above, in this case we will apply the Sigmoid function: $\sigma(x)$ to $S^{(L)}$. 
+                    The Sigmoid function is a Mathematical Function which \textit{squishes} values between 0 and 1. Shown Below:
+                    
+                    \begin{center}
+                        \begin{tikzpicture}[declare function={sigma(\x)=1/(1+exp(-\x));}]
+                        \begin{axis}%
+                        [
+                            grid=major,     
+                            axis x line=bottom,
+                            ytick={0,.5,1},
+                            ymax=1,
+                            axis y line=middle,
+                            samples=100,
+                            domain=-6:6,
+                            range=0:1
+                            legend style={at={(1,0.9)}}     
+                        ]
+                            \addplot[blue,mark=none]   (x,{sigma(x)});
+                            \legend{$\sigma(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
+
+                    Matrices can be used for all parts of a Neural Network implementation, and will prove very useful in my Technical
+                    Solution. \\
+
+                \paragraph{Q-Learning} \mbox{} \\
+                    Another Algorithm I could use for my Machine Learning is Q-Learning. It is the step down from Deep Q Learning, so it is less 
+                    complex in its Nature. It utilises the Bellman Equation, and something called a Q-Table. A Q table stores every possible state
+                    the Agent could be in, and stores values for each action from the State. Every Action for every state has an initial value of 0 
+                    and will be updated over time in order to "learn" the simulation. It is essentially a brute force method to Machine Learning. 
+                    The greater the Value, the better the Q-Table will consider the action. Below is shown an example of a possible Q-Table I 
+                    could use for my project:
+
+                    \begin{center}
+                        \begin{tabular}{ | c | c | c | c | c | c | c | c |}
+                            \hline
+                            \multicolumn{8}{|c|}{Q-Table} \\
+                            \hline
+                            \multicolumn{2}{|c}{} & \multicolumn{6}{|c|}{Actions} \\ 
+                            \cline{3-8}
+                            \multicolumn{2}{|c|}{} & North & East & South & West & Collect & Attack \\
+                            \hline
+                                    & 0     & 0 & 0 & 0 & 0 & 0 & 0 \\
+                                    & \cdot & 0 & 0 & 0 & 0 & 0 & 0 \\
+                            States: & \cdot & 0 & 0 & 0 & 0 & 0 & 0 \\
+                                    & \cdot & 0 & 0 & 0 & 0 & 0 & 0 \\
+                                    & N     & 0 & 0 & 0 & 0 & 0 & 0 \\
+                            \hline
+                        \end{tabular}
+                    \end{center}
+
+                    When trained extensively the Q-Table might start to look something like this:
+
+                    \begin{center}
+                        \begin{tabular}{ | c | c | c | c | c | c | c | c |}
+                            \hline
+                            \multicolumn{8}{|c|}{Q-Table} \\
+                            \hline
+                            \multicolumn{2}{|c}{} & \multicolumn{6}{|c|}{Actions} \\ 
+                            \cline{3-8}
+                            \multicolumn{2}{|c|}{} & North & East & South & West & Collect & Attack \\
+                            \hline
+                                    & 0     & \random & \random & \random & \random & \random & \random \\
+                                    & \cdot & \random & \random & \random & \random & \random & \random \\
+                            States: & \cdot & \random & \random & \random & \random & \random & \random \\
+                                    & \cdot & \random & \random & \random & \random & \random & \random \\
+                                    & N     & \random & \random & \random & \random & \random & \random \\
+                            \hline
+                        \end{tabular}
+                    \end{center}
+                    
+                    I feel like the downside to this approach is that it will struggle to generalise to a procedurally generated simulation. If
+                    given infinite time and infinite processing power it could theorhetically solve anything, but sadly I dont have that kindof 
+                    compute power. With the simulation I intend to design there would be to many Possible States for it to ever make a dent in.
+
+                \paragraph{Procedural Generation} \mbox{} \\
+                    For my project I am going to have to procedurally generate 2d terrain, while researching this I came across a few algorithms
+                    which seemed to be able to do this pretty well. I will compare two algorithms I discovered below.
+                    
+                    \begin{center}
+                        \begin{tabular}{| L{6cm} | L{6cm} |}
+                            \hline
+                            {\large Post-Processing Algorithms} & {\large Perlin Noise} \\
+                            \hline
+                            I discovered two post processing algorithms often used for simple 2d terrain generation. 1 Averages squares 
+                            around the selected square, and the other pulls it up or down the gradient its currently on.
+                            I find these interesting because they're relatively simple, and I'm not quite sure whether they will produce good results or not. 
+                            So it would be interesting to test out implementing these in my prototype.
+                            &
+                            Perlin Noise is an algorithm developed by Ken Perlin for use in the digital generation of noise.
+                            This noise can be combined to create \textit{realistic} looking height maps for world generation.
+                            Perlin Noise retains continuity and is seeded so the generation can be entirely controlled.
+                            By "retains continuity" I mean that you can sample the same point and retrieve the same value. 
+                            If I was to implement Perlin noise it would take longer, but also might end up with a better result
+                            due to it being more widely used. It's a trade-off between time to implement and desired result. \\
+                            \hline
+                        \end{tabular}
+                    \end{center}
+                    
+                    I also discovered an algorithm called Poisson Disc Sampling, this can be used to sample random points 
+                    in N dimensional space. It takes in 2 values, the R and K value, these values determine the output of
+                    the function. The R values is the minimum distance a point has to be from another, randomly placed point
+                    which hasn't been selected yet. If the distance between any existing points is less than R, the point
+                    will be rejected and another will be selected. The K value determines how many rejected are needed before 
+                    the algorithm will stop attempting to choose a new point.
         \subsection{Prototype}
             \subsubsection{Prototype Objectives}
             \large
@@ -435,7 +508,6 @@
             I decided to use Python for developing my Prototype, this seemed like a good fit due to me 
             having lots of experience with the language. Python is a Dynamically Typed and interpreted 
             which makes it versatile for protyping and fast, iterative development.
-            
             \subsubsection{Terrain Generation and Displaying to Window}
             Starting from the begining of my hierarchy I installed Pygame using \textit{pip} and started creating a window.
             This was a relatively simple task only taking a few lines:
@@ -656,7 +728,6 @@ def AverageGen(self):
             dupMap[x][y] = total / count
     self.heightArray = dupMap
             \end{pythoncode}
-
             \subsubsection{Finished Terrain Generation}
             \vspace{0.25cm}
 
@@ -669,7 +740,6 @@ def AverageGen(self):
                 \qquad
                 \subfloat[\centering Colour Bands applied to the Terrain Generation]{{\includegraphics[width=6cm]{Images/Prototype/Seed420 Colour.png} }}
             \end{figure}
-            
             \subsubsection{Matrix Data Structure}
                 \vspace{0.25cm}
 
@@ -918,140 +988,285 @@ def DotProduct(v1,v2):
                 \end{enumerate}
             \subsubsection{Prototype Evaluation}
                 \vspace{0.2cm}
-                Overall I am happy with my prototype, though I feel like some parts need to be improved. I did meet my 
-                objectives for my prototype but there were improvements which can be made for when I create my Technical Solution. 
-                Namely the Terrain Generation along with the Matrix class. I feel that Perlin noise would be a better alternative
+                Overall I am happy with my prototype, though I feel like it needs improvement. I did meet my 
+                objectives for my prototype but there are things I want to change for my Technical Solution. 
+                The Terrain Generation along with the Matrix class. I feel that Perlin noise would be a better alternative
                 to the two algorithms I used. In theory it should produce better results, and also provide more marks for 
-                complexity. My Matrix class could be rewritten to be more efficient, along with using operator overloading, which
-                I didnt know Python could do at the time. I also feel like having Vector inherit from Matrix is relatively pointless,
-                there is no need for it when I could just use 1 wide Matrices instead.
-        \subsection{Second Interview}
-            \vspace{0.2cm}
-            I asked a few more questions to my Expert regarding my project at this point. Receiving feedback on my Prototype and gaining a
-            greater understanding of the Machine Learning Model I'm intending to use. \\
-            \vspace{0.2cm}
+                complexity. My Matrix Class could also be rewritten to be more efficient, my implementation of the Operations is not the best.
+                I also feel like having Vector inherit from Matrix is relatively pointless, there is no need for it when I could just use 
+                1 wide Matrices instead.
+        \subsection{Further Research}
+            \subsubsection{Second Interview}
+                I asked a few more questions to my Expert regarding my project at this point. Receiving feedback on my Prototype and gaining a
+                greater understanding of the Machine Learning Model I'm intending to use. \\
+                \vspace{0.2cm}
 
-            \begin{enumerate}
-                \item What are your thoughts on my prototype? \\ 
-                    \vspace{0.2cm}
-                    "I think your prototype is good, but could be improved. The use of Operator Overloading would improve your Matrix Class,
-                    and optimising some of your algorithms would be useful. The Terrain generation looks good, but I think its a bit
-                    water heavy, this is where Perlin Noise might help you to achieve better results. Would also be more fine tunable to
-                    your liking."
+                \begin{enumerate}
+                    \item What are your thoughts on my prototype? \\ 
+                        \vspace{0.2cm}
+                        "I think your prototype is good, but could be improved. The use of Operator Overloading would improve your Matrix Class,
+                        and optimising some of your algorithms would be useful. The Terrain generation looks good, but I think its a bit
+                        water heavy, this is where Perlin Noise might help you to achieve better results. Would also be more fine tunable to
+                        your liking."
 
-                \item Is a Dual Neural Network a good model to choose? \\
-                    \vspace{0.2cm}
-                    "A Dual Neural Network should in theory be a complex enough Model for your project. The concern I have is whether your
-                    Network will be able to generalise enough in order to sufficiently 'solve' the simulation you design. There are some
-                    algorithms you could implement in order to tackle this though. You could do some research into these before finalising 
-                    your design."
+                    \item Is a Dual Neural Network a good model to choose? \\
+                        \vspace{0.2cm}
+                        "A Dual Neural Network should in theory be a complex enough Model for your project. The concern I have is whether your
+                        Network will be able to generalise enough in order to sufficiently 'solve' the simulation you design. There are some
+                        algorithms you could implement in order to tackle this though. You could do some research into these before finalising 
+                        your design."
 
-                \item Is an Object Orientated Network a good approach? \\
-                    \vspace{0.2cm}
-                    "Implmenting your Network using a Class hierarchy would allow you to organise your code nicely, passing objects between
-                    methods. With a Dual Neural Network you could create two instances of a Network class using them as your Main and Target 
-                    Network. This would also gain your marks for coding style."
+                    \item Is an Object Orientated Network a good approach? \\
+                        \vspace{0.2cm}
+                        "Implmenting your Network using a Class hierarchy would allow you to organise your code nicely, passing objects between
+                        methods. With a Dual Neural Network you could create two instances of a Network class using them as your Main and Target 
+                        Network. This would also gain your marks for coding style."
 
-                \item Which Activation Functions should I implement? \\
-                    \vspace{0.2cm}
-                    "The most commonly used are Sigmoid, TanH, ReLu and SoftMax. They are relatively simple so wont take long to implement.
-                    Those would be a good starting point for testing your Neural Network."
+                    \item Which Activation Functions should I implement? \\
+                        \vspace{0.2cm}
+                        "The most commonly used are Sigmoid, TanH, ReLu and SoftMax. They are relatively simple so wont take long to implement.
+                        Those would be a good starting point for testing your Neural Network."
+                    
+                    \item What type of Reward Structure should I use? \\
+                        \vspace{0.2cm}
+                        "As far as I'm aware there are two types of Reward Structures, Sparse and Dense. I think that Dense would be better suited
+                        to your project. Sparse is where the reward given to the Agent is 0 for most actions. Compared to dense where reward
+                        is given for most most actions. Say if you want to motivate exploration I feel like dense would be appropriate."
+
+                    \item What type of pathfinding should I use for the Enemies in my Simulation? \\
+                        \vspace{0.2cm}
+                        "I don't think it would be necessary to implement any complex algorithm for your Enemies Pathfinding, it will only eat 
+                        into your performance when training the Network. But if you do want to implement a complex algorithm, Dijkstras or A* Search 
+                        would be appropriate."
+                \end{enumerate}
+            \subsubsection{Evaluation of Second Interview}
+                My Experts feedback has been useful in this case. Below is my thoughts on various parts of the Interview:
                 
-                \item What type of Reward system should I use? \\
-                    \vspace{0.2cm}
-                    "As far as I'm aware there are two types of reward systems, Sparse and Dense. I think that Sparse would be better suited
-                    to your project. Sparse is where the reward given to the Agent is 0 for most actions. Compared to dense where reward
-                    is given for most most actions."
-            \end{enumerate}
+                \begin{itemize}
+                    \item I am in agreement with him about my prototype, it really has alot of improvements to be made. Shaun mentioned Operator 
+                    overloading which I was unaware Python could utilise at the time of creating my Matrix Class, I will definitily use this in 
+                    my Technical Solution. 
 
-            \pagebreak
+                    \item I will definitely be implementing a Dual Neural Network then. He shared his concerns about it's ability to solve complex 
+                    problems of this Nature. Due to the nature of my project, this will be fine as I'll still be able to analyse the Networks Results.
+                    The results will hopefully show a declining trend in Network Loss.
+
+                    \item I will be using an Object Orientated Model for my Program so I feel like this is the best way forward. His suggestion 
+                    about the two instances of Network for Main and Target will be useful.
+
+                    \item Encouraging exploration is something I definitely want to do so I will try to implement a Dense Reward Structure.
+                    
+                    \item I didn't have any plans to implement a complex path finding algorithm so this is helpful to see we're in agreement.
+
+                \end{itemize}
+            \subsubsection{Research Material}
+                As part of my Further Research, I did more research relating to specific parts of my project. These are listed below along with 
+                descriptions about their contents and what I've gained from them:
+                
+                \paragraph*{Playing Atari with Deep Reinforcement Learning - DeepMind} \mbox{} \\
+                    This paper contained helpful information regarding the Deep Q Learning Algorithm, allowing me to gain a deeper understanding
+                    of how it works. The main goal of this Paper was to train an Algorithm to play Atari Games through using raw pixel data. They
+                    manage to achieve relatively good results, with the Average Reward per Epoch and Average Action Value showing positive
+                    trends for the tested games.
+
+                \paragraph*{Revisiting Fundamentals of Experience Replay - DeepMind} \mbox{} \\        
+                    This Paper defines the Experience Replay Algorithm in use with Deep Q Networks. It allowed me to gain an insightful understanding
+                    into the motivations behind how the Algorithm works. It also outlines a process for Prioritized Experience Replay, but I did not
+                    end up using this as part of my project.
+
+                \paragraph*{Benchmarking the Spectrum of Agent Capabilities - Google Research} \mbox{} \\
+                    I read this Paper as part of my Initial Research. It was interesting to see something so similar to my Project being researched
+                    at a higher level. The problems they struggled which I outlined in my Existing Investigations Section informed some of my simulation
+                    design, in an attempt to Mitigate the problems they face.
+
+                \paragraph*{Fast Poisson Disc Sampling in Arbitry Dimensions - Robert Bridson} \mbox{} \\
+                    This Paper outlines the Algorithm used for Poisson Disc Sampling in detail. There is not much else to it. I saved it for later
+                    for when I come to implementing it in my Technical Solution.
+
+                \paragraph*{Neural Networks - 3Blue1Brown} \mbox{} \\
+                    This is a helpful video series designed to explain Neural Networks from a ground up point of view. It goes through all the Maths
+                    in a comprehensive way, which I found very helpful when trying to get my head around Back Propagation. Having a video series I
+                    can rewatch over and over was helpful in this process.
+
+                \paragraph*{Mathematics of Backpropagation - Brian Dolhansky} \mbox{} \\
+                    This article about Back Propagation was very helpful when trying to find a general form for Matrix Back Propagation. Its lays
+                    out Neural Networks from an easy to follow standpoint, making it easier for me to find my own General Matrix Form, shown in
+                    Modelling of the Problem. 
         \subsection{Objectives}
             \large
-            Taking into account my Prototype and Interview, I have formed a list of objectives I feel to be most 
-            appropriate for my Investigation.\\
-            \vspace{0.2cm}
-            If all completed they will form a complete solution which will answer my Investigations question.
-            Below is the list of objectives split into 6 key sections:
+            Taking into account my Prototype and Interviews, I have formed a list of objectives I feel to be most 
+            appropriate for my Investigation. If all completed they will form a complete solution which will answer 
+            my Investigations question.\\
 
-            \subsubsection*{User Input}
+            \renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+            \renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
+            \renewcommand{\labelenumiv}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}}
+
+            \begin{enumerate}
+                \item The Program must have User Input
                 \begin{enumerate}
-                    \item Read Parameters from a Json formatted file
-                    \item Check Parameters fall within a certain range to prevent errors
-                    \item Give user option to load Neural Network Training progress
+                    \item Before Launching the Program the User should be able to adjust individual Parameters of the Program
+                    \item Examples of such Parameters are:
+                    \begin{enumerate}
+                        \item World Size
+                        \item Tile Colour Values
+                        \item Neural Network Layer Size
+                    \end{enumerate}
+                    \item These Parameters should be stored in a User Readable File/Plain Text
+                    \item These Parameters should be checked against Ranges before being used in the Program
+                    \item These Ranges should be specified in a seperate File
+                    \item An Error message should be displayed if a Parameter is Out of Range
+                    \item The User should be prompted to load previous Training Data from a File
                 \end{enumerate}
-            \subsubsection*{Simulation}
+
+                \item The Program must have Graphical Output
                 \begin{enumerate}
-                    \item Utilise Perlin Noise to generate a 2d List of terrain heights
-                    \item Store Terrain Heights in a Tile Data Type
-                    \item Utilise Threading to generate Terrain Faster
-                    \item Display terrain to a window
-                    \item Map ranges of terrain heights to specific colour bands
-                    \item Utilise Poisson Disc Sampling to generate objects for the Agent to interact with
-                    \item Implement enemies which use basic pathfinding to traverse towards the player
-                    \item Generate multiple enemies upon starting the simulation
-                    \item Allow the enemies to attack the Agent
-                \end{enumerate}   
-            \subsubsection*{Agent}
+                    \item After User input is complete a Graphical Window should open
+                    \item This Window should display the current state of the simulation
+                    \item The Agent should be displayed to the Window
+                    \item The Enemies should be displayed to the Window
+                    \item The Objects should be displayed to the Window
+                    \item The Window should display each element with it's correct Colour
+                    \item When enabled a Debug Side Bar should be displayed
+                    \item The Debug Side Bar should the Neural Networks Activation Values
+                \end{enumerate}
+
+                \item The Program must contain a Matrix Implementation
                 \begin{enumerate}
-                    \item Implement Movement options for the Agent
-                    \item Implement the ability to pick up the generated Objects
-                    \item Implement the ability to attack the generated enemies
-                    \item Create methods to sample the terrain around the Agent
-                    \item Create methods to convert the sampled Tiles into a grayscale input vector for a neural network
-                    \item Create reward methods to reward the agent given the terrain samples and action
-                \end{enumerate}   
-            \subsubsection*{Matrix Class}
+                    \item Data for the Matrix must be stored in a 2d List/Array
+                    \item A Property must exist for the order of the Matrix
+                    \item Multiple initialisation Methods must be possible
+                    \begin{enumerate}
+                        \item Creation using a Tuple of Integers
+                        \item Creation using an existing 2d List
+                        \item Creation using an existing 1d List
+                    \end{enumerate}
+                    \item It must be possible to fill a Matrix with Randomised Values
+                    \item It must be possible to create the Identity Matrix of N Size
+                    \item There should be a way to print a Matrix to the Console
+                    \item There should be Methods for Standard Matrix Operations
+                    \begin{enumerate}
+                        \item Addition 
+                        \item Subtraction
+                        \item Multiplication
+                        \item Scalar Multiplication
+                        \item Hadamard Product
+                        \item Transpose
+                        \item Sum
+                    \end{enumerate}
+                    \item Most of these Operations should utilise Operator Overloading where possible
+                    \item The Operations should be implemented utilising Efficient Algorithms (Minimised Time Complexity)
+                    \item Appropriate Error messages should be in place when utilising Matrices incorrectly
+                \end{enumerate}
+
+                \item The Program must contain an Agent and Simulation Environment
                 \begin{enumerate}
-                    \item Implement a Dynamic Matrix Class with appropriate Operations such as:
-                        \begin{itemize}
-                            \item Multiplication
-                            \item Addition
-                            \item Subtraction
-                            \item Transpose
-                            \item Sum
-                            \item Select Row/Column
-                        \end{itemize}
-                    \item Create appropriate errors to throw when utilising methods the incorrect way
-                \end{enumerate}   
-            \subsubsection*{Deep Reinforcement Learning}
+                    \item The Simulation Environment must be stored in a WorldMap Object 
+                    \item The Simulation Environment must be Procedurally Generated
+                    \begin{enumerate}
+                        \item The Simulation Environment must be generated using a Seed
+                        \item The Terrain must be Generated utilising the Perlin Noise Algorithm
+                        \item The Terrain Data must be Stored in Tile Objects
+                        \item Each Tile Object must be assigned Tile Type based on its Height Value
+                        \item Each Tile Type must use a Colour Specified by the User
+                        \item Objects must be placed around the Environment for the Agent to Collect
+                        \item The Objects must be placed utilising the Poisson Disc Sampling Algorithm
+                        \item Enemies must be randomnly placed around the Environment at the start of a World
+                        \item The Enemies must pathfind towards the Agent
+                    \end{enumerate}
+                    \item The Simulation must have Finite State Transitions
+                    \item The Agent must be spawned into the Simulation
+                    \item The Agent must be controlled by the Machine Learning Algorithm
+                    \item The Agent must have a Finite Action Set
+                    \item The Agent must have a Position which can be altered by it's Actions
+                    \item The Agent must be able to Pickup Items
+                    \item Any Collected Items must be stored in the Agents Inventory
+                    \item The Agent must be able to Attack Enemies
+                    \item The Agent must be able to be killed by the Enemies
+                    \item The Agent should be killed when it traverses into Water
+                    \item When the Agent is killed the Simulation should Reset
+                    \item The Agent must have a Reward Structure
+                    \begin{enumerate}
+                        \item The Agent must gain Reward from doing specific things
+                        \item Reward must be gained from exploration
+                        \item Reward must be gained from Killed an Enemy
+                        \item Reward must be gained from Collecting an Item
+                        \item Reward must be lost from Dying
+                        \item Reward must be lost from Failing an Attack
+                    \end{enumerate}
+                    \item When the Simulation is reset the Terrain should be Procedurally Generated again
+                    \item When the Simulation is reset the Objects should be placed again
+                    \item When the Simulation is reset the Enemies should be spawned again
+                    \item When the Simulation is reset the Agent should be spawned again
+                    \item The Agent must be able to Sample its Environment for Tile Data
+                    \item This Tile Data must be able to be converted into Grayscale Values
+                    \item These Grayscale Values must be used as the Neural Networks Input
+                \end{enumerate}
+
+                \item The Program must contain a Dual Neural Network
                 \begin{enumerate}
-                    \item Dynamically create a Dual Neural Network model based upon loaded parameters
-                    \item Implement an Abstract Class for Activation Functions
-                    \item Implement Activation Functions inheriting from the Abstract Class such as:
-                    \begin{itemize}
+                    \item The Dual Neural Network must be formed from two instances of a Neural Network Class
+                    \begin{enumerate}
+                        \item The Neural Network must be implemented utilising an Object Orientated Model
+                        \item The Neural Network must contain Forward Propagation
+                        \item The Neural Network must utilise the Bellman Equation to find Expected Values
+                        \item The Expected Values must be used when Calculating the Loss of the Network
+                        \item The Neural Network must contain Backwards Propagation
+                        \item The Back Propagation must utilise the Calculated Loss when calculating the Error Signal
+                        \item The Forward and Back Propagation must be Implemented utilising Matrix Operations
+                        \item The Neural Network must be able to utilise Activation Functions
+                    \end{enumerate}
+                    \item The Target Network must be updated intermittently
+                    \item The Neural Network must be Trainable by inputting collected Grayscale Values
+                    \item The Agent must collect these Grayscale Values
+                    \item The Neural Network should instruct the Agents Actions
+                    \item The Neural Network should utilise the Epsilon Greedy decision process
+                    \item The Neural Network should utilise the SoftMax Function when picking an Action
+                    \item The Neural Network should utilise Experience Replay
+                    \item Each State should be stored in an Experience Object
+                    \item Experience Replay should be performed intermittently
+                    \item The Training Data must be able to be Saved as .dqn Files
+                    \item Experience Replay States should be stored in a Double Ended Queue
+                \end{enumerate}
+
+                \item The Program must contain Activation Functions
+                \begin{enumerate}
+                    \item The Activation Functions must be used within the Dual Neural Network
+                    \item An Activation Function must be defined as an Abstract Base Class
+                    \item An Activtion Function must have a Normal and Derivative Method
+                    \item An Activation Function must take a Vector as an Input
+                    \item An Activation Function must return a Vector as an Output
+                    \item There must be standard Activation Functions implemented
+                    \begin{enumerate}
                         \item Sigmoid
                         \item TanH
                         \item ReLu
                         \item Leaky ReLu
-                        \item SoftMax
-                    \end{itemize}
-                    \item Create methods to Forward Propagate the neural network
-                    \item Create methods to calculate the loss of the network using the Bellman Equation
-                    \item Create methods to Back Propagate calculated error through the neural network
-                    \item Create methods to update weights and biases within the network to converge on a well trained network
-                    \item Utilise the outlined Matrix class to perform the mathematical operations in the specified methods
-                    \item Implement Load and Save Methods to save progress in training
-                    \item Implement a Double Ended Queue/Deque Data Type
-                    \item Implement Experience Replay utilising the Deque Data Type to increase training accuracy
-                \end{enumerate}   
-            \subsubsection*{Data Logger}
+                    \end{enumerate}
+                \end{enumerate}
+
+                \item The Program must contain a Data Logger
                 \begin{enumerate}
-                    \item Be able to create a Data Logger class to log data points across training
-                    \item Be able to create a Data Structure for the Data Logger
-                    \item Allow multiple types specified types for a single parameter
-                    \item When adding a new Data Point the Logger will check it to make sure it matches the given Data Structure
-                    \item Implement a Heap Data Type
-                    \item Implement a Heap sort using the Heap Data Type
-                    \item Be able to sort by a parameter in the Data Structure
-                    \item Be able to select a single parameter from the data points
-                    \item Implement Load and Save Functions to save progress during training
-                \end{enumerate}   
+                    \item The Data Logger must use a specific Structure
+                    \item When adding a Data Point it must match the Data Loggers Structure
+                    \item If it does not it should display an Error Message
+                    \item The Data Points should be saved to a .data File
+                    \item The Data Logger must contain a Heap Sort to find minimum and maximum values
+                    \item The Heap Sort must allow sorting via an index of the Data Point
+                    \item The Heap Sort must utilise an Efficient Algorithm (Minimised Time Complexity)
+                \end{enumerate}
+
+                \item The Program must contain a Script to Graph Data
+                \begin{enumerate}
+                    \item The Script must present the User options for which .data file to plot
+                    \item The Script must present the User options for which part of the Data to Plot
+                    \item The Script must display a graph of the data
+                \end{enumerate}
+            \end{enumerate}
         \subsection{Modelling of the Problem}
             \large
-            \vspace{0.2cm}
             In this section I will define and derive all the Mathematical Formulae relating to my Project. This includes all the Matrix Operations 
             I plan to use and the General Forms of Forward Propagation and Back Propagation. \\
-            \vspace{0.2cm}
 
             \subsubsection{Matrices}
                 \paragraph{Overview} \mbox{} \\
@@ -1187,8 +1402,7 @@ def DotProduct(v1,v2):
                             b_{1,m} & b_{2,m} & \hdots  & b_{n,m} \\
                         \end{bmatrix}
                         $
-                    \end{center}
-                    
+                    \end{center}           
             \subsubsection{Forward Propagation}
                 \paragraph{Overview} \mbox{} \\
                     \vspace{0.2cm}
@@ -1292,7 +1506,7 @@ def DotProduct(v1,v2):
                 \paragraph{Leaky ReLu} \mbox{} \\
                 \begin{center}
                     \[
-                        \text{ReLu}(x) =  \begin{cases}
+                        \text{LeakyReLu}(x) =  \begin{cases}
                                             x < 0 & 0.1 \times x \\
                                             x > 0 & x
                                             \end{cases}
@@ -1373,8 +1587,7 @@ def DotProduct(v1,v2):
                         \end{math} \\
                         \vspace{0.2cm}
                         For $i = 1, \hdots,K$ And \textbf{z} $ = (z_{1},\hdots,z_{K})$ \\
-                    \end{center}
-                    
+                    \end{center}           
             \subsubsection{Differentiation}
                 \paragraph{Differentiation from First Principles}  \mbox{} \\
                     \vspace{0.2cm}
@@ -1438,16 +1651,13 @@ def DotProduct(v1,v2):
                     Partial Derivatives are used when the Function in question contains Multiple Variables. They utilise the same rules, except the Variables
                     which aren't being derived get treated as constants. The Derivative of $f(x, y)$ with respect to $x$ is expressed as $f_{x}'(x,y)$ or 
                     {\Large $\frac{\partial f}{\partial x}$}. 
-
             \subsubsection{Back Propagation}
                 \paragraph{Overview} \mbox{} \\
-                    \vspace{0.2cm}
                     Back Propagation is the algorithm used to adjust Weights and Bias' in a Neural Network. Through using this algorithm you can successfully "train"
                     the Network to recognise certain patterns in data. The Input Data gets propagated through the Network using Forward Propagation, and then the output
                     is passed into the Loss Function.
 
                 \paragraph{The Bellman Equation} \mbox{} \\
-                    \vspace{0.2cm}
                     The Bellman Equation is a method of optimisation, and is used for dynamic programming. In the context of Machine Learning we can utilise it
                     to reinforce good behaviour and negate bad behaviour. By writing the relationships between two states in the form of an action, we can optimise this
                     by choosing the best action when given a state. If we let $s_{t}$ be the current state, we can define all the possible actions from that state as
@@ -1483,7 +1693,6 @@ def DotProduct(v1,v2):
                     \vspace{0.2cm}
 
                 \paragraph{Loss Function} \mbox{} \\
-                    \vspace{0.2cm}
                     The Loss Function of a Network represents how well a Neural Network is performing. The aim of the Back Propagation is to minimise this Functions output. When using
                     a standard Neural Network and you're training on a labelled data set, you can be certain about the Expected Output. The standard Loss Function is as follows: \\ 
                     \vspace{0.2cm}
@@ -1504,14 +1713,12 @@ def DotProduct(v1,v2):
                     \[y = \left( R(s_t, a_t) + \gamma \cdot \max_{a_{t+1}} Q(s_{t+1}, a_{t+1}) - Q(s_t, a_t) \right)^2\]
 
                 \paragraph{Gradient Descent} \mbox{} \\ 
-                    \vspace{0.2cm}   
                     To minimise the Loss Function, the Weights and Bias' in the Network need to be algorithmically adjusted to converge towards the expected outputs. You can
                     calculate these adjustments by using Partial Derivatives. You can take the Derivative of every Weight and Bias with respect to the Loss Function. The Derivatives
                     of each weight can vary, such as one weight being 0.5 and the other being 3, the Second Weight affects the Loss Function 10$\times$ as much. This process is
                     known as Gradient Descent. \\
 
                 \paragraph{Differentiating Activation Functions} \mbox{} \\ 
-                    \vspace{0.2cm}
                     As part of Back Propgation we need to derive all the Activation Functions we use within our Layer structure. The Derivatives are shown below. \\
                     \vspace{0.2cm}
                     The ReLu Derivative:
@@ -1731,5 +1938,4 @@ def DotProduct(v1,v2):
                         \beta^{(L)} &=& \delta^{(L)} \\
                         \omega^{(L)} &=& \delta^{(L)} \cdot (A^{(L)})^T \\
                     \end{eqnarray*}
-
 \end{flushleft}

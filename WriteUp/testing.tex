@@ -167,31 +167,26 @@ These areas are:
     \rn & Networks conforms to Parameters & Run Program, enter setup info, denying the loading of weights & The created Dual Neural Network conforms to the specified structure 
     in the parameter "DeepQLearningLayers" & Pass & 3.2 \\
     \hline
-    \rn & Forward Propagation Test & Where L is the Current Layer, Forward Propagation requires: $Output Vector^{L-1}$, $Weight Matrix^{L-1}$, $Bias Vector^{L}$ 
-    & The output of the Layer & - & - \\
+    \rn & Forward Propagation Test & Run program as normal & Actions are predicted by the Network & Pass & 3.3 \\
     \hline
-    \rn & Forward Propagation Multi Layer Test & Same as Entry Above & - & - & - \\
+    \rn & Loss Function & Run program as normal & Loss is calculated & Pass & 3.4 \\
     \hline
-    \rn & Loss Function Bellman Equation & - & - & - & - \\
+    \rn & Back Propagation Test & Run program as normal & Calculated Loss is Back Propagated through the Network & Pass & 3.5 \\
     \hline
-    \rn & Back Propagation Test & - & - & - & - \\
+    \rn & Deque Push Front & A value to push to the Deque & Item is pushed to front of Deque & Pass & 3.6 \\
     \hline
-    \rn & Back Propagation Multi Layer Test & - & - & - & - \\
-    \hline
-    \rn & Deque Push Front & A value to push to the Deque & Item is pushed to front of Deque & Pass & 3.8 \\
-    \hline
-    \rn & Deque First/Last & Call the .First() or .Last() Method for a Deque Object & Returns item at Front/Last index of Deque & Pass & 3.9 \\
+    \rn & Deque First/Last & Call the .First() or .Last() Method for a Deque Object & Returns item at Front/Last index of Deque & Pass & 3.7 \\
     \hline
     \rn & Deque Sample N Ammount of Items & Call the .Sample(int N) Method, with a parameter of N items, for a Deque Object & Returns N number of random 
-    samples from Deque & Pass & 3.10 \\
+    samples from Deque & Pass & 3.8 \\
     \hline
-    \rn & Experience Replay Sampling & - & Back Propagation is performed on the sampled Deque Items & - & - \\
+    \rn & Experience Replay Sampling & Run program as normal & Back Propagation is performed on the sampled Deque Items & Pass & 3.9 \\
     \hline
     \rn & Activation Outputs Unit Test & Input Value Vector to the Activation Function & Returns a Vector of values, where the Activation has been 
-    applied to them & - & - \\
+    applied to them & Pass & 3.10 \\
     \hline
     \rn & Activation Derivatives Output Unit Test & Input Value Vector to the Activation Derivative Function & Returns a Vector of values, where the 
-    Activation Deivative has been applied to them & - & - \\
+    Activation Deivative has been applied to them & Pass & 3.11 \\
     \hline
 \end{longtable}
 
@@ -251,7 +246,7 @@ These areas are:
     \rn & Convert Tile Data & Call .TileVectorPostProcess(tileVec) with argument of the result from the Test Above & Converts Tile Data into two vectors, Grayscale 
     Colour and Tile Type & Pass & 5.5 \\
     \hline
-    \rn & Reward System Test & - & Expected reward is given to agent & Pass & 5.6 \\
+    \rn & Reward System Test & Program running as normal & Expected reward is given to agent & Pass & 5.6 \\
     \hline
     \rn & World Generates to an Acceptable Standard & Run program as normal & Generates 2d Terrain which roughly looks realistic & Pass & 5.7 \\
     \hline
@@ -661,7 +656,7 @@ print(result)
     \vspace{1cm}
 \end{center}
 
-\subsubsection{Deep Reinforcement Learning Algorithm Evidence}
+\subsubsection{Deep Q Learning Algorithm Evidence}
 
 \setcounter{magicrownumbers}{0}
 \begin{center}
@@ -681,23 +676,22 @@ print(result)
 
     {\large Evidence 3.\rn } \\ 
     \vspace{0.3cm}
+    Actions being printed to console, predicted by the Network \\
+    \includegraphics{Images/Testing/T3.3.1.PNG}
     \vspace{1cm}
 
     {\large Evidence 3.\rn } \\ 
     \vspace{0.3cm}
+    Loss Vector printed to console \\
+    \includegraphics{Images/Testing/T3.9.2.PNG}
     \vspace{1cm}
 
     {\large Evidence 3.\rn } \\ 
     \vspace{0.3cm}
+    Average Loss Per Step negatively declines meaning the Back Propagation is Functional \\
+    \includegraphics[width=12cm]{Images/Evaluation/RedWaterStaticExtra.png}
     \vspace{1cm}
-
-    {\large Evidence 3.\rn } \\ 
-    \vspace{0.3cm}
-    \vspace{1cm}
-
-    {\large Evidence 3.\rn } \\ 
-    \vspace{0.3cm}
-    \vspace{1cm}
+    
 
     {\large Evidence 3.\rn } \\ 
     \vspace{0.3cm}
@@ -759,6 +753,154 @@ print(deque.queue)
     The output of the above code: \\
     \includegraphics{Images/Testing/T3.10.1.PNG}
     \vspace{1cm}
+
+    {\large Evidence 3.\rn } \\ 
+    \vspace{0.3cm}
+    Experience Replay buffer being sampled every 100 Steps \\
+    \includegraphics{Images/Testing/T3.9.3.PNG} \\
+    The parameters in Parameters file \\
+    \includegraphics{Images/Testing/T3.9.4.PNG}
+    \vspace{1cm}
+
+    {\large Evidence 3.\rn } \\ 
+    \vspace{0.3cm}
+    Testing the Implemented Activations with specific values \\
+    
+    \begin{pythoncode}
+outputVector = Matrix([-1, 0, 1])
+
+Sigmoid = Sigmoid()
+print("Sigmoid:")
+print(Sigmoid.Activation(outputVector))
+
+TanH = TanH()
+print("TanH:")
+print(TanH.Activation(outputVector))
+
+ReLu = ReLu()
+print("ReLu:")
+print(ReLu.Activation(outputVector)) 
+
+LeakyReLu = LeakyReLu()
+print("LeakyReLu:")
+print(LeakyReLu.Activation(outputVector))
+    \end{pythoncode}
+
+    The output of the above code: \\
+    \includegraphics[width=3cm]{Images/Testing/T3.All.PNG} \\
+
+    The WolframAlpha Sigmoid Results: \\
+    \begin{figure}[H]
+        \centering
+        \subfloat{\includegraphics[width=4cm]{Images/Testing/T3Sigmoid-1.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3cm]{Images/Testing/T3Sigmoid0.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=2.7cm]{Images/Testing/T3Sigmoid1.PNG}}
+    \end{figure}
+    
+
+    The WolframAlpha TanH Results: \\
+    \begin{figure}[H]
+        \centering
+        \subfloat{\includegraphics[width=3.2cm]{Images/Testing/T3Tanh-1.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3cm]{Images/Testing/T3Tanh0.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3.8cm]{Images/Testing/T3Tanh1.PNG}}
+    \end{figure}
+
+    The WolframAlpha ReLu Results: \\
+    \begin{figure}[H]
+        \centering
+        \subfloat{\includegraphics[width=3.3cm]{Images/Testing/T3Relu-1.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3cm]{Images/Testing/T3Relu0.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=2.7cm]{Images/Testing/T3Relu1.PNG}}
+    \end{figure}
+
+    The Leaky ReLu Results (Not supported by WolframAlpha): \\
+    \begin{eqnarray*}
+        \text{LeakyReLu}(x) &=&  \begin{cases}
+            x < 0 & 0.1 \times x \\
+            x >= 0 & x
+        \end{cases} \\
+        \text{LeakyReLu}(-1) &=& -1 \times 0.1 = -0.1 \\
+        \text{LeakyReLu}(0) &=& 1(0) = 0 \\
+        \text{LeakyReLu}(1) &=& 1(1) = 1 \\
+    \end{eqnarray*}
+
+    {\large Evidence 3.\rn } \\ 
+    \vspace{0.3cm}
+    Testing the Implemented Activation Derivatives with specific values \\
+    
+    \begin{pythoncode}
+outputVector = Matrix([-1, 0, 1])
+
+Sigmoid = Sigmoid()
+print("Sigmoid Derivative:")
+print(Sigmoid.Derivative(outputVector))
+
+TanH = TanH()
+print("TanH Derivative:")
+print(TanH.Derivative(outputVector))
+
+ReLu = ReLu()
+print("ReLu Derivative:")
+print(ReLu.Derivative(outputVector)) 
+
+LeakyReLu = LeakyReLu()
+print("LeakyReLu Derivative:")
+print(LeakyReLu.Derivative(outputVector))
+    \end{pythoncode}
+
+    The output of the above code: \\
+    \includegraphics[width=3cm]{Images/Testing/T3AllDer.PNG} \\
+
+    The WolframAlpha Sigmoid Derivative Results: \\
+    \begin{figure}[H]
+        \centering
+        \subfloat{\includegraphics[width=4cm]{Images/Testing/T3SigmoidDer-1.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=4.5cm]{Images/Testing/T3SigmoidDer0.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3.5cm]{Images/Testing/T3SigmoidDer1.PNG}}
+    \end{figure}
+
+    The WolframAlpha TanH Derivative Results: \\
+    \begin{figure}[H]
+        \centering
+        \subfloat{\includegraphics[width=3.2cm]{Images/Testing/T3TanhDer-1.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3cm]{Images/Testing/T3TanhDer0.PNG}}
+        \qquad
+        \subfloat{\includegraphics[width=3.5cm]{Images/Testing/T3TanhDer1.PNG}}
+    \end{figure}
+
+    The ReLu Derivative Results (Not supported by WolframAlpha): \\
+    \begin{eqnarray*}
+        \text{ReLu}'(x) &=&  \begin{cases}
+            x < 0 & 0 \\
+            x >= 0 & 1
+        \end{cases} \\
+        \text{ReLu}'(-1) &=& 0 \\
+        \text{ReLu}'(0) &=&  0 \\
+        \text{ReLu}'(1) &=&  1 \\
+    \end{eqnarray*}
+
+    The Leaky ReLu Results (Not supported by WolframAlpha): \\
+    \begin{eqnarray*}
+        \text{LeakyReLu}'(x) &=&  \begin{cases}
+            x < 0 & 0.1 \\
+            x >= 0 & 1
+        \end{cases} \\
+        \text{LeakyReLu}'(-1) &=& 0.1 \\
+        \text{LeakyReLu}'(0) &=& 0 \\
+        \text{LeakyReLu}'(1) &=& 1 \\
+    \end{eqnarray*}
+
+
 \end{center}
 
 \subsubsection{Data Logger Evidence}

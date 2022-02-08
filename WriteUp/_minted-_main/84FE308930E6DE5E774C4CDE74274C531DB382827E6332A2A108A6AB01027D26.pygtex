@@ -124,10 +124,7 @@
                     \PYG{n}{newVal} \PYG{o}{=} \PYG{p}{(}\PYG{n}{math}\PYG{o}{.}\PYG{n}{tanh}\PYG{p}{(}\PYG{n}{value}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}
                     \PYG{n}{colourTuple} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{255} \PYG{o}{*} \PYG{n}{newVal}\PYG{p}{,} \PYG{l+m+mi}{255} \PYG{o}{*} \PYG{n}{newVal}\PYG{p}{,} \PYG{l+m+mi}{255} \PYG{o}{*} \PYG{n}{newVal}\PYG{p}{)}
 
-                    \PYG{k}{try}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Exceps if colour value out of range}
-                        \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{window}\PYG{p}{,} \PYG{n}{colourTuple}\PYG{p}{,} \PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{*} \PYG{n}{TW} \PYG{o}{+} \PYG{n}{i} \PYG{o}{*} \PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{),} \PYG{p}{(}\PYG{n}{k} \PYG{o}{*} \PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{),} \PYG{p}{(}\PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{),} \PYG{p}{(}\PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{)))}
-                    \PYG{k}{except}\PYG{p}{:}
-                        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{newVal}\PYG{p}{)}
+                    \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{draw}\PYG{o}{.}\PYG{n}{rect}\PYG{p}{(}\PYG{n}{window}\PYG{p}{,} \PYG{n}{colourTuple}\PYG{p}{,} \PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}WorldSize\PYGZdq{}}\PYG{p}{]} \PYG{o}{*} \PYG{n}{TW} \PYG{o}{+} \PYG{n}{i} \PYG{o}{*} \PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{),} \PYG{p}{(}\PYG{n}{k} \PYG{o}{*} \PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{),} \PYG{p}{(}\PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{),} \PYG{p}{(}\PYG{n}{TW} \PYG{o}{*} \PYG{n}{DS}\PYG{p}{)))}
 
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{worldMap}\PYG{o}{.}\PYG{n}{DrawMap}\PYG{p}{(}\PYG{n}{window}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Draws Content to window }
 

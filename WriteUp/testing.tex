@@ -64,15 +64,15 @@ These areas are:
     \hline
     {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
     \hline\hline
-    \rn & Loading Parameters File & Input "Default.json" file which contains the loadable values & Loads parameters into the 
+    \rn & Loading Parameters File & Input "Default.param" file which contains the loadable values & Loads parameters into the 
     Parameters Dictionary variable & Pass & 1.1 \\ 
     \hline
     \rn & Parameters within range & Input Loaded Parameters Dictionary & Prints to console "Parameters within Specified Ranges" & Pass & 1.2 \\
     \hline
-    \rn & Below Range Parameter & Input "Default.json" file with a below range parameters & Raises an exception detailing the Parameter, 
+    \rn & Below Range Parameter & Input "Default.param" file with a below range parameters & Raises an exception detailing the Parameter, 
     Value of Parameters, and the given Range Required & Pass & 1.3 \\
     \hline
-    \rn & Above Range Parameter & Input "Default.json" file with an above range parameters & Raises an exception detailing the Parameter, 
+    \rn & Above Range Parameter & Input "Default.param" file with an above range parameters & Raises an exception detailing the Parameter, 
     Value of Parameters, and the given Range Required  & Pass & 1.4 \\
     \hline
     \rn & Network Saved Data Loading & When Prompted to load network data type "Y", and type the file name of network data to load & Network 
@@ -110,9 +110,9 @@ These areas are:
     \hline
     \rn & Print Matrix to Console & A valid Matrix of any size & Matrix Prints to the console with the correct formatting & Pass & 2.4 \\
     \hline
-    \rn & Create Randomised Matrix & A Tuple for the order of the Matrix, and the the keyargument random=True & Matrix is created with randomised values between -0.5 and 0.5 & Pass & 2.5 \\
+    \rn & Create Randomized Matrix & A Tuple for the order of the Matrix, and the keyargument random=True & Matrix is created with randomized values between -0.5 and 0.5 & Pass & 2.5 \\
     \hline
-    \rn & Create Identity Matrix & A Tuple for the order of the Matrix, and the the keyargument identity=True & Matrix is created with all 0's and 1's down the diagonal & Pass & 2.6 \\
+    \rn & Create Identity Matrix & A Tuple for the order of the Matrix, and the keyargument identity=True & Matrix is created with all 0's and 1's down the diagonal & Pass & 2.6 \\
     \hline
     \rn & Matrix Addition Calculation & Two Matrices of the same order & Matrix Addition is performed to create a new Matrix with the added values & Pass & 2.7 \\
     \hline
@@ -124,7 +124,7 @@ These areas are:
     \hline
     \rn & Vector Hadamard Product Calculation & Two Vectors with the same Order & Vector Hadamard Product is performed to create a new Vector with the multiplied values & Pass & 2.11 \\
     \hline
-    \rn & Matrix Power Calulation & A Square Matrix with values stored in it & Matrix to the Power of is performed to create a new Matrix with the correct values & Pass & 2.12 \\
+    \rn & Matrix Power Calculation & A Square Matrix with values stored in it & Matrix to the Power of is performed to create a new Matrix with the correct values & Pass & 2.12 \\
     \hline
     \rn & Matrix Transpose Calculation & A Matrix with values stored in it & New Matrix is created with values flipped across the diagonal & Pass & 2.13 \\
     \hline
@@ -132,7 +132,7 @@ These areas are:
     \hline
     \rn & Matrix Select Row & A Matrix with values stored in it & Selects the indexed Row from the Matrix, returning as a list & Pass & 2.15 \\
     \hline
-    \rn & Vector Max in Vector & A Vector & Returns Largest value in Vector & Pass & 2.16 \\
+    \rn & Vector Max in Vector & A Vector & Returns the Largest value in Vector & Pass & 2.16 \\
     \hline
     \rn & Matrix Clear & A Matrix with values stored in it & Clears Matrix of any values & Pass & 2.17 \\
     \hline
@@ -140,14 +140,14 @@ These areas are:
     \hline
     \rn & Matrix Sum & - & Sums all values in the Matrix returning a $float/int$ & Pass & 2.19 \\
     \hline
-    \rn & Randomised Matrix Constructor Tests & Generator Constructor Parameters randomnly for 10000 Tests & All Tests Should produce a valid Matrix & Pass & 2.16 \\
+    \rn & Randomized Matrix Constructor Tests & Generator Constructor Parameters randomly for 10000 Tests & All Tests Should produce a valid Matrix & Pass & 2.16 \\
     \hline
-    \rn & Randomised Constructor Exception Tests & Generate Random Data to cause Exceptions within the Constructor for 10000 Tests & All Tests should 
+    \rn & Randomized Constructor Exception Tests & Generate Random Data to cause Exceptions within the Constructor for 10000 Tests & All Tests should 
     trigger the Targetted Exception for that test & Pass & 2.17 \\
     \hline
-    \rn & Randomised Operator Tests & Generator Random Data to test the Operator Methods for 10000 Tests & All Tests should produce the correct result & Pass & 2.18 \\
+    \rn & Randomized Operator Tests & Generator Random Data to test the Operator Methods for 10000 Tests & All Tests should produce the correct result & Pass & 2.18 \\
     \hline
-    \rn & Randomised Operator Exception Tests & Generate Random Data to cause Exceptions within the Operators for 10000 Tests & All Tests should 
+    \rn & Randomized Operator Exception Tests & Generate Random Data to cause Exceptions within the Operators for 10000 Tests & All Tests should 
     trigger the Targetted Exception for that test & Pass & 2.19 \\
     \hline
 \end{longtable}
@@ -177,7 +177,7 @@ These areas are:
     \hline
     \rn & Deque First/Last & Call the .First() or .Last() Method for a Deque Object & Returns item at Front/Last index of Deque & Pass & 3.7 \\
     \hline
-    \rn & Deque Sample N Ammount of Items & Call the .Sample(int N) Method, with a parameter of N items, for a Deque Object & Returns N number of random 
+    \rn & Deque Sample N Amount of Items & Call the .Sample(int N) Method, with a parameter of N items, for a Deque Object & Returns N number of random 
     samples from Deque & Pass & 3.8 \\
     \hline
     \rn & Experience Replay Sampling & Run program as normal & Back Propagation is performed on the sampled Deque Items & Pass & 3.9 \\
@@ -186,7 +186,7 @@ These areas are:
     applied to them & Pass & 3.10 \\
     \hline
     \rn & Activation Derivatives Output Unit Test & Input Value Vector to the Activation Derivative Function & Returns a Vector of values, where the 
-    Activation Deivative has been applied to them & Pass & 3.11 \\
+    Activation Derivative has been applied to them & Pass & 3.11 \\
     \hline
 \end{longtable}
 
@@ -200,17 +200,17 @@ These areas are:
 \hline
 {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
     \hline\hline
-    \rn & Heap Sort Decending & A randomnly generated input list & Sorts the list of items into Descending order & Pass & 4.1 \\
+    \rn & Heap Sort Descending & A randomly generated input list & Sorts the list of items into Descending order & Pass & 4.1 \\
     \hline
     \rn & Add Point & A Data Point matching the data structure of the DataCollector & Point is added to Data Points list & Pass & 4.2 \\
     \hline
-    \rn & Match Data Struture with Single & Data Structure contrains an index with a Single-Typed 
+    \rn & Match Data Structure with Single & Data Structure constrains an index with a Single-Typed 
     definition & No error thrown & Pass & 4.3 \\
     \hline
-    \rn & Match Data Struture with Multi-Typed & Data Structure contrains an index with a Multi-Typed
+    \rn & Match Data Structure with Multi-Typed & Data Structure constrains an index with a Multi-Typed
     definition & No error thrown & Pass & 4.4 \\
     \hline
-    \rn & Match Data Struture with List-Typed & Data Structure contrains an index with a List-Typed 
+    \rn & Match Data Structure with List-Typed & Data Structure constrains an index with a List-Typed 
     definition & No error thrown & Pass & 4.5 \\
     \hline
     \rn & Match Data Structure Error & Try match point with structure which does not match & Error is thrown with correct info & Pass & 4.6 \\
@@ -233,17 +233,17 @@ These areas are:
 \hline
 {\footnotesize Test No.} & Test Name & Input Data / Description & Expected Output & Pass / Fail & Testing Evidence \\
     \hline\hline
-    \rn & Creation of Agent & Run progam as normal & Agent is created as an instance of the Agent Class & Pass & 5.1 \\
+    \rn & Creation of Agent & Run program as normal & Agent is created as an instance of the Agent Class & Pass & 5.1 \\
     \hline
-    \rn & Creation of Enemies & Run program as normal with the "StartEnemyCount" Parameter $\greatereq 1$ & Up to the ammount of specified Enemies are created & Pass & 5.2 \\
+    \rn & Creation of Enemies & Run program as normal with the "StartEnemyCount" Parameter $\greatereq 1$ & Up to the amount of specified Enemies are created & Pass & 5.2 \\
     \hline
-    \rn & Enemies Pathfind towards Agent & Run program as normal with "StartEnemyCount" Parameter $\greatereq 1$ & The spawned enemies pathfind towards the agent 
+    \rn & Enemies path find towards Agent & Run program as normal with "StartEnemyCount" Parameter $\greatereq 1$ & The spawned enemies' path find towards the agent 
     using the defined pathfinding algorithm & - & - \\
     \hline
     \rn & Getting Tile Data & Call .GetTileVector(worldMap, enemyList[]) with arguments for worldMap and the list of current Enemies & Returns a Vector of the 
     surrounding tile objects & Pass & 5.4 \\
     \hline
-    \rn & Convert Tile Data & Call .TileVectorPostProcess(tileVec) with argument of the result from the Test Above & Converts Tile Data into two vectors, Grayscale 
+    \rn & Convert Tile Data & Call .TileVectorPostProcess(tileVec) with argument of the result from the Test Above & Converts Tile Data into two vectors, Greyscale 
     Colour and Tile Type & Pass & 5.5 \\
     \hline
     \rn & Reward System Test & Program running as normal & Expected reward is given to agent & Pass & 5.6 \\
@@ -270,7 +270,7 @@ These areas are:
     \vspace{0.3cm}
     The .json file which is being loaded \\
     \includegraphics[width=6cm]{Images/Testing/T1.1.1.PNG} \\
-    Printing the loaded Json File to console to Console to check the values match\\
+    Printing the loaded Json File to Console to check the values match\\
     \includegraphics[width=16cm]{Images/Testing/T1.1.2.PNG} \\
     \vspace{1cm}
 
@@ -909,7 +909,7 @@ print(LeakyReLu.Derivative(outputVector))
 \begin{center}
     {\large Evidence 4.\rn } \\ 
     \vspace{0.3cm}
-    Randomnly Generated Unsorted List, sorted by the 1st Element to form the Sorted List \\
+    Randomly Generated Unsorted List, sorted by the 1st Element to form the Sorted List \\
 
     \begin{pythoncode}
 inputList = [[random.randint(-10,10), random.randint(-10,10)] for i in range(5)]
@@ -951,7 +951,7 @@ print("After: ", dl.dataPoints)
 
     {\large Evidence 4.\rn } \\ 
     \vspace{0.3cm}
-    Test Data Point matches struture \\
+    Test Data Point matches structure \\
 
     \begin{pythoncode}
 dl = DataCollector("Match Single Types", [int, float], False)
@@ -994,7 +994,7 @@ print("Matches Structure: ", dl.CheckMatchStructure([True, ["Matt", "Isabel", "T
 
     {\large Evidence 4.\rn } \\ 
     \vspace{0.3cm}
-    Test error thrown when Data Point doesnt match the given structure \\
+    Test error thrown when Data Point doesn't match the given structure \\
 
     \begin{pythoncode}
 try:
@@ -1105,7 +1105,7 @@ print(item)
 
     {\large Evidence 5.\rn } \\ 
     \vspace{0.3cm}
-    Grayscale Values in a Vector \\
+    Greyscale Values in a Vector \\
     \includegraphics[width=4cm]{Images/Testing/T5.5.1.PNG} \\
     \vspace{1cm}
 

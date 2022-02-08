@@ -123,10 +123,7 @@ class Simulation():
                     newVal = (math.tanh(value) + 1) / 2
                     colourTuple = (255 * newVal, 255 * newVal, 255 * newVal)
 
-                    try: # Exceps if colour value out of range
-                        pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * DS), (k * TW * DS), (TW * DS), (TW * DS)))
-                    except:
-                        print(newVal)
+                    pygame.draw.rect(window, colourTuple, ((self.paramDictionary["WorldSize"] * TW + i * TW * DS), (k * TW * DS), (TW * DS), (TW * DS)))
 
         self.worldMap.DrawMap(window) # Draws Content to window 
 

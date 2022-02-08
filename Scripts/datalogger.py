@@ -66,10 +66,6 @@ class DataLogger():
         return True
 
     def HeapSort(self, parameterIndex): # O(n*log n) sorting algorithm utilising a Heap Data structure, Sorts the data points by the specified parameter
-        # 1000 Items -> 0.13
-        # 10000 Items -> 12.1
-        # 100000 Items -> 1646 or 27.4 minutes
-
         if type(self.dataStructure[parameterIndex]) == list: # Throw error if data structure element is List
             raise Exception("Cannot sort by structure: {}".format(type(self.dataStructure[parameterIndex])))
 

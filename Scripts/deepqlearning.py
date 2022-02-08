@@ -150,16 +150,8 @@ class DoubleNeuralNet(): # Wraps a Main and Target Neural Network together
         return ((expected - networkOutput) ** 2) * 0.5
 
     def ExpectedValue(self, output, tempExp, agent):
-        # L^i(W^i) = ((r + y*maxQ(s',a';W^i-1) - Q(s,a,W)) ** 2
-        # Loss = ((Reward[] + Gamma * MaxQ(s', a'; TNet)) - Q(s, a)[]) ^ 2
-
         Reward = tempExp.reward
         Gamma = self.paramDictionary["DQLGamma"]
-
-        #self.TargetNetwork.ForwardPropagation(agent.TileVectorPostProcess(tempExp.state)[1], self.activations) # Apply input to Target Network
-        
-        #targetNetAction = self.TargetNetwork.layers[-1].activations.MaxInVector()[1]
-
 
         tempRewardVec = agent.GetRewardVector(tempExp.stateNew, self.paramDictionary["DeepQLearningLayers"][-1]) # Gets reward vector from the new state
         maxQTNet = agent.MaxQ(tempRewardVec) # Max of Target network
@@ -205,8 +197,6 @@ class NeuralNet(): # Neural Network Implementation
 
         for i in range(0, len(self.layers) - 1):
             self.layers[i].ForwardPropagation(self.layers[i+1], activations)
-
-        #self.layers[-1].ForwardPropagation(self.layers[-2], activations, finalLayer=True)
 
     def BackPropagationV2(self, activations): # Iterates through Back Propagation V2
         self.layers[-2].BackPropagationV2(self.layers[-1], self.paramDictionary["DQLLearningRate"], activations)

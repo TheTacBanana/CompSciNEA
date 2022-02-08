@@ -151,16 +151,8 @@
         \PYG{k}{return} \PYG{p}{((}\PYG{n}{expected} \PYG{o}{\PYGZhy{}} \PYG{n}{networkOutput}\PYG{p}{)} \PYG{o}{**} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mf}{0.5}
 
     \PYG{k}{def} \PYG{n+nf}{ExpectedValue}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{output}\PYG{p}{,} \PYG{n}{tempExp}\PYG{p}{,} \PYG{n}{agent}\PYG{p}{):}
-        \PYG{c+c1}{\PYGZsh{} L\PYGZca{}i(W\PYGZca{}i) = ((r + y*maxQ(s\PYGZsq{},a\PYGZsq{};W\PYGZca{}i\PYGZhy{}1) \PYGZhy{} Q(s,a,W)) ** 2}
-        \PYG{c+c1}{\PYGZsh{} Loss = ((Reward[] + Gamma * MaxQ(s\PYGZsq{}, a\PYGZsq{}; TNet)) \PYGZhy{} Q(s, a)[]) \PYGZca{} 2}
-
         \PYG{n}{Reward} \PYG{o}{=} \PYG{n}{tempExp}\PYG{o}{.}\PYG{n}{reward}
         \PYG{n}{Gamma} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLGamma\PYGZdq{}}\PYG{p}{]}
-
-        \PYG{c+c1}{\PYGZsh{}self.TargetNetwork.ForwardPropagation(agent.TileVectorPostProcess(tempExp.state)[1], self.activations) \PYGZsh{} Apply input to Target Network}
-        
-        \PYG{c+c1}{\PYGZsh{}targetNetAction = self.TargetNetwork.layers[\PYGZhy{}1].activations.MaxInVector()[1]}
-
 
         \PYG{n}{tempRewardVec} \PYG{o}{=} \PYG{n}{agent}\PYG{o}{.}\PYG{n}{GetRewardVector}\PYG{p}{(}\PYG{n}{tempExp}\PYG{o}{.}\PYG{n}{stateNew}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DeepQLearningLayers\PYGZdq{}}\PYG{p}{][}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{c+c1}{\PYGZsh{} Gets reward vector from the new state}
         \PYG{n}{maxQTNet} \PYG{o}{=} \PYG{n}{agent}\PYG{o}{.}\PYG{n}{MaxQ}\PYG{p}{(}\PYG{n}{tempRewardVec}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Max of Target network}
@@ -206,8 +198,6 @@
 
         \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{layers}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{):}
             \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{layers}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{ForwardPropagation}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{layers}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{activations}\PYG{p}{)}
-
-        \PYG{c+c1}{\PYGZsh{}self.layers[\PYGZhy{}1].ForwardPropagation(self.layers[\PYGZhy{}2], activations, finalLayer=True)}
 
     \PYG{k}{def} \PYG{n+nf}{BackPropagationV2}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{activations}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Iterates through Back Propagation V2}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{layers}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{.}\PYG{n}{BackPropagationV2}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{layers}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{paramDictionary}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}DQLLearningRate\PYGZdq{}}\PYG{p}{],} \PYG{n}{activations}\PYG{p}{)}

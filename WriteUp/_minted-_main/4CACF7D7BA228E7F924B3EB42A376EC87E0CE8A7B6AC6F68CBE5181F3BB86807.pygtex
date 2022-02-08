@@ -67,10 +67,6 @@
         \PYG{k}{return} \PYG{k+kc}{True}
 
     \PYG{k}{def} \PYG{n+nf}{HeapSort}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{parameterIndex}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} O(n*log n) sorting algorithm utilising a Heap Data structure, Sorts the data points by the specified parameter}
-        \PYG{c+c1}{\PYGZsh{} 1000 Items \PYGZhy{}\PYGZgt{} 0.13}
-        \PYG{c+c1}{\PYGZsh{} 10000 Items \PYGZhy{}\PYGZgt{} 12.1}
-        \PYG{c+c1}{\PYGZsh{} 100000 Items \PYGZhy{}\PYGZgt{} 1646 or 27.4 minutes}
-
         \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{parameterIndex}\PYG{p}{])} \PYG{o}{==} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if data structure element is List}
             \PYG{k}{raise} \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Cannot sort by structure: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dataStructure}\PYG{p}{[}\PYG{n}{parameterIndex}\PYG{p}{])))}
 

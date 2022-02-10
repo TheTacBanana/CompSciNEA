@@ -196,6 +196,170 @@
                 \vspace{0.5cm}
                 \includegraphics[width=\textwidth]{Images/Design/RewardActionStructure.png}
             \end{center}   
+        \subsection{Terrain Generation Methods}
+            For my Simulation I will need to procedurally generate an Environment. I intend to do this utilising
+            the two algorithms, Perlin Noise and Poisson Disc Sampling (as per \textbf{Objective 4.2.2 and 4.2.7}).
+            In this section I will explain these two algorithms utilising Diagrams, pseudocode for them can be found under
+            the Description of Algorithms Section.
+
+            \subsubsection{Perlin Noise}
+                Perlin Noise is a form of Gradient Noise which utilises an initial permutation table of values from $0\to 255$
+                to deterministically pick Vectors at each intersection on a Grid. To calculate the Value at a certain point within
+                the 2d Grid you calculate each Vector from the corners of the Grid Cell to the specified point. You then
+                find the Dot Product between each of these Vectors and the Cells corners. We then use an Interpolation function
+                to give us a final value. Below is shown an example of this defined grid with the Vectors attached to each intersection
+                point. \\
+                \vspace{0.5cm}
+
+                \begin{center}
+                    \begin{tikzpicture} [scale=1.5]
+                        % Horizontal
+                        \draw (-4, 2) -- (3,2);
+                        \draw (-4, 1) -- (3,1);
+                        \draw (-4, 0) -- (3,0);
+                        \draw (-4, -1) -- (3,-1);
+
+                        % Vertical
+                        \draw (-4, 2) -- (-4,-1);
+                        \draw (-3, 2) -- (-3,-1);
+                        \draw (-2, 2) -- (-2,-1);
+                        \draw (-1, 2) -- (-1,-1);
+                        \draw (0, 2) -- (0,-1);
+                        \draw (1, 2) -- (1,-1);
+                        \draw (2, 2) -- (2,-1);
+                        \draw (3, 2) -- (3,-1);
+
+                        % Vectors
+                        \draw [red,-stealth] (-4,-1) -> (-3.3531902939806315,-1.7626514303396656);
+                        \draw [red,-stealth] (-4,0) -> (-4.630977086298768,-0.7758014672362491); 
+                        \draw [red,-stealth] (-4,1) -> (-4.869274852471338,1.4943290714300883);  
+                        \draw [red,-stealth] (-4,2) -> (-4.069776535924549,2.9975626471727828);  
+                        \draw [red,-stealth] (-3,-1) -> (-2.057300086127471,-1.3336418324861652);
+                        \draw [red,-stealth] (-3,0) -> (-3.996506819243266,0.08351143156280703); 
+                        \draw [red,-stealth] (-3,1) -> (-2.9797745644060702,1.9997954449561348); 
+                        \draw [red,-stealth] (-3,2) -> (-3.5866712855680216,1.1901748320223897); 
+                        \draw [red,-stealth] (-2,-1) -> (-1.8666756238708355,-0.0089275451664651);
+                        \draw [red,-stealth] (-2,0) -> (-1.2554466260164219,0.6675629358267805);
+                        \draw [red,-stealth] (-2,1) -> (-1.1522871157947239,0.469544661679824);
+                        \draw [red,-stealth] (-2,2) -> (-2.934553416957287,2.3558228644332164);
+                        \draw [red,-stealth] (-1,-1) -> (-0.22125496971665692,-1.6273405596715351);
+                        \draw [red,-stealth] (-1,0) -> (-1.4588750931647785,-0.8885007872101273);
+                        \draw [red,-stealth] (-1,1) -> (-0.36250098213671433,1.770451167968059);
+                        \draw [red,-stealth] (-1,2) -> (-1.795895289222834,1.3945657024970408);
+                        \draw [red,-stealth] (0,-1) -> (0.9364985094954517,-1.350671558174879);
+                        \draw [red,-stealth] (0,0) -> (-0.4321341492562097,-0.901809335195978);
+                        \draw [red,-stealth] (0,1) -> (-0.7418574353466701,0.32944236219333);
+                        \draw [red,-stealth] (0,2) -> (-0.6937822367842611,1.279815157114073);
+                        \draw [red,-stealth] (1,-1) -> (0.7181166287846582,-0.04055132235628467);
+                        \draw [red,-stealth] (1,0) -> (1.9852224235969194,0.1712798179640916);
+                        \draw [red,-stealth] (1,1) -> (1.0263647828314666,1.9996523886963156);
+                        \draw [red,-stealth] (1,2) -> (1.369371556758214,2.9292817942142273);
+                        \draw [red,-stealth] (2,-1) -> (2.996407526053442,-1.084687909550652);
+                        \draw [red,-stealth] (2,0) -> (2.7267142859187103,-0.6869398420834673);
+                        \draw [red,-stealth] (2,1) -> (2.9201873668047167,0.6085217630914822);
+                        \draw [red,-stealth] (2,2) -> (1.0720411942840524,1.627317219482531);
+                        \draw [red,-stealth] (3,-1) -> (3.948643116726071,-1.3163482844717915);
+                        \draw [red,-stealth] (3,0) -> (2.6438125421512413,0.9344145198311287);
+                        \draw [red,-stealth] (3,1) -> (2.0094614538578335,1.1372347937170555);
+                        \draw [red,-stealth] (3,2) -> (3.10861631340332,2.9940837472077853);
+                    \end{tikzpicture}
+                \end{center}
+                
+                To sample a specific point on this Grid we need to locate the specific cell that the point
+                is contained within. We then find Vectors between each Cells Corners and the Point. The Unit Vectors are
+                shown in Red as previous. The Point we are sampling is in Black, pointed to by the newly
+                created Green Vectors, which point from the Cell Corners to the Point.
+
+                \begin{center}
+                    \begin{tikzpicture} [scale=1.5]
+                        % Cell
+                        \draw (-1, 1) -> (1, 1);
+                        \draw (1, 1) -> (1, -1);
+                        \draw (-1, -1) -> (1, -1);
+                        \draw (-1, 1) -> (-1, -1);
+
+                        % Unit Vectors
+                        \draw [red,-stealth] (-1,-1) -> (-2.7477855439429835,-1.972237467074752);
+                        \draw [red,-stealth] (-1,1) -> (-1.7833998754917406,-0.8401860327367792);
+                        \draw [red,-stealth] (1,-1) -> (-0.6717240420565347,0.09787919518049071);
+                        \draw [red,-stealth] (1,1) -> (2.6385031929005236,2.1468684697273654);
+
+                        % Point
+                        \filldraw [black] (-0.2, 0.3) circle (1.5pt);
+
+                        % Vectors
+                        \draw [green,-stealth] (-1,-1) -> (-0.2, 0.3);
+                        \draw [green,-stealth] (-1,1) -> (-0.2, 0.3);
+                        \draw [green,-stealth] (1,-1) -> (-0.2, 0.3);
+                        \draw [green,-stealth] (1,1) -> (-0.2, 0.3);
+                    \end{tikzpicture}
+                \end{center}
+            \subsubsection{Poisson Disc Sampling}
+                Poisson Disc Sampling is used to create a set of samples, where each sample is between $r$ and $2r$ distance away
+                from its Neighbouring Samples. We first define a Grid of Cells with a size r, which allows the Algorithm to shorten the amount of 
+                time it takes to determine if a new sample is within the range. A maximum of 1 Sample may be contained within a singular Cell. 
+                We then pick a starting point, which can be located anywhere within the Grid. Below is shown an Initial Point, with the Green 
+                Hashed Area showing the possible location which the next Sample could lie in. Red is unavailable due to the constraints of the Algorithm.
+
+                \begin{center}
+                    \begin{tikzpicture} [scale=2.5]
+                        % Horizontal
+                        \draw (-3, 1) -- (3,1);
+                        \draw (-3, 0) -- (3,0);
+                        
+                        % Vertical
+                        \draw (-2, 2) -- (-2,-1);
+                        \draw (-1, 2) -- (-1,-1);
+                        \draw (0, 2) -- (0,-1);
+                        \draw (1, 2) -- (1,-1);
+                        \draw (2, 2) -- (2,-1);
+
+                        \fill [pattern=north east lines, pattern color=green, even odd rule] (0.6, 1.2) circle (.5) circle (1);
+                        \fill [pattern=north east lines, pattern color=white] (0, 2) rectangle (1,1);
+                        \begin{scope}
+                            \clip (0, 2) rectangle (1,1) (0.6, 1.2) circle (.5);
+                            \fill [pattern=north east lines, pattern color=red] (0.6, 1.2) circle (1);
+                        \end{scope} 
+
+                        \filldraw [green] (0.6, 1.2) circle (1.5pt);
+                    \end{tikzpicture}
+                \end{center}
+
+                We can then choose a new Sample within this Area. Again is shown the Two areas, Red and Green.
+
+                \begin{center}
+                    \begin{tikzpicture} [scale=2.5]
+                        % Horizontal
+                        \draw (-3, 1) -- (3,1);
+                        \draw (-3, 0) -- (3,0);
+                        
+                        % Vertical
+                        \draw (-2, 2) -- (-2,-1);
+                        \draw (-1, 2) -- (-1,-1);
+                        \draw (0, 2) -- (0,-1);
+                        \draw (1, 2) -- (1,-1);
+                        \draw (2, 2) -- (2,-1);
+
+                        \fill [pattern=north east lines, pattern color=green, even odd rule] (0.6, 1.2) circle (.5) circle (1);
+                        \fill [pattern=north east lines, pattern color=green, even odd rule] (-0.1, 0.8) circle (.5) circle (1);
+                        \fill [pattern=north east lines, pattern color=white] (0, 2) rectangle (1,1);
+                        \begin{scope}
+                            \clip (0, 2) rectangle (1,1) (0.6, 1.2) circle (.5);
+                            \fill [pattern=north east lines, pattern color=red] (0.6, 1.2) circle (1);
+                        \end{scope} 
+                        \fill [pattern=north east lines, pattern color=white] (-1, 1) rectangle (0,0);
+                        \fill [pattern=north east lines, pattern color=white] (-0.1, 0.8) circle (.5);
+                        \begin{scope}
+                            \clip (-1, 1) rectangle (0,0) (-0.1, 0.8) circle (.5);
+                            \fill [pattern=north east lines, pattern color=red] (-0.1, 0.8) circle (1.5);
+                        \end{scope} 
+                        \filldraw [green] (0.6, 1.2) circle (1.5pt);
+                        \filldraw [green] (-0.1, 0.8) circle (1.5pt);
+                    \end{tikzpicture}
+                \end{center}
+
+                This process continues to form a grid of samples. Which my program will use to place items around its
+                Environment.
         \subsection{Object Orientated Structure}
             \large
             My project is formed from several classes, each having a specific role. They primarily use composition, due to being tightly linked
@@ -309,7 +473,8 @@
             \subsubsection{Matrix Class}
                 The Matrix Class will contain the standard Matrix Operations, along with multiple methods of creating different 
                 Matrices. It is used as an integral part of the NeuralNet Class, because it heavily relies on Matrix Operations.
-                These Operations require efficient algorithms, which are outlined under Description of Algorithms. \\
+                These Operations require efficient algorithms, which are outlined under Description of Algorithms. The Matrix
+                class will utilise Operator Overloading, in an attempt to make code visually cleaner. \\
                 \vspace{0.2cm}
                 This fulfils objectives under \textbf{Objective 3} \\
 
@@ -360,175 +525,11 @@
             \centerline{\includegraphics[width=18cm]{Images/Design/ClassDiagram.png}}
             \vspace{0.5cm}
             \pagebreak
-        \subsection{Terrain Generation Methods}
-            For my Simulation I will need to procedurally generate an Environment. I intend to do this utilising
-            the two algorithms, Perlin Noise and Poisson Disc Sampling (as per \textbf{Objective 4.2.2 and 4.2.7}).
-            In this section I will explain these two algorithms utilising Diagrams, pseudocode for them can be found under
-            the Description of Algorithms Section.
-
-            \subsubsection{Perlin Noise}
-                Perlin Noise is a form of Gradient Noise which utilises an initial permutation table of values from $0\to 255$
-                to deterministically pick Vectors at each intersection on a Grid. To calculate the Value at a certain point within
-                the 2d Grid you calculate each Vector from the corners of the Grid Cell to the specified point. You then
-                find the Dot Product between each of these Vectors and the Cells corners. We then use an Interpolation function
-                to give us a final value. Below is shown an example of this defined grid with the Vectors attached to each intersection
-                point. \\
-                \vspace{0.5cm}
-
-                \begin{center}
-                    \begin{tikzpicture} [scale=1.5]
-                        % Horizontal
-                        \draw (-4, 2) -- (3,2);
-                        \draw (-4, 1) -- (3,1);
-                        \draw (-4, 0) -- (3,0);
-                        \draw (-4, -1) -- (3,-1);
-
-                        % Vertical
-                        \draw (-4, 2) -- (-4,-1);
-                        \draw (-3, 2) -- (-3,-1);
-                        \draw (-2, 2) -- (-2,-1);
-                        \draw (-1, 2) -- (-1,-1);
-                        \draw (0, 2) -- (0,-1);
-                        \draw (1, 2) -- (1,-1);
-                        \draw (2, 2) -- (2,-1);
-                        \draw (3, 2) -- (3,-1);
-
-                        % Vectors
-                        \draw [red,-stealth] (-4,-1) -> (-3.3531902939806315,-1.7626514303396656);
-                        \draw [red,-stealth] (-4,0) -> (-4.630977086298768,-0.7758014672362491); 
-                        \draw [red,-stealth] (-4,1) -> (-4.869274852471338,1.4943290714300883);  
-                        \draw [red,-stealth] (-4,2) -> (-4.069776535924549,2.9975626471727828);  
-                        \draw [red,-stealth] (-3,-1) -> (-2.057300086127471,-1.3336418324861652);
-                        \draw [red,-stealth] (-3,0) -> (-3.996506819243266,0.08351143156280703); 
-                        \draw [red,-stealth] (-3,1) -> (-2.9797745644060702,1.9997954449561348); 
-                        \draw [red,-stealth] (-3,2) -> (-3.5866712855680216,1.1901748320223897); 
-                        \draw [red,-stealth] (-2,-1) -> (-1.8666756238708355,-0.0089275451664651);
-                        \draw [red,-stealth] (-2,0) -> (-1.2554466260164219,0.6675629358267805);
-                        \draw [red,-stealth] (-2,1) -> (-1.1522871157947239,0.469544661679824);
-                        \draw [red,-stealth] (-2,2) -> (-2.934553416957287,2.3558228644332164);
-                        \draw [red,-stealth] (-1,-1) -> (-0.22125496971665692,-1.6273405596715351);
-                        \draw [red,-stealth] (-1,0) -> (-1.4588750931647785,-0.8885007872101273);
-                        \draw [red,-stealth] (-1,1) -> (-0.36250098213671433,1.770451167968059);
-                        \draw [red,-stealth] (-1,2) -> (-1.795895289222834,1.3945657024970408);
-                        \draw [red,-stealth] (0,-1) -> (0.9364985094954517,-1.350671558174879);
-                        \draw [red,-stealth] (0,0) -> (-0.4321341492562097,-0.901809335195978);
-                        \draw [red,-stealth] (0,1) -> (-0.7418574353466701,0.32944236219333);
-                        \draw [red,-stealth] (0,2) -> (-0.6937822367842611,1.279815157114073);
-                        \draw [red,-stealth] (1,-1) -> (0.7181166287846582,-0.04055132235628467);
-                        \draw [red,-stealth] (1,0) -> (1.9852224235969194,0.1712798179640916);
-                        \draw [red,-stealth] (1,1) -> (1.0263647828314666,1.9996523886963156);
-                        \draw [red,-stealth] (1,2) -> (1.369371556758214,2.9292817942142273);
-                        \draw [red,-stealth] (2,-1) -> (2.996407526053442,-1.084687909550652);
-                        \draw [red,-stealth] (2,0) -> (2.7267142859187103,-0.6869398420834673);
-                        \draw [red,-stealth] (2,1) -> (2.9201873668047167,0.6085217630914822);
-                        \draw [red,-stealth] (2,2) -> (1.0720411942840524,1.627317219482531);
-                        \draw [red,-stealth] (3,-1) -> (3.948643116726071,-1.3163482844717915);
-                        \draw [red,-stealth] (3,0) -> (2.6438125421512413,0.9344145198311287);
-                        \draw [red,-stealth] (3,1) -> (2.0094614538578335,1.1372347937170555);
-                        \draw [red,-stealth] (3,2) -> (3.10861631340332,2.9940837472077853);
-                    \end{tikzpicture}
-                \end{center}
-                
-                To sample a specific point on this Grid we need to locate the specific cell that the point
-                is contained within. We then find Vectors between each Cells Corners and the Point. The Unit Vectors are
-                shown in Red as previous. The Point we are sampling is in Black, pointed to by the newly
-                created Green Vectors, which point from the Cell Corners to the Point.
-
-                \begin{center}
-                    \begin{tikzpicture} [scale=1.5]
-                        % Cell
-                        \draw (-1, 1) -> (1, 1);
-                        \draw (1, 1) -> (1, -1);
-                        \draw (-1, -1) -> (1, -1);
-                        \draw (-1, 1) -> (-1, -1);
-
-                        % Unit Vectors
-                        \draw [red,-stealth] (-1,-1) -> (-2.7477855439429835,-1.972237467074752);
-                        \draw [red,-stealth] (-1,1) -> (-1.7833998754917406,-0.8401860327367792);
-                        \draw [red,-stealth] (1,-1) -> (-0.6717240420565347,0.09787919518049071);
-                        \draw [red,-stealth] (1,1) -> (2.6385031929005236,2.1468684697273654);
-
-                        % Point
-                        \filldraw [black] (-0.2, 0.3) circle (1.5pt);
-
-                        % Vectors
-                        \draw [green,-stealth] (-1,-1) -> (-0.2, 0.3);
-                        \draw [green,-stealth] (-1,1) -> (-0.2, 0.3);
-                        \draw [green,-stealth] (1,-1) -> (-0.2, 0.3);
-                        \draw [green,-stealth] (1,1) -> (-0.2, 0.3);
-                    \end{tikzpicture}
-                \end{center}
-            \subsubsection{Poisson Disc Sampling}
-                Poisson Disc Sampling is used to create a set of samples, where each sample is between $r$ and $2r$ distance away
-                from its Neighbouring Samples. We first define a Grid of Cells with a size r, which allows the Algorithm to shorten the amount of 
-                time it takes to determine if a new sample is within the range. A maximum of 1 Sample may be contained within a singular Cell. 
-                We then pick a starting point, which can be located anywhere within the Grid. Below is shown an Initial Point, with the Green 
-                Hashed Area showing the possible location which the next Sample could lie in. Red is unavailable due to the constraints of the Algorithm.
-
-                \begin{center}
-                    \begin{tikzpicture} [scale=1.5]
-                        % Horizontal
-                        \draw (-3, 1) -- (3,1);
-                        \draw (-3, 0) -- (3,0);
-                        
-                        % Vertical
-                        \draw (-2, 2) -- (-2,-1);
-                        \draw (-1, 2) -- (-1,-1);
-                        \draw (0, 2) -- (0,-1);
-                        \draw (1, 2) -- (1,-1);
-                        \draw (2, 2) -- (2,-1);
-
-                        \fill [pattern=north east lines, pattern color=green, even odd rule] (0.6, 1.2) circle (.5) circle (1);
-                        \fill [pattern=north east lines, pattern color=white] (0, 2) rectangle (1,1);
-                        \begin{scope}
-                            \clip (0, 2) rectangle (1,1) (0.6, 1.2) circle (.5);
-                            \fill [pattern=north east lines, pattern color=red] (0.6, 1.2) circle (1);
-                        \end{scope} 
-
-                        \filldraw [green] (0.6, 1.2) circle (1.5pt);
-                    \end{tikzpicture}
-                \end{center}
-
-                We can then choose a new Sample within this Area. Again is shown the Two areas, Red and Green.
-
-                \begin{center}
-                    \begin{tikzpicture} [scale=1.5]
-                        % Horizontal
-                        \draw (-3, 1) -- (3,1);
-                        \draw (-3, 0) -- (3,0);
-                        
-                        % Vertical
-                        \draw (-2, 2) -- (-2,-1);
-                        \draw (-1, 2) -- (-1,-1);
-                        \draw (0, 2) -- (0,-1);
-                        \draw (1, 2) -- (1,-1);
-                        \draw (2, 2) -- (2,-1);
-
-                        \fill [pattern=north east lines, pattern color=green, even odd rule] (0.6, 1.2) circle (.5) circle (1);
-                        \fill [pattern=north east lines, pattern color=green, even odd rule] (-0.1, 0.8) circle (.5) circle (1);
-                        \fill [pattern=north east lines, pattern color=white] (0, 2) rectangle (1,1);
-                        \begin{scope}
-                            \clip (0, 2) rectangle (1,1) (0.6, 1.2) circle (.5);
-                            \fill [pattern=north east lines, pattern color=red] (0.6, 1.2) circle (1);
-                        \end{scope} 
-                        \fill [pattern=north east lines, pattern color=white] (-1, 1) rectangle (0,0);
-                        \fill [pattern=north east lines, pattern color=white] (-0.1, 0.8) circle (.5);
-                        \begin{scope}
-                            \clip (-1, 1) rectangle (0,0) (-0.1, 0.8) circle (.5);
-                            \fill [pattern=north east lines, pattern color=red] (-0.1, 0.8) circle (1.5);
-                        \end{scope} 
-                        \filldraw [green] (0.6, 1.2) circle (1.5pt);
-                        \filldraw [green] (-0.1, 0.8) circle (1.5pt);
-                    \end{tikzpicture}
-                \end{center}
-
-                This process continues to form a grid of samples. Which my program will use to place items around its
-                Environment.
         \subsection{Description of Algorithms}
             \subsubsection{Matrix Addition}
                 This algorithm is a Mathematical Operation to add 2 Matrices together. To Add together 2 Matrices their Orders
                 must be the same. To perform the Operation you must Sum each element in Matrix A with the corresponding element 
-                in Matrix B, placing the result of each Sum in the resultant Matrix.
+                in Matrix B, placing the result of each Sum in the resultant Matrix. This fulfils \textbf{Objective 3.7.1}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -547,7 +548,7 @@
             \subsubsection{Matrix Subtraction}
                 This algorithm is a Mathematical Operation to subtract 2 Matrices. To Subtract 2 Matrices their Orders
                 must be the same. To perform the Operation you must Sum each element in Matrix A with the negative of the 
-                corresponding element in Matrix B, placing the result of each Sum in the resultant Matrix.
+                corresponding element in Matrix B, placing the result of each Sum in the resultant Matrix. This fulfils \textbf{Objective 3.7.2}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -568,7 +569,7 @@
                 the number of Columns in the Matrix A must be equal to the number of Rows in Matrix B. Where Matrix A has
                 dimensions of $m$ x $n$ and Matrix B has dimensions of $j$ x $k$, the resultant Matrix will have dimensions of 
                 $n$ x $j$. To Multiply two Matrices, the algorithm performs the Dot Product between the Row in Matrix A and the 
-                corresponding Column in Matrix B. The Dot Product is the Sum of the Products of corresponding elements.
+                corresponding Column in Matrix B. The Dot Product is the Sum of the Products of corresponding elements. This fulfils \textbf{Objective 3.7.3}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -589,7 +590,7 @@
             \subsubsection{Matrix Scalar Multiplication}
                 This algorithm is a Mathematical Operation to find the product between a Matrix and a Scalar.
                 The result can be found by Multiplying each element of the Matrix by the Scalar Value to form the Resultant 
-                Matrix.
+                Matrix. This fulfils \textbf{Objective 3.7.4}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -608,7 +609,7 @@
             \subsubsection{Matrix Hadamard Product}
                 This algorithm is a Mathematical Operation to another way to find the product between 2 Matrices. Instead of
                 applying the Dot Product between Rows and Columns, you find the product between each element in Matrix A
-                with the corresponding element in Matrix B, placing the result in the resultant Matrix.
+                with the corresponding element in Matrix B, placing the result in the resultant Matrix. This fulfils \textbf{Objective 3.7.5}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -643,6 +644,7 @@
             \subsubsection{Matrix Transpose}
                 This algorithm is a Mathematical Operation used to Flip a Matrix across its Diagonal. The Transpose of any Matrix
                 can be found by converting each Row of the Matrix into a Column. An $m$ x $n$ Matrix will turn into an $n$ x $m$ Matrix.
+                This fulfils \textbf{Objective 3.7.6}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -661,7 +663,7 @@
             \subsubsection{Activation Function SoftMax}
                 This algorithm is a logistic function that creates a probability distribution from a set of points. This probability 
                 distribution sums to 1. It applies the standard Exponential Function to each element, then normalises this value by dividing
-                by the sum of all these Exponentials.
+                by the sum of all these Exponentials. This fulfils \textbf{Objective 5.7}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -682,7 +684,7 @@
             \subsubsection{Neural Network Forward Propagation}
                 This algorithm is used to obtain the outputs of a Neural Network. It uses Matrix Multiplication to propagate the inputs
                 of the network from Layer to Layer, eventually reaching the Output Layer. My Multiplying the Weight Matrix and the outputs
-                of the previous Layer, and then adding the Bias. We can obtain the output of the layer.
+                of the previous Layer, and then adding the Bias. We can obtain the output of the layer. This fulfils \textbf{Objective 5.1.2}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -698,9 +700,9 @@
                 \end{pseudocode}
 
                 \vspace{0.5cm}
-            \subsubsection{Half Square Difference}  
-                This algorithm is the Cost Function of the Neural Network used in tandem with Bellman Equation. It takes the network output
-                away from the expected value, squares and then halves it, per output node.
+            \subsubsection{Loss Function}  
+                This algorithm is the Loss Function of the Neural Network used in tandem with Bellman Equation to calculate the expected values. 
+                It takes the network output away from the expected value, squares and then halves it, per output node. This fulfils \textbf{Objective 5.1.4}
 
                 \begin{pseudocode}
 |\textbf{SUBROUTINE} HalfSquareDiff(NetworkOutput, Expected)|  
@@ -711,7 +713,7 @@
                 This algorithm calculates the expected value of the Neural Network. This is calculated using a variation of the Bellman Equation.
                 The Bellman Equation is necessary for Mathematically Optimizing in this case. It determines the Value of a decision at a certain 
                 point in time, in terms of the Payoff from the Initial Action and the Value of the Potential Payoff after taking that Initial
-                Action. 
+                Action. This fulfils \textbf{Objective 5.1.3}
                 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -734,7 +736,8 @@
                 best outcome. In Reinforcement Learning, the Network is trained using an estimate for what is the best action given a situation.
                 Using this estimate, we can train the Network to predict this outcome by converging the series of Weights and Biases towards a
                 local minimum. This is done by calculating partial derivates for every weight and bias value with respect to the cost function.
-                This derivative is then subtracted from the existing weight or bias, eventually converging on the best possible value.
+                This derivative is then subtracted from the existing weight or bias, eventually converging on the best possible value. This 
+                fulfils \textbf{Objective 5.1.5}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -754,7 +757,8 @@
                 \vspace{0.5cm}
             \subsubsection{Experience Replay}
                 This algorithm samples a Double Ended Queue of (State, Action, Reward, State') Tuples and performs the Back Propagation Algorithm
-                on the data. This process is designed to imitate the recall of previous experiences stored in the agents figurative Memory.
+                on the data. This process is designed to imitate the recall of previous experiences stored in the agents figurative Memory. This 
+                fulfils \textbf{Objective 5.8}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -789,7 +793,7 @@
                 \vspace{0.5cm}
             \subsubsection{Agent Get Tile Vector}
                 This algorithm takes the current World Data of the simulation, and produces a Vector of Tile Data surrounding the Agent. This can
-                be done using a nested For Loop rather simply.
+                be done using a nested For Loop rather simply. This fulfils \textbf{Objective 4.19}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -812,7 +816,7 @@
             \subsubsection{Agent Convert to Greyscale}
                 This algorithm converts a given RGB Colour Value to the corresponding Gray Scale Value. The Red, Green and Blue elements of
                 the colour value are multiplied by the specific values $0.299$, $0.587$ and $0.114$. You then sum the results, and divide by 
-                $255$.
+                $255$. 
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -828,7 +832,7 @@
                 \vspace{0.5cm}
             \subsubsection{Agent Post Process Tile Vector}
                 This algorithm will convert the Tile Vector into a Vector of Greyscale values, which can be used as the input for the Neural
-                Network.
+                Network. This fulfils \textbf{Objective 4.20}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -844,7 +848,7 @@
                 \vspace{0.5cm}
             \subsubsection{Agent Spawn Position}
                 This algorithm will create a list of spawnable tiles for which the Agent could spawn on, and then randomly select a specific
-                tile as its spawn position.
+                tile as its spawn position. This fulfils \textbf{Objective 4.4}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -867,7 +871,7 @@
             \subsubsection{Enemy Spawn Position}
                 This algorithm will create a list of spawnable tiles for which Enemies can spawn on, then select tiles randomly, if they don't
                 already contain an enemy or the agent it will create an Enemy Object with that position. It will do this $n$ amount of times 
-                where $n$ is the limit to how many enemies can spawn.
+                where $n$ is the limit to how many enemies can spawn. This fulfils \textbf{Objective 4.2.8}
                 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -897,6 +901,7 @@
                 The algorithm I have designed for the Enemy Pathfinding is rather simple, and won't take up much runtime in my solution.
                 First it calculates the distance between itself and the Agent in both Axis. The Enemy will then converge upon the Agents
                 position by moving in the direction with the greatest distance, effectively finding the nearest diagonal and following it.
+                This fulfils \textbf{Objective 4.2.9}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -932,7 +937,7 @@
                 before rejection. It starts by creating an N Dimensional Grid which accelerates spacial searches. An initial sample is then
                 chosen and inserted into the grid. It then chooses a random point, and determines if it is greater than $r$ range from every 
                 other point in the grid. This can easily be accomplished using the previously defined Grid. If after $k$ attempts, no point is
-                found then the search is concluded.
+                found then the search is concluded. This fulfils \textbf{Objective 4.2.7}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -963,7 +968,7 @@
                 grid of Vectors, each grid intersection contains a fixed, random unit vector. To sample Perlin Noise, the grid cell which
                 the point lies in must be found. The Vectors between the sampled point, and the corners of the cell. We then take the Dot
                 Product between these new Vectors, and the Vectors applied to the intersections. In 2d Space this leaves us with 4 Values.
-                We then use an Interpolation function to Interpolate between the 4 Values. 
+                We then use an Interpolation function to Interpolate between the 4 Values. This fulfils \textbf{Objective 4.2.2}
             
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -1023,7 +1028,7 @@
             \subsubsection{Octave Perlin Noise}
                 Octave Perlin Noise takes the existing Perlin Noise algorithm, but adds rescaled clones of itself into itself, to create
                 what is known as Fractal Noise. Creating this Fractal Noise is common practice because it reduces the sharp edges encountered
-                with just the regular Perlin Noise Algorithm.
+                with just the regular Perlin Noise Algorithm. This fulfils \textbf{Objective 4.2.2}
 
                 \vspace{0.2cm}
                 \begin{pseudocode}
@@ -1049,7 +1054,7 @@
                 The Heapify algorithm converts a Binary Tree of values into a valid Heap. A Diagram for this process, along with the Heap Property is shown when descibing the Heap 
                 Data Structure under Description of Data Structures. This algorithm works by repeatedly performing Sift Down Operations for \textbf{$\lfloor$(N-1)/2$\rfloor$} times.
                 Where N is the Number of elements in the Tree. A Sift Down Operation will swap elements which don't conform to the Heap Property.
-                This operation relies on the fact that Children of an Index are located at \textbf{2i + 1} and \textbf{2i + 2}.
+                This operation relies on the fact that Children of an Index are located at \textbf{2i + 1} and \textbf{2i + 2}. This fulfils \textbf{Objective 7.5}
                 \vspace{0.2cm}
 
                 \begin{pseudocode} 
@@ -1081,7 +1086,7 @@
                 \vspace{0.5cm}
             \subsubsection{Heap Extraction}
                 This algorithm extracts the Root Element from a valid Heap. It does this by swapping the Root Element and Final Element, and then
-                popping the new Final Element (Originally the Root) from the list. 
+                popping the new Final Element (Originally the Root) from the list. This fulfils \textbf{Objective 7.5}
                 \vspace{0.2cm}
 
                 \begin{pseudocode}
@@ -1102,7 +1107,7 @@
                 The Heap Sort algorithm relies on the prior two algorithms to fully order a list in Worst and Best case $O(nlog(n))$ Time Complexity. It 
                 is also $O(1)$ Space Complexity due to it being an In-Place Sorting algorithm. The sort will iteratively shrink the unsorted region by 
                 performing the following steps: Apply Heapify to the Unsorted Region, Extract the Root Element from the Heap, Insert the Extracted Element 
-                at the end of the Unsorted Region. This allows it to be In-Place because it never requires extra space.
+                at the end of the Unsorted Region. This allows it to be In-Place because it never requires extra space. This fulfils \textbf{Objective 7.5}
                 \vspace{0.2cm}
 
                 \begin{pseudocode}
@@ -1122,6 +1127,7 @@
             \subsubsection{Deque Push Front}
                 This Algorithm pushes an item to the front of a Double Ended Queue. If an Item exists in the new position, it will be overwritten by
                 the new Item. A Diagram for this process is shown when describing the Deque Data Structure under Description of Data Structures.
+                This fulfils \textbf{Objective 5.12}
                 \vspace{0.2cm}
 
                 \begin{pseudocode}
@@ -1139,7 +1145,7 @@
                 \vspace{0.5cm}
             \subsubsection{Deque Full}
                 This simple Algorithm Determines if a Double Ended Queue is Full or Not. It simply checks if the next position in front of the
-                Front Pointer is free or not.
+                Front Pointer is free or not. This fulfils \textbf{Objective 5.12}
                 \vspace{0.2cm}
 
                 \begin{pseudocode}

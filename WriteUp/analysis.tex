@@ -10,7 +10,7 @@
             I know that Matrices and Calculus are heavily used within Neural Networks. Most of the Maths I will have 
             covered in my Maths and Further Maths Lessons, but some will require independent research on my Part. \\
             \vspace{0.2cm}
-            The survival simulation will be procedurally generated and present multiple challenges 
+            The survival simulation will be Procedurally Generated and present multiple challenges 
             towards this character in order to provide a complex problem for it to solve. The procedural generation will
             be based upon a seed, and will generate Terrain which the character has to explore and navigate. The challenges 
             could be things like collecting items, or having to avoid/kill enemies which are actively tracking the character 
@@ -55,19 +55,23 @@
             be needed when trying to find the optimal setup for the Algorithm such that it performs its best. \\
         \subsection{Background}
             \vspace{0.2cm}
-            I am investigating Machine Learning because I've been wanting to try my hand at it for a while, this Project
-            will allow me to gain a broad understanding of Neural Networks and their applications, along with an understanding
-            of procedural generation. Machine Learning is an evolving field, with mere infinite applications from Image Recognition
-            to Self Driving Cars. \\
+            Machine Learning is an ever evolving field with Limitless Potential. The key concept behind it is built around training
+            Mathematical Models to recognize patterns within the Input Data. Any error found within the output of the the Model is then
+            taken into account, causing updates to Weights and Biases, eventually forming an optimal Model/Policy. These Mathematical 
+            Models vary in complexity massively, from simple Equations to complex interlinking layers of Nodes. Applications of such 
+            algorithms range from finding Linear Regression Lines, to Automating Complex Multi-Step Tasks. Commonly used within Machine 
+            Learning is the concept of a Neural Network. It's formed from a series of layers which hold Weights and Biases between the 
+            previous and subsequent layer. To my current understanding they utilise Matrix Operations to speed this process up. \\
             \vspace{0.2cm}
-            \textbf{Old} \\ 
-            I am investigating this area of Computer Science because I've been interesting in attempting a form of
-            Machine Learning for a while now but havent had a reason to dive into it. Machine Learning is an evolving
-            field, with mere infinite applications such as Image Recognition, Chat Bots, Self Driving Cars, 
-            etc. I feel as though my project will be sufficiently advanced enough to expand my knowledge of the subject.
-            It will require lots of research, planning, and design work in order to successfully fulfil my Technical
-            Solution. \\
-
+            I find this concept quite interesting, and have wanted to try gain a deeper understanding into the different 
+            algorithms behind Machine Learning for a while now. This is the basis of my Investigation and Project. By the end
+            of completing this Investigation I will hopefully be able to full explain the process behind the Algorithm I choose
+            to implement. \\
+            \vspace{0.2cm}
+            Procedural Generation is also an interesting topic. It's revolves around utilising an Algorithm to generate values. In my 
+            case I will be using these values for Terrain Generation. Algorithms like this are often seeded, meaning they will generate 
+            deterministically with the same values if the same seed is used. Procedural Generation could also be used for Loot Systems
+            in Video Games, or generating VFX for Films.
             \vspace{0.2cm}
         \subsection{Expert}
             \vspace{0.2cm}
@@ -77,9 +81,9 @@
             a much better understanding of Machine Learning than me currently, so hopefully he will be a good resource 
             as I develop my project. \\
             \vspace{0.2cm}    
-            I chose Shaun as my Expert because of the above reasons, but also showed interest
+            I chose Shaun as my Expert because of his prior experience with Machine Learning, but also because showed interest
             in the final results of my Investigation. He found the idea of trying to generalise a Machine Learning Algorithm
-            to function effectively within a Procedurally Geyounerated Environment intriguing. He commented to me outside of the
+            to function effectively within a Procedurally Generated Environment intriguing. He commented to me outside of the
             two Interviews I conducted with him, that he's \textit{"Interested in the final results of the Program"}. He also
             mentioned the Idea of comparing multiple Algorithms against eachother, but I felt like this would be an unreasonable
             task for an NEA Project. \\
@@ -211,6 +215,7 @@
                             \subfloat[\centering Success Rate of Algorithms]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData.PNG}}}
                             \qquad
                             \subfloat[\centering Comparison Against Human Data]{{\includegraphics[width=7cm]{Images/InitialResearch/CrafterMLTrainingData+Human.PNG}}}
+                            \caption*{Data from "Benchmarking the Spectrum of Agent Capabilities"}
                         \end{figure}
 
                         While I would love to create a simulation similar to crafter, it is very complex and would take a long time to develop. Yet
@@ -240,9 +245,10 @@
 
                     \begin{figure}[h]
                         \centering
-                        \subfloat[\centering Example of Minecraft's terrain generation in a Swamp Biome]{{\includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.jpg}}}
+                        \subfloat[\centering Example of Minecraft's Terrain Generation]{{\includegraphics[width=8cm]{Images/InitialResearch/MCTerrainGeneration.png}}}
                         \qquad
-                        \subfloat[\centering Example of a Sunken Pirate Ship Structure]{{\includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg}}}
+                        \subfloat[\centering Example of a Sunken Pirate Ship Structure generated in the Game]{{\includegraphics[width=8cm]{Images/InitialResearch/MCStructureGeneration.jpg}}}
+                        \caption*{Promotional Imagery sourced from Minecraft.net}
                     \end{figure}
 
                     Minecraft itself is too complex and dynamic to be solved by current Machine Learning algorithms, along with there is no quantifiable 
@@ -277,8 +283,8 @@
 
                     \begin{figure}[h]
                         \centering
-                        \subfloat[\centering Turing Machine built in Conway's Game of Life]{
-                            \includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}
+                        \subfloat[\centering Turing Machine built in Conway's Game of Life]{{\includegraphics[width=14cm]{Images/InitialResearch/ConwaysTuringMachine.png}}}
+                        \caption*{Sourced from Wikipedia}
                     \end{figure}
 
                     Overall, I think this shows that my simulation doesn't need to have complex rules in order to achieve 
@@ -329,8 +335,11 @@
                     Hidden Layer/s and Output Layer. In this case each Node is connected to every Node in the previous layer and
                     the following layer. In the below image is represented a Neural Network with a layer structure of $[3, 5, 2]$.
 
-                    \vspace{0.1cm}
-                    \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+                    \begin{figure}[H]
+                        \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+                        \caption*{Sourced from https://webkid.io/blog/neural-networks-in-javascript/}
+                    \end{figure}
+                    
 
                     Each connection, otherwise known as an Arc or Edge, has an associated weight. Along with every output of a
                     layer having an associated Bias. These are used to compute the outcome of a network. \\
@@ -425,7 +434,7 @@
                             \hline
                             \multicolumn{8}{|c|}{Q-Table} \\
                             \hline
-                            \multicolumn{2}{|c}{} & \multicolumn{6}{|c|}{Actions} \\ 
+                            \multicolumn{2}{|c|}{} & \multicolumn{6}{c|}{Actions} \\ 
                             \cline{3-8}
                             \multicolumn{2}{|c|}{} & North & East & South & West & Collect & Attack \\
                             \hline
@@ -445,7 +454,7 @@
                             \hline
                             \multicolumn{8}{|c|}{Q-Table} \\
                             \hline
-                            \multicolumn{2}{|c}{} & \multicolumn{6}{|c|}{Actions} \\ 
+                            \multicolumn{2}{|c|}{} & \multicolumn{6}{c|}{Actions} \\ 
                             \cline{3-8}
                             \multicolumn{2}{|c|}{} & North & East & South & West & Collect & Attack \\
                             \hline
@@ -1744,6 +1753,16 @@ def DotProduct(v1,v2):
                     calculate these adjustments by using Partial Derivatives. You can take the Derivative of every Weight and Bias with respect to the Loss Function. The Derivatives
                     of each weight can vary, such as one weight being 0.3 and the other being 3, the Second Weight affects the Loss Function 10$\times$ as much. This process is
                     known as Gradient Descent. \\
+                    \vspace{0.2cm}
+                    Shown below is a visualization of this process. We can think of Gradient Descent in 3 Dimensions, with the surface representing the Cost of the 
+                    Network. To perform Gradient Descent we wish to Minimise the Cost, so when training the Network we make calculated steps towards the 
+                    minimum of the surface. In the visualization is shown a dashed yellow line, this represents Gradient Descent in action.
+
+                    \begin{figure}[H]
+                        \centering 
+                        \includegraphics[width=14cm]{Images/ModellingOfProblem/GradientDescent.png}
+                        \caption*{Sourced from 3Blue1Brown's Deep Learning Series}
+                    \end{figure}
 
                 \paragraph{Differentiating Activation Functions} \mbox{} \\ 
                     As part of Back Propagation we need to derive all the Activation Functions we use within our Layer structure. The Derivatives are shown below. \\
@@ -1780,6 +1799,42 @@ def DotProduct(v1,v2):
                             \addplot[blue,mark=none]   (x,{ReLu(x)});
                             \addplot [red,mark=none] {ifthenelse(x>0,1,0)};
                             \legend{$ReLu(x)$, $Relu'(x)$}
+                        \end{axis}
+                        \end{tikzpicture}
+                    \end{center}
+
+                    The Leaky ReLu Derivative:
+                    \vspace{0.2cm}
+                    \[
+                        \text{LeakyReLu}(x) =  \begin{cases}
+                                            0.1x & x < 0 \\
+                                            x & x > 0
+                                            \end{cases} 
+                    \]
+                    \[
+                        \text{LeakyReLu'}(x) = \begin{cases}
+                                            0.1 & x < 0 \\
+                                            1 & x > 0
+                                            \end{cases}
+                    \]
+                    \vspace{0.2cm}
+                    \begin{center}
+                        \begin{tikzpicture}[declare function={ReLu(\x)=max(0, x);}]
+                        \begin{axis}
+                            [
+                                grid=major,     
+                                axis x line=bottom,
+                                ytick={0,1,2,3,4},
+                                axis y line=middle,
+                                samples=1000,
+                                domain=-2:2,
+                                legend style={at={(0.01,0.99)},anchor=north west},
+                                ymax=2,
+                                ymin=0,
+                            ]
+                            \addplot[blue,mark=none]   (x,{ReLu(x)});
+                            \addplot [red,mark=none] {ifthenelse(x>0,1,0.1)};
+                            \legend{$LeakyReLu(x)$, $LeakyReLu'(x)$}
                         \end{axis}
                         \end{tikzpicture}
                     \end{center}
@@ -1854,7 +1909,13 @@ def DotProduct(v1,v2):
                 \paragraph{Simple Network} \mbox{} \\ 
                     We can apply Back Propagation to this simple Neural Network: \\
 
-                    \centerline{\includegraphics[width=14cm]{Images/ModellingOfProblem/SingleLayerNeuralNetEdited.png}}
+                    \begin{figure}[H]
+                        \centering 
+                        \includegraphics[width=14cm]{Images/ModellingOfProblem/SingleLayerNeuralNetEdited.png}
+                        \caption*{Sourced from https://www.jeremyjordan.me/neural-networks-training/}
+                    \end{figure}
+                    
+                    
 
                     For this Network we need to calculate the derivative of each weight with respect to the cost function. With
                     the use of the chain rule $w_1$ can be expressed as: \\
@@ -1910,7 +1971,10 @@ def DotProduct(v1,v2):
                 \paragraph{Complex Network} \mbox{} \\ 
                     For a Complex Network, with multiple Neurons per layer, it is quite similar. An example of this is shown below: \\
 
-                    \centerline{\includegraphics[width=14cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+                    \begin{figure}[H]
+                        \centerline{\includegraphics[width=10cm]{Images/InitialResearch/NeuralNetworkExample.png}}
+                        \caption*{Sourced from https://webkid.io/blog/neural-networks-in-javascript/}
+                    \end{figure}
 
                     When deriving an Activation value we instead need to consider all weight derivatives connected to the next layer. 
                     We can generalize this into the weight update form for layers $1,2, \hdots, n$:

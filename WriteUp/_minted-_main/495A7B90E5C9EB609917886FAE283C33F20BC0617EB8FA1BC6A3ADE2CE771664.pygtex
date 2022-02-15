@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} ExperienceReplay(SampleSize, Agent)}
+    \PYG{esc}{Samples \leftarrow \textbf{NEW} List()}
+    \PYG{esc}{\textbf{FOR} i \leftarrow 0 \textbf{TO} SampleSize}
+        \PYG{esc}{Samples.Add(Buffer.RandomSample())}
+    \PYG{esc}{\textbf{END FOR}}
+
+    \PYG{esc}{\textbf{FOR} Sample \textbf{IN} Samples}
+        \PYG{esc}{PostProcessedSurround \leftarrow Agent.TileVectorPostProcess(sample.state)}
+
+        \PYG{esc}{NetInput \leftarrow PostProcessedSurround[1]}
+
+        \PYG{esc}{This.MainNetwork.ForwardPropagation(NetInput, This.Activation)}
+
+        \PYG{esc}{Output \leftarrow This.MainNetwork.Layers[-1].Activations}
+
+        \PYG{esc}{ExpectedValues \leftarrow This.ExpectedValue(Output, Sample, Agent)}
+
+        \PYG{esc}{Cost \leftarrow This.HalfSquareDiff(Output, ExpectedValues)}
+
+        \PYG{esc}{Preactivations \leftarrow This.MainNetwork.Layers[-1].Preactivations}
+        \PYG{esc}{PreactivationsDerivative \leftarrow This.Activation.Derivative(Preactivations)}
+        \PYG{esc}{This.MainNetwork.Layers.ErrSignal \leftarrow Cost * PreactivationsDerivative}
+
+        \PYG{esc}{This.MainNetwork.BackPropagation(This.Activation)}
+    \PYG{esc}{\textbf{END FOR}}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

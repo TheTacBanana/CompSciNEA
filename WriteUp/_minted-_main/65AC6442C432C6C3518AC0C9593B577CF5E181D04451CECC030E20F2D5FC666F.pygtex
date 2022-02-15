@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{dl} \PYG{o}{=} \PYG{n}{DataCollector}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Match List Type\PYGZdq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nb}{bool}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{],} \PYG{k+kc}{False}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Matches Structure: \PYGZdq{}}\PYG{p}{,} \PYG{n}{dl}\PYG{o}{.}\PYG{n}{CheckMatchStructure}\PYG{p}{([}\PYG{k+kc}{True}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}Matt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Isabel\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Tristan\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Chris\PYGZdq{}}\PYG{p}{]]))}
+\end{Verbatim}

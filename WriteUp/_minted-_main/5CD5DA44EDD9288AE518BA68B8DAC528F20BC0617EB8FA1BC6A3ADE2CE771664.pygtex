@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} OctaveNoise(X, Y, Octaves, Persistence)}
+    \PYG{esc}{Total \leftarrow 0}
+    \PYG{esc}{Frequency \leftarrow 1}
+    \PYG{esc}{Amplitude \leftarrow 1}
+    \PYG{esc}{MaxValue \leftarrow 0}
+
+    \PYG{esc}{\textbf{FOR} i \leftarrow 0 \textbf{TO} Octaves}
+        \PYG{esc}{Total \leftarrow Total + (PerlinNoise(X * Frequency, Y * Frequency) * Amplitude}
+
+        \PYG{esc}{MaxValue \leftarrow MaxValue + Amplitude}
+
+        \PYG{esc}{Amplitude \leftarrow Amplitude * Persistence}
+        \PYG{esc}{Frequency \leftarrow Frequency * 2}
+    \PYG{esc}{\textbf{END FOR}}
+
+    \PYG{esc}{\textbf{RETURN} Total / MaxValue}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

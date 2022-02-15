@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} RGBToGrayscale(RGBVal)}
+    \PYG{esc}{GrayscaleValue \leftarrow 0}
+    \PYG{esc}{GrayscaleValue \leftarrow GrayscaleValue + (0.299 * RGBVal[0])}
+    \PYG{esc}{GrayscaleValue \leftarrow GrayscaleValue + (0.587 * RGBVal[1])}
+    \PYG{esc}{GrayscaleValue \leftarrow GrayscaleValue + (0.114 * RGBVal[2])}
+    \PYG{esc}{\textbf{RETURN} GrayscaleValue / 255}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

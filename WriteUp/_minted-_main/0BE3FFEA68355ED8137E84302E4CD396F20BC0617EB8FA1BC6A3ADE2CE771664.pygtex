@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} PushFront(Item)}
+    \PYG{esc}{This.FrontPointer \leftarrow (This.FrontPointer + 1) % This.Length}
+
+    \PYG{esc}{\textbf{IF} This.IsFull()}
+        \PYG{esc}{This.BackPointer = (This.FrontPointer + 1) % This.Length}
+    \PYG{esc}{\textbf{END IF}}
+
+    \PYG{esc}{This.Queue[This.FrontPointer] = Item}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} MatrixAddition(Matrix1, Matrix2)}
+    \PYG{esc}{TemporaryMatrix \leftarrow \textbf{NEW} Matrix(Matrix1.Order)}
+    \PYG{esc}{\textbf{FOR} Row \leftarrow 0 \textbf{TO} Matrix1.Order[0]}
+        \PYG{esc}{\textbf{FOR} Column \leftarrow 0 \textbf{TO} Matrix1.Order[1]}
+            \PYG{esc}{TemporaryMatrix[Row, Column] \leftarrow Matrix1[Row, Column] + Matrix2[Row, Column]}
+        \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{RETURN} TemporaryMatrix}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

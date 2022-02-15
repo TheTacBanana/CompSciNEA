@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} EnemyMove(Agent, WorldMap)}
+    \PYG{esc}{XDifference \leftarrow Agent.Pos[0] - This.Pos[0]}
+    \PYG{esc}{YDifference \leftarrow Agent.Pos[1] - This.Pos[0]}
+
+    \PYG{esc}{\textbf{IF} XDifference == 0 \textbf{AND} YDifference == 0}
+        \PYG{esc}{Agent.Alive = False}
+        \PYG{esc}{\textbf{RETURN}}
+    \PYG{esc}{\textbf{END IF}}
+
+    \PYG{esc}{\textbf{IF} abs(XDifference) > abs(YDifference)}
+        \PYG{esc}{\textbf{IF} XDifference > 0}
+            \PYG{esc}{This.Pos[0] \leftarrow This.Pos[0] + 1}
+        \PYG{esc}{\textbf{ELSE}}
+            \PYG{esc}{This.Pos[0] \leftarrow This.Pos[0] - 1}
+        \PYG{esc}{\textbf{END IF}}
+    \PYG{esc}{\textbf{ELSE IF} abs(XDifference) < abs(YDifference)}
+        \PYG{esc}{\textbf{IF} YDifference > 0}
+            \PYG{esc}{This.Pos[1] \leftarrow This.Pos[1] + 1}
+        \PYG{esc}{\textbf{ELSE}}
+            \PYG{esc}{This.Pos[1] \leftarrow This.Pos[1] - 1}
+        \PYG{esc}{\textbf{END IF}}
+    \PYG{esc}{\textbf{END IF}}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

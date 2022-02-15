@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} ExpectedValues(Output, TempExperience, Agent)}
+    \PYG{esc}{Reward \leftarrow TempExperience.Reward}
+    \PYG{esc}{Gamma \leftarrow LoadFromParameters("DQLGamma")}
+
+    \PYG{esc}{This.TargetNetwork.ForwardPropagation(TempExperience.State)}
+    \PYG{esc}{TargetNetworkAction \leftarrow This.TargetNetwork.Activations.Max()}
+    \PYG{esc}{NewState \leftarrow Agent.GetNewState(TargetNetworkAction)}
+    \PYG{esc}{TargetRewardMax \leftarrow Agent.GetReward(NewState).Max()}
+
+    \PYG{esc}{Expected \leftarrow (Reward + (Gamma * TargetRewardMax))}
+    \PYG{esc}{\textbf{RETURN} HadamardProduct(Expected, Expected)}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

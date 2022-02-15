@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{outputVector} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{([}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{])}
+
+\PYG{n}{Sigmoid} \PYG{o}{=} \PYG{n}{Sigmoid}\PYG{p}{()}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Sigmoid:\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{Sigmoid}\PYG{o}{.}\PYG{n}{Activation}\PYG{p}{(}\PYG{n}{outputVector}\PYG{p}{))}
+
+\PYG{n}{TanH} \PYG{o}{=} \PYG{n}{TanH}\PYG{p}{()}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}TanH:\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{TanH}\PYG{o}{.}\PYG{n}{Activation}\PYG{p}{(}\PYG{n}{outputVector}\PYG{p}{))}
+
+\PYG{n}{ReLu} \PYG{o}{=} \PYG{n}{ReLu}\PYG{p}{()}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}ReLu:\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{ReLu}\PYG{o}{.}\PYG{n}{Activation}\PYG{p}{(}\PYG{n}{outputVector}\PYG{p}{))}
+
+\PYG{n}{LeakyReLu} \PYG{o}{=} \PYG{n}{LeakyReLu}\PYG{p}{()}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}LeakyReLu:\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{LeakyReLu}\PYG{o}{.}\PYG{n}{Activation}\PYG{p}{(}\PYG{n}{outputVector}\PYG{p}{))}
+\end{Verbatim}

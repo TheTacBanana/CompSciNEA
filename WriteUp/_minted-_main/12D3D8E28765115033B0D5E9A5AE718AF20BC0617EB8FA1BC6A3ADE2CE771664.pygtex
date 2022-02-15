@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} MatrixHadamardProduct(Matrix, Power)}
+    \PYG{esc}{TemporaryMatrix \leftarrow \textbf{CLONE} Matrix}
+    \PYG{esc}{\textbf{FOR} Row \leftarrow 0 \textbf{TO} Power - 1}
+        \PYG{esc}{TemporaryMatrix \leftarrow TemporaryMatrix * Matrix}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{RETURN} TemporaryMatrix}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

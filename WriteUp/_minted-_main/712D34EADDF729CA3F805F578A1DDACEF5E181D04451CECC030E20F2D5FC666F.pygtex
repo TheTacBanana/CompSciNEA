@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pygame}
+
+\PYG{n}{simSize} \PYG{o}{=} \PYG{l+m+mi}{128}
+\PYG{n}{gridSize} \PYG{o}{=} \PYG{l+m+mi}{2}
+
+\PYG{n}{window} \PYG{o}{=} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}mode}\PYG{p}{((}\PYG{n}{simSize}\PYG{o}{*}\PYG{n}{gridSize}\PYG{p}{,} \PYG{n}{simSize}\PYG{o}{*}\PYG{n}{gridSize}\PYG{p}{))}
+\PYG{n}{pygame}\PYG{o}{.}\PYG{n}{display}\PYG{o}{.}\PYG{n}{set\PYGZus{}caption}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Procedural Generation\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{running} \PYG{o}{=} \PYG{k+kc}{True}
+\PYG{k}{while} \PYG{n}{running} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:}
+  \PYG{k}{for} \PYG{n}{event} \PYG{o+ow}{in} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{event}\PYG{o}{.}\PYG{n}{get}\PYG{p}{():}
+    \PYG{k}{if} \PYG{n}{event}\PYG{o}{.}\PYG{n}{type} \PYG{o}{==} \PYG{n}{pygame}\PYG{o}{.}\PYG{n}{QUIT}\PYG{p}{:}
+      \PYG{n}{running} \PYG{o}{=} \PYG{k+kc}{False}
+\end{Verbatim}

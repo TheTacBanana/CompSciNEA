@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} HalfSquareDiff(NetworkOutput, Expected)}
+    \PYG{esc}{\textbf{RETURN} 0.5 * Math.pow((Expected - NetworkOutput, 2)}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

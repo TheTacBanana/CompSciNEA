@@ -1,0 +1,79 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random}\PYG{o}{,} \PYG{n+nn}{math}
+
+\PYG{n}{p} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{151}\PYG{p}{,}\PYG{l+m+mi}{160}\PYG{p}{,}\PYG{l+m+mi}{137}\PYG{p}{,}\PYG{l+m+mi}{91}\PYG{p}{,}\PYG{l+m+mi}{90}\PYG{p}{,}\PYG{l+m+mi}{15}\PYG{p}{,}                 
+    \PYG{l+m+mi}{131}\PYG{p}{,}\PYG{l+m+mi}{13}\PYG{p}{,}\PYG{l+m+mi}{201}\PYG{p}{,}\PYG{l+m+mi}{95}\PYG{p}{,}\PYG{l+m+mi}{96}\PYG{p}{,}\PYG{l+m+mi}{53}\PYG{p}{,}\PYG{l+m+mi}{194}\PYG{p}{,}\PYG{l+m+mi}{233}\PYG{p}{,}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{225}\PYG{p}{,}\PYG{l+m+mi}{140}\PYG{p}{,}\PYG{l+m+mi}{36}\PYG{p}{,}\PYG{l+m+mi}{103}\PYG{p}{,}\PYG{l+m+mi}{30}\PYG{p}{,}\PYG{l+m+mi}{69}\PYG{p}{,}\PYG{l+m+mi}{142}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{,}\PYG{l+m+mi}{99}\PYG{p}{,}\PYG{l+m+mi}{37}\PYG{p}{,}\PYG{l+m+mi}{240}\PYG{p}{,}\PYG{l+m+mi}{21}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{23}\PYG{p}{,}    
+    \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{,}\PYG{l+m+mi}{148}\PYG{p}{,}\PYG{l+m+mi}{247}\PYG{p}{,}\PYG{l+m+mi}{120}\PYG{p}{,}\PYG{l+m+mi}{234}\PYG{p}{,}\PYG{l+m+mi}{75}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{26}\PYG{p}{,}\PYG{l+m+mi}{197}\PYG{p}{,}\PYG{l+m+mi}{62}\PYG{p}{,}\PYG{l+m+mi}{94}\PYG{p}{,}\PYG{l+m+mi}{252}\PYG{p}{,}\PYG{l+m+mi}{219}\PYG{p}{,}\PYG{l+m+mi}{203}\PYG{p}{,}\PYG{l+m+mi}{117}\PYG{p}{,}\PYG{l+m+mi}{35}\PYG{p}{,}\PYG{l+m+mi}{11}\PYG{p}{,}\PYG{l+m+mi}{32}\PYG{p}{,}\PYG{l+m+mi}{57}\PYG{p}{,}\PYG{l+m+mi}{177}\PYG{p}{,}\PYG{l+m+mi}{33}\PYG{p}{,}
+    \PYG{l+m+mi}{88}\PYG{p}{,}\PYG{l+m+mi}{237}\PYG{p}{,}\PYG{l+m+mi}{149}\PYG{p}{,}\PYG{l+m+mi}{56}\PYG{p}{,}\PYG{l+m+mi}{87}\PYG{p}{,}\PYG{l+m+mi}{174}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{,}\PYG{l+m+mi}{125}\PYG{p}{,}\PYG{l+m+mi}{136}\PYG{p}{,}\PYG{l+m+mi}{171}\PYG{p}{,}\PYG{l+m+mi}{168}\PYG{p}{,} \PYG{l+m+mi}{68}\PYG{p}{,}\PYG{l+m+mi}{175}\PYG{p}{,}\PYG{l+m+mi}{74}\PYG{p}{,}\PYG{l+m+mi}{165}\PYG{p}{,}\PYG{l+m+mi}{71}\PYG{p}{,}\PYG{l+m+mi}{134}\PYG{p}{,}\PYG{l+m+mi}{139}\PYG{p}{,}\PYG{l+m+mi}{48}\PYG{p}{,}\PYG{l+m+mi}{27}\PYG{p}{,}\PYG{l+m+mi}{166}\PYG{p}{,}
+    \PYG{l+m+mi}{77}\PYG{p}{,}\PYG{l+m+mi}{146}\PYG{p}{,}\PYG{l+m+mi}{158}\PYG{p}{,}\PYG{l+m+mi}{231}\PYG{p}{,}\PYG{l+m+mi}{83}\PYG{p}{,}\PYG{l+m+mi}{111}\PYG{p}{,}\PYG{l+m+mi}{229}\PYG{p}{,}\PYG{l+m+mi}{122}\PYG{p}{,}\PYG{l+m+mi}{60}\PYG{p}{,}\PYG{l+m+mi}{211}\PYG{p}{,}\PYG{l+m+mi}{133}\PYG{p}{,}\PYG{l+m+mi}{230}\PYG{p}{,}\PYG{l+m+mi}{220}\PYG{p}{,}\PYG{l+m+mi}{105}\PYG{p}{,}\PYG{l+m+mi}{92}\PYG{p}{,}\PYG{l+m+mi}{41}\PYG{p}{,}\PYG{l+m+mi}{55}\PYG{p}{,}\PYG{l+m+mi}{46}\PYG{p}{,}\PYG{l+m+mi}{245}\PYG{p}{,}\PYG{l+m+mi}{40}\PYG{p}{,}\PYG{l+m+mi}{244}\PYG{p}{,}
+    \PYG{l+m+mi}{102}\PYG{p}{,}\PYG{l+m+mi}{143}\PYG{p}{,}\PYG{l+m+mi}{54}\PYG{p}{,} \PYG{l+m+mi}{65}\PYG{p}{,}\PYG{l+m+mi}{25}\PYG{p}{,}\PYG{l+m+mi}{63}\PYG{p}{,}\PYG{l+m+mi}{161}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{216}\PYG{p}{,}\PYG{l+m+mi}{80}\PYG{p}{,}\PYG{l+m+mi}{73}\PYG{p}{,}\PYG{l+m+mi}{209}\PYG{p}{,}\PYG{l+m+mi}{76}\PYG{p}{,}\PYG{l+m+mi}{132}\PYG{p}{,}\PYG{l+m+mi}{187}\PYG{p}{,}\PYG{l+m+mi}{208}\PYG{p}{,} \PYG{l+m+mi}{89}\PYG{p}{,}\PYG{l+m+mi}{18}\PYG{p}{,}\PYG{l+m+mi}{169}\PYG{p}{,}\PYG{l+m+mi}{200}\PYG{p}{,}\PYG{l+m+mi}{196}\PYG{p}{,}
+    \PYG{l+m+mi}{135}\PYG{p}{,}\PYG{l+m+mi}{130}\PYG{p}{,}\PYG{l+m+mi}{116}\PYG{p}{,}\PYG{l+m+mi}{188}\PYG{p}{,}\PYG{l+m+mi}{159}\PYG{p}{,}\PYG{l+m+mi}{86}\PYG{p}{,}\PYG{l+m+mi}{164}\PYG{p}{,}\PYG{l+m+mi}{100}\PYG{p}{,}\PYG{l+m+mi}{109}\PYG{p}{,}\PYG{l+m+mi}{198}\PYG{p}{,}\PYG{l+m+mi}{173}\PYG{p}{,}\PYG{l+m+mi}{186}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{64}\PYG{p}{,}\PYG{l+m+mi}{52}\PYG{p}{,}\PYG{l+m+mi}{217}\PYG{p}{,}\PYG{l+m+mi}{226}\PYG{p}{,}\PYG{l+m+mi}{250}\PYG{p}{,}\PYG{l+m+mi}{124}\PYG{p}{,}\PYG{l+m+mi}{123}\PYG{p}{,}
+    \PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{202}\PYG{p}{,}\PYG{l+m+mi}{38}\PYG{p}{,}\PYG{l+m+mi}{147}\PYG{p}{,}\PYG{l+m+mi}{118}\PYG{p}{,}\PYG{l+m+mi}{126}\PYG{p}{,}\PYG{l+m+mi}{255}\PYG{p}{,}\PYG{l+m+mi}{82}\PYG{p}{,}\PYG{l+m+mi}{85}\PYG{p}{,}\PYG{l+m+mi}{212}\PYG{p}{,}\PYG{l+m+mi}{207}\PYG{p}{,}\PYG{l+m+mi}{206}\PYG{p}{,}\PYG{l+m+mi}{59}\PYG{p}{,}\PYG{l+m+mi}{227}\PYG{p}{,}\PYG{l+m+mi}{47}\PYG{p}{,}\PYG{l+m+mi}{16}\PYG{p}{,}\PYG{l+m+mi}{58}\PYG{p}{,}\PYG{l+m+mi}{17}\PYG{p}{,}\PYG{l+m+mi}{182}\PYG{p}{,}\PYG{l+m+mi}{189}\PYG{p}{,}\PYG{l+m+mi}{28}\PYG{p}{,}\PYG{l+m+mi}{42}\PYG{p}{,}
+    \PYG{l+m+mi}{223}\PYG{p}{,}\PYG{l+m+mi}{183}\PYG{p}{,}\PYG{l+m+mi}{170}\PYG{p}{,}\PYG{l+m+mi}{213}\PYG{p}{,}\PYG{l+m+mi}{119}\PYG{p}{,}\PYG{l+m+mi}{248}\PYG{p}{,}\PYG{l+m+mi}{152}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{44}\PYG{p}{,}\PYG{l+m+mi}{154}\PYG{p}{,}\PYG{l+m+mi}{163}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,}\PYG{l+m+mi}{221}\PYG{p}{,}\PYG{l+m+mi}{153}\PYG{p}{,}\PYG{l+m+mi}{101}\PYG{p}{,}\PYG{l+m+mi}{155}\PYG{p}{,}\PYG{l+m+mi}{167}\PYG{p}{,} \PYG{l+m+mi}{43}\PYG{p}{,}\PYG{l+m+mi}{172}\PYG{p}{,}\PYG{l+m+mi}{9}\PYG{p}{,}
+    \PYG{l+m+mi}{129}\PYG{p}{,}\PYG{l+m+mi}{22}\PYG{p}{,}\PYG{l+m+mi}{39}\PYG{p}{,}\PYG{l+m+mi}{253}\PYG{p}{,} \PYG{l+m+mi}{19}\PYG{p}{,}\PYG{l+m+mi}{98}\PYG{p}{,}\PYG{l+m+mi}{108}\PYG{p}{,}\PYG{l+m+mi}{110}\PYG{p}{,}\PYG{l+m+mi}{79}\PYG{p}{,}\PYG{l+m+mi}{113}\PYG{p}{,}\PYG{l+m+mi}{224}\PYG{p}{,}\PYG{l+m+mi}{232}\PYG{p}{,}\PYG{l+m+mi}{178}\PYG{p}{,}\PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{112}\PYG{p}{,}\PYG{l+m+mi}{104}\PYG{p}{,}\PYG{l+m+mi}{218}\PYG{p}{,}\PYG{l+m+mi}{246}\PYG{p}{,}\PYG{l+m+mi}{97}\PYG{p}{,}\PYG{l+m+mi}{228}\PYG{p}{,}
+    \PYG{l+m+mi}{251}\PYG{p}{,}\PYG{l+m+mi}{34}\PYG{p}{,}\PYG{l+m+mi}{242}\PYG{p}{,}\PYG{l+m+mi}{193}\PYG{p}{,}\PYG{l+m+mi}{238}\PYG{p}{,}\PYG{l+m+mi}{210}\PYG{p}{,}\PYG{l+m+mi}{144}\PYG{p}{,}\PYG{l+m+mi}{12}\PYG{p}{,}\PYG{l+m+mi}{191}\PYG{p}{,}\PYG{l+m+mi}{179}\PYG{p}{,}\PYG{l+m+mi}{162}\PYG{p}{,}\PYG{l+m+mi}{241}\PYG{p}{,} \PYG{l+m+mi}{81}\PYG{p}{,}\PYG{l+m+mi}{51}\PYG{p}{,}\PYG{l+m+mi}{145}\PYG{p}{,}\PYG{l+m+mi}{235}\PYG{p}{,}\PYG{l+m+mi}{249}\PYG{p}{,}\PYG{l+m+mi}{14}\PYG{p}{,}\PYG{l+m+mi}{239}\PYG{p}{,}\PYG{l+m+mi}{107}\PYG{p}{,}
+    \PYG{l+m+mi}{49}\PYG{p}{,}\PYG{l+m+mi}{192}\PYG{p}{,}\PYG{l+m+mi}{214}\PYG{p}{,} \PYG{l+m+mi}{31}\PYG{p}{,}\PYG{l+m+mi}{181}\PYG{p}{,}\PYG{l+m+mi}{199}\PYG{p}{,}\PYG{l+m+mi}{106}\PYG{p}{,}\PYG{l+m+mi}{157}\PYG{p}{,}\PYG{l+m+mi}{184}\PYG{p}{,} \PYG{l+m+mi}{84}\PYG{p}{,}\PYG{l+m+mi}{204}\PYG{p}{,}\PYG{l+m+mi}{176}\PYG{p}{,}\PYG{l+m+mi}{115}\PYG{p}{,}\PYG{l+m+mi}{121}\PYG{p}{,}\PYG{l+m+mi}{50}\PYG{p}{,}\PYG{l+m+mi}{45}\PYG{p}{,}\PYG{l+m+mi}{127}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,}\PYG{l+m+mi}{150}\PYG{p}{,}\PYG{l+m+mi}{254}\PYG{p}{,}
+    \PYG{l+m+mi}{138}\PYG{p}{,}\PYG{l+m+mi}{236}\PYG{p}{,}\PYG{l+m+mi}{205}\PYG{p}{,}\PYG{l+m+mi}{93}\PYG{p}{,}\PYG{l+m+mi}{222}\PYG{p}{,}\PYG{l+m+mi}{114}\PYG{p}{,}\PYG{l+m+mi}{67}\PYG{p}{,}\PYG{l+m+mi}{29}\PYG{p}{,}\PYG{l+m+mi}{24}\PYG{p}{,}\PYG{l+m+mi}{72}\PYG{p}{,}\PYG{l+m+mi}{243}\PYG{p}{,}\PYG{l+m+mi}{141}\PYG{p}{,}\PYG{l+m+mi}{128}\PYG{p}{,}\PYG{l+m+mi}{195}\PYG{p}{,}\PYG{l+m+mi}{78}\PYG{p}{,}\PYG{l+m+mi}{66}\PYG{p}{,}\PYG{l+m+mi}{215}\PYG{p}{,}\PYG{l+m+mi}{61}\PYG{p}{,}\PYG{l+m+mi}{156}\PYG{p}{,}\PYG{l+m+mi}{180}\PYG{p}{]}
+\PYG{n}{p} \PYG{o}{=} \PYG{n}{p} \PYG{o}{+} \PYG{n}{p}
+
+\PYG{k}{def} \PYG{n+nf}{OctaveNoise}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{octaves}\PYG{p}{,} \PYG{n}{persistence}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Sums multiple levels of perlin noise}
+    \PYG{n}{total} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{frequency} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{amplitude} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{maxValue} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{octaves}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Combines Multiple octaves of perlin noise}
+        \PYG{n}{total} \PYG{o}{+=} \PYG{p}{((}\PYG{n}{Noise}\PYG{p}{(}\PYG{n}{x} \PYG{o}{*} \PYG{n}{frequency}\PYG{p}{,} \PYG{n}{y} \PYG{o}{*} \PYG{n}{frequency}\PYG{p}{))} \PYG{o}{*} \PYG{n}{amplitude}\PYG{p}{)}
+
+        \PYG{n}{maxValue} \PYG{o}{+=} \PYG{n}{amplitude}
+
+        \PYG{n}{amplitude} \PYG{o}{*=} \PYG{n}{persistence}
+        \PYG{n}{frequency} \PYG{o}{*=} \PYG{l+m+mi}{2}
+
+    \PYG{k}{return} \PYG{n}{total} \PYG{o}{/} \PYG{n}{maxValue}
+
+\PYG{k}{def} \PYG{n+nf}{Noise}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Returns a value of the perlin noise function at (x, y) coordinate}
+    \PYG{n}{xi} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{255}
+    \PYG{n}{yi} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{255}
+
+    \PYG{n}{g1} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{p}\PYG{p}{[}\PYG{n}{xi}\PYG{p}{]} \PYG{o}{+} \PYG{n}{yi}\PYG{p}{]}
+    \PYG{n}{g2} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{p}\PYG{p}{[}\PYG{n}{xi} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{yi}\PYG{p}{]}
+    \PYG{n}{g3} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{p}\PYG{p}{[}\PYG{n}{xi}\PYG{p}{]} \PYG{o}{+} \PYG{n}{yi} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{n}{g4} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{p}\PYG{p}{[}\PYG{n}{xi} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{+} \PYG{n}{yi} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{]}
+
+    \PYG{n}{xf} \PYG{o}{=} \PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+    \PYG{n}{yf} \PYG{o}{=} \PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{math}\PYG{o}{.}\PYG{n}{floor}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}
+
+    \PYG{n}{d1} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g1}\PYG{p}{,} \PYG{n}{xf}\PYG{p}{,} \PYG{n}{yf}\PYG{p}{)}
+    \PYG{n}{d2} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g2}\PYG{p}{,} \PYG{n}{xf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{yf}\PYG{p}{)}
+    \PYG{n}{d3} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g3}\PYG{p}{,} \PYG{n}{xf}\PYG{p}{,} \PYG{n}{yf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+    \PYG{n}{d4} \PYG{o}{=} \PYG{n}{Grad}\PYG{p}{(}\PYG{n}{g4}\PYG{p}{,} \PYG{n}{xf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{yf} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+    \PYG{n}{u} \PYG{o}{=} \PYG{n}{Fade}\PYG{p}{(}\PYG{n}{xf}\PYG{p}{)}
+    \PYG{n}{v} \PYG{o}{=} \PYG{n}{Fade}\PYG{p}{(}\PYG{n}{yf}\PYG{p}{)}
+
+    \PYG{n}{x1Inter} \PYG{o}{=} \PYG{n}{Lerp}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{d1}\PYG{p}{,} \PYG{n}{d2}\PYG{p}{)}
+    \PYG{n}{x2Inter} \PYG{o}{=} \PYG{n}{Lerp}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{d3}\PYG{p}{,} \PYG{n}{d4}\PYG{p}{)}
+    \PYG{n}{yInter} \PYG{o}{=} \PYG{n}{Lerp}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{x1Inter}\PYG{p}{,} \PYG{n}{x2Inter}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n}{yInter}
+
+\PYG{k}{def} \PYG{n+nf}{Grad}\PYG{p}{(}\PYG{n+nb}{hash}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Gradient Function defined as part of the algorithm}
+    \PYG{n}{temp} \PYG{o}{=} \PYG{n+nb}{hash} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{3}
+    \PYG{k}{if} \PYG{n}{temp} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{x} \PYG{o}{+} \PYG{n}{y}
+    \PYG{k}{elif} \PYG{n}{temp} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
+        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{n}{x} \PYG{o}{+} \PYG{n}{y}
+    \PYG{k}{elif} \PYG{n}{temp} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{y}
+    \PYG{k}{elif} \PYG{n}{temp} \PYG{o}{==} \PYG{l+m+mi}{3}\PYG{p}{:}
+        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{y}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{return} \PYG{l+m+mi}{0}
+
+\PYG{k}{def} \PYG{n+nf}{Lerp}\PYG{p}{(}\PYG{n}{ammount}\PYG{p}{,} \PYG{n}{left}\PYG{p}{,} \PYG{n}{right}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Linear interpolation of values}
+    \PYG{k}{return} \PYG{p}{((}\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{ammount}\PYG{p}{)} \PYG{o}{*} \PYG{n}{left} \PYG{o}{+} \PYG{n}{ammount} \PYG{o}{*} \PYG{n}{right}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{Fade}\PYG{p}{(}\PYG{n}{t}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Fade Function defined as part of the algorithm}
+    \PYG{k}{return} \PYG{n}{t} \PYG{o}{*} \PYG{n}{t} \PYG{o}{*} \PYG{n}{t} \PYG{o}{*} \PYG{p}{(}\PYG{n}{t} \PYG{o}{*} \PYG{p}{(}\PYG{n}{t} \PYG{o}{*} \PYG{l+m+mi}{6} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{15}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{10}\PYG{p}{)}
+\end{Verbatim}

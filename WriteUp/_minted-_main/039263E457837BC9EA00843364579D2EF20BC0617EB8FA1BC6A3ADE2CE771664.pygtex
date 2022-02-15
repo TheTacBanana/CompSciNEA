@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} PoissonDiscSampling(PointList)}
+    \PYG{esc}{KVal \leftarrow LoadFromParameters("PoissonKVal")}
+    \PYG{esc}{MapSize \leftarrow LoadFromParameters("MapSize")}
+    \PYG{esc}{PickedPoints \leftarrow \textbf{NEW} Grid(MapSize, MapSize)}
+    \PYG{esc}{SampleNum \leftarrow LoadFromParameters("MapSize")}
+    \PYG{esc}{\textbf{WHILE} SampleNum <= KVal}
+        \PYG{esc}{Sample \leftarrow PointList[RandomInt(0, PointList.Length - 1)]}
+        \PYG{esc}{Result \leftarrow CheckPointDistance(Sample, PickedPoints)}
+        \PYG{esc}{\textbf{IF} Result == True}
+            \PYG{esc}{PickedPoints[Sample[0], Sample[1]] \leftarrow True}
+            \PYG{esc}{SampleNum \leftarrow 0}
+            \PYG{esc}{\textbf{CONTINUE}}
+        \PYG{esc}{\textbf{ELSE}}
+            \PYG{esc}{SampleNum \leftarrow SampleNum + 1}
+            \PYG{esc}{\textbf{CONTINUE}}
+        \PYG{esc}{\textbf{END IF}}
+    \PYG{esc}{\textbf{END WHILE}}
+    \PYG{esc}{\textbf{RETURN} PickedPoints}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

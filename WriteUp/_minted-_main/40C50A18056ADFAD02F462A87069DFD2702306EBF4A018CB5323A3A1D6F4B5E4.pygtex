@@ -1,0 +1,248 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{random} \PYG{k}{as} \PYG{n+nn}{rnd}
+\PYG{k}{class} \PYG{n+nc}{MatExcepts}\PYG{p}{():} \PYG{c+c1}{\PYGZsh{} Exception class to avoid repeating same exception}
+    \PYG{c+c1}{\PYGZsh{} Constructor Errors}
+    \PYG{n}{NoMatchingInitCase} \PYG{o}{=}            \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No Matching Init case for given parameters\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{UnableToCreateIdentityMat} \PYG{o}{=}     \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Unable to create identity Matrix from given arguments\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Vector Errors}
+    \PYG{n}{NotOfTypeVector} \PYG{o}{=}               \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Given list of Vectors contains a Matrix\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{VectorsNotOfSameLength} \PYG{o}{=}        \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}All Vectors must be the same height\PYGZdq{}}\PYG{p}{)}
+    
+    \PYG{c+c1}{\PYGZsh{} Operation Errors}
+    \PYG{n}{NoMatchingMultiplycase} \PYG{o}{=}        \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No matching multiply case found\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{NoMatchingAdditionCase} \PYG{o}{=}        \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No matching addition case found\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{NoMatchingSubtractionCase} \PYG{o}{=}     \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No matching addition case found\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{NoMatchingPowerCase} \PYG{o}{=}           \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}No matching power case was found\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{MismatchOrders} \PYG{o}{=}                \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Orders of Matrices do not match\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{SumOfMatrixReqNumericalVals} \PYG{o}{=}   \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The sum of a Matrix requires Numerical values to be populated\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Select Row/Column Errors}
+    \PYG{n}{ColumnOutOfRange} \PYG{o}{=}              \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Specified Column out of range of Matrix\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{ColumnMustBeInteger} \PYG{o}{=}           \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Specified Column must be of type Integer\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{RowOutOfRange} \PYG{o}{=}                 \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Specified Row out of range of Matrix\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{RowMustBeInteger} \PYG{o}{=}              \PYG{n+ne}{Exception}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Specified Row must be of type Integer\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{class} \PYG{n+nc}{Matrix}\PYG{p}{():}
+    \PYG{c+c1}{\PYGZsh{} Init Function}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{arg1}\PYG{p}{,} \PYG{n}{identity}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{random}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Passed in existing values}
+            \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])} \PYG{o}{!=} \PYG{n+nb}{list}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Create Vector when 1d List passed in}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals} \PYG{o}{=} \PYG{p}{[[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{))]} \PYG{c+c1}{\PYGZsh{} List Comprehension to populate 2d array of 0\PYGZsq{}s}
+
+                \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{)):} \PYG{c+c1}{\PYGZsh{} Populates 2d list from 1d list}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{arg1}\PYG{p}{[}\PYG{n}{row}\PYG{p}{]}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order} \PYG{o}{=} \PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{),} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]))}
+
+            \PYG{k}{else}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Create Matrix from 2d List}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals} \PYG{o}{=} \PYG{n}{arg1}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order} \PYG{o}{=} \PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{),} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]))}
+
+        \PYG{k}{elif} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{tuple}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Passed in order of Matrix, creates a blank Matrix}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals} \PYG{o}{=} \PYG{p}{[[}\PYG{l+m+mi}{0} \PYG{k}{for} \PYG{n}{column} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])]} \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])]} \PYG{c+c1}{\PYGZsh{} List Comprehension to populate 2d array of 0\PYGZsq{}s}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order} \PYG{o}{=} \PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{),} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]))}
+
+        \PYG{k}{else}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} No matching Constructor case so throw error}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{NoMatchingInitCase}
+
+        \PYG{c+c1}{\PYGZsh{}Key Arguments}
+        \PYG{k}{if} \PYG{n}{identity} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Creates Identity Matrix}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o+ow}{and} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{arg1}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{tuple}\PYG{p}{:}
+                \PYG{k}{for} \PYG{n}{pos} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Populate matrix along the diagonal}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{pos}\PYG{p}{][}\PYG{n}{pos}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{UnableToCreateIdentityMat}
+
+        \PYG{k}{if} \PYG{n}{random} \PYG{o}{==} \PYG{k+kc}{True}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Initiation random values between \PYGZhy{}0.5 and 0.5}
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                    \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{rnd}\PYG{o}{.}\PYG{n}{random}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{0.5}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Overloading Addition Operator}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}add\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{m2}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n}{Matrix}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Add 2 Matrices together }
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order} \PYG{o}{!=} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if orders dont match}
+                \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{MismatchOrders}
+
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Create new temporary matrix to populate with new values}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Populate values}
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                    \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{+} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+
+            \PYG{k}{return} \PYG{n}{tempMatrix} \PYG{c+c1}{\PYGZsh{} Return temporary matrix}
+
+        \PYG{k}{elif} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{float} \PYG{o+ow}{or} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{int}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Add value to each element in Matrix}
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Apply operation}
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                    \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{+} \PYG{n}{m2}
+
+            \PYG{k}{return} \PYG{n}{tempMatrix}
+
+        \PYG{k}{else}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if no matching cases found}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{NoMatchingAdditionCase} 
+
+    \PYG{c+c1}{\PYGZsh{} Overloading Subtraction Operator}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}sub\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{m2}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{float} \PYG{o+ow}{or} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{int}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Subract value from each element in Matrix}
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Apply operation}
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                    \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{m2}
+
+            \PYG{k}{return} \PYG{n}{tempMatrix} \PYG{c+c1}{\PYGZsh{} Return temporary Matrix}
+
+        \PYG{k}{elif} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n}{Matrix}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order} \PYG{o}{!=} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if orders dont match}
+                \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{MismatchOrders}
+
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Create Temporary Matrix to populate with values}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Populate values}
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                    \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+
+            \PYG{k}{return} \PYG{n}{tempMatrix} \PYG{c+c1}{\PYGZsh{} Return temporary Matrix}
+
+        \PYG{k}{else}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if no matching cases found}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{NoMatchingSubtractionCase}
+
+    \PYG{c+c1}{\PYGZsh{} Overloading Multiplication Operator}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}mul\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{m2}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o+ow}{in} \PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{float}\PYG{p}{,} \PYG{n}{Matrix}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Throw error if no matching cases found}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{NoMatchingMultiplycase}
+
+        \PYG{k}{elif} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{float} \PYG{o+ow}{or} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{int}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Scalar Multiply}
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Create Temporary Matrix}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                    \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{*} \PYG{n}{m2} \PYG{c+c1}{\PYGZsh{} Apply Operation }
+            \PYG{k}{return} \PYG{n}{tempMatrix}
+
+        \PYG{k}{elif} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Hadamard product between two vectors}
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Create Temporary Matrix}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+                \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{*} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Apply Operation}
+            \PYG{k}{return} \PYG{n}{tempMatrix}
+
+        \PYG{k}{elif} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{m2}\PYG{p}{)} \PYG{o}{==} \PYG{n}{Matrix}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Matrix Multiplication}
+            \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Throw error if orders are not the same}
+                \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{MismatchOrders}
+
+            \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]))} \PYG{c+c1}{\PYGZsh{} Create Temporary Matrix}
+
+            \PYG{n}{cumProduct} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{c+c1}{\PYGZsh{} Cumulative product of row \PYGZlt{}\PYGZhy{}\PYGZgt{} column operations}
+
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} 
+                \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{m2}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):} 
+                    \PYG{k}{for} \PYG{n}{subColRow} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Sum the product between M1 Row and M2 Column}
+                        \PYG{n}{cumProduct} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{subColRow}\PYG{p}{]} \PYG{o}{*} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{subColRow}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} 
+                    \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cumProduct} \PYG{c+c1}{\PYGZsh{} Apply to new matrix}
+                    \PYG{n}{cumProduct} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{k}{return} \PYG{n}{tempMatrix}
+
+    \PYG{c+c1}{\PYGZsh{} Overloading the Power Operator}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}pow\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{power}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{power}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{int}\PYG{p}{:} 
+            \PYG{n}{newMat} \PYG{o}{=} \PYG{n+nb+bp}{self} \PYG{c+c1}{\PYGZsh{} Create new Matrix from self}
+
+            \PYG{k}{for} \PYG{n}{iterate} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{power} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{):}
+                \PYG{n}{newMat} \PYG{o}{=} \PYG{n}{newMat} \PYG{o}{*} \PYG{n+nb+bp}{self} \PYG{c+c1}{\PYGZsh{} Multiply new Matrix by self}
+
+            \PYG{k}{return} \PYG{n}{newMat} \PYG{c+c1}{\PYGZsh{} Return New Matrix}
+
+        \PYG{k}{else}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if not integer value}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{NoMatchingPowerCase} 
+
+    \PYG{c+c1}{\PYGZsh{} Overloading convert to string method}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Printing to console nicely and easily}
+        \PYG{n}{strOut} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}} \PYG{c+c1}{\PYGZsh{} Create empty string}
+
+        \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Iterate through all values in matrix and add them to strOut}
+            \PYG{n}{strOut} \PYG{o}{+=} \PYG{n+nb}{str}\PYG{p}{([}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{])} \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])])} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}
+
+        \PYG{k}{return} \PYG{n}{strOut} \PYG{c+c1}{\PYGZsh{} Return strOut}
+
+    \PYG{c+c1}{\PYGZsh{} Reflects matrix across the diagonal}
+    \PYG{k}{def} \PYG{n+nf}{Transpose}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]))} \PYG{c+c1}{\PYGZsh{} Create Temporary with reversed orders}
+        
+        \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+            \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+                \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{col}\PYG{p}{][}\PYG{n}{row}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Flipped row and column to create Transpose}
+        \PYG{k}{return} \PYG{n}{tempMatrix}
+
+    \PYG{c+c1}{\PYGZsh{} Selects a column from the given Matrix}
+    \PYG{k}{def} \PYG{n+nf}{SelectColumn}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{column}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n}{column} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{column} \PYG{o}{\PYGZgt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw exception if column is out of range}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{ColumnOutOfRange}
+
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{column}\PYG{p}{)} \PYG{o}{!=} \PYG{n+nb}{int}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if value isnt of type Integer}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{ColumnMustBeInteger}
+
+        \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{c+c1}{\PYGZsh{} Create Temporary Matrix }
+
+        \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):} \PYG{c+c1}{\PYGZsh{} Iterate throw Matrix and assign to new Matrix}
+            \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{column}\PYG{p}{]}
+
+        \PYG{k}{return} \PYG{n}{tempMatrix} \PYG{c+c1}{\PYGZsh{} Return Temporary Matrix}
+
+    \PYG{c+c1}{\PYGZsh{} Select a row as list from the given Matrix}
+    \PYG{k}{def} \PYG{n+nf}{SelectRow}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{row}\PYG{p}{):}
+        \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{row}\PYG{p}{)} \PYG{o}{!=} \PYG{n+nb}{int}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if value isnt of type Integer}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{RowMustBeInteger}
+            
+        \PYG{k}{if} \PYG{n}{row} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{row} \PYG{o}{\PYGZgt{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Throw error if row out of range}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{RowOutOfRange}
+
+        \PYG{n}{newMat} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{]} 
+
+        \PYG{k}{return} \PYG{n}{newMat} 
+
+    \PYG{c+c1}{\PYGZsh{} Sum of values in a Matrix}
+    \PYG{k}{def} \PYG{n+nf}{Sum}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{])} \PYG{o+ow}{in} \PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{float}\PYG{p}{]:} \PYG{c+c1}{\PYGZsh{} Throw error if not a numerical type}
+            \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{SumOfMatrixReqNumericalVals}
+
+        \PYG{n}{matSum} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+                \PYG{n}{matSum} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Add value to matSum}
+
+        \PYG{k}{return} \PYG{n}{matSum}
+
+    \PYG{c+c1}{\PYGZsh{} Get Max item in Vector}
+    \PYG{k}{def} \PYG{n+nf}{MaxInVector}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{values} \PYG{o}{=} \PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])]} \PYG{c+c1}{\PYGZsh{} Uses List comprehension to form 1d list from Matrix values}
+
+        \PYG{k}{return} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{values}\PYG{p}{),} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{values}\PYG{p}{)),} \PYG{n}{key}\PYG{o}{=}\PYG{n}{values}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}getitem\PYGZus{}\PYGZus{}}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Returns maximum element from the previously created list}
+
+    \PYG{c+c1}{\PYGZsh{} Clear Matrix of values}
+    \PYG{k}{def} \PYG{n+nf}{Clear}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{matrixVals} \PYG{o}{=} \PYG{p}{[[}\PYG{l+m+mi}{0} \PYG{k}{for} \PYG{n}{column} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])]} \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])]} \PYG{c+c1}{\PYGZsh{} Sets all values in Matrix to 0}
+
+    \PYG{c+c1}{\PYGZsh{} Concatenates a list of vectors into a singular matrice horizontally \PYGZhy{} Static method}
+    \PYG{n+nd}{@staticmethod}
+    \PYG{k}{def} \PYG{n+nf}{CombineVectorsHor}\PYG{p}{(}\PYG{n}{vectorList}\PYG{p}{):} 
+        \PYG{n}{firstHeight} \PYG{o}{=} \PYG{n}{vectorList}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{vec} \PYG{o+ow}{in} \PYG{n}{vectorList}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Iterates through vectorList to check they match the requirements, if not throws Error}
+            \PYG{k}{if} \PYG{n}{vec}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{firstHeight}\PYG{p}{:}
+                \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{VectorsNotOfSameLength}
+            \PYG{k}{if} \PYG{n}{vec}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{!=} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{k}{raise} \PYG{n}{MatExcepts}\PYG{o}{.}\PYG{n}{NotOfTypeVector}
+
+        \PYG{n}{tempMatrix} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{((}\PYG{n}{vectorList}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{vectorList}\PYG{p}{)))} \PYG{c+c1}{\PYGZsh{} Create temporary Matrix}
+
+        \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+            \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{order}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+                \PYG{n}{tempMatrix}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n}{vectorList}\PYG{p}{[}\PYG{n}{col}\PYG{p}{]}\PYG{o}{.}\PYG{n}{matrixVals}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} Merge Vectors into 1 matrix}
+
+        \PYG{k}{return} \PYG{n}{tempMatrix} \PYG{c+c1}{\PYGZsh{} Return temporary Matrix}
+\end{Verbatim}

@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} HeapSort()}
+    \PYG{esc}{SortedList \leftarrow \textbf{NEW} List()}
+    \PYG{esc}{Heap \leftarrow \textbf{NEW} Heap(DataPoints)}
+
+    \PYG{esc}{\textbf{WHILE} Heap.Size() - 1 >= 0}
+        \PYG{esc}{SortedList.Append(Heap.RemoveTop)}
+    \PYG{esc}{\textbf{END FOR}}
+
+    \PYG{esc}{\textbf{RETURN} SortedList}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

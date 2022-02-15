@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nd}{@staticmethod}
+\PYG{k}{def} \PYG{n+nf}{ScalarMultiply}\PYG{p}{(}\PYG{n}{s}\PYG{p}{,} \PYG{n}{m1}\PYG{p}{):}
+    \PYG{n}{m1Dims} \PYG{o}{=} \PYG{n}{m1}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()}
+    \PYG{n}{newMat} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{m2Dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{k}{for} \PYG{n}{y} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+        \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+            \PYG{n}{newMat}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{n}{y}\PYG{p}{][}\PYG{n}{x}\PYG{p}{]} \PYG{o}{=} \PYG{n}{m1}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{n}{y}\PYG{p}{][}\PYG{n}{x}\PYG{p}{]} \PYG{o}{*} \PYG{n}{s}
+
+\PYG{n+nd}{@staticmethod}
+\PYG{k}{def} \PYG{n+nf}{MatrixMultiply}\PYG{p}{(}\PYG{n}{m1}\PYG{p}{,} \PYG{n}{m2}\PYG{p}{):}
+    \PYG{n}{m1Dims} \PYG{o}{=} \PYG{n}{m1}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()}
+    \PYG{n}{m2Dims} \PYG{o}{=} \PYG{n}{m2}\PYG{o}{.}\PYG{n}{Dimensions}\PYG{p}{()}
+    \PYG{n}{newMat} \PYG{o}{=} \PYG{n}{Matrix}\PYG{p}{(}\PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{m2Dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+    \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+        \PYG{n}{subRow} \PYG{o}{=} \PYG{n}{m1}\PYG{o}{.}\PYG{n}{Val}\PYG{p}{()[}\PYG{n}{row}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}
+        \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{m2Dims}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]):}
+            \PYG{n}{subCol} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{m1Dims}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]):}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)}
+                \PYG{n}{subCol}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{m2}\PYG{o}{.}\PYG{n}{Val}\PYG{p}{()[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{col}\PYG{p}{])}
+            \PYG{n}{total} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{k}{for} \PYG{n}{x} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{subRow}\PYG{p}{)):}
+                \PYG{n}{total} \PYG{o}{+=} \PYG{n}{subRow}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]} \PYG{o}{*} \PYG{n}{subCol}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]}
+            \PYG{n}{newMat}\PYG{o}{.}\PYG{n}{matrixArr}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]} \PYG{o}{=} \PYG{n}{total}
+    \PYG{k}{return} \PYG{n}{newMat}
+\end{Verbatim}

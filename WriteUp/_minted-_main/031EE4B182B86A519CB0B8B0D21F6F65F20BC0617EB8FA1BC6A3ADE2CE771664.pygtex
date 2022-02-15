@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} GetTileVector(TileVector)}
+    \PYG{esc}{ProcessedVector \leftarrow \textbf{NEW} Matrix(TileVector.Order)}
+    \PYG{esc}{\textbf{FOR} Row \leftarrow 0 \textbf{TO} TileVector.Order[0]}
+        \PYG{esc}{ProcessedVector[Row, 0] \leftarrow RGBToGrayscale(TileVector[Row, 0].RGBValue)}
+    \PYG{esc}{\textbf{END FOR}}
+    \PYG{esc}{\textbf{RETURN} ProcessedVector}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}

@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{inputList} \PYG{o}{=} \PYG{p}{[[}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{),} \PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{10}\PYG{p}{)]} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)]}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Unsorted List:\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{inputList}\PYG{p}{:}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+
+\PYG{n}{dl} \PYG{o}{=} \PYG{n}{DataCollector}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}SortingTest\PYGZdq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{k+kc}{False}\PYG{p}{)}
+
+\PYG{n}{dl}\PYG{o}{.}\PYG{n}{LogDataPointBatch}\PYG{p}{(}\PYG{n}{inputList}\PYG{p}{)}
+
+\PYG{n}{sortedList} \PYG{o}{=} \PYG{n}{dl}\PYG{o}{.}\PYG{n}{HeapSort}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Sorted List:\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{sortedList}\PYG{p}{:}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+\end{Verbatim}

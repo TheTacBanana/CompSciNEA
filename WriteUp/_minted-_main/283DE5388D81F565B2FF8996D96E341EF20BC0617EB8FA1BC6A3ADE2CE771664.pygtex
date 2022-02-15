@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{esc}{\textbf{SUBROUTINE} IsFull()}
+    \PYG{esc}{\textbf{IF} This.Queue[(This.FrontPointer + 1) % This.Length] != None}
+        \PYG{esc}{\textbf{RETURN} \textbf{TRUE}}
+    \PYG{esc}{\textbf{END IF}}
+    \PYG{esc}{\textbf{RETURN} \textbf{FALSE}}
+\PYG{esc}{\textbf{ENDSUBROUTINE}}
+\end{Verbatim}
